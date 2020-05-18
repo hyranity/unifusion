@@ -16,6 +16,7 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import java.lang.*;
+import javax.validation.ConstraintViolationException;
 
 /**
  *
@@ -37,7 +38,9 @@ public class DB {
             em.persist(object);
             utx.commit();
 
-        } catch (Exception ex) {
+        }  catch(ConstraintViolationException ex){
+            System.out.println(ex.getConstraintViolations());
+        }catch (IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | javax.transaction.RollbackException | SystemException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -48,22 +51,32 @@ public class DB {
             em.merge(object);
             utx.commit();
 
-        } catch (Exception ex) {
+        } catch(ConstraintViolationException ex){
+            System.out.println(ex.getConstraintViolations());
+        }catch (IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | javax.transaction.RollbackException | SystemException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    public <T> T get(String id, Class<T> classType) {
+    public <T> T getBasedOnUniqueKey(String keyName, String value, java.lang.Class<T> classType) {
 
         TypedQuery<T> query = null;
         try {
-            query = em.createQuery("select s from Student s where s.studid = :id", classType).setParameter("id", id);
+            query = em.createQuery("select s from " + classType.getName() + " s where s." + keyName + " = :id", classType).setParameter("id", value);
 
         } catch (Exception ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        T item = null;
+        
+        try{
+            item = classType.cast(query.getSingleResult());
+        }catch(Exception ex){
+            
+        }
 
-        return classType.cast(query.getSingleResult());
+        return item;
 
     }
 

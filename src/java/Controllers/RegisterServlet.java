@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package Controllers;
 
+import Models.*;
+import Util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
@@ -14,17 +17,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import Util.*;
-import Models.*;
-import javax.annotation.Resource;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "TestingAdd", urlPatterns = {"/TestingAdd"})
-public class TestingAdd extends HttpServlet {
+@WebServlet(name = "RegisterServlet", urlPatterns = {"/RegisterServlet"})
+public class RegisterServlet extends HttpServlet {
+    
     @PersistenceContext
     EntityManager em;
     
@@ -32,8 +33,7 @@ public class TestingAdd extends HttpServlet {
     private UserTransaction utx;
 
     /**
-     * Processes requests for both HTTP <code>GET</co
-de> and <code>POST</code>
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
      * @param request servlet request
@@ -45,12 +45,21 @@ de> and <code>POST</code>
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        Student stud = new Student();
-        stud.setName("James A Bond");
-        stud.setStudid("STUDX");
+        if(new DB(em, utx).getBasedOnUniqueKey("email", request.getParameter("email"), Users.class) != null ){
+            Quick.print("Duplicate email found");
+            return;
+        }
         
-        new DB(em, utx).update(stud);
+        Users user = new Users();
+        user.setUserid("TEST1");
+        user.setName(request.getParameter("name"));
+        user.setEmail(request.getParameter("email"));
         
+        Hasher hash = new Hasher(request.getParameter("password"));
+        user.setPassword(hash.getHashedPassword());
+        user.setPasswordsalt(hash.getSalt());
+        
+        new DB(em, utx).insert(user);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

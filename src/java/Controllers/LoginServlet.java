@@ -3,35 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Util;
+package Controllers;
 
-import Models.*;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.transaction.NotSupportedException;
-import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+import Util.*;
+import Models.*;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "DBUtil", urlPatterns = {"/DBUtil"})
-public class TestingGet extends HttpServlet {
-
+@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
+public class LoginServlet extends HttpServlet {
+    
     @PersistenceContext
     EntityManager em;
-
+    
     @Resource
     private UserTransaction utx;
 
@@ -47,15 +45,33 @@ public class TestingGet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        //Get credentials
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        
+        //See if user exists in DB based on their email
+        Users user = new DB(em, utx).getBasedOnUniqueKey("email", email, Users.class);
+        
+        if(user == null){
+            // User does not exist
+            System.out.println("User does not exist");
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        
+        //Compare password
+        if(!Hasher.comparePassword(user.getPassword(), password, user.getPasswordsalt())){
+            // Password is incorrect
+            System.out.println("Password is incorrect");
+            response.sendRedirect("login.jsp");
+            return;
+        }
+        
+        //Login successful
         HttpSession session = request.getSession();
+        System.out.println("LOGIN SUCCESS");
         
-        
-//        Student stud = (new DB(em, utx)).getBasedOnUniqueKey("STUD1", Student.class);
-//        
-//        session.setAttribute("stud", stud);
-//        Quick.print(stud.getName());
-//
-//        response.sendRedirect("test.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -17,7 +17,7 @@
 
     <div id='right'>
       <a id='title'>Register</a>
-      <form>
+      <form action="RegisterServlet">
         <input class='textbox' type='text' name='name' placeholder='Full name'>
         <input class='textbox' type='text' name='email' placeholder='Email'>
         <input class='textbox' type='password' name='password' placeholder='Password'>
