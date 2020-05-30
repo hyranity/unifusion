@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+html, body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+#container {
+  width: 100%;
+  height: 100%;
+  background-color: #424694;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#container #back {
+  font-family: 'Poppins';
+  position: absolute;
+  font-size: 25px;
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+  transition: color 0.3s, text-shadow 0.3s;
+  left: 100px;
+  top: 50px;
+}
+#container #back:hover {
+  color: #FAE2B8;
+  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.75);
+}
+#container #top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 50px;
+}
+#container #top #heading {
+  font-size: 100px;
+  color: #DFE0F2;
+  font-family: 'Poppins';
+}
+#container #bottom {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#container #bottom #left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-right: 25px;
+}
+#container #bottom #right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 25px;
+}
+#container #bottom div .textbox {
+  font-family: 'Poppins';
+  opacity: 0.8;
+  padding-left: 20px;
+  font-size: 25px;
+  color: #FAE2B8;
+  width: 450px;
+  height: 65px;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  transition: opacity 0.3s;
+}
+#container #bottom div .textbox::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  transition: color 0.3s;
+}
+#container #bottom div .textbox:hover {
+  opacity: 1;
+}
+#container #bottom div .textbox:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #bottom div .textbox:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #bottom div .label {
+  font-family: 'Poppins';
+  color: #DFE0F2;
+  margin-left: 10px;
+  opacity: 0.5;
+}
