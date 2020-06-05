@@ -5,8 +5,15 @@
  */
 package Controllers;
 
+import Models.Users;
+import Util.DB;
+import Util.Quick;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -15,23 +22,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.UserTransaction;
-import Util.*;
-import Models.*;
 import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "UpdateAccountDetailsServlet", urlPatterns = {"/UpdateAccountDetailsServlet"})
+public class UpdateAccountDetailsServlet extends HttpServlet {
     
     @PersistenceContext
     EntityManager em;
     
     @Resource
     private UserTransaction utx;
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,36 +50,28 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        
-        //Get credentials
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        
-        //See if user exists in DB based on their email
-        Users user = new DB(em, utx).getBasedOnUniqueKey("email", email, Users.class);
-        
-        if(user == null){
-            // User does not exist
-            System.out.println("User does not exist");
-            response.sendRedirect("login.jsp");
-            return;
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            
+            HttpSession session = Quick.getSession(request, response);
+            
+            Users user = (Users) session.getAttribute("user");
+            
+            //Update user
+            user.setName(request.getParameter("name"));
+            user.setAddress(request.getParameter("address"));
+            user.setEmail(request.getParameter("email"));
+            user.setDateofbirth(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateOfBirth")));
+            user.setName(request.getParameter("name"));
+            
+            new DB(em, utx).update(user);
+            
+            //Redirect back to same page
+            response.sendRedirect("AccountDetailsServlet");
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(UpdateAccountDetailsServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        //Compare password
-        if(!Hasher.comparePassword(user.getPassword(), password, user.getPasswordsalt())){
-            // Password is incorrect
-            System.out.println("Password is incorrect");
-            response.sendRedirect("login.jsp");
-            return;
-        }
-        
-        //Login successful
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user);
-        System.out.println("LOGIN SUCCESS");
-        response.sendRedirect("AccountDetailsServlet");
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

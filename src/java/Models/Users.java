@@ -8,6 +8,7 @@ package Models;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,7 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Users.findAll", query = "SELECT u FROM Users u")
     , @NamedQuery(name = "Users.findByUserid", query = "SELECT u FROM Users u WHERE u.userid = :userid")
     , @NamedQuery(name = "Users.findByName", query = "SELECT u FROM Users u WHERE u.name = :name")
-    , @NamedQuery(name = "Users.findByAge", query = "SELECT u FROM Users u WHERE u.age = :age")
+    , @NamedQuery(name = "Users.findByDateofbirth", query = "SELECT u FROM Users u WHERE u.dateofbirth = :dateofbirth")
     , @NamedQuery(name = "Users.findByAddress", query = "SELECT u FROM Users u WHERE u.address = :address")
     , @NamedQuery(name = "Users.findByCgpa", query = "SELECT u FROM Users u WHERE u.cgpa = :cgpa")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
@@ -52,8 +55,9 @@ public class Users implements Serializable {
     @Size(min = 1, max = 60)
     @Column(name = "NAME")
     private String name;
-    @Column(name = "AGE")
-    private Integer age;
+    @Column(name = "DATEOFBIRTH")
+    @Temporal(TemporalType.DATE)
+    private Date dateofbirth;
     @Size(max = 80)
     @Column(name = "ADDRESS")
     private String address;
@@ -76,6 +80,8 @@ public class Users implements Serializable {
     private String passwordsalt;
     @OneToMany(mappedBy = "userid")
     private Collection<Participant> participantCollection;
+    @OneToMany(mappedBy = "staffid")
+    private Collection<Class> classCollection;
 
     public Users() {
     }
@@ -107,12 +113,12 @@ public class Users implements Serializable {
         this.name = name;
     }
 
-    public Integer getAge() {
-        return age;
+    public Date getDateofbirth() {
+        return dateofbirth;
     }
 
-    public void setAge(Integer age) {
-        this.age = age;
+    public void setDateofbirth(Date dateofbirth) {
+        this.dateofbirth = dateofbirth;
     }
 
     public String getAddress() {
@@ -162,6 +168,15 @@ public class Users implements Serializable {
 
     public void setParticipantCollection(Collection<Participant> participantCollection) {
         this.participantCollection = participantCollection;
+    }
+
+    @XmlTransient
+    public Collection<Class> getClassCollection() {
+        return classCollection;
+    }
+
+    public void setClassCollection(Collection<Class> classCollection) {
+        this.classCollection = classCollection;
     }
 
     @Override

@@ -15,21 +15,21 @@
       <a id='heading'>Account details</a>
     </div>
 
-    <form id='bottom'>
+    <form id='bottom' action="UpdateAccountDetailsServlet">
 
       <div id='left'>
       <a class='label' id='name'>Name</a>
-        <input class='textbox' type='text' name='name' placeholder='Name'>
-        <a class='label' id='age'>Age</a>
-        <input class='textbox' type='text' name='age' placeholder='Age'>
+        <input class='textbox' type='text' name='name' placeholder='Name' value=${name}>
+        <a class='label' id='age'>Date of Birth</a>
+        <input class='textbox' type='text' name='dateOfBirth' placeholder='Date of Birth' value=${dateOfBirth}>
         <a class='label' id='address'>Address</a>
-        <input class='textbox' type='text' name='address' placeholder='Address'>
+        <input class='textbox' type='text' name='address' placeholder='Address' value=${address}>
         <input id='button' type='submit' value='Save'>
       </div>
 
       <div id='right'>
         <a class='label' id='email'>Email</a>
-        <input class='textbox' type='text' name='email' placeholder='Email'>
+        <input class='textbox' type='text' name='email' placeholder='Email' value=${email}>
         <a class='label' id='email'>Password</a>
         <input class='textbox' type='password' name='password' placeholder='Password'>
         <a class='label' id='email'>Confirm password</a>

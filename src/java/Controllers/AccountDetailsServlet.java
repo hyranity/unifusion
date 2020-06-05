@@ -16,16 +16,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
-import Util.*;
 import Models.*;
+import Util.*;
+import java.text.SimpleDateFormat;
 import javax.servlet.http.HttpSession;
+
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "LoginServlet", urlPatterns = {"/LoginServlet"})
-public class LoginServlet extends HttpServlet {
+@WebServlet(name = "AccountDetailsServlet", urlPatterns = {"/AccountDetailsServlet"})
+public class AccountDetailsServlet extends HttpServlet {
     
     @PersistenceContext
     EntityManager em;
@@ -46,33 +48,18 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        //Get credentials
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+        HttpSession session = Quick.getSession(request, response);
         
-        //See if user exists in DB based on their email
-        Users user = new DB(em, utx).getBasedOnUniqueKey("email", email, Users.class);
+        //Get the latest details from the database
+        Users user = new DB(em, utx).getBasedOnUniqueKey("userid", ((Users) session.getAttribute("user")).getUserid(), Users.class);
         
-        if(user == null){
-            // User does not exist
-            System.out.println("User does not exist");
-            response.sendRedirect("login.jsp");
-            return;
-        }
+        request.setAttribute("name", user.getName());
+        request.setAttribute("dateOfBirth", (new SimpleDateFormat("dd/MM/yyyy")).format(user.getDateofbirth()));
+        request.setAttribute("address", user.getAddress());
+        request.setAttribute("email", user.getEmail());
+        System.out.println(user.getEmail());
         
-        //Compare password
-        if(!Hasher.comparePassword(user.getPassword(), password, user.getPasswordsalt())){
-            // Password is incorrect
-            System.out.println("Password is incorrect");
-            response.sendRedirect("login.jsp");
-            return;
-        }
-        
-        //Login successful
-        HttpSession session = request.getSession();
-        session.setAttribute("user", user);
-        System.out.println("LOGIN SUCCESS");
-        response.sendRedirect("AccountDetailsServlet");
+        request.getRequestDispatcher("accountDetails.jsp").forward(request, response);
         
     }
 

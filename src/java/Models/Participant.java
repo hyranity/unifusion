@@ -47,7 +47,7 @@ public class Participant implements Serializable {
     @Column(name = "STATUS")
     private String status;
     @Size(max = 20)
-    @Column(name = "role")
+    @Column(name = "ROLE")
     private String role;
     @OneToMany(mappedBy = "participantid")
     private Collection<Announcement> announcementCollection;

@@ -64,6 +64,9 @@ public class Class implements Serializable {
     @JoinColumn(name = "SEMESTERCODE", referencedColumnName = "SEMESTERCODE")
     @ManyToOne
     private Semester semestercode;
+    @JoinColumn(name = "STAFFID", referencedColumnName = "USERID")
+    @ManyToOne
+    private Users staffid;
 
     public Class() {
     }
@@ -143,6 +146,14 @@ public class Class implements Serializable {
 
     public void setSemestercode(Semester semestercode) {
         this.semestercode = semestercode;
+    }
+
+    public Users getStaffid() {
+        return staffid;
+    }
+
+    public void setStaffid(Users staffid) {
+        this.staffid = staffid;
     }
 
     @Override
