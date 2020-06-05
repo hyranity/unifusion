@@ -44,7 +44,7 @@ html, body {
 #container #bottom {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
 }
 #container #bottom #left {
@@ -96,4 +96,27 @@ html, body {
   color: #DFE0F2;
   margin-left: 10px;
   opacity: 0.5;
+}
+
+#container #bottom div #button {
+  font-size: 25px;
+  font-family: 'Poppins';
+  height: 65px;
+  width: 100px;
+  margin-top: 10px;
+  border-radius: 5px;
+  background-color: rgba(250, 226, 184, 0.5);
+  color: #DFE0F2;
+  border: none;
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+#container #bottom div #button:hover {
+  background-color: rgba(250, 226, 184, 0.75);
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+}
+#container #bottom div #button:focus {
+  outline: none;
+  background-color: rgba(250, 226, 184, 0.75);
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
 }

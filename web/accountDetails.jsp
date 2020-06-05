@@ -24,6 +24,7 @@
         <input class='textbox' type='text' name='age' placeholder='Age'>
         <a class='label' id='address'>Address</a>
         <input class='textbox' type='text' name='address' placeholder='Address'>
+        <input id='button' type='submit' value='Save'>
       </div>
 
       <div id='right'>
