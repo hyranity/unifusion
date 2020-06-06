@@ -3,7 +3,7 @@
 
 <!DOCTYPE html>
 <html>
-    <% Server.getUser(request, response); %>
+    <% Server.blockAnonymous(session, response); %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Account Details</title>

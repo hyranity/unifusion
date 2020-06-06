@@ -36,8 +36,8 @@ public class Server {
     }
     
     // To validate user in Servlet
-    public static boolean isLoggedIn(HttpServletRequest request){
-        if(request.getSession(false) == null)
+    public static boolean isLoggedIn(HttpSession session){
+        if(session.getAttribute("user")== null)
             return false;
         else
             return true;

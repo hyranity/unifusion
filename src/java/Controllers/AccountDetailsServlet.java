@@ -48,7 +48,7 @@ public class AccountDetailsServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-       if(!Server.isLoggedIn(request)){
+       if(!Server.isLoggedIn(request.getSession(false))){
             Server.redirectAnonymous(response);
             return;
         }
