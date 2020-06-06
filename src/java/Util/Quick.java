@@ -23,19 +23,7 @@ public class Quick {
         System.out.println(string);
     }
     
-    public static HttpSession getSession(HttpServletRequest request, HttpServletResponse response){
-        HttpSession session = request.getSession(false);
-        if(session==null){
-            try {
-                // User is not logged in
-                response.sendRedirect("login.jsp");
-            } catch (IOException ex) {
-                Logger.getLogger(Quick.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
-        return session;
-    }
+ 
     
     public static int getAge(Date dateOfBirth){
         return Years.yearsBetween(new DateTime(dateOfBirth), DateTime.now()).getYears();

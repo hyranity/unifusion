@@ -48,13 +48,16 @@ public class AccountDetailsServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        HttpSession session = Quick.getSession(request, response);
+       if(!Server.isLoggedIn(request)){
+            Server.redirectAnonymous(response);
+            return;
+        }
         
         //Get the latest details from the database
-        Users user = new DB(em, utx).getBasedOnUniqueKey("userid", ((Users) session.getAttribute("user")).getUserid(), Users.class);
+        Users user = new DB(em, utx).getSingleResult("userid", Server.getUser(request, response).getUserid(), Users.class);
         
         request.setAttribute("name", user.getName());
-        request.setAttribute("dateOfBirth", (new SimpleDateFormat("dd/MM/yyyy")).format(user.getDateofbirth()));
+        request.setAttribute("dateOfBirth", user.getDateofbirth() == null ? null : (new SimpleDateFormat("dd/MM/yyyy")).format(user.getDateofbirth()));
         request.setAttribute("address", user.getAddress());
         request.setAttribute("email", user.getEmail());
         System.out.println(user.getEmail());

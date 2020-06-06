@@ -45,7 +45,7 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        if(new DB(em, utx).getBasedOnUniqueKey("email", request.getParameter("email"), Users.class) != null ){
+        if(new DB(em, utx).getSingleResult("email", request.getParameter("email"), Users.class) != null ){
             Quick.print("Duplicate email found");
             return;
         }

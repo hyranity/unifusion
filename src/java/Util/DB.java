@@ -58,7 +58,7 @@ public class DB {
         }
     }
 
-    public <T> T getBasedOnUniqueKey(String keyName, String value, java.lang.Class<T> classType) {
+    public <T> T getSingleResult(String keyName, String value, java.lang.Class<T> classType) {
 
         TypedQuery<T> query = null;
         try {

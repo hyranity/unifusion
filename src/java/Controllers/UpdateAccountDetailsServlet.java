@@ -8,6 +8,7 @@ package Controllers;
 import Models.Users;
 import Util.DB;
 import Util.Quick;
+import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -52,10 +53,8 @@ public class UpdateAccountDetailsServlet extends HttpServlet {
             throws ServletException, IOException {
         try {
             response.setContentType("text/html;charset=UTF-8");
-            
-            HttpSession session = Quick.getSession(request, response);
-            
-            Users user = (Users) session.getAttribute("user");
+          
+            Users user = Server.getUser(request, response);
             
             //Update user
             user.setName(request.getParameter("name"));

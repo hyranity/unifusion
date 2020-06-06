@@ -17,7 +17,7 @@
 
     <div id='right'>
       <a id='title'>Login</a>
-      <form action="LoginServlet">
+      <form action="LoginUser">
         <input class='textbox' type='text' name='email' placeholder='Email'>
         <input class='textbox' type='password' name='password' placeholder='Password'>
         <input id='button' type='submit' value='>'>
