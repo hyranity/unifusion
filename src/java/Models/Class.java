@@ -33,7 +33,10 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c")
     , @NamedQuery(name = "Class.findByClassid", query = "SELECT c FROM Class c WHERE c.classid = :classid")
     , @NamedQuery(name = "Class.findByNoofstudents", query = "SELECT c FROM Class c WHERE c.noofstudents = :noofstudents")
-    , @NamedQuery(name = "Class.findByClasstype", query = "SELECT c FROM Class c WHERE c.classtype = :classtype")})
+    , @NamedQuery(name = "Class.findByClasstype", query = "SELECT c FROM Class c WHERE c.classtype = :classtype")
+    , @NamedQuery(name = "Class.findByIconurl", query = "SELECT c FROM Class c WHERE c.iconurl = :iconurl")
+    , @NamedQuery(name = "Class.findByBannerurl", query = "SELECT c FROM Class c WHERE c.bannerurl = :bannerurl")
+    , @NamedQuery(name = "Class.findByColourtheme", query = "SELECT c FROM Class c WHERE c.colourtheme = :colourtheme")})
 public class Class implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +55,21 @@ public class Class implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "CLASSTYPE")
     private String classtype;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "ICONURL")
+    private String iconurl;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "BANNERURL")
+    private String bannerurl;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "COLOURTHEME")
+    private String colourtheme;
     @OneToMany(mappedBy = "classid")
     private Collection<Participant> participantCollection;
     @OneToMany(mappedBy = "classid")
@@ -75,10 +93,13 @@ public class Class implements Serializable {
         this.classid = classid;
     }
 
-    public Class(String classid, int noofstudents, String classtype) {
+    public Class(String classid, int noofstudents, String classtype, String iconurl, String bannerurl, String colourtheme) {
         this.classid = classid;
         this.noofstudents = noofstudents;
         this.classtype = classtype;
+        this.iconurl = iconurl;
+        this.bannerurl = bannerurl;
+        this.colourtheme = colourtheme;
     }
 
     public String getClassid() {
@@ -103,6 +124,30 @@ public class Class implements Serializable {
 
     public void setClasstype(String classtype) {
         this.classtype = classtype;
+    }
+
+    public String getIconurl() {
+        return iconurl;
+    }
+
+    public void setIconurl(String iconurl) {
+        this.iconurl = iconurl;
+    }
+
+    public String getBannerurl() {
+        return bannerurl;
+    }
+
+    public void setBannerurl(String bannerurl) {
+        this.bannerurl = bannerurl;
+    }
+
+    public String getColourtheme() {
+        return colourtheme;
+    }
+
+    public void setColourtheme(String colourtheme) {
+        this.colourtheme = colourtheme;
     }
 
     @XmlTransient
