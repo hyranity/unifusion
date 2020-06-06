@@ -5,8 +5,6 @@
  */
 package Controllers;
 
-import Models.*;
-import Util.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
@@ -18,13 +16,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
+import Models.*;
+import Util.*;
+import java.text.SimpleDateFormat;
+import javax.servlet.http.HttpSession;
+
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "RegisterServlet", urlPatterns = {"/RegisterServlet"})
-public class RegisterServlet extends HttpServlet {
+@WebServlet(name = "AccountDetails", urlPatterns = {"/AccountDetails"})
+public class AccountDetails extends HttpServlet {
     
     @PersistenceContext
     EntityManager em;
@@ -45,21 +48,21 @@ public class RegisterServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-        if(new DB(em, utx).getSingleResult("email", request.getParameter("email"), Users.class) != null ){
-            Quick.print("Duplicate email found");
+       if(!Server.isLoggedIn(request.getSession(false), response))
             return;
-        }
         
-        Users user = new Users();
-        user.setUserid("TEST1");
-        user.setName(request.getParameter("name"));
-        user.setEmail(request.getParameter("email"));
+            
+        //Get the latest details from the database
+        Users user = new DB(em, utx).getSingleResult("userid", Server.getUser(request, response).getUserid(), Users.class);
         
-        Hasher hash = new Hasher(request.getParameter("password"));
-        user.setPassword(hash.getHashedPassword());
-        user.setPasswordsalt(hash.getSalt());
+        request.setAttribute("name", user.getName());
+        request.setAttribute("dateOfBirth", user.getDateofbirth() == null ? null : (new SimpleDateFormat("dd/MM/yyyy")).format(user.getDateofbirth()));
+        request.setAttribute("address", user.getAddress());
+        request.setAttribute("email", user.getEmail());
+        System.out.println(user.getEmail());
         
-        new DB(em, utx).insert(user);
+        request.getRequestDispatcher("WEB-INF/accountDetails.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

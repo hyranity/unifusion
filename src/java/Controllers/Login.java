@@ -7,33 +7,18 @@ package Controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.transaction.UserTransaction;
-import Models.*;
-import Util.*;
-import java.text.SimpleDateFormat;
-import javax.servlet.http.HttpSession;
-
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "AccountDetailsServlet", urlPatterns = {"/AccountDetailsServlet"})
-public class AccountDetailsServlet extends HttpServlet {
-    
-    @PersistenceContext
-    EntityManager em;
-    
-    @Resource
-    private UserTransaction utx;
+@WebServlet(name = "Login", urlPatterns = {"/Login"})
+public class Login extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,22 +32,7 @@ public class AccountDetailsServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-       if(!Server.isLoggedIn(request.getSession(false), response))
-            return;
-        
-        
-        //Get the latest details from the database
-        Users user = new DB(em, utx).getSingleResult("userid", Server.getUser(request, response).getUserid(), Users.class);
-        
-        request.setAttribute("name", user.getName());
-        request.setAttribute("dateOfBirth", user.getDateofbirth() == null ? null : (new SimpleDateFormat("dd/MM/yyyy")).format(user.getDateofbirth()));
-        request.setAttribute("address", user.getAddress());
-        request.setAttribute("email", user.getEmail());
-        System.out.println(user.getEmail());
-        
-        request.getRequestDispatcher("accountDetails.jsp").forward(request, response);
-        
+        request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

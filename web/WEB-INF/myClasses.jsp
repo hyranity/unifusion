@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: My Classes</title>
-        <link rel="stylesheet" href="myClasses.css">
+        <link rel="stylesheet" href="CSS/myClasses.css">
     </head>
     <body>
         <div id='container'>

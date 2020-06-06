@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Login</title>
-        <link rel="stylesheet" href="login.css">
+        <link rel="stylesheet" href="CSS/login.css">
     </head>
 <body>
   <div id='container'>
@@ -17,7 +17,7 @@
 
     <div id='right'>
       <a id='title'>Login</a>
-      <form action="LoginUser">
+      <form action="PerformLogin">
         <input class='textbox' type='text' name='email' placeholder='Email'>
         <input class='textbox' type='password' name='password' placeholder='Password'>
         <input id='button' type='submit' value='>'>

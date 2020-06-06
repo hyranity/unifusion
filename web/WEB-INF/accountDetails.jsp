@@ -3,11 +3,10 @@
 
 <!DOCTYPE html>
 <html>
-    <% Server.blockAnonymous(session, response); %>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Account Details</title>
-        <link rel="stylesheet" href="accountDetails.css">
+        <link rel="stylesheet" href="CSS/accountDetails.css">
     </head>
     <body>
   <div id='container'>
@@ -18,7 +17,7 @@
       <a id='heading'>Account details</a>
     </div>
 
-    <form id='bottom' action="UpdateAccountDetailsServlet">
+    <form id='bottom' action="PerformAccountUpdate">
 
       <div id='left'>
       <a class='label' id='name'>Name</a>

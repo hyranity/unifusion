@@ -4,7 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Register</title>
-        <link rel="stylesheet" href="register.css">
+        <link rel="stylesheet" href="CSS/register.css">
     </head>
 <body>
   <div id='container'>

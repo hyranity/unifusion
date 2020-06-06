@@ -3,23 +3,35 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
+package Controllers.Perform;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
+import Util.*;
+import Models.*;
 import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "LogoutUser", urlPatterns = {"/LogoutUser"})
-public class LogoutUser extends HttpServlet {
+@WebServlet(name = "PerformLogin", urlPatterns = {"/PerformLogin"})
+public class PerformLogin extends HttpServlet {
+    
+    @PersistenceContext
+    EntityManager em;
+    
+    @Resource
+    private UserTransaction utx;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,10 +45,35 @@ public class LogoutUser extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession(false);
-        session.invalidate(); // Close the session
         
-        response.sendRedirect("login.jsp");
+        //Get credentials
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
+        
+        //See if user exists in DB based on their email
+        Users user = new DB(em, utx).getSingleResult("email", email, Users.class);
+        
+        if(user == null){
+            // User does not exist
+            System.out.println("User does not exist");
+            response.sendRedirect("Login");
+            return;
+        }
+        
+        //Compare password
+        if(!Hasher.comparePassword(user.getPassword(), password, user.getPasswordsalt())){
+            // Password is incorrect
+            System.out.println("Password is incorrect");
+            response.sendRedirect("Login");
+            return;
+        }
+        
+        //Login successful
+        HttpSession session = request.getSession();
+        session.setAttribute("user", user); 
+        System.out.println("LOGIN SUCCESS");
+        response.sendRedirect("AccountDetails");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -28,27 +28,31 @@ public class Server {
     }
     
     // To validate user in JSP
-    public static void blockAnonymous(HttpSession session, HttpServletResponse response){
+    public static void blockAnonymous(HttpSession session, HttpServletRequest request){
           if((Users) session.getAttribute("user") == null){
             // User is not logged in
-            redirectAnonymous(response);
+           // redirectAnonymous(request);
         }
     }
     
     // To validate user in Servlet
     public static boolean isLoggedIn(HttpSession session, HttpServletResponse response){
-        if(session.getAttribute("user")== null){
-            redirectAnonymous(response);
+        try {
+            if (session.getAttribute("user") == null) {
+                redirectAnonymous(response);
+                return false;
+            } else {
+                return true;
+            }
+        } catch (Exception e) {
             return false;
         }
-        else
-            return true;
     }
     
     // Where to redirect anonymous users
     public static void redirectAnonymous(HttpServletResponse response){
         try {
-            response.sendRedirect("login.jsp");
+            response.sendRedirect("Login");
             return;
         } catch (IOException ex) {
             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);

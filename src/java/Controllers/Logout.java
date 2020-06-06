@@ -5,40 +5,21 @@
  */
 package Controllers;
 
-import Models.Users;
-import Util.DB;
-import Util.Quick;
-import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.transaction.UserTransaction;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "UpdateAccountDetailsServlet", urlPatterns = {"/UpdateAccountDetailsServlet"})
-public class UpdateAccountDetailsServlet extends HttpServlet {
-    
-    @PersistenceContext
-    EntityManager em;
-    
-    @Resource
-    private UserTransaction utx;
-
+@WebServlet(name = "Logout", urlPatterns = {"/Logout"})
+public class Logout extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,26 +32,11 @@ public class UpdateAccountDetailsServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            response.setContentType("text/html;charset=UTF-8");
-          
-            Users user = Server.getUser(request, response);
-            
-            //Update user
-            user.setName(request.getParameter("name"));
-            user.setAddress(request.getParameter("address"));
-            user.setEmail(request.getParameter("email"));
-            user.setDateofbirth(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateOfBirth")));
-            user.setName(request.getParameter("name"));
-            
-            new DB(em, utx).update(user);
-            
-            //Redirect back to same page
-            response.sendRedirect("AccountDetailsServlet");
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(UpdateAccountDetailsServlet.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        response.setContentType("text/html;charset=UTF-8");
+        HttpSession session = request.getSession(true);
+        session.invalidate(); // Close the session
+        
+        response.sendRedirect("Login");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
