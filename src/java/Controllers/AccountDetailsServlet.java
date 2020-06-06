@@ -48,10 +48,9 @@ public class AccountDetailsServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-       if(!Server.isLoggedIn(request.getSession(false))){
-            Server.redirectAnonymous(response);
+       if(!Server.isLoggedIn(request.getSession(false), response))
             return;
-        }
+        
         
         //Get the latest details from the database
         Users user = new DB(em, utx).getSingleResult("userid", Server.getUser(request, response).getUserid(), Users.class);
