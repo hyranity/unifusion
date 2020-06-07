@@ -15,7 +15,7 @@
                 <a id='title'>UniFusion</a>
                 <a id='description'>The ultimate e-learning platform, remastered.</a>
                 <div id='buttons'>
-                  <a id='login-button' href='#'>Login</a>
+                  <a id='login-button' href='Login'>Login</a>
                   <a id='learn-button' href='#'>Learn more</a>
                 </div>
               </div>

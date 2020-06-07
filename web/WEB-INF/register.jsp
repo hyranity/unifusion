@@ -8,11 +8,11 @@
     </head>
 <body>
   <div id='container'>
-    <a href='login.jsp' id='back'>&lt; Back</a>
+    <a href='Login' id='back'>&lt; Back</a>
     <div id='left'>
       <img src='https://i.imgur.com/FzvvT7c.png'>
       <a>Already have an account?</a>
-      <a href='login.jsp' id='link'>Login here!</a>
+      <a href='Login' id='link'>Login here!</a>
     </div>
 
     <div id='right'>
