@@ -1,0 +1,298 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+html, body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+a {
+  font-family: Poppins;
+  font-weight: 600;
+}
+#container {
+  width: 100%;
+  padding-top: 150px;
+  padding-bottom: 100px;
+  background-color: #424694;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+#container #back {
+  font-family: 'Poppins';
+  position: absolute;
+  font-size: 25px;
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+  transition: color 0.3s, text-shadow 0.3s;
+  left: 100px;
+  top: 50px;
+}
+#container #back:hover {
+  color: #FAE2B8;
+  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.75);
+}
+#container #top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+#container #top .image {
+  width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  margin-right: 5px;
+  transition: margin-right 0.3s;
+}
+#container #top .image img {
+  height: 250px;
+}
+#container #top .text {
+  width: 55%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 5px;
+  transition: margin-left 0.3s;
+}
+#container #top .text #title {
+  font-size: 70px;
+  font-weight: 600;
+  color: #FAE2B8;
+}
+#container #top .text #desc {
+  color: #DFE0F2;
+  margin-top: -10px;
+  font-size: 20px;
+  font-weight: 400;
+}
+#container #top .text #buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  margin-top: 20px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+#container #top .text #buttons #proceed-button {
+  text-decoration: none;
+  margin-right: 20px;
+  color: #DFE0F2;
+  font-size: 20px;
+  background-color: rgba(250, 226, 184, 0.5);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+#container #top .text #buttons #proceed-button:hover {
+  background-color: rgba(250, 226, 184, 0.75);
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+}
+#container #top .text #buttons #learn-button {
+  text-decoration: none;
+  color: #DFE0F2;
+  font-size: 20px;
+  background-color: rgba(39, 41, 100, 0.5);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+#container #top .text #buttons #learn-button:hover {
+  background-color: rgba(39, 41, 100, 0.75);
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+}
+#container #top:hover {
+  opacity: 1;
+}
+#container #top:hover .text #buttons {
+  opacity: 1;
+}
+#container #form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 75px;
+  margin-bottom: 50px;
+  opacity: 0.3;
+  transition: opacity 0.3s;
+}
+#container #form .section {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+}
+#container #form .section .image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+  transition: margin-left 0.3s, margin-right 0.3s;
+}
+#container #form .section .image img {
+  height: 300px;
+}
+#container #form .section .text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 15px;
+  transition: margin-left 0.3s, margin-right 0.3s;
+}
+#container #form .section .text .textbox {
+  font-family: 'Poppins';
+  opacity: 0.8;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #FAE2B8;
+  width: 400px;
+  height: 65px;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  transition: opacity 0.3s;
+}
+#container #form .section .text .textbox::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  transition: color 0.3s;
+}
+#container #form .section .text .textbox:hover {
+  opacity: 1;
+}
+#container #form .section .text .textbox:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #form .section .text .textbox:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #form .section .text .label {
+  font-family: 'Poppins';
+  color: #DFE0F2;
+  margin-left: 10px;
+  opacity: 0.5;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+#container #form .section .text .checkbox {
+  display: none;
+}
+#container #form .section .text .checkboxLabel {
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(39, 41, 100, 0.5);
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+#container #form .section .text .checkboxLabel .slider {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 5px;
+  background-color: white;
+  transition: margin-left 0.3s;
+}
+#container #form .section .text .checkboxLabel:hover {
+  opacity: 1;
+}
+#container #form .section .text #hasCourse:checked + #hasCourseLabel {
+  background-color: #FAE2B8;
+}
+#container #form .section .text #hasCourse:checked + #hasCourseLabel > .slider {
+  margin-left: 45px;
+}
+#container #form .section .text #hasCourse:not(:checked) ~ #courseCodeLabel {
+  opacity: 0;
+}
+#container #form .section .text #hasCourse:not(:checked) ~ #courseCodeTextbox {
+  opacity: 0;
+}
+#container #form .section #left {
+  align-items: flex-end;
+  margin-right: 15px;
+  margin-left: 0px;
+}
+#container #form .section #left .textbox {
+  text-align: right;
+}
+#container #form .section #right {
+  align-items: flex-start;
+  margin-left: 15px;
+  margin-right: 0px;
+}
+#container #form .section:hover {
+  opacity: 1;
+}
+#container #form .section:hover #left {
+  margin-right: 25px;
+}
+#container #form .section:hover #right {
+  margin-left: 25px;
+}
+#container #form #create-button {
+  margin-top: 50px;
+  text-decoration: none;
+  margin-right: 20px;
+  color: #DFE0F2;
+  font-size: 30px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  background-color: rgba(250, 226, 184, 0.5);
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+#container #form #create-button:hover {
+  background-color: rgba(250, 226, 184, 0.75);
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+}
+#container #form #create-button:focus {
+  outline: none;
+}
+#container #form:hover {
+  opacity: 1;
+}
