@@ -1,0 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
+html, body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+}
+a {
+  font-family: Poppins;
+  font-weight: 600;
+}
+#container {
+  width: 100%;
+  background-color: #424694;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 200px;
+}
+#container #back {
+  font-family: 'Poppins';
+  position: absolute;
+  font-size: 25px;
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+  transition: color 0.3s, text-shadow 0.3s;
+  left: 100px;
+  top: 50px;
+}
+#container #back:hover {
+  color: #FAE2B8;
+  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.75);
+}
+#container #top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 50px;
+  margin-top: 100px;
+}
+#container #top #heading {
+  font-size: 80px;
+  color: #DFE0F2;
+  font-family: 'Poppins';
+}
+#container #top #actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 30px;
+}
+#container #top #actions a {
+  text-decoration: none;
+  font-size: 17px;
+  color: rgba(250, 226, 184, 0.75);
+  transition: color 0.3s, text-shadow 0.3s;
+}
+#container #top #actions a:hover {
+  color: #FAE2B8;
+  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.75);
+}
+#container #classes {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#container #classes .details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 20px;
+}
+#container #classes .details .top-details .id {
+  font-size: 15px;
+  color: rgba(223, 224, 242, 0.5);
+  margin-right: 5px;
+}
+#container #classes .details .top-details .tutor {
+  color: rgba(250, 226, 184, 0.5);
+  font-weight: 400;
+}
+#container #classes .details .type {
+  color: rgba(250, 226, 184, 0.5);
+  font-size: 12px;
+  line-height: 15px;
+  margin-top: 5px;
+}
+#container #classes .details .name {
+  color: #FAE2B8;
+  font-size: 35px;
+  line-height: 35px;
+}
+#container #classes .details .description {
+  margin-top: 0px;
+  color: #DFE0F2;
+  font-weight: 400;
+  font-size: 16px;
+}
+#container #classes .course {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(39, 41, 100, 0.25);
+  padding: 10px;
+  margin: 10px;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+#container #classes .course .course-details {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin: 10px;
+}
+#container #classes .course .course-details .icon {
+  width: 100px;
+  height: 100px;
+}
+#container #classes .course .seeClasses {
+  height: 0px;
+  width: 0px;
+}
+#container #classes .course .seeClassesLabel {
+  font-family: 'Poppins';
+  font-weight: 400;
+  color: #DFE0F2;
+  text-decoration: none;
+  font-size: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: rgba(250, 226, 184, 0.25);
+  border-radius: 5px;
+  margin-top: -20px;
+  margin-bottom: 10px;
+  transition: background-color 0.5s;
+}
+#container #classes .course .seeClasses:hover + .seeClassesLabel {
+  background-color: rgba(250, 226, 184, 0.5);
+}
+#container #classes .course .seeClasses:checked + .seeClassesLabel {
+  background-color: rgba(250, 226, 184, 0.5);
+}
+#container #classes .course .classes {
+  display: none;
+}
+#container #classes .course:hover {
+  opacity: 1;
+}
+#container #classes .row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#container #classes .row .class {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin: 10px;
+  background-color: rgba(39, 41, 100, 0.25);
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+#container #classes .row .class .icon {
+  width: 75px;
+  height: 75px;
+}
+#container #classes .row .class:hover {
+  opacity: 1;
+}
+#container #classes .row #orange {
+  background-color: rgba(255, 209, 82, 0.25);
+}
+#container #classes .row #green {
+  background-color: rgba(142, 214, 90, 0.25);
+}

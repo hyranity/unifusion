@@ -28,14 +28,14 @@
                 <img src='https://i.imgur.com/eS3FqbD.png'>
               </div>
               <div class='details'>
-                <a class='text'>UniFusion completely revolutionises online and distance learning. Seriously, it's incredible. Like what the actual fuc</a>
+                <a class='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras ornare arcu dui vivamus arcu.</a>
                 <a class='button' href='#'>Learn more</a>
               </div>
             </div>
 
             <div class='item'>
               <div class='details' id='right'>
-                <a class='text'>UniFusion completely revolutionises online and distance learning. Seriously, it's incredible. Like what the actual fuc</a>
+                <a class='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras ornare arcu dui vivamus arcu.</a>
                 <a class='button' href='#'>Learn more</a>
               </div>
               <div class='image'>
