@@ -48,7 +48,7 @@ public class AccountDetails extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-       if(!Server.isLoggedIn(request.getSession(false), response))
+       /*if(!Server.isLoggedIn(request.getSession(false), response))
             return;
         
             
@@ -59,7 +59,7 @@ public class AccountDetails extends HttpServlet {
         request.setAttribute("dateOfBirth", user.getDateofbirth() == null ? null : (new SimpleDateFormat("dd/MM/yyyy")).format(user.getDateofbirth()));
         request.setAttribute("address", user.getAddress());
         request.setAttribute("email", user.getEmail());
-        System.out.println(user.getEmail());
+        System.out.println(user.getEmail());*/
         
         request.getRequestDispatcher("WEB-INF/accountDetails.jsp").forward(request, response);
         

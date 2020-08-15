@@ -92,6 +92,7 @@
               <a class='id'>C001</a>
               <a class='tutor'>John Doe</a>
             </div>
+            <a class='type'>CLASS</a>
             <a class='name'>Math</a>
             <a class='description'>Intermediate arithmetic</a>
           </div>
@@ -106,6 +107,7 @@
               <a class='id'>C001</a>
               <a class='tutor'>John Doe</a>
             </div>
+            <a class='type'>CLASS</a>
             <a class='name'>Math</a>
             <a class='description'>Intermediate</a>
           </div>
@@ -126,6 +128,7 @@
               <a class='id'>C001</a>
               <a class='tutor'>John Doe</a>
             </div>
+            <a class='type'>CLASS</a>
             <a class='name'>Math</a>
             <a class='description'>Intermediate</a>
           </div>
@@ -140,6 +143,7 @@
               <a class='id'>C001</a>
               <a class='tutor'>John Doe</a>
             </div>
+            <a class='type'>CLASS</a>
             <a class='name'>Math</a>
             <a class='description'>Intermediate arithmetic</a>
           </div>
