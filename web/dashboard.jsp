@@ -1,4 +1,9 @@
+<%@page import="Models.Users"%>
+<%@page import="Util.Quick"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+
+
 <!DOCTYPE html>
 <html>
     <head>

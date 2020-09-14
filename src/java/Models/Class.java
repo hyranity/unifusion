@@ -32,11 +32,13 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c")
     , @NamedQuery(name = "Class.findByClassid", query = "SELECT c FROM Class c WHERE c.classid = :classid")
+    , @NamedQuery(name = "Class.findByClassname", query = "SELECT c FROM Class c WHERE c.classname = :classname")
     , @NamedQuery(name = "Class.findByNoofstudents", query = "SELECT c FROM Class c WHERE c.noofstudents = :noofstudents")
     , @NamedQuery(name = "Class.findByClasstype", query = "SELECT c FROM Class c WHERE c.classtype = :classtype")
     , @NamedQuery(name = "Class.findByIconurl", query = "SELECT c FROM Class c WHERE c.iconurl = :iconurl")
     , @NamedQuery(name = "Class.findByBannerurl", query = "SELECT c FROM Class c WHERE c.bannerurl = :bannerurl")
-    , @NamedQuery(name = "Class.findByColourtheme", query = "SELECT c FROM Class c WHERE c.colourtheme = :colourtheme")})
+    , @NamedQuery(name = "Class.findByColourtheme", query = "SELECT c FROM Class c WHERE c.colourtheme = :colourtheme")
+    , @NamedQuery(name = "Class.findByIspublic", query = "SELECT c FROM Class c WHERE c.ispublic = :ispublic")})
 public class Class implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,6 +48,11 @@ public class Class implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "CLASSID")
     private String classid;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = "CLASSNAME")
+    private String classname;
     @Basic(optional = false)
     @NotNull
     @Column(name = "NOOFSTUDENTS")
@@ -70,8 +77,10 @@ public class Class implements Serializable {
     @Size(min = 1, max = 20)
     @Column(name = "COLOURTHEME")
     private String colourtheme;
-    @OneToMany(mappedBy = "classid")
-    private Collection<Participant> participantCollection;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ISPUBLIC")
+    private Boolean ispublic;
     @OneToMany(mappedBy = "classid")
     private Collection<Gradedcomponent> gradedcomponentCollection;
     @OneToMany(mappedBy = "classid")
@@ -79,12 +88,9 @@ public class Class implements Serializable {
     @JoinColumn(name = "COURSECODE", referencedColumnName = "COURSECODE")
     @ManyToOne
     private Course coursecode;
-    @JoinColumn(name = "SEMESTERCODE", referencedColumnName = "SEMESTERCODE")
+    @JoinColumn(name = "HOSTID", referencedColumnName = "PARTICIPANTID")
     @ManyToOne
-    private Semester semestercode;
-    @JoinColumn(name = "STAFFID", referencedColumnName = "USERID")
-    @ManyToOne
-    private Users staffid;
+    private Participant hostid;
 
     public Class() {
     }
@@ -93,13 +99,15 @@ public class Class implements Serializable {
         this.classid = classid;
     }
 
-    public Class(String classid, int noofstudents, String classtype, String iconurl, String bannerurl, String colourtheme) {
+    public Class(String classid, String classname, int noofstudents, String classtype, String iconurl, String bannerurl, String colourtheme, Boolean ispublic) {
         this.classid = classid;
+        this.classname = classname;
         this.noofstudents = noofstudents;
         this.classtype = classtype;
         this.iconurl = iconurl;
         this.bannerurl = bannerurl;
         this.colourtheme = colourtheme;
+        this.ispublic = ispublic;
     }
 
     public String getClassid() {
@@ -108,6 +116,14 @@ public class Class implements Serializable {
 
     public void setClassid(String classid) {
         this.classid = classid;
+    }
+
+    public String getClassname() {
+        return classname;
+    }
+
+    public void setClassname(String classname) {
+        this.classname = classname;
     }
 
     public int getNoofstudents() {
@@ -150,13 +166,12 @@ public class Class implements Serializable {
         this.colourtheme = colourtheme;
     }
 
-    @XmlTransient
-    public Collection<Participant> getParticipantCollection() {
-        return participantCollection;
+    public Boolean getIspublic() {
+        return ispublic;
     }
 
-    public void setParticipantCollection(Collection<Participant> participantCollection) {
-        this.participantCollection = participantCollection;
+    public void setIspublic(Boolean ispublic) {
+        this.ispublic = ispublic;
     }
 
     @XmlTransient
@@ -185,20 +200,12 @@ public class Class implements Serializable {
         this.coursecode = coursecode;
     }
 
-    public Semester getSemestercode() {
-        return semestercode;
+    public Participant getHostid() {
+        return hostid;
     }
 
-    public void setSemestercode(Semester semestercode) {
-        this.semestercode = semestercode;
-    }
-
-    public Users getStaffid() {
-        return staffid;
-    }
-
-    public void setStaffid(Users staffid) {
-        this.staffid = staffid;
+    public void setHostid(Participant hostid) {
+        this.hostid = hostid;
     }
 
     @Override

@@ -60,13 +60,22 @@ public class PerformAccountUpdate extends HttpServlet {
             user.setName(request.getParameter("name"));
             user.setAddress(request.getParameter("address"));
             user.setEmail(request.getParameter("email"));
-            user.setDateofbirth(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateOfBirth")));
+            
+            
+            if(request.getParameter("dateOfBirth").length() > 0)
+                user.setDateofbirth(new SimpleDateFormat("dd/MM/yyyy").parse(request.getParameter("dateOfBirth")));
+            
             user.setName(request.getParameter("name"));
+            
+            // Update password
+            if(request.getParameter("password").length() >0 && request.getParameter("confirmpassword").length() >0){
+                
+            }
             
             new DB(em, utx).update(user);
             
             //Redirect back to same page
-            response.sendRedirect("AccountDetailsServlet");
+            response.sendRedirect("AccountDetails");
             
         } catch (ParseException ex) {
             Logger.getLogger(PerformAccountUpdate.class.getName()).log(Level.SEVERE, null, ex);

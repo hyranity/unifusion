@@ -51,14 +51,13 @@ public class Participant implements Serializable {
     private String role;
     @OneToMany(mappedBy = "participantid")
     private Collection<Announcement> announcementCollection;
-    @JoinColumn(name = "CLASSID", referencedColumnName = "CLASSID")
-    @ManyToOne
-    private Class classid;
     @JoinColumn(name = "USERID", referencedColumnName = "USERID")
     @ManyToOne
     private Users userid;
     @OneToMany(mappedBy = "participantid")
     private Collection<Attendance> attendanceCollection;
+    @OneToMany(mappedBy = "hostid")
+    private Collection<Class> classCollection;
     @OneToMany(mappedBy = "participantid")
     private Collection<Submission> submissionCollection;
 
@@ -102,14 +101,6 @@ public class Participant implements Serializable {
         this.announcementCollection = announcementCollection;
     }
 
-    public Class getClassid() {
-        return classid;
-    }
-
-    public void setClassid(Class classid) {
-        this.classid = classid;
-    }
-
     public Users getUserid() {
         return userid;
     }
@@ -125,6 +116,15 @@ public class Participant implements Serializable {
 
     public void setAttendanceCollection(Collection<Attendance> attendanceCollection) {
         this.attendanceCollection = attendanceCollection;
+    }
+
+    @XmlTransient
+    public Collection<Class> getClassCollection() {
+        return classCollection;
+    }
+
+    public void setClassCollection(Collection<Class> classCollection) {
+        this.classCollection = classCollection;
     }
 
     @XmlTransient

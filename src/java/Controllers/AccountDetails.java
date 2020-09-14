@@ -19,6 +19,7 @@ import javax.transaction.UserTransaction;
 import Models.*;
 import Util.*;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import javax.servlet.http.HttpSession;
 
 
@@ -60,6 +61,17 @@ public class AccountDetails extends HttpServlet {
         request.setAttribute("address", user.getAddress());
         request.setAttribute("email", user.getEmail());
         System.out.println(user.getEmail());*/
+       
+       // Get user data
+       Users user = Server.getUser(request, response);
+       
+       Quick.putInJsp(request, "name", user.getName());
+       Quick.putInJsp(request, "email", user.getEmail());
+       Quick.putInJsp(request, "address", user.getAddress());
+       Calendar cal = Calendar.getInstance();
+       cal.setTime(user.getDateofbirth());
+       int day = cal.get(Calendar.DAY_OF_MONTH);
+       Quick.putInJsp(request, "dateOfBirth", cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR));
         
         request.getRequestDispatcher("WEB-INF/accountDetails.jsp").forward(request, response);
         

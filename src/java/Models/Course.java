@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -53,6 +55,9 @@ public class Course implements Serializable {
     private String description;
     @OneToMany(mappedBy = "coursecode")
     private Collection<Class> classCollection;
+    @JoinColumn(name = "SEMESTERCODE", referencedColumnName = "SEMESTERCODE")
+    @ManyToOne
+    private Semester semestercode;
 
     public Course() {
     }
@@ -98,6 +103,14 @@ public class Course implements Serializable {
 
     public void setClassCollection(Collection<Class> classCollection) {
         this.classCollection = classCollection;
+    }
+
+    public Semester getSemestercode() {
+        return semestercode;
+    }
+
+    public void setSemestercode(Semester semestercode) {
+        this.semestercode = semestercode;
     }
 
     @Override

@@ -28,4 +28,14 @@ public class Quick {
     public static int getAge(Date dateOfBirth){
         return Years.yearsBetween(new DateTime(dateOfBirth), DateTime.now()).getYears();
     }
+    
+    public static Object getSession(HttpServletRequest request, String name){
+        HttpSession session = request.getSession();
+        return session.getAttribute(name);
+    }
+    
+    public static void putInJsp(HttpServletRequest request, String name, String value){
+        request.setAttribute(name, value);
+    }
+    
 }

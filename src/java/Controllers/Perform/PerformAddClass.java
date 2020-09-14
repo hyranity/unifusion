@@ -5,13 +5,20 @@
  */
 package Controllers.Perform;
 
+import Util.DB;
+import Util.Server;
+import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -19,6 +26,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "PerformAddClass", urlPatterns = {"/PerformAddClass"})
 public class PerformAddClass extends HttpServlet {
+
+    @PersistenceContext
+    EntityManager em;
+
+    @Resource
+    private UserTransaction utx;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,18 +45,34 @@ public class PerformAddClass extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet PerformAddClass</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet PerformAddClass at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        Servlet serve = new Servlet(request, response);
+        DB db = new DB(em, utx);
+
+        // Create classroom
+        Models.Class classroom = new Models.Class();
+        classroom.setClassname(serve.getQueryStr("className"));
+        classroom.setClassid(serve.getQueryStr("classCode"));
+
+        // Add user as participant as classroom creator
+        Models.Participant participant = new Models.Participant();
+
+        // If classroom is part of a course, and this course is part of a programme from an institution
+        if (serve.getQueryStr("courseCode") != null) {
+            // Check if educator  is an existing participant (only applicable for courses, programmes, and institutions with multiple educators)
+            // Note: Participant is usually created when user joins a course/programme/institution.
+            
+            // Check if educator is participating in the same course
+            // Check if educator is participating in the same programme
+           // Check if educator is participating in the same institution
+            
+            
+            //db.getSingleResult("participantID", value, classType)
+        } else{
+            // This educator will only teach this class, create a new participant
+            
         }
+
+        serve.toServlet("AddClass");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

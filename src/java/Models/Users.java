@@ -6,7 +6,6 @@
 package Models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -37,7 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByName", query = "SELECT u FROM Users u WHERE u.name = :name")
     , @NamedQuery(name = "Users.findByDateofbirth", query = "SELECT u FROM Users u WHERE u.dateofbirth = :dateofbirth")
     , @NamedQuery(name = "Users.findByAddress", query = "SELECT u FROM Users u WHERE u.address = :address")
-    , @NamedQuery(name = "Users.findByCgpa", query = "SELECT u FROM Users u WHERE u.cgpa = :cgpa")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
     , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
     , @NamedQuery(name = "Users.findByPasswordsalt", query = "SELECT u FROM Users u WHERE u.passwordsalt = :passwordsalt")})
@@ -53,7 +51,7 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "NAME")
+    @Column(name = "name")
     private String name;
     @Column(name = "DATEOFBIRTH")
     @Temporal(TemporalType.DATE)
@@ -61,9 +59,6 @@ public class Users implements Serializable {
     @Size(max = 80)
     @Column(name = "ADDRESS")
     private String address;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "CGPA")
-    private BigDecimal cgpa;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
     @Size(max = 110)
     @Column(name = "EMAIL")
@@ -80,8 +75,6 @@ public class Users implements Serializable {
     private String passwordsalt;
     @OneToMany(mappedBy = "userid")
     private Collection<Participant> participantCollection;
-    @OneToMany(mappedBy = "staffid")
-    private Collection<Class> classCollection;
 
     public Users() {
     }
@@ -129,14 +122,6 @@ public class Users implements Serializable {
         this.address = address;
     }
 
-    public BigDecimal getCgpa() {
-        return cgpa;
-    }
-
-    public void setCgpa(BigDecimal cgpa) {
-        this.cgpa = cgpa;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -168,15 +153,6 @@ public class Users implements Serializable {
 
     public void setParticipantCollection(Collection<Participant> participantCollection) {
         this.participantCollection = participantCollection;
-    }
-
-    @XmlTransient
-    public Collection<Class> getClassCollection() {
-        return classCollection;
-    }
-
-    public void setClassCollection(Collection<Class> classCollection) {
-        this.classCollection = classCollection;
     }
 
     @Override

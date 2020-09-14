@@ -52,7 +52,7 @@ public class Semester implements Serializable {
     private int semesterno;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "YEAR")
+    @Column(name = "year")
     private int year;
     @Basic(optional = false)
     @NotNull
@@ -65,7 +65,7 @@ public class Semester implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date dateend;
     @OneToMany(mappedBy = "semestercode")
-    private Collection<Class> classCollection;
+    private Collection<Course> courseCollection;
 
     public Semester() {
     }
@@ -123,12 +123,12 @@ public class Semester implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Class> getClassCollection() {
-        return classCollection;
+    public Collection<Course> getCourseCollection() {
+        return courseCollection;
     }
 
-    public void setClassCollection(Collection<Class> classCollection) {
-        this.classCollection = classCollection;
+    public void setCourseCollection(Collection<Course> courseCollection) {
+        this.courseCollection = courseCollection;
     }
 
     @Override
