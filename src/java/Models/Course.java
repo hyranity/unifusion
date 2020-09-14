@@ -55,9 +55,16 @@ public class Course implements Serializable {
     private String description;
     @OneToMany(mappedBy = "coursecode")
     private Collection<Class> classCollection;
+    @JoinColumn(name = "PROGRAMMECODE", referencedColumnName = "PROGRAMMECODE")
+    @ManyToOne
+    private Programme programmecode;
     @JoinColumn(name = "SEMESTERCODE", referencedColumnName = "SEMESTERCODE")
     @ManyToOne
     private Semester semestercode;
+    @OneToMany(mappedBy = "coursecode")
+    private Collection<Announcement> announcementCollection;
+    @OneToMany(mappedBy = "coursecode")
+    private Collection<Courseparticipant> courseparticipantCollection;
 
     public Course() {
     }
@@ -105,12 +112,38 @@ public class Course implements Serializable {
         this.classCollection = classCollection;
     }
 
+    public Programme getProgrammecode() {
+        return programmecode;
+    }
+
+    public void setProgrammecode(Programme programmecode) {
+        this.programmecode = programmecode;
+    }
+
     public Semester getSemestercode() {
         return semestercode;
     }
 
     public void setSemestercode(Semester semestercode) {
         this.semestercode = semestercode;
+    }
+
+    @XmlTransient
+    public Collection<Announcement> getAnnouncementCollection() {
+        return announcementCollection;
+    }
+
+    public void setAnnouncementCollection(Collection<Announcement> announcementCollection) {
+        this.announcementCollection = announcementCollection;
+    }
+
+    @XmlTransient
+    public Collection<Courseparticipant> getCourseparticipantCollection() {
+        return courseparticipantCollection;
+    }
+
+    public void setCourseparticipantCollection(Collection<Courseparticipant> courseparticipantCollection) {
+        this.courseparticipantCollection = courseparticipantCollection;
     }
 
     @Override

@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Venue.findAll", query = "SELECT v FROM Venue v")
     , @NamedQuery(name = "Venue.findByVenueid", query = "SELECT v FROM Venue v WHERE v.venueid = :venueid")
     , @NamedQuery(name = "Venue.findByTitle", query = "SELECT v FROM Venue v WHERE v.title = :title")
+    , @NamedQuery(name = "Venue.findByCapacity", query = "SELECT v FROM Venue v WHERE v.capacity = :capacity")
     , @NamedQuery(name = "Venue.findByLocation", query = "SELECT v FROM Venue v WHERE v.location = :location")})
 public class Venue implements Serializable {
 
@@ -38,7 +39,7 @@ public class Venue implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 30)
     @Column(name = "VENUEID")
     private String venueid;
     @Basic(optional = false)
@@ -46,6 +47,10 @@ public class Venue implements Serializable {
     @Size(min = 1, max = 25)
     @Column(name = "TITLE")
     private String title;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "CAPACITY")
+    private int capacity;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -61,9 +66,10 @@ public class Venue implements Serializable {
         this.venueid = venueid;
     }
 
-    public Venue(String venueid, String title, String location) {
+    public Venue(String venueid, String title, int capacity, String location) {
         this.venueid = venueid;
         this.title = title;
+        this.capacity = capacity;
         this.location = location;
     }
 
@@ -81,6 +87,14 @@ public class Venue implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
     }
 
     public String getLocation() {

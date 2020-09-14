@@ -78,11 +78,11 @@ public class Gradedcomponent implements Serializable {
     @NotNull
     @Column(name = "ISTOSHOWMARKSONLY")
     private Boolean istoshowmarksonly;
+    @OneToMany(mappedBy = "componentid")
+    private Collection<Submission> submissionCollection;
     @JoinColumn(name = "CLASSID", referencedColumnName = "CLASSID")
     @ManyToOne
     private Class classid;
-    @OneToMany(mappedBy = "componentid")
-    private Collection<Submission> submissionCollection;
 
     public Gradedcomponent() {
     }
@@ -156,14 +156,6 @@ public class Gradedcomponent implements Serializable {
         this.istoshowmarksonly = istoshowmarksonly;
     }
 
-    public Class getClassid() {
-        return classid;
-    }
-
-    public void setClassid(Class classid) {
-        this.classid = classid;
-    }
-
     @XmlTransient
     public Collection<Submission> getSubmissionCollection() {
         return submissionCollection;
@@ -171,6 +163,14 @@ public class Gradedcomponent implements Serializable {
 
     public void setSubmissionCollection(Collection<Submission> submissionCollection) {
         this.submissionCollection = submissionCollection;
+    }
+
+    public Class getClassid() {
+        return classid;
+    }
+
+    public void setClassid(Class classid) {
+        this.classid = classid;
     }
 
     @Override

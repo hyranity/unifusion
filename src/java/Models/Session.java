@@ -35,6 +35,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Session.findAll", query = "SELECT s FROM Session s")
     , @NamedQuery(name = "Session.findBySessionid", query = "SELECT s FROM Session s WHERE s.sessionid = :sessionid")
+    , @NamedQuery(name = "Session.findByTempvenuename", query = "SELECT s FROM Session s WHERE s.tempvenuename = :tempvenuename")
     , @NamedQuery(name = "Session.findByStarttime", query = "SELECT s FROM Session s WHERE s.starttime = :starttime")
     , @NamedQuery(name = "Session.findByEndtime", query = "SELECT s FROM Session s WHERE s.endtime = :endtime")
     , @NamedQuery(name = "Session.findByIsreplacement", query = "SELECT s FROM Session s WHERE s.isreplacement = :isreplacement")})
@@ -47,6 +48,9 @@ public class Session implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "SESSIONID")
     private String sessionid;
+    @Size(max = 25)
+    @Column(name = "TEMPVENUENAME")
+    private String tempvenuename;
     @Column(name = "STARTTIME")
     @Temporal(TemporalType.DATE)
     private Date starttime;
@@ -84,6 +88,14 @@ public class Session implements Serializable {
 
     public void setSessionid(String sessionid) {
         this.sessionid = sessionid;
+    }
+
+    public String getTempvenuename() {
+        return tempvenuename;
+    }
+
+    public void setTempvenuename(String tempvenuename) {
+        this.tempvenuename = tempvenuename;
     }
 
     public Date getStarttime() {

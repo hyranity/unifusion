@@ -10,6 +10,9 @@ import Util.Server;
 import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
+import Models.*;
+import java.util.Calendar;
+import java.util.Date;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -50,11 +53,11 @@ public class PerformAddClass extends HttpServlet {
 
         // Create classroom
         Models.Class classroom = new Models.Class();
-        classroom.setClassname(serve.getQueryStr("className"));
+        classroom.setClasstitle(serve.getQueryStr("className"));
         classroom.setClassid(serve.getQueryStr("classCode"));
 
         // Add user as participant as classroom creator
-        Models.Participant participant = new Models.Participant();
+       // Models.Participant participant = new Models.Participant();
 
         // If classroom is part of a course, and this course is part of a programme from an institution
         if (serve.getQueryStr("courseCode") != null) {
@@ -68,7 +71,17 @@ public class PerformAddClass extends HttpServlet {
             
             //db.getSingleResult("participantID", value, classType)
         } else{
-            // This educator will only teach this class, create a new participant
+            // This educator will only teach this class, create a new participant AND class participant
+            
+            // Participant
+            Participant participant = new Participant();
+            participant.setDateadded(Calendar.getInstance().getTime());
+            participant.setEducatorrole("classTeacher");
+            participant.setStatus("active");
+            
+            // Class participant
+            Classparticipant classPart = new Classparticipant();
+            classPart.setParticipantid(participant);
             
         }
 

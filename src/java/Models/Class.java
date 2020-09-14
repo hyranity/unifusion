@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Class.findAll", query = "SELECT c FROM Class c")
     , @NamedQuery(name = "Class.findByClassid", query = "SELECT c FROM Class c WHERE c.classid = :classid")
-    , @NamedQuery(name = "Class.findByClassname", query = "SELECT c FROM Class c WHERE c.classname = :classname")
+    , @NamedQuery(name = "Class.findByClasstitle", query = "SELECT c FROM Class c WHERE c.classtitle = :classtitle")
+    , @NamedQuery(name = "Class.findByDescription", query = "SELECT c FROM Class c WHERE c.description = :description")
     , @NamedQuery(name = "Class.findByNoofstudents", query = "SELECT c FROM Class c WHERE c.noofstudents = :noofstudents")
     , @NamedQuery(name = "Class.findByClasstype", query = "SELECT c FROM Class c WHERE c.classtype = :classtype")
     , @NamedQuery(name = "Class.findByIconurl", query = "SELECT c FROM Class c WHERE c.iconurl = :iconurl")
@@ -51,8 +52,13 @@ public class Class implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 40)
-    @Column(name = "CLASSNAME")
-    private String classname;
+    @Column(name = "CLASSTITLE")
+    private String classtitle;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
+    @Column(name = "DESCRIPTION")
+    private String description;
     @Basic(optional = false)
     @NotNull
     @Column(name = "NOOFSTUDENTS")
@@ -82,15 +88,16 @@ public class Class implements Serializable {
     @Column(name = "ISPUBLIC")
     private Boolean ispublic;
     @OneToMany(mappedBy = "classid")
-    private Collection<Gradedcomponent> gradedcomponentCollection;
-    @OneToMany(mappedBy = "classid")
     private Collection<Session> sessionCollection;
     @JoinColumn(name = "COURSECODE", referencedColumnName = "COURSECODE")
     @ManyToOne
     private Course coursecode;
-    @JoinColumn(name = "HOSTID", referencedColumnName = "PARTICIPANTID")
-    @ManyToOne
-    private Participant hostid;
+    @OneToMany(mappedBy = "classid")
+    private Collection<Announcement> announcementCollection;
+    @OneToMany(mappedBy = "classid")
+    private Collection<Gradedcomponent> gradedcomponentCollection;
+    @OneToMany(mappedBy = "classid")
+    private Collection<Classparticipant> classparticipantCollection;
 
     public Class() {
     }
@@ -99,9 +106,10 @@ public class Class implements Serializable {
         this.classid = classid;
     }
 
-    public Class(String classid, String classname, int noofstudents, String classtype, String iconurl, String bannerurl, String colourtheme, Boolean ispublic) {
+    public Class(String classid, String classtitle, String description, int noofstudents, String classtype, String iconurl, String bannerurl, String colourtheme, Boolean ispublic) {
         this.classid = classid;
-        this.classname = classname;
+        this.classtitle = classtitle;
+        this.description = description;
         this.noofstudents = noofstudents;
         this.classtype = classtype;
         this.iconurl = iconurl;
@@ -118,12 +126,20 @@ public class Class implements Serializable {
         this.classid = classid;
     }
 
-    public String getClassname() {
-        return classname;
+    public String getClasstitle() {
+        return classtitle;
     }
 
-    public void setClassname(String classname) {
-        this.classname = classname;
+    public void setClasstitle(String classtitle) {
+        this.classtitle = classtitle;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getNoofstudents() {
@@ -175,15 +191,6 @@ public class Class implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Gradedcomponent> getGradedcomponentCollection() {
-        return gradedcomponentCollection;
-    }
-
-    public void setGradedcomponentCollection(Collection<Gradedcomponent> gradedcomponentCollection) {
-        this.gradedcomponentCollection = gradedcomponentCollection;
-    }
-
-    @XmlTransient
     public Collection<Session> getSessionCollection() {
         return sessionCollection;
     }
@@ -200,12 +207,31 @@ public class Class implements Serializable {
         this.coursecode = coursecode;
     }
 
-    public Participant getHostid() {
-        return hostid;
+    @XmlTransient
+    public Collection<Announcement> getAnnouncementCollection() {
+        return announcementCollection;
     }
 
-    public void setHostid(Participant hostid) {
-        this.hostid = hostid;
+    public void setAnnouncementCollection(Collection<Announcement> announcementCollection) {
+        this.announcementCollection = announcementCollection;
+    }
+
+    @XmlTransient
+    public Collection<Gradedcomponent> getGradedcomponentCollection() {
+        return gradedcomponentCollection;
+    }
+
+    public void setGradedcomponentCollection(Collection<Gradedcomponent> gradedcomponentCollection) {
+        this.gradedcomponentCollection = gradedcomponentCollection;
+    }
+
+    @XmlTransient
+    public Collection<Classparticipant> getClassparticipantCollection() {
+        return classparticipantCollection;
+    }
+
+    public void setClassparticipantCollection(Collection<Classparticipant> classparticipantCollection) {
+        this.classparticipantCollection = classparticipantCollection;
     }
 
     @Override

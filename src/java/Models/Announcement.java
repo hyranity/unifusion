@@ -6,6 +6,7 @@
 package Models;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,7 +33,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Announcement.findAll", query = "SELECT a FROM Announcement a")
     , @NamedQuery(name = "Announcement.findByAnnouncementid", query = "SELECT a FROM Announcement a WHERE a.announcementid = :announcementid")
     , @NamedQuery(name = "Announcement.findByTitle", query = "SELECT a FROM Announcement a WHERE a.title = :title")
-    , @NamedQuery(name = "Announcement.findByMessage", query = "SELECT a FROM Announcement a WHERE a.message = :message")})
+    , @NamedQuery(name = "Announcement.findByMessage", query = "SELECT a FROM Announcement a WHERE a.message = :message")
+    , @NamedQuery(name = "Announcement.findByDateannounced", query = "SELECT a FROM Announcement a WHERE a.dateannounced = :dateannounced")})
 public class Announcement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,9 +54,26 @@ public class Announcement implements Serializable {
     @Size(min = 1, max = 300)
     @Column(name = "MESSAGE")
     private String message;
-    @JoinColumn(name = "PARTICIPANTID", referencedColumnName = "PARTICIPANTID")
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "DATEANNOUNCED")
+    @Temporal(TemporalType.DATE)
+    private Date dateannounced;
+    @JoinColumn(name = "CLASSID", referencedColumnName = "CLASSID")
     @ManyToOne
-    private Participant participantid;
+    private Class classid;
+    @JoinColumn(name = "COURSECODE", referencedColumnName = "COURSECODE")
+    @ManyToOne
+    private Course coursecode;
+    @JoinColumn(name = "INSTITUTIONCODE", referencedColumnName = "INSTITUTIONCODE")
+    @ManyToOne
+    private Institution institutioncode;
+    @JoinColumn(name = "POSTERID", referencedColumnName = "PARTICIPANTID")
+    @ManyToOne
+    private Participant posterid;
+    @JoinColumn(name = "PROGRAMMECODE", referencedColumnName = "PROGRAMMECODE")
+    @ManyToOne
+    private Programme programmecode;
 
     public Announcement() {
     }
@@ -61,10 +82,11 @@ public class Announcement implements Serializable {
         this.announcementid = announcementid;
     }
 
-    public Announcement(String announcementid, String title, String message) {
+    public Announcement(String announcementid, String title, String message, Date dateannounced) {
         this.announcementid = announcementid;
         this.title = title;
         this.message = message;
+        this.dateannounced = dateannounced;
     }
 
     public String getAnnouncementid() {
@@ -91,12 +113,52 @@ public class Announcement implements Serializable {
         this.message = message;
     }
 
-    public Participant getParticipantid() {
-        return participantid;
+    public Date getDateannounced() {
+        return dateannounced;
     }
 
-    public void setParticipantid(Participant participantid) {
-        this.participantid = participantid;
+    public void setDateannounced(Date dateannounced) {
+        this.dateannounced = dateannounced;
+    }
+
+    public Class getClassid() {
+        return classid;
+    }
+
+    public void setClassid(Class classid) {
+        this.classid = classid;
+    }
+
+    public Course getCoursecode() {
+        return coursecode;
+    }
+
+    public void setCoursecode(Course coursecode) {
+        this.coursecode = coursecode;
+    }
+
+    public Institution getInstitutioncode() {
+        return institutioncode;
+    }
+
+    public void setInstitutioncode(Institution institutioncode) {
+        this.institutioncode = institutioncode;
+    }
+
+    public Participant getPosterid() {
+        return posterid;
+    }
+
+    public void setPosterid(Participant posterid) {
+        this.posterid = posterid;
+    }
+
+    public Programme getProgrammecode() {
+        return programmecode;
+    }
+
+    public void setProgrammecode(Programme programmecode) {
+        this.programmecode = programmecode;
     }
 
     @Override

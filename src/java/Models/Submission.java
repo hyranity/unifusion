@@ -33,8 +33,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Submission.findAll", query = "SELECT s FROM Submission s")
     , @NamedQuery(name = "Submission.findBySubmissionid", query = "SELECT s FROM Submission s WHERE s.submissionid = :submissionid")
-    , @NamedQuery(name = "Submission.findByItemurl", query = "SELECT s FROM Submission s WHERE s.itemurl = :itemurl")
+    , @NamedQuery(name = "Submission.findByItem", query = "SELECT s FROM Submission s WHERE s.item = :item")
     , @NamedQuery(name = "Submission.findByMarks", query = "SELECT s FROM Submission s WHERE s.marks = :marks")
+    , @NamedQuery(name = "Submission.findByComment", query = "SELECT s FROM Submission s WHERE s.comment = :comment")
     , @NamedQuery(name = "Submission.findByDatesubmitted", query = "SELECT s FROM Submission s WHERE s.datesubmitted = :datesubmitted")})
 public class Submission implements Serializable {
 
@@ -46,22 +47,25 @@ public class Submission implements Serializable {
     @Column(name = "SUBMISSIONID")
     private String submissionid;
     @Size(max = 100)
-    @Column(name = "ITEMURL")
-    private String itemurl;
+    @Column(name = "ITEM")
+    private String item;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "MARKS")
     private BigDecimal marks;
+    @Size(max = 500)
+    @Column(name = "COMMENT")
+    private String comment;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DATESUBMITTED")
     @Temporal(TemporalType.DATE)
     private Date datesubmitted;
+    @JoinColumn(name = "CLASSPARTICIPANTID", referencedColumnName = "CLASSPARTICIPANTID")
+    @ManyToOne
+    private Classparticipant classparticipantid;
     @JoinColumn(name = "COMPONENTID", referencedColumnName = "COMPONENTID")
     @ManyToOne
     private Gradedcomponent componentid;
-    @JoinColumn(name = "PARTICIPANTID", referencedColumnName = "PARTICIPANTID")
-    @ManyToOne
-    private Participant participantid;
 
     public Submission() {
     }
@@ -83,12 +87,12 @@ public class Submission implements Serializable {
         this.submissionid = submissionid;
     }
 
-    public String getItemurl() {
-        return itemurl;
+    public String getItem() {
+        return item;
     }
 
-    public void setItemurl(String itemurl) {
-        this.itemurl = itemurl;
+    public void setItem(String item) {
+        this.item = item;
     }
 
     public BigDecimal getMarks() {
@@ -99,6 +103,14 @@ public class Submission implements Serializable {
         this.marks = marks;
     }
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public Date getDatesubmitted() {
         return datesubmitted;
     }
@@ -107,20 +119,20 @@ public class Submission implements Serializable {
         this.datesubmitted = datesubmitted;
     }
 
+    public Classparticipant getClassparticipantid() {
+        return classparticipantid;
+    }
+
+    public void setClassparticipantid(Classparticipant classparticipantid) {
+        this.classparticipantid = classparticipantid;
+    }
+
     public Gradedcomponent getComponentid() {
         return componentid;
     }
 
     public void setComponentid(Gradedcomponent componentid) {
         this.componentid = componentid;
-    }
-
-    public Participant getParticipantid() {
-        return participantid;
-    }
-
-    public void setParticipantid(Participant participantid) {
-        this.participantid = participantid;
     }
 
     @Override

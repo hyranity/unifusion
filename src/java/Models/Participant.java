@@ -7,6 +7,7 @@ package Models;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -32,8 +35,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Participant.findAll", query = "SELECT p FROM Participant p")
     , @NamedQuery(name = "Participant.findByParticipantid", query = "SELECT p FROM Participant p WHERE p.participantid = :participantid")
-    , @NamedQuery(name = "Participant.findByStatus", query = "SELECT p FROM Participant p WHERE p.status = :status")
-    , @NamedQuery(name = "Participant.findByRole", query = "SELECT p FROM Participant p WHERE p.role = :role")})
+    , @NamedQuery(name = "Participant.findByDateadded", query = "SELECT p FROM Participant p WHERE p.dateadded = :dateadded")
+    , @NamedQuery(name = "Participant.findByEducatorrole", query = "SELECT p FROM Participant p WHERE p.educatorrole = :educatorrole")
+    , @NamedQuery(name = "Participant.findByStatus", query = "SELECT p FROM Participant p WHERE p.status = :status")})
 public class Participant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,29 +47,45 @@ public class Participant implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "PARTICIPANTID")
     private String participantid;
-    @Size(max = 20)
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "DATEADDED")
+    @Temporal(TemporalType.DATE)
+    private Date dateadded;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "EDUCATORROLE")
+    private String educatorrole;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
     @Column(name = "STATUS")
     private String status;
-    @Size(max = 20)
-    @Column(name = "ROLE")
-    private String role;
-    @OneToMany(mappedBy = "participantid")
-    private Collection<Announcement> announcementCollection;
     @JoinColumn(name = "USERID", referencedColumnName = "USERID")
     @ManyToOne
     private Users userid;
+    @OneToMany(mappedBy = "creatorid")
+    private Collection<Programme> programmeCollection;
+    @OneToMany(mappedBy = "posterid")
+    private Collection<Announcement> announcementCollection;
     @OneToMany(mappedBy = "participantid")
-    private Collection<Attendance> attendanceCollection;
-    @OneToMany(mappedBy = "hostid")
-    private Collection<Class> classCollection;
+    private Collection<Courseparticipant> courseparticipantCollection;
     @OneToMany(mappedBy = "participantid")
-    private Collection<Submission> submissionCollection;
+    private Collection<Classparticipant> classparticipantCollection;
 
     public Participant() {
     }
 
     public Participant(String participantid) {
         this.participantid = participantid;
+    }
+
+    public Participant(String participantid, Date dateadded, String educatorrole, String status) {
+        this.participantid = participantid;
+        this.dateadded = dateadded;
+        this.educatorrole = educatorrole;
+        this.status = status;
     }
 
     public String getParticipantid() {
@@ -76,29 +96,28 @@ public class Participant implements Serializable {
         this.participantid = participantid;
     }
 
+    public Date getDateadded() {
+        return dateadded;
+    }
+
+    public void setDateadded(Date dateadded) {
+        this.dateadded = dateadded;
+    }
+
+    public String getEducatorrole() {
+        return educatorrole;
+    }
+
+    public void setEducatorrole(String educatorrole) {
+        this.educatorrole = educatorrole;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    @XmlTransient
-    public Collection<Announcement> getAnnouncementCollection() {
-        return announcementCollection;
-    }
-
-    public void setAnnouncementCollection(Collection<Announcement> announcementCollection) {
-        this.announcementCollection = announcementCollection;
     }
 
     public Users getUserid() {
@@ -110,30 +129,39 @@ public class Participant implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Attendance> getAttendanceCollection() {
-        return attendanceCollection;
+    public Collection<Programme> getProgrammeCollection() {
+        return programmeCollection;
     }
 
-    public void setAttendanceCollection(Collection<Attendance> attendanceCollection) {
-        this.attendanceCollection = attendanceCollection;
-    }
-
-    @XmlTransient
-    public Collection<Class> getClassCollection() {
-        return classCollection;
-    }
-
-    public void setClassCollection(Collection<Class> classCollection) {
-        this.classCollection = classCollection;
+    public void setProgrammeCollection(Collection<Programme> programmeCollection) {
+        this.programmeCollection = programmeCollection;
     }
 
     @XmlTransient
-    public Collection<Submission> getSubmissionCollection() {
-        return submissionCollection;
+    public Collection<Announcement> getAnnouncementCollection() {
+        return announcementCollection;
     }
 
-    public void setSubmissionCollection(Collection<Submission> submissionCollection) {
-        this.submissionCollection = submissionCollection;
+    public void setAnnouncementCollection(Collection<Announcement> announcementCollection) {
+        this.announcementCollection = announcementCollection;
+    }
+
+    @XmlTransient
+    public Collection<Courseparticipant> getCourseparticipantCollection() {
+        return courseparticipantCollection;
+    }
+
+    public void setCourseparticipantCollection(Collection<Courseparticipant> courseparticipantCollection) {
+        this.courseparticipantCollection = courseparticipantCollection;
+    }
+
+    @XmlTransient
+    public Collection<Classparticipant> getClassparticipantCollection() {
+        return classparticipantCollection;
+    }
+
+    public void setClassparticipantCollection(Collection<Classparticipant> classparticipantCollection) {
+        this.classparticipantCollection = classparticipantCollection;
     }
 
     @Override

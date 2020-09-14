@@ -47,9 +47,9 @@ public class Attendance implements Serializable {
     @Column(name = "DATEATTENDED")
     @Temporal(TemporalType.DATE)
     private Date dateattended;
-    @JoinColumn(name = "PARTICIPANTID", referencedColumnName = "PARTICIPANTID")
+    @JoinColumn(name = "CLASSPARTICIPANTID", referencedColumnName = "CLASSPARTICIPANTID")
     @ManyToOne
-    private Participant participantid;
+    private Classparticipant classparticipantid;
     @JoinColumn(name = "SESSIONID", referencedColumnName = "SESSIONID")
     @ManyToOne
     private Session sessionid;
@@ -82,12 +82,12 @@ public class Attendance implements Serializable {
         this.dateattended = dateattended;
     }
 
-    public Participant getParticipantid() {
-        return participantid;
+    public Classparticipant getClassparticipantid() {
+        return classparticipantid;
     }
 
-    public void setParticipantid(Participant participantid) {
-        this.participantid = participantid;
+    public void setClassparticipantid(Classparticipant classparticipantid) {
+        this.classparticipantid = classparticipantid;
     }
 
     public Session getSessionid() {
