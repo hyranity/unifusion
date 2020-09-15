@@ -48,7 +48,7 @@ public class Gradedcomponent implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "COMPONENTID")
     private String componentid;
     @Basic(optional = false)

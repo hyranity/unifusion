@@ -41,7 +41,7 @@ public class Announcement implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "ANNOUNCEMENTID")
     private String announcementid;
     @Basic(optional = false)

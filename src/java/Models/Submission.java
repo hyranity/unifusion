@@ -43,7 +43,7 @@ public class Submission implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "SUBMISSIONID")
     private String submissionid;
     @Size(max = 100)

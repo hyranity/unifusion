@@ -38,7 +38,7 @@ public class Courseparticipant implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "COURSEPARTICIPANTID")
     private String courseparticipantid;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation

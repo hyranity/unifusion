@@ -11,6 +11,7 @@ import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import Models.*;
+import Util.Quick;
 import java.util.Calendar;
 import java.util.Date;
 import javax.annotation.Resource;
@@ -29,10 +30,10 @@ import javax.transaction.UserTransaction;
  */
 @WebServlet(name = "PerformAddClass", urlPatterns = {"/PerformAddClass"})
 public class PerformAddClass extends HttpServlet {
-
+    
     @PersistenceContext
     EntityManager em;
-
+    
     @Resource
     private UserTransaction utx;
 
@@ -49,42 +50,55 @@ public class PerformAddClass extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         Servlet serve = new Servlet(request, response);
+        Users user = Server.getUser(request, response);
         DB db = new DB(em, utx);
 
         // Create classroom
         Models.Class classroom = new Models.Class();
         classroom.setClasstitle(serve.getQueryStr("className"));
         classroom.setClassid(serve.getQueryStr("classCode"));
+        classroom.setIspublic(true);
+        db.insert(classroom);
+        
 
         // Add user as participant as classroom creator
-       // Models.Participant participant = new Models.Participant();
-
+        // Models.Participant participant = new Models.Participant();
         // If classroom is part of a course, and this course is part of a programme from an institution
         if (serve.getQueryStr("courseCode") != null) {
             // Check if educator  is an existing participant (only applicable for courses, programmes, and institutions with multiple educators)
             // Note: Participant is usually created when user joins a course/programme/institution.
-            
-            // Check if educator is participating in the same course
-            // Check if educator is participating in the same programme
-           // Check if educator is participating in the same institution
-            
-            
+
+            // Check if educator is participating in the same course AND authorized; if so, use that same participant
+            // Check if educator is participating in the same programme AND authorized; if so, use that same participant
+            // Check if educator is participating in the same institution AND authorized; if so, use that same participant
+            // Else, deny access
             //db.getSingleResult("participantID", value, classType)
-        } else{
+        } else {
             // This educator will only teach this class, create a new participant AND class participant
-            
+
             // Participant
             Participant participant = new Participant();
             participant.setDateadded(Calendar.getInstance().getTime());
             participant.setEducatorrole("classTeacher");
             participant.setStatus("active");
-            
+            participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "Participantid"));
+            participant.setUserid(user);
+            db.insert(participant);
+
             // Class participant
             Classparticipant classPart = new Classparticipant();
             classPart.setParticipantid(participant);
+            classPart.setIscreator(true);
+            classPart.setRole("teacher");
+            classPart.setStatus("active");
+            classPart.setClassid(classroom);
+            classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
+            db.insert(classPart);
             
         }
-
+        
+       
+        
         serve.toServlet("AddClass");
     }
 

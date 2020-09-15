@@ -25,7 +25,7 @@
           </div>
         </div>
 
-        <form id='form'>
+        <form id='form' action="PerformAddClass">
 
           <div class='section'>
             <div class='image' id='left'>
@@ -33,9 +33,9 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Class code</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. GG420'>
+              <input class='textbox' type='text' name='classCode' placeholder='eg. GG420' required>
               <a class='label'>Class name</a>
-              <input class='textbox' type='text' name='className' placeholder='eg. Computer Science'>
+              <input class='textbox' type='text' name='className' placeholder='eg. Computer Science' required>
             </div>
           </div>
 
@@ -54,7 +54,7 @@
             </div>
           </div>
 
-          <input id='create-button' type='button' value='Create class!'>
+          <input id='create-button' type='submit' value='Create class!'>
 
        </form>
 

@@ -44,7 +44,7 @@ public class Classparticipant implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "CLASSPARTICIPANTID")
     private String classparticipantid;
     @Basic(optional = false)

@@ -15,7 +15,7 @@
             <a id='heading'>My classes</a>
             <div id='actions'>
               <a href='#'>Join a class</a>
-              <a href='#'>Create a class</a>
+              <a href='AddClass'>Create a class</a>
             </div>
           </div>
 

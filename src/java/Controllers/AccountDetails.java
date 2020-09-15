@@ -22,17 +22,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import javax.servlet.http.HttpSession;
 
-
 /**
  *
  * @author mast3
  */
 @WebServlet(name = "AccountDetails", urlPatterns = {"/AccountDetails"})
 public class AccountDetails extends HttpServlet {
-    
+
     @PersistenceContext
     EntityManager em;
-    
+
     @Resource
     private UserTransaction utx;
 
@@ -48,8 +47,8 @@ public class AccountDetails extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-       /*if(!Server.isLoggedIn(request.getSession(false), response))
+
+        /*if(!Server.isLoggedIn(request.getSession(false), response))
             return;
         
             
@@ -61,20 +60,22 @@ public class AccountDetails extends HttpServlet {
         request.setAttribute("address", user.getAddress());
         request.setAttribute("email", user.getEmail());
         System.out.println(user.getEmail());*/
-       
-       // Get user data
-       Users user = Server.getUser(request, response);
-       
-       Quick.putInJsp(request, "name", user.getName());
-       Quick.putInJsp(request, "email", user.getEmail());
-       Quick.putInJsp(request, "address", user.getAddress());
-       Calendar cal = Calendar.getInstance();
-       cal.setTime(user.getDateofbirth());
-       int day = cal.get(Calendar.DAY_OF_MONTH);
-       Quick.putInJsp(request, "dateOfBirth", cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR));
-        
+        // Get user data
+        Users user = Server.getUser(request, response);
+
+        Quick.putInJsp(request, "name", user.getName());
+        Quick.putInJsp(request, "email", user.getEmail());
+        Quick.putInJsp(request, "address", user.getAddress());
+
+        if (user.getDateofbirth() != null) {
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(user.getDateofbirth());
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            Quick.putInJsp(request, "dateOfBirth", cal.get(Calendar.DAY_OF_MONTH) + "/" + (cal.get(Calendar.MONTH) + 1) + "/" + cal.get(Calendar.YEAR));
+        }
+
         request.getRequestDispatcher("WEB-INF/accountDetails.jsp").forward(request, response);
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

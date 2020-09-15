@@ -39,7 +39,7 @@ public class Venue implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "VENUEID")
     private String venueid;
     @Basic(optional = false)

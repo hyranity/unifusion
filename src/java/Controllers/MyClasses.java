@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers.Perform;
+package Controllers;
 
-import Models.*;
-import Util.*;
+import Models.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
@@ -18,13 +17,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
+import Util.*;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "PerformRegister", urlPatterns = {"/PerformRegister"})
-public class PerformRegister extends HttpServlet {
+@WebServlet(name = "MyClasses", urlPatterns = {"/MyClasses"})
+public class MyClasses extends HttpServlet {
     
     @PersistenceContext
     EntityManager em;
@@ -32,36 +32,16 @@ public class PerformRegister extends HttpServlet {
     @Resource
     private UserTransaction utx;
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Servlet serve = new Servlet(request, response);
         
-        if(new DB(em, utx).getSingleResult("email", request.getParameter("email"), Users.class) != null ){
-            Quick.print("Duplicate email found");
-            return;
-        }
+        Users user = Server.getUser(request, response);
         
-        Users user = new Users();
-        user.setUserid(Quick.generateID(em, utx, Users.class, "USERID"));
-        user.setName(request.getParameter("name"));
-        user.setEmail(request.getParameter("email"));
+        // Get list of classes based on participant ID based on user ID.
         
-        Hasher hash = new Hasher(request.getParameter("password"));
-        user.setPassword(hash.getHashedPassword());
-        user.setPasswordsalt(hash.getSalt());
-        
-        new DB(em, utx).insert(user);
-        
-        response.sendRedirect("Login");
+        serve.servletToJsp("myClasses.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

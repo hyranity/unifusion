@@ -7,11 +7,14 @@ package Util;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.transaction.UserTransaction;
 import org.joda.time.*;
 
 /**
@@ -22,8 +25,6 @@ public class Quick {
     public static void print(String string){
         System.out.println(string);
     }
-    
- 
     
     public static int getAge(Date dateOfBirth){
         return Years.yearsBetween(new DateTime(dateOfBirth), DateTime.now()).getYears();
@@ -36,6 +37,22 @@ public class Quick {
     
     public static void putInJsp(HttpServletRequest request, String name, String value){
         request.setAttribute(name, value);
+    }
+    
+    public static <T>  String generateID(EntityManager em, UserTransaction utx, java.lang.Class<T> classType, String idFieldName){
+        int repeater = 0;
+        
+        // Generate a random ID
+        String id = UUID.randomUUID().toString();
+        
+        // Check if this ID exists in DB or not
+        while(repeater <5 && new DB(em, utx).getSingleResult(idFieldName, id, classType) != null){
+            // regenerate
+            id = UUID.randomUUID().toString();
+            repeater++;
+        }
+        
+        return UUID.randomUUID().toString();
     }
     
 }

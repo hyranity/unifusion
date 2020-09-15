@@ -46,7 +46,7 @@ public class Class implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "CLASSID")
     private String classid;
     @Basic(optional = false)
@@ -54,33 +54,23 @@ public class Class implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "CLASSTITLE")
     private String classtitle;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
+    @Size(max = 100)
     @Column(name = "DESCRIPTION")
     private String description;
     @Basic(optional = false)
     @NotNull
     @Column(name = "NOOFSTUDENTS")
     private int noofstudents;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 25)
+    @Size(max = 25)
     @Column(name = "CLASSTYPE")
     private String classtype;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "ICONURL")
     private String iconurl;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "BANNERURL")
     private String bannerurl;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "COLOURTHEME")
     private String colourtheme;
     @Basic(optional = false)
@@ -106,15 +96,10 @@ public class Class implements Serializable {
         this.classid = classid;
     }
 
-    public Class(String classid, String classtitle, String description, int noofstudents, String classtype, String iconurl, String bannerurl, String colourtheme, Boolean ispublic) {
+    public Class(String classid, String classtitle, int noofstudents, Boolean ispublic) {
         this.classid = classid;
         this.classtitle = classtitle;
-        this.description = description;
         this.noofstudents = noofstudents;
-        this.classtype = classtype;
-        this.iconurl = iconurl;
-        this.bannerurl = bannerurl;
-        this.colourtheme = colourtheme;
         this.ispublic = ispublic;
     }
 

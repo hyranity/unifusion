@@ -45,7 +45,7 @@ public class Users implements Serializable {
     @Id
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 30)
+    @Size(min = 1, max = 40)
     @Column(name = "USERID")
     private String userid;
     @Basic(optional = false)

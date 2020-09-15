@@ -79,5 +79,9 @@ public class DB {
         return item;
 
     }
+    
+    public <T> T getList(java.lang.Class<T> classType, Query query){
+        return classType.cast(query.getResultList());
+    }
 
 }
