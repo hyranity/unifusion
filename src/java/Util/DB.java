@@ -16,7 +16,10 @@ import javax.transaction.NotSupportedException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 import java.lang.*;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.ConstraintViolationException;
+import org.hibernate.QueryException;
 
 /**
  *
@@ -80,8 +83,15 @@ public class DB {
 
     }
     
-    public <T> T getList(java.lang.Class<T> classType, Query query){
-        return classType.cast(query.getResultList());
+    public <T> ArrayList<T> getList(java.lang.Class<T> classType, Query query){
+        List results = null;
+        try {
+             results = query.getResultList();
+            
+        } catch (QueryException e) {
+            System.out.println(e.getMessage());
+        }
+        return new ArrayList<T>(results);
     }
 
 }

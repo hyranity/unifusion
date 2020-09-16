@@ -30,10 +30,10 @@ import javax.transaction.UserTransaction;
  */
 @WebServlet(name = "PerformAddClass", urlPatterns = {"/PerformAddClass"})
 public class PerformAddClass extends HttpServlet {
-    
+
     @PersistenceContext
     EntityManager em;
-    
+
     @Resource
     private UserTransaction utx;
 
@@ -58,16 +58,33 @@ public class PerformAddClass extends HttpServlet {
         classroom.setClasstitle(serve.getQueryStr("className"));
         classroom.setClassid(serve.getQueryStr("classCode"));
         classroom.setIspublic(true);
+
+        // Check duplicate ID
+        if (db.getSingleResult("classid", classroom.getClassid(), Models.Class.class) != null) {
+            // There is a duplicate ID
+            System.out.println("Duplicate class code!");
+            serve.toServlet("AddClass");
+            return;
+        }
+
         db.insert(classroom);
-        
 
         // Add user as participant as classroom creator
         // Models.Participant participant = new Models.Participant();
         // If classroom is part of a course, and this course is part of a programme from an institution
-        if (serve.getQueryStr("courseCode") != null) {
+        if (serve.getQueryStr("courseCode") != null) {  
+
+            // If course exists
+            // Check if course exists
+            if (db.getSingleResult("coursecode", serve.getQueryStr("courseCode"), Models.Course.class) == null) {
+                // Course does not exist
+                System.out.println("Course does not exist");
+                serve.toServlet("AddClass");
+                return;
+            }
+
             // Check if educator  is an existing participant (only applicable for courses, programmes, and institutions with multiple educators)
             // Note: Participant is usually created when user joins a course/programme/institution.
-
             // Check if educator is participating in the same course AND authorized; if so, use that same participant
             // Check if educator is participating in the same programme AND authorized; if so, use that same participant
             // Check if educator is participating in the same institution AND authorized; if so, use that same participant
@@ -94,12 +111,11 @@ public class PerformAddClass extends HttpServlet {
             classPart.setClassid(classroom);
             classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
             db.insert(classPart);
-            
+
         }
-        
-       
-        
-        serve.toServlet("AddClass");
+
+        // Successful
+        serve.toServlet("MyClasses");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

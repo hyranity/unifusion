@@ -27,7 +27,7 @@ public class Servlet {
         return request.getSession().getAttribute(name);
     }
 
-    public void putInJsp(String name, String value) {
+    public void putInJsp(String name, Object value) {
         request.setAttribute(name, value);
     }
     

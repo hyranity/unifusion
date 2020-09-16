@@ -47,7 +47,7 @@
                 <div class='slider'></div>
               </label>
               <a class='label' id='courseCodeLabel'>Course code</a>
-              <input id='courseCodeTextbox' class='textbox' type='text' name='className' placeholder='eg. LOL1337'>
+              <input id='courseCodeTextbox' class='textbox' type='text' name='courseCode' placeholder='eg. LOL1337'>
             </div>
             <div class='image' id='right'>
               <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
