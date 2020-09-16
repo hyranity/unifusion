@@ -205,6 +205,54 @@ a {
   font-weight: 500;
   transition: opacity 0.3s;
 }
+#container #form .section .text .dropdown {
+  font-family: 'Poppins';
+  appearance: none;
+  opacity: 0.8;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #FAE2B8;
+  width: 200px;
+  height: 65px;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  transition: all 0.3s;
+}
+#container #form .section .text .dropdown:hover {
+  opacity: 1;
+}
+#container #form .section .text .dropdown:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #form .section .text .dropdown option {
+  opacity: 0.5;
+  font-size: 20px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  color: #FAE2B8;
+  font-weight: 500;
+  background-color: rgba(39, 41, 100, 0.75);
+}
+#container #form .section .text .dropdownLabel {
+  font-family: 'Poppins';
+  color: #FAE2B8;
+  margin-left: 10px;
+  margin-top: -20px;
+  opacity: 0;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+#container #form .section .text .dropdown:hover + .dropdownLabel {
+  opacity: 0.5;
+}
 #container #form .section .text .checkbox {
   display: none;
 }

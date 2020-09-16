@@ -58,6 +58,8 @@ public class PerformAddClass extends HttpServlet {
         classroom.setClasstitle(serve.getQueryStr("className"));
         classroom.setClassid(serve.getQueryStr("classCode"));
         classroom.setIspublic(true);
+        classroom.setDescription(serve.getQueryStr("description"));
+        classroom.setClasstype(serve.getQueryStr("classType"));
 
         // Check duplicate ID
         if (db.getSingleResult("classid", classroom.getClassid(), Models.Class.class) != null) {
@@ -72,7 +74,7 @@ public class PerformAddClass extends HttpServlet {
         // Add user as participant as classroom creator
         // Models.Participant participant = new Models.Participant();
         // If classroom is part of a course, and this course is part of a programme from an institution
-        if (serve.getQueryStr("courseCode") != null) {  
+        if (serve.getQueryStr("courseCode") != null && serve.getQueryStr("courseCodeEnabled") == "true") {  
 
             // If course exists
             // Check if course exists
