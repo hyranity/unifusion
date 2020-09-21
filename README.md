@@ -1,6 +1,6 @@
-# unifusion
+# scaffold
 ### What is it?
-UniFusion is the next generation e-learning platform. Imagine if Google Classroom and your school system had a baby; this would be it (but better, of course). It's like Facebook but instead of selfish posts and fake news we have articles of actual knowledge.
+Scaffold is the next generation e-learning platform. Imagine if Google Classroom and your school system had a baby; this would be it (but better, of course). It's like Facebook but instead of selfish posts and fake news we have articles of actual knowledge. Basically it's what you want but you won't get (since it's a closed project).
 
 ------------
 
