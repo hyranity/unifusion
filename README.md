@@ -17,3 +17,6 @@ We are two college students with chronic depression that are undertaking this pr
 
 ### How much are you selling for it?
 Give me a girlfriend first then we will talk.
+
+### Public release?
+No plans.
