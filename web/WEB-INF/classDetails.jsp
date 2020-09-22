@@ -84,16 +84,29 @@
                         <select class='dropdown' name='classType'>
 
                             <%
+                                // Display class type
+
+                                String lecture = "";
+                                String practical = "";
+                                String tutorial = "";
+                                String other = "";
+
                                 Models.Class classroom = (Models.Class) request.getAttribute("class");
+
                                 if (classroom.getClasstype().equalsIgnoreCase("lecture")) {
-                                    out.print("<option value='lecture'>Lecture</option>");
+                                    lecture = "selected";
                                 } else if (classroom.getClasstype().equalsIgnoreCase("practical")) {
-                                    out.print("<option value='practical'>Practical</option>");
+                                    practical = "selected";
                                 } else if (classroom.getClasstype().equalsIgnoreCase("tutorial")) {
-                                    out.print("<option value='tutorial'>Tutorial</option>");
+                                    tutorial = "selected";
                                 } else {
-                                    out.print("<option value='other'>Other</option>");
+                                    other = "selected";
                                 }
+
+                                out.print("<option value='lecture' " + lecture + ">Lecture</option>");
+                                out.print("<option value='practical' " + practical + ">Practical</option>");
+                                out.print("<option value='tutorial' " + tutorial + ">Tutorial</option>");
+                                out.print("<option value='other' " + other + ">Other</option>");
                             %>
 
 
@@ -124,23 +137,29 @@
                         <a class='label'>Colour theme</a>
                         <select class='dropdown' name='colourTheme'>
                             <%
+                                // Display color theme
+                                String dark = "";
+                                String light = "";
+                                String def = "";
+
                                 if (classroom.getColourtheme() != null && classroom.getColourtheme().equalsIgnoreCase("dark")) {
-                                    out.print("<option value='practical'>Dark</option>");
+                                    dark = "selected";
                                 } else if (classroom.getColourtheme() != null && classroom.getColourtheme().equalsIgnoreCase("light")) {
-                                    out.print("<option value='tutorial'>Light</option>");
-                                }  else {
-                                    out.print("<option value='lecture'>Default</option>");
+                                    light = "selected";
+                                } else {
+                                    def = "selected";
                                 }
 
+                                out.print("<option value='practical' " + dark + ">Dark</option>");
+                                out.print("<option value='tutorial' " + light + ">Light</option>");
+                                out.print("<option value='lecture' " + def + ">Default</option>");
                             %>
-                            <option value='lecture'>Default</option>
-                            <option value='tutorial'>Light</option>
-                            <option value='practical'>Dark</option>
                         </select>
                         <a class='dropdownLabel'>Click to view options</a>
 
                         <a class='label' id='name'>Is this class public?</a>
-                        <%              if (classroom.getIspublic()) {
+                        <%
+                            if (classroom.getIspublic()) {
                                 out.print("<input type='checkbox' class='checkbox' id='isPublic' name='isPublic' checked>");
                             } else {
                                 out.print("<input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>");

@@ -45,7 +45,7 @@ public class MyClasses extends HttpServlet {
         String output = "";
 
         // To get all classes
-        Query query = em.createNativeQuery("select distinct c.* from Class c, Users u, Classparticipant cpa, Participant p where u.userid = p.userid and p.participantid = cpa.participantid and u.userid = ?", Models.Class.class);
+        Query query = em.createNativeQuery("select distinct c.* from Class c, Users u, Classparticipant cpa, Participant p where cpa.classid = c.classid and u.userid = p.userid and p.participantid = cpa.participantid and u.userid = ?", Models.Class.class);
         
         query.setParameter(1, user.getUserid());
         ArrayList<Models.Class> classList = db.getList(Models.Class.class, query);
@@ -67,7 +67,7 @@ public class MyClasses extends HttpServlet {
             // Get the teacher
           Users teacher =  db.getList(Models.Users.class,  em.createNativeQuery("select u.* from Class c, Classparticipant cpa, Participant p, Users u where c.classid = cpa.classid and cpa.role = ? and p.participantid = cpa.participantid and u.userid = p.userid", Models.Users.class).setParameter(1, "teacher")).get(0);
             
-            output += "<div class='class' id='orange' onclick=\"location.href = '#';\">"
+            output += "<div class='class' id='orange' onclick=\"location.href = 'ClassDetails?class=" + classList.get(i).getClassid() +"';\">"
                     + "<img class='icon' src='https://image.flaticon.com/icons/svg/3034/3034573.svg'>"
                     + "<div class='details'>"
                     + "<div class='top-details'>"
