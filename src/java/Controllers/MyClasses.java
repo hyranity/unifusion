@@ -67,7 +67,7 @@ public class MyClasses extends HttpServlet {
             // Get the teacher
           Users teacher =  db.getList(Models.Users.class,  em.createNativeQuery("select u.* from Class c, Classparticipant cpa, Participant p, Users u where c.classid = cpa.classid and cpa.role = ? and p.participantid = cpa.participantid and u.userid = p.userid", Models.Users.class).setParameter(1, "teacher")).get(0);
             
-            output += "<div class='class' id='orange' onclick=\"location.href = 'ClassDetails?class=" + classList.get(i).getClassid() +"';\">"
+            output += "<div class='class' id='orange' onclick=\"location.href = 'Class?id=" + classList.get(i).getClassid() +"';\">"
                     + "<img class='icon' src='https://image.flaticon.com/icons/svg/3034/3034573.svg'>"
                     + "<div class='details'>"
                     + "<div class='top-details'>"

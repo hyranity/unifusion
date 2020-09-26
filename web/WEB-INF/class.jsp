@@ -17,7 +17,7 @@
     <body>
         <div id='container'>
 
-            <a href='#' id='back'>&lt; Back</a>
+            <a href='MyClasses' id='back'>&lt; Back</a>
 
             <div id='top'>
                 <div id='topOverlay'></div>
@@ -58,6 +58,7 @@
                         </div>
 
                         <a class='more'>Click to view more ></a>
+                        ${editBt}
 
                     </div>
 
@@ -83,124 +84,104 @@
 
                         <div class='content'>
                             <div class='boxes'>
-                                <%
-
-                                           // Get list of tutors and students
-                                           ArrayList<Users> tutorList = (ArrayList) request.getAttribute("tutorList");
-                                           ArrayList<Users> studentList = (ArrayList) request.getAttribute("studentList");
-
-                                           // Merge them
-                                           tutorList.addAll(studentList);
-
-                                           // Get current user
-                                           Users user = Util.Server.getUser(request, response);
-                                           
-                                           for (Users participant : tutorList) {
-                                               // If this participant == logged in user
-                                               String you = user != null ? participant.getUserid() == user.getUserid() ? "id='you'" : "" : "";
-                                               
-                                               out.print("<div class='box' " + you + ">"
-                                                       + "<img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>"
-                                                       + "<a class='name'>Leader</a>"
-                                                       + "</div>");
-                                         
-                                %>
 
                                 <div class='box'>
-                                    <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                                    <a class='name'>Leader</a>
+                                    <img class='icon' src='${creator.getImageurl()}'>
+                                    <a class='name'>${creator.getName()}</a>
                                 </div>
-                                <div class='box' id='you'>
-                                    <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                                    <a class='name'>You</a>
+
+                                ${youBox}
+
                                 </div>
+
+                               ${moreStr}
+
+
                             </div>
-                            <a id='noOfMembers'>and 25 more...</a>
+
+                            <a class='more'>Click to view more ></a>
+
                         </div>
 
-                        <a class='more'>Click to view more ></a>
+                        <!-- END: members -->
 
                     </div>
 
-                    <!-- END: members -->
+                    <!-- END: left column -->
 
-                </div>
+                    <!-- START: right column -->
 
-                <!-- END: left column -->
+                    <div class='column' id='rightColumn'>
+                        <!-- START: announcements -->
 
-                <!-- START: right column -->
+                        <div id='announcements' onclick='location.href = "#"'>
 
-                <div class='column' id='rightColumn'>
-                    <!-- START: announcements -->
+                            <div class='top'>
+                                <a class='heading'>Announcements</a>
 
-                    <div id='announcements' onclick='location.href = "#"'>
+                                <div class='stats'>
+                                    <div class='stat'>
+                                        <a class='value' id='announcementsDay'>3</a>
+                                        <a class='desc'>today</a>
+                                    </div>
 
-                        <div class='top'>
-                            <a class='heading'>Announcements</a>
-
-                            <div class='stats'>
-                                <div class='stat'>
-                                    <a class='value' id='announcementsDay'>3</a>
-                                    <a class='desc'>today</a>
-                                </div>
-
-                                <div class='stat'>
-                                    <a class='value' id='announcementsWeek'>12</a>
-                                    <a class='desc'>this week</a>
+                                    <div class='stat'>
+                                        <a class='value' id='announcementsWeek'>12</a>
+                                        <a class='desc'>this week</a>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class='bottom'>
+
+                                <!-- sample announcement 1 -->
+
+                                <div class='announcement'>
+                                    <a class='time'>15m ago</a>
+                                    <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+                                    <div class='text'>
+                                        <a class='message'><span>Name</span> posted item</a>
+                                        <a class='item'>Item name</a>
+                                    </div>
+                                </div>
+
+                                <!-- sample announcement 2 -->
+
+                                <div class='announcement'>
+                                    <a class='time'>3h ago</a>
+                                    <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+                                    <div class='text'>
+                                        <a class='message'><span>Name</span> commented</a>
+                                        <a class='item'>Comment excerpt</a>
+                                    </div>
+                                </div>
+
+                                <!-- sample announcement 3 -->
+
+                                <div class='announcement'>
+                                    <a class='time'>6h ago</a>
+                                    <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+                                    <div class='text'>
+                                        <a class='message'><span>Name</span> posted item</a>
+                                        <a class='item'>Item name</a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <a class='more'>Click to view more ></a>
+
                         </div>
 
-                        <div class='bottom'>
-
-                            <!-- sample announcement 1 -->
-
-                            <div class='announcement'>
-                                <a class='time'>15m ago</a>
-                                <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                                <div class='text'>
-                                    <a class='message'><span>Name</span> posted item</a>
-                                    <a class='item'>Item name</a>
-                                </div>
-                            </div>
-
-                            <!-- sample announcement 2 -->
-
-                            <div class='announcement'>
-                                <a class='time'>3h ago</a>
-                                <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                                <div class='text'>
-                                    <a class='message'><span>Name</span> commented</a>
-                                    <a class='item'>Comment excerpt</a>
-                                </div>
-                            </div>
-
-                            <!-- sample announcement 3 -->
-
-                            <div class='announcement'>
-                                <a class='time'>6h ago</a>
-                                <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                                <div class='text'>
-                                    <a class='message'><span>Name</span> posted item</a>
-                                    <a class='item'>Item name</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <a class='more'>Click to view more ></a>
+                        <!-- END: announcements -->
 
                     </div>
 
-                    <!-- END: announcements -->
-
                 </div>
+
+                <!-- END: right column -->
 
             </div>
-
-            <!-- END: right column -->
-
-        </div>
 
     </body>
 

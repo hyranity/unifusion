@@ -49,7 +49,7 @@ public class Class extends HttpServlet {
 
         if (classroom == null) {
             // Classroom not found
-
+            System.out.println("CLASS NOT FOUND");
         } else {
             // Classroom is found
 
@@ -59,10 +59,41 @@ public class Class extends HttpServlet {
             // Get list of students
             ArrayList<Users> studentList = db.getList(Users.class, em.createNativeQuery("select u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'student' and u.userid = p.userid and p.participantid = cpa.participantid", Models.Users.class).setParameter(1, classId));
 
+            // Get creator
+            Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and cpa.iscreator = true", Models.Users.class).setParameter(1, classId)).get(0);
+
+            // Get currentUser
+            Users currentUser = Server.getUser(request, response);
+
+            // Displaying Members box
+            String youBox = "", moreStr = "", editBt = "";
+            int moreCount = tutorList.size() + studentList.size();
+
+            // if current user != creator
+            if (currentUser.getUserid().equals(creator.getUserid())) {
+                editBt = "<a class='more' href='ClassDetails?class=" + classId + "'>Click to edit ></a>";
+                moreCount -= 1;
+            } else {
+                youBox = "<div class='box' id='you'>"
+                        + "<img class='icon' src='" + ((Models.Users) request.getAttribute("currentUser")).getImageurl() + "'>"
+                        + "<a class='name'>You</a>"
+                        + "</div>";
+                moreCount -= 2;
+            }
+
+            // Displaying "and xx more..."
+            if (moreCount > 0) {
+                moreStr = "<a id='noOfMembers'>and " + moreCount + " more...</a>";
+            }
+
             // Put data in JSP
             servlet.putInJsp("classroom", classroom);
             servlet.putInJsp("tutorList", tutorList);
             servlet.putInJsp("studentList", studentList);
+            servlet.putInJsp("youBox", youBox);
+            servlet.putInJsp("moreStr", moreStr);
+            servlet.putInJsp("creator", creator);
+            servlet.putInJsp("editBt", editBt);
         }
 
         // Redirect

@@ -54,6 +54,7 @@ public class PerformRegister extends HttpServlet {
         user.setUserid(Quick.generateID(em, utx, Users.class, "USERID"));
         user.setName(request.getParameter("name"));
         user.setEmail(request.getParameter("email"));
+        user.setImageurl("https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg");
         
         Hasher hash = new Hasher(request.getParameter("password"));
         user.setPassword(hash.getHashedPassword());

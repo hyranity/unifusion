@@ -38,7 +38,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Users.findByAddress", query = "SELECT u FROM Users u WHERE u.address = :address")
     , @NamedQuery(name = "Users.findByEmail", query = "SELECT u FROM Users u WHERE u.email = :email")
     , @NamedQuery(name = "Users.findByPassword", query = "SELECT u FROM Users u WHERE u.password = :password")
-    , @NamedQuery(name = "Users.findByPasswordsalt", query = "SELECT u FROM Users u WHERE u.passwordsalt = :passwordsalt")})
+    , @NamedQuery(name = "Users.findByPasswordsalt", query = "SELECT u FROM Users u WHERE u.passwordsalt = :passwordsalt")
+    , @NamedQuery(name = "Users.findByImageurl", query = "SELECT u FROM Users u WHERE u.imageurl = :imageurl")})
 public class Users implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,7 +52,7 @@ public class Users implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 60)
-    @Column(name = "name")
+    @Column(name = "NAME")
     private String name;
     @Column(name = "DATEOFBIRTH")
     @Temporal(TemporalType.DATE)
@@ -73,6 +74,9 @@ public class Users implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "PASSWORDSALT")
     private String passwordsalt;
+    @Size(max = 150)
+    @Column(name = "IMAGEURL")
+    private String imageurl;
     @OneToMany(mappedBy = "userid")
     private Collection<Participant> participantCollection;
 
@@ -144,6 +148,14 @@ public class Users implements Serializable {
 
     public void setPasswordsalt(String passwordsalt) {
         this.passwordsalt = passwordsalt;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 
     @XmlTransient
