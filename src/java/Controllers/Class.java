@@ -66,7 +66,7 @@ public class Class extends HttpServlet {
             Users currentUser = Server.getUser(request, response);
 
             // Displaying Members box
-            String youBox = "", moreStr = "", editBt = "";
+            String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
             int moreCount = tutorList.size() + studentList.size();
 
             // if current user != creator

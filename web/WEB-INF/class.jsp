@@ -57,7 +57,7 @@
 
                         </div>
 
-                        <a class='more'>Click to view more ></a>
+                        
                         ${editBt}
 
                     </div>
