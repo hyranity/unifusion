@@ -21,20 +21,69 @@ a {
   padding-top: 100px;
   padding-bottom: 150px;
 }
-#container #back {
-  font-family: 'Poppins';
+#container #navbar {
   position: absolute;
-  font-size: 25px;
-  color: rgba(250, 226, 184, 0.75);
-  text-decoration: none;
-  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
-  transition: color 0.3s, text-shadow 0.3s;
   left: 100px;
   top: 50px;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: left 0.5s;
 }
-#container #back:hover {
+#container #navbar #back {
+  font-family: 'Poppins';
+  font-size: 20px;
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  margin-right: 20px;
+  transition: all 0.5s;
+}
+#container #navbar #back span {
+  font-size: 0px;
+  transition: all 0.5s;
+}
+#container #navbar #scaffold {
+  font-size: 28px;
   color: #FAE2B8;
-  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.75);
+  opacity: 0.7;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar #scaffold:hover {
+  opacity: 1;
+}
+#container #navbar .link {
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  opacity: 0.5;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar .link:hover {
+  opacity: 1;
+}
+#container #navbar #currentLink {
+  opacity: 0.8;
+}
+#container #navbar #currentLink:hover {
+  opacity: 1;
+}
+#container #navbar:hover {
+  left: 120px;
+}
+#container #navbar:hover #back {
+  opacity: 0.7;
+  color: #DFE0F2;
+}
+#container #navbar:hover #back span {
+  font-size: 20px;
+  color: #DFE0F2;
+}
+#container #navbar:hover #back:hover {
+  opacity: 1;
 }
 #container #top {
   display: flex;

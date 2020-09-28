@@ -15,7 +15,11 @@
     <body>
   <div id='container'>
   
-    <a href='#' id='back'>&lt; Back</a> <!-- future note: to redirect to account.jsp (main profile page), or something similar -->
+    <div id='navbar'>
+        <a href='Home' id='scaffold'>Scaffold</a>
+        <a href='MyClasses' class='link'>Dashboard</a>
+        <a href='AccountDetails' class='link' id='currentLink'>Account</a>
+    </div>
 
     <div id='top'>
       <a id='heading'>Account details</a>

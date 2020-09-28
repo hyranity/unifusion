@@ -10,7 +10,11 @@
     <body>
         <div id='container'>
 
-            <a href='#' id='back'>&lt; Back</a>
+                <div id='navbar'>
+                    <a href='Home' id='scaffold'>Scaffold</a>
+                    <a href='MyClasses' class='link' id='currentLink'>Dashboard</a>
+                    <a href='AccountDetails' class='link'>Account</a>
+                </div>
 
             <div id='top'>
                 <a id='heading'>My classes</a>

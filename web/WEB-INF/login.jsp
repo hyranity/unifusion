@@ -8,7 +8,13 @@
     </head>
 <body>
   <div id='container'>
-    <a href='Home' id='back'>&lt; Back</a>
+      
+    <div id='navbar'>
+        <a href='Home' id='scaffold'>Scaffold</a>
+        <a href='Login' class='link'>Dashboard</a>
+        <a href='Login' class='link'>Account</a>
+    </div>
+    
     <div id='left'>
       <img src='https://i.imgur.com/2UR3HSF.png'>
       <a>Don't have an account?</a>

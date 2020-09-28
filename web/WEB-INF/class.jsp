@@ -17,7 +17,12 @@
     <body>
         <div id='container'>
 
-            <a href='MyClasses' id='back'>&lt; Back</a>
+            <div id='navbar'>
+                <a href='MyClasses' id='back'>&lt; <span>Back</span></a>
+                <a href='Home' id='scaffold'>Scaffold</a>
+                <a href='MyClasses' class='link'>Dashboard</a>
+                <a href='AccountDetails' class='link'>Account</a>
+            </div>
 
             <div id='top'>
                 <div id='topOverlay'></div>
@@ -174,6 +179,60 @@
                         </div>
 
                         <!-- END: announcements -->
+                        
+                        <!-- START: classwork -->
+
+                        <div id='classwork' onclick='location.href="#"'>
+
+                          <div class='top'>
+                            <a class='heading'>Classwork</a>
+
+                            <div class='stats'>
+                              <div class='stat'>
+                                <a class='value' id='classworkWeek'>2</a>
+                                <a class='desc'>due this<br>week</a>
+                              </div>
+
+                              <div class='stat'>
+                                <a class='value' id='classworkTotal'>5</a>
+                                <a class='desc'>due in<br>total</a>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class='bottom'>
+
+                            <!-- sample assignment 1 -->
+
+                            <div class='assignment'>
+                              <a class='due'>1d</a>
+                              <a class='message'>Tutorial 6</a>
+                              <a class='slug'></a>
+                            </div>
+
+                            <!-- sample assignment 2 -->
+
+                            <div class='assignment'>
+                              <a class='due'>5d</a>
+                              <a class='message'>Tutorial 7</a>
+                              <a class='slug'></a>
+                            </div>
+
+                            <!-- sample assignment 3 -->
+
+                            <div class='assignment'>
+                              <a class='due'>16d</a>
+                              <a class='message'>Assignment</a>
+                              <a class='slug'>50% coursework</a>
+                            </div>
+
+                          </div>
+
+                          <a class='more'>Click to view more ></a>
+
+                        </div>
+
+                        <!-- END: classwork -->
 
                     </div>
 
