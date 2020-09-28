@@ -13,6 +13,7 @@
             <a href='Home' id='scaffold'>Scaffold</a>
             <a href='MyClasses' class='link' id='currentLink'>Dashboard</a>
             <a href='AccountDetails' class='link'>Account</a>
+            
         </div>
 
           <div id='top'>
@@ -21,7 +22,7 @@
                 <a id='title'>UniFusion</a>
                 <a id='description'>The ultimate e-learning platform, remastered.</a>
                 <div id='buttons'>
-                  <a id='login-button' href='Login'>Login</a>
+                  ${login}
                   <a id='learn-button' href='#'>Learn more</a>
                 </div>
               </div>

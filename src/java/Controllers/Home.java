@@ -5,6 +5,8 @@
  */
 package Controllers;
 
+import Util.Server;
+import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,6 +34,13 @@ public class Home extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        Servlet servlet = new Servlet(request, response);
+       
+        if(Server.getUser(request, response) == null){
+            // If not logged in
+            servlet.putInJsp("login", "<a id='login-button' href='Login'>Login</a>");
+           
+        }
         request.getRequestDispatcher("WEB-INF/home.jsp").forward(request, response);
     }
 
