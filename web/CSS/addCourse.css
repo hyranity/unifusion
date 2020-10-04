@@ -331,16 +331,28 @@ a {
 #container #form .section .text .checkboxLabel:hover {
   opacity: 1;
 }
-#container #form .section .text #hasCourse:checked + #hasCourseLabel {
+#container #form .section .text #hasProgramme:checked + #hasProgrammeLabel {
   background-color: #FAE2B8;
 }
-#container #form .section .text #hasCourse:checked + #hasCourseLabel > .slider {
+#container #form .section .text #hasProgramme:checked + #hasProgrammeLabel > .slider {
   margin-left: 45px;
 }
-#container #form .section .text #hasCourse:not(:checked) ~ #courseCodeLabel {
+#container #form .section .text #hasProgramme:not(:checked) ~ #programmeCodeLabel {
   opacity: 0;
 }
-#container #form .section .text #hasCourse:not(:checked) ~ #courseCodeTextbox {
+#container #form .section .text #hasProgramme:not(:checked) ~ #programmeCodeTextbox {
+  opacity: 0;
+}
+#container #form .section .text #hasSemester:checked + #hasSemesterLabel {
+  background-color: #FAE2B8;
+}
+#container #form .section .text #hasSemester:checked + #hasSemesterLabel > .slider {
+  margin-left: 45px;
+}
+#container #form .section .text #hasSemester:not(:checked) ~ #semesterCodeLabel {
+  opacity: 0;
+}
+#container #form .section .text #hasSemester:not(:checked) ~ #semesterCodeTextbox {
   opacity: 0;
 }
 #container #form .section #left {

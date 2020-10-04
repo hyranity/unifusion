@@ -9,7 +9,12 @@
     <body>
       <div id='container'>
 
-        <a href='#' id='back'>&lt; Back</a>
+        <div id='navbar'>
+                <a href='MyClasses' id='back'>&lt; <span>Back</span></a>
+                <a href='Home' id='scaffold'>Scaffold</a>
+                <a href='MyClasses' class='link'>Dashboard</a>
+                <a href='AccountDetails' class='link'>Account</a>
+            </div>
 
         <div id='top'>
           <div class='image'>
@@ -48,7 +53,7 @@
               </label>
               <a class='label' id='courseCodeLabel'>Course code</a>
               <input id='courseCodeTextbox' class='textbox' type='text' name='courseCode' placeholder='eg. LOL1337' disabled>
-              <input type='hidden' id='courseCodeEnabled' name='courseCodeEnabled' value='true'>
+              <input type='hidden' id='courseCodeEnabled' name='courseCodeEnabled' value='false'>
             </div>
             <div class='image' id='right'>
               <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>

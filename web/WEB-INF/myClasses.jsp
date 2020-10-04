@@ -17,10 +17,9 @@
                 </div>
 
             <div id='top'>
-                <a id='heading'>My classes</a>
+                <a id='heading'>Dashboard</a>
                 <div id='actions'>
-                    <a href='#'>Join a class</a>
-                    <a href='AddClass'>Create a class</a>
+                    <a href='dashboardMenu.jsp'>Open menu</a> <!-- to change to href='DashboardMenu' -->
                 </div>
             </div>
 
