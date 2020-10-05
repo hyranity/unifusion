@@ -64,7 +64,7 @@ public class DB {
 
     public <T> T getSingleResult(String keyName, String value, java.lang.Class<T> classType) {
 
-        TypedQuery<T> query = null;
+        Query query = null;
         try {
             query = em.createQuery("select s from " + classType.getName() + " s where s." + keyName + " = :id", classType).setParameter("id", value);
 
