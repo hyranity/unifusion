@@ -72,7 +72,11 @@ public class Participant implements Serializable {
     @OneToMany(mappedBy = "participantid")
     private Collection<Courseparticipant> courseparticipantCollection;
     @OneToMany(mappedBy = "participantid")
+    private Collection<Institutionparticipant> institutionparticipantCollection;
+    @OneToMany(mappedBy = "participantid")
     private Collection<Classparticipant> classparticipantCollection;
+    @OneToMany(mappedBy = "participantid")
+    private Collection<Programmeparticipant> programmeparticipantCollection;
 
     public Participant() {
     }
@@ -156,12 +160,30 @@ public class Participant implements Serializable {
     }
 
     @XmlTransient
+    public Collection<Institutionparticipant> getInstitutionparticipantCollection() {
+        return institutionparticipantCollection;
+    }
+
+    public void setInstitutionparticipantCollection(Collection<Institutionparticipant> institutionparticipantCollection) {
+        this.institutionparticipantCollection = institutionparticipantCollection;
+    }
+
+    @XmlTransient
     public Collection<Classparticipant> getClassparticipantCollection() {
         return classparticipantCollection;
     }
 
     public void setClassparticipantCollection(Collection<Classparticipant> classparticipantCollection) {
         this.classparticipantCollection = classparticipantCollection;
+    }
+
+    @XmlTransient
+    public Collection<Programmeparticipant> getProgrammeparticipantCollection() {
+        return programmeparticipantCollection;
+    }
+
+    public void setProgrammeparticipantCollection(Collection<Programmeparticipant> programmeparticipantCollection) {
+        this.programmeparticipantCollection = programmeparticipantCollection;
     }
 
     @Override

@@ -14,9 +14,11 @@ import Models.*;
 import Util.Quick;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -79,14 +81,9 @@ public class PerformAddClass extends HttpServlet {
             return;
         }
 
-        db.insert(classroom);
-
-        // Add user as participant as classroom creator
-        // Models.Participant participant = new Models.Participant();
         // If classroom is part of a course, and this course is part of a programme from an institution
         if (hasCourse) {
 
-            // If course exists
             // Check if course exists
             if (db.getSingleResult("coursecode", servlet.getQueryStr("courseCode"), Models.Course.class) == null) {
                 // Course does not exist
@@ -95,9 +92,44 @@ public class PerformAddClass extends HttpServlet {
                 return;
             }
 
-            // Check if educator  is an existing participant (only applicable for courses, programmes, and institutions with multiple educators)
-            // Note: Participant is usually created when user joins a course/programme/institution.
+            // Note: Participant is usually created when user joins a class/course/programme/institution OR creates a class/course/programme/institution for the FIRST time.
             // Check if educator is participating in the same course AND authorized; if so, use that same participant
+            // Get the course in which this person is a teacher
+            Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p, users u where c.COURSECODE = ? and cpa.COURSECODE = c.COURSECODE and cpa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and cpa.\"ROLE\" = 'teacher'", Models.Course.class);
+            query.setParameter(1, servlet.getQueryStr("courseCode"));
+            query.setParameter(2, user.getUserid());
+
+            // Execute the query
+            List<Models.Course> results = db.getList(Models.Course.class, query);
+
+            // If no results
+            if (results.size() == 0) {
+                System.out.println("Course does not exist");
+            } // If course exists
+            else {
+                // Put this class into that course
+                classroom.setCoursecode(results.get(0));
+
+                // Get the existing participant by:
+                // Getting the participant of the course in which this person is a teacher
+                Query participantQuery = em.createNativeQuery("select p.* from course c, courseparticipant cpa, participant p, users u where c.COURSECODE = ? and cpa.COURSECODE = c.COURSECODE and cpa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and cpa.\"ROLE\" = 'teacher'", Models.Participant.class);
+                participantQuery.setParameter(1, servlet.getQueryStr("courseCode"));
+                participantQuery.setParameter(2, user.getUserid());
+
+                // Execute the query
+                List<Models.Participant> participantResults = db.getList(Models.Participant.class, participantQuery);
+
+                // If no results (highly unlikely to happen after the previous filter)
+                if (participantResults.size() == 0) {
+                    System.out.println("Participant not in the course!");
+                } // If participant is found 
+                else {
+                    // Use the existing participant
+                    participant = participantResults.get(0);
+                }
+
+            }
+
             // Only check for that since a class without a course cannot be related to programme/institution
             // Else, deny access
             //db.getSingleResult("participantID", value, classType)
@@ -113,6 +145,9 @@ public class PerformAddClass extends HttpServlet {
             db.insert(participant);
 
         }
+
+        // Insert class
+        db.insert(classroom);
 
         // Class participant
         classPart.setParticipantid(participant);

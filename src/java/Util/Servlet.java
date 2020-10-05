@@ -53,4 +53,13 @@ public class Servlet {
     public String getQueryStr(String param){
        return request.getParameter(param);
     }
+    
+    // Block guests
+    public boolean  blockGuests(){
+        if(this.getSession("user")==null){
+            this.toServlet("Home");
+            return true;
+        }
+        return false;
+    }
 }
