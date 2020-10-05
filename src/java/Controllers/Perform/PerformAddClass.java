@@ -49,18 +49,22 @@ public class PerformAddClass extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Utility objects
         Servlet servlet = new Servlet(request, response);
         Users user = Server.getUser(request, response);
         DB db = new DB(em, utx);
 
-         // Get form data
+        // Objects to be utilized
+        Participant participant = new Participant();
+        Classparticipant classPart = new Classparticipant();
+        Models.Class classroom = new Models.Class();
+
+        // Get form data
         boolean hasCourse = servlet.getQueryStr("hasCourse") != null;
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
-        
-         // Create classroom
-        Models.Class classroom = new Models.Class();
+
+        // Create classroom
         classroom.setClasstitle(servlet.getQueryStr("className"));
         classroom.setClassid(servlet.getQueryStr("classCode"));
         classroom.setIspublic(true);
@@ -80,7 +84,7 @@ public class PerformAddClass extends HttpServlet {
         // Add user as participant as classroom creator
         // Models.Participant participant = new Models.Participant();
         // If classroom is part of a course, and this course is part of a programme from an institution
-        if (hasCourse) {  
+        if (hasCourse) {
 
             // If course exists
             // Check if course exists
@@ -101,7 +105,6 @@ public class PerformAddClass extends HttpServlet {
             // This educator will only teach this class, create a new participant AND class participant
 
             // Participant
-            Participant participant = new Participant();
             participant.setDateadded(Calendar.getInstance().getTime());
             participant.setEducatorrole("classTeacher");
             participant.setStatus("active");
@@ -109,17 +112,16 @@ public class PerformAddClass extends HttpServlet {
             participant.setUserid(user);
             db.insert(participant);
 
-            // Class participant
-            Classparticipant classPart = new Classparticipant();
-            classPart.setParticipantid(participant);
-            classPart.setIscreator(true);
-            classPart.setRole("teacher");
-            classPart.setStatus("active");
-            classPart.setClassid(classroom);
-            classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
-            db.insert(classPart);
-
         }
+
+        // Class participant
+        classPart.setParticipantid(participant);
+        classPart.setIscreator(true);
+        classPart.setRole("teacher");
+        classPart.setStatus("active");
+        classPart.setClassid(classroom);
+        classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
+        db.insert(classPart);
 
         // Successful
         servlet.toServlet("MyClasses");

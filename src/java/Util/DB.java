@@ -43,6 +43,7 @@ public class DB {
 
         }  catch(ConstraintViolationException ex){
             System.out.println(ex.getConstraintViolations());
+            System.out.println(ex.getMessage());
         }catch (IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | javax.transaction.RollbackException | SystemException ex) {
             Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -76,7 +77,7 @@ public class DB {
         try{
             item = classType.cast(query.getSingleResult());
         }catch(Exception ex){
-            
+            ex.printStackTrace();
         }
 
         return item;

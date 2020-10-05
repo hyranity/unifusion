@@ -79,7 +79,7 @@
                 <div class='section'>
                     <div class='text' id='left'>
                         <a class='label'>Description</a>
-                        <input class='textbox' type='text' name='desc' placeholder='eg. This is a CS class.' required>
+                        <input class='textbox' type='text' name='description' placeholder='eg. This is a CS class.' required>
                     </div>
                     <div class='image' id='right'>
                         <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>

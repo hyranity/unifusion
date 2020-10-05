@@ -9,6 +9,7 @@ import Util.*;
 import Models.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,49 +27,105 @@ import javax.transaction.UserTransaction;
 @WebServlet(name = "PerformAddCourse", urlPatterns = {"/PerformAddCourse"})
 public class PerformAddCourse extends HttpServlet {
 
-   @PersistenceContext
+    @PersistenceContext
     EntityManager em;
 
     @Resource
     private UserTransaction utx;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Utility objects
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
-        
+
+        // Objects to be utilized
+        Users user = Server.getUser(request, response);
+        Course course = new Course();
+        Programme programme = new Programme();
+        Semester semester = new Semester();
+        Courseparticipant cpa = new Courseparticipant();
+        Participant participant = new Participant();
+
         // Obtain field data
         String courseCode = servlet.getQueryStr("courseCode");
-        String courseName  = servlet.getQueryStr("courseName");
-        String programmeCode  = servlet.getQueryStr("programmeCode");
-        String semesterCode  = servlet.getQueryStr("semesterCode");
-        String description  = servlet.getQueryStr("description");
+        String courseName = servlet.getQueryStr("courseName");
+        String programmeCode = servlet.getQueryStr("programmeCode");
+        String semesterCode = servlet.getQueryStr("semesterCode");
+        String description = servlet.getQueryStr("description");
         boolean hasProgramme = servlet.getQueryStr("hasProgramme") != null;
         boolean hasSemester = servlet.getQueryStr("hasSemester") != null;
-        
+
+        // Validations go here
         // Set course object
-        Course course = new Course();
         course.setCoursecode(courseCode);
         course.setDescription(description);
         course.setTitle(courseName);
-        
+
         // If a programme is specified
-        if(hasProgramme){ 
-            // Load programme
+        if (hasProgramme) {
+            // Load programme from DB
+
             // Check whether user participates in the programme 
             // Check permission level
+            // if valid
+            if (true) {
+                // Set course into the programme
+                //  course.setProgrammecode(programme);
+
+                // Get the existing user from programme
+                // If a semester is specified
+                if (hasSemester) {
+                    // Load semester from DB
+
+                    // Check whether user participates in the programme 
+                    // Check permission level
+                    // If valid,
+                    if (true) {
+
+                        // Set semester into the course
+                        //course.setSemestercode(semester);
+                    } // If invalid semester, show error message
+                    else {
+
+                    }
+                }
+            } // If invalid programme, show error message
+            else {
+
+            }
+
+        } // If no programme is specified
+        else {
+
+            // Create a new participant since it's not related to any programme/institution
+            participant.setDateadded(Calendar.getInstance().getTime());
+            participant.setEducatorrole("courseLeader");
+            participant.setStatus("active");
+            participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "Participantid"));
+            participant.setUserid(user);
+            db.insert(participant);
+
         }
-        
-        // If a semester is specified
-        // Must be under a programme to work
-        if(hasSemester){
-            // Load semester
-             // Check whether user participates in the programme 
-            // Check permission level
-        }
+
+        // Create a course participant to link this creator to this course
+        cpa.setParticipantid(participant);
+        cpa.setIscreator(true);
+        cpa.setRole("teacher");
+        cpa.setStatus("active");
+        cpa.setCoursecode(course);
+        cpa.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Courseparticipantid"));
+
+        // insert into database 
+        db.insert(course);
+        db.insert(cpa);
+
+        System.out.println("Successfully added a course!");
+
+        servlet.toServlet("AddCourse");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

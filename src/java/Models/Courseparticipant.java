@@ -31,7 +31,10 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Courseparticipant.findAll", query = "SELECT c FROM Courseparticipant c")
     , @NamedQuery(name = "Courseparticipant.findByCourseparticipantid", query = "SELECT c FROM Courseparticipant c WHERE c.courseparticipantid = :courseparticipantid")
     , @NamedQuery(name = "Courseparticipant.findByCgpa", query = "SELECT c FROM Courseparticipant c WHERE c.cgpa = :cgpa")
-    , @NamedQuery(name = "Courseparticipant.findByIscreator", query = "SELECT c FROM Courseparticipant c WHERE c.iscreator = :iscreator")})
+    , @NamedQuery(name = "Courseparticipant.findByIscreator", query = "SELECT c FROM Courseparticipant c WHERE c.iscreator = :iscreator")
+    , @NamedQuery(name = "Courseparticipant.findByRole", query = "SELECT c FROM Courseparticipant c WHERE c.role = :role")
+    , @NamedQuery(name = "Courseparticipant.findByStatus", query = "SELECT c FROM Courseparticipant c WHERE c.status = :status")
+    , @NamedQuery(name = "Courseparticipant.findByGrade", query = "SELECT c FROM Courseparticipant c WHERE c.grade = :grade")})
 public class Courseparticipant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,6 +51,19 @@ public class Courseparticipant implements Serializable {
     @NotNull
     @Column(name = "ISCREATOR")
     private Boolean iscreator;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 50)
+    @Column(name = "ROLE")
+    private String role;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "STATUS")
+    private String status;
+    @Size(max = 2)
+    @Column(name = "GRADE")
+    private String grade;
     @JoinColumn(name = "COURSECODE", referencedColumnName = "COURSECODE")
     @ManyToOne
     private Course coursecode;
@@ -62,9 +78,11 @@ public class Courseparticipant implements Serializable {
         this.courseparticipantid = courseparticipantid;
     }
 
-    public Courseparticipant(String courseparticipantid, Boolean iscreator) {
+    public Courseparticipant(String courseparticipantid, Boolean iscreator, String role, String status) {
         this.courseparticipantid = courseparticipantid;
         this.iscreator = iscreator;
+        this.role = role;
+        this.status = status;
     }
 
     public String getCourseparticipantid() {
@@ -89,6 +107,30 @@ public class Courseparticipant implements Serializable {
 
     public void setIscreator(Boolean iscreator) {
         this.iscreator = iscreator;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
     public Course getCoursecode() {
