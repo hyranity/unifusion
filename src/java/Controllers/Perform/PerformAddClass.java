@@ -49,23 +49,29 @@ public class PerformAddClass extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        Servlet serve = new Servlet(request, response);
+        
+        // Utility objects
+        Servlet servlet = new Servlet(request, response);
         Users user = Server.getUser(request, response);
         DB db = new DB(em, utx);
 
-        // Create classroom
+         // Get form data
+        boolean hasCourse = servlet.getQueryStr("hasCourse") != null;
+        boolean isPublic = servlet.getQueryStr("isPublic") != null;
+        
+         // Create classroom
         Models.Class classroom = new Models.Class();
-        classroom.setClasstitle(serve.getQueryStr("className"));
-        classroom.setClassid(serve.getQueryStr("classCode"));
+        classroom.setClasstitle(servlet.getQueryStr("className"));
+        classroom.setClassid(servlet.getQueryStr("classCode"));
         classroom.setIspublic(true);
-        classroom.setDescription(serve.getQueryStr("description"));
-        classroom.setClasstype(serve.getQueryStr("classType"));
+        classroom.setDescription(servlet.getQueryStr("description"));
+        classroom.setClasstype(servlet.getQueryStr("classType"));
 
         // Check duplicate ID
         if (db.getSingleResult("classid", classroom.getClassid(), Models.Class.class) != null) {
             // There is a duplicate ID
             System.out.println("Duplicate class code!");
-            serve.toServlet("AddClass");
+            servlet.toServlet("AddClass");
             return;
         }
 
@@ -74,22 +80,21 @@ public class PerformAddClass extends HttpServlet {
         // Add user as participant as classroom creator
         // Models.Participant participant = new Models.Participant();
         // If classroom is part of a course, and this course is part of a programme from an institution
-        if (serve.getQueryStr("courseCode") != null && serve.getQueryStr("courseCodeEnabled") == "true") {  
+        if (hasCourse) {  
 
             // If course exists
             // Check if course exists
-            if (db.getSingleResult("coursecode", serve.getQueryStr("courseCode"), Models.Course.class) == null) {
+            if (db.getSingleResult("coursecode", servlet.getQueryStr("courseCode"), Models.Course.class) == null) {
                 // Course does not exist
                 System.out.println("Course does not exist");
-                serve.toServlet("AddClass");
+                servlet.toServlet("AddClass");
                 return;
             }
 
             // Check if educator  is an existing participant (only applicable for courses, programmes, and institutions with multiple educators)
             // Note: Participant is usually created when user joins a course/programme/institution.
             // Check if educator is participating in the same course AND authorized; if so, use that same participant
-            // Check if educator is participating in the same programme AND authorized; if so, use that same participant
-            // Check if educator is participating in the same institution AND authorized; if so, use that same participant
+            // Only check for that since a class without a course cannot be related to programme/institution
             // Else, deny access
             //db.getSingleResult("participantID", value, classType)
         } else {
@@ -117,7 +122,7 @@ public class PerformAddClass extends HttpServlet {
         }
 
         // Successful
-        serve.toServlet("MyClasses");
+        servlet.toServlet("MyClasses");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
