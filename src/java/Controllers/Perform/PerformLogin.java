@@ -72,7 +72,7 @@ public class PerformLogin extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("user", user); 
         System.out.println("LOGIN SUCCESS");
-        response.sendRedirect("AccountDetails");
+        response.sendRedirect("Dashboard");
         
     }
 

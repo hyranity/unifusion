@@ -17,7 +17,7 @@
   
     <div id='navbar'>
         <a href='Home' id='scaffold'>Scaffold</a>
-        <a href='MyClasses' class='link'>Dashboard</a>
+        <a href='Dashboard' class='link'>Dashboard</a>
         <a href='AccountDetails' class='link' id='currentLink'>Account</a>
         <a href='Logout' class='link'>Logout</a>
     </div>

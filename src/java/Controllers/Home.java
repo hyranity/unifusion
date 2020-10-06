@@ -40,6 +40,11 @@ public class Home extends HttpServlet {
             // If not logged in
             servlet.putInJsp("login", "<a id='login-button' href='Login'>Login</a>");
            
+        } else{
+            // Login, redirect to dashboard
+            
+            servlet.toServlet("Dashboard");
+            return;
         }
         request.getRequestDispatcher("WEB-INF/home.jsp").forward(request, response);
     }

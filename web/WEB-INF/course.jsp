@@ -30,7 +30,7 @@
               <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
               <div id='text'>
                 <a id='subheading'>Course</a>
-                <a id='heading'>Course name</a>
+                <a id='heading'>${course.getTitle()}</a>
               </div>
             </div>
           </div>
@@ -52,12 +52,12 @@
                   <div class='box'>
                     <a class='label'>Name</a>
                     <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                    <a class='text' id='courseName'>Course Name</a>
+                    <a class='text' id='courseName'>${course.getTitle()}</a>
                   </div>
 
                   <div class='box' id='desc'>
                     <a class='label'>Description</a>
-                    <a class='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit...</a>
+                    <a class='text'>${course.getDescription()}</a>
                   </div>
 
                 </div>
@@ -76,29 +76,32 @@
 
                 <div class='stats'>
                   <div class='stat'>
-                    <a class='value' id='membersTutors'>3</a>
+                    <a class='value' id='membersTutors'>${tutorList.size()}</a>
                     <a class='desc'>tutors</a>
                   </div>
 
                   <div class='stat'>
-                    <a class='value' id='membersStudents'>24</a>
+                    <a class='value' id='membersStudents'>${studentList.size()}</a>
                     <a class='desc'>students</a>
                   </div>
                 </div>
 
                 <div class='content'>
-                  <div class='boxes'>
-                    <div class='box'>
-                      <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                      <a class='name'>Leader</a>
-                    </div>
-                    <div class='box' id='you'>
-                      <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                      <a class='name'>You</a>
-                    </div>
-                  </div>
-                  <a id='noOfMembers'>and 25 more...</a>
-                </div>
+                            <div class='boxes'>
+
+                                <div class='box'>
+                                    <img class='icon' src='${creator.getImageurl()}'>
+                                    <a class='name'>${creator.getName()}</a>
+                                </div>
+
+                                ${youBox}
+
+                                </div>
+
+                               ${moreStr}
+
+
+                            </div>
 
                 <a class='more'>Click to view more ></a>
 
