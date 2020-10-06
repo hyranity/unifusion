@@ -8,7 +8,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Clsss Details</title>
+        <title>UniFusion :: Class Details</title>
         <link rel="stylesheet" href="CSS/classDetails.css">
     </head>
     <body>
@@ -25,6 +25,8 @@
                 <a id='heading'>Class details</a>
                 <a id='subheading'>Group name</a>
             </div>
+            
+            <a id='error'>Error message</a>
 
             <form action="PerformEditClass">
 
@@ -67,6 +69,7 @@
                             </label>
                             <a class='label' id='courseCodeLabel'>Course code</a>
                             <input id='courseCodeTextbox' class='textbox' type='text' name='courseCode' placeholder='eg. LOL1337' value="${class.getCoursecode()}">
+                            <input type='hidden' id='courseCodeEnabled' name='courseCodeEnabled' value='false'>
                         </div>
 
                     </div>

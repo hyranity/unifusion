@@ -113,6 +113,16 @@ a {
   opacity: 1;
   font-size: 25px;
 }
+#container #error {
+    font-size: 18px;
+    color: #e66a6a;
+    margin-top: 20px;
+    opacity: 0.8;
+    transition: all 0.5s;
+}
+#container #error:hover {
+    opacity: 1;
+}
 #container .section {
   display: flex;
   flex-direction: column;

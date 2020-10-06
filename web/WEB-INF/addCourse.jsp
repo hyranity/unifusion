@@ -29,6 +29,8 @@
                     </div>
                 </div>
             </div>
+            
+            <a id='error'>Error message</a>
 
             <form id='form' action="PerformAddCourse">
 
@@ -54,35 +56,28 @@
                         <a class='label' id='programmeCodeLabel'>Programme code</a>
                         <input id='programmeCodeTextbox' class='textbox' type='text' name='programmeCode' placeholder='eg. LOL1337' disabled>
                         <input type='hidden' id='programmeCodeEnabled' name='programmeCodeEnabled' value='false'>
+                        <a class='label' id='semesterCodeLabel'>Semester code (optional)</a>
+                        <input id='semesterCodeTextbox' class='textbox' type='text' name='semesterCode' placeholder='eg. LOL1337' disabled>
+                        <input type='hidden' id='semesterCodeEnabled' name='semesterCodeEnabled' value='false'>
                     </div>
                     <div class='image' id='right'>
                         <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
                     </div>
                 </div>
-
+                
                 <div class='section'>
                     <div class='image' id='left'>
                         <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
                     </div>
                     <div class='text' id='right'>
-                        <a class='label' id='name'>Is this course part of a semester?</a>
-                        <input type='checkbox' class='checkbox' id='hasSemester' name='hasSemester' onclick='hasSemesterClicked()'>
-                        <label class='checkboxLabel' for='hasSemester' id='hasSemesterLabel'>
-                            <div class='slider'></div>
-                        </label>
-                        <a class='label' id='semesterCodeLabel'>Semester code</a>
-                        <input id='semesterCodeTextbox' class='textbox' type='text' name='semesterCode' placeholder='eg. LOL1337' disabled>
-                        <input type='hidden' id='semesterCodeEnabled' name='semesterCodeEnabled' value='false'>
-                    </div>
-                </div>
-
-                <div class='section'>
-                    <div class='text' id='left'>
                         <a class='label'>Description</a>
                         <input class='textbox' type='text' name='description' placeholder='eg. This is a CS class.' required>
-                    </div>
-                    <div class='image' id='right'>
-                        <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+                        
+                        <a class='label' id='name'>Is this course public?</a>
+                        <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
+                        <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
+                          <div class='slider'></div>
+                        </label>
                     </div>
                 </div>
 
@@ -99,23 +94,13 @@
             var courseCodeTextbox = document.getElementById("programmeCodeTextbox");
 
             document.getElementById("programmeCodeEnabled").value = hasProgramme.checked;
+            document.getElementById("semesterCodeEnabled").value = hasProgramme.checked;
 
             if (hasProgramme.checked) {
                 programmeCodeTextbox.disabled = false;
-            } else {
-                programmeCodeTextbox.disabled = true;
-            }
-        }
-
-        function hasSemesterClicked() {
-            var hasSemester = document.getElementById("hasSemester");
-            var semesterCodeTextbox = document.getElementById("semesterCodeTextbox");
-
-            document.getElementById("semesterCodeEnabled").value = hasSemester.checked;
-
-            if (hasSemester.checked) {
                 semesterCodeTextbox.disabled = false;
             } else {
+                programmeCodeTextbox.disabled = true;
                 semesterCodeTextbox.disabled = true;
             }
         }

@@ -5,21 +5,21 @@ html, body {
   margin: 0px;
   padding: 0px;
   width: 100%;
-  height: 100%;
 }
 a {
-  font-family: Poppins;
+  font-family: 'Poppins';
   font-weight: 600;
 }
 #container {
   width: 100%;
-  padding-top: 150px;
-  padding-bottom: 100px;
+  height: 100%;
   background-color: #424694;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  padding-top: 100px;
+  padding-bottom: 150px;
 }
 #container #navbar {
   position: absolute;
@@ -87,184 +87,130 @@ a {
 }
 #container #top {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100%;
+  justify-content: flex-start;
   opacity: 0.8;
   transition: opacity 0.3s;
 }
-#container #top .image {
-  width: 45%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  justify-content: center;
-  margin-right: 5px;
-  transition: margin-right 0.3s;
+#container #top #heading {
+  font-size: 80px;
+  color: #DFE0F2;
+  font-family: 'Poppins';
 }
-#container #top .image img {
-  height: 250px;
-}
-#container #top .text {
-  width: 55%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin-left: 5px;
-  transition: margin-left 0.3s;
-}
-#container #top .text #title {
-  font-size: 70px;
-  font-weight: 600;
+#container #top #subheading {
+  font-size: 20px;
   color: #FAE2B8;
-}
-#container #top .text #desc {
-  color: #DFE0F2;
-  margin-top: -10px;
-  font-size: 20px;
-  font-weight: 400;
-}
-#container #top .text #buttons {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  margin-top: 20px;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-#container #top .text #buttons #proceed-button {
-  text-decoration: none;
-  margin-right: 20px;
-  color: #DFE0F2;
-  font-size: 20px;
-  background-color: rgba(250, 226, 184, 0.5);
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 3px;
-  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-#container #top .text #buttons #proceed-button:hover {
-  background-color: rgba(250, 226, 184, 0.75);
-  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
-}
-#container #top .text #buttons #learn-button {
-  text-decoration: none;
-  color: #DFE0F2;
-  font-size: 20px;
-  background-color: rgba(39, 41, 100, 0.5);
-  padding-left: 15px;
-  padding-right: 15px;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 3px;
-  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-#container #top .text #buttons #learn-button:hover {
-  background-color: rgba(39, 41, 100, 0.75);
-  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  margin-top: -20px;
+  font-weight: 500;
+  opacity: 0.5;
+  transition: opacity 0.3s, font-size 0.3s;
 }
 #container #top:hover {
   opacity: 1;
 }
-#container #top:hover .text #buttons {
+#container #top:hover #subheading {
   opacity: 1;
+  font-size: 25px;
 }
 #container #error {
     font-size: 18px;
     color: #e66a6a;
-    margin-top: 40px;
+    margin-top: 20px;
     opacity: 0.8;
     transition: all 0.5s;
 }
 #container #error:hover {
     opacity: 1;
 }
-#container #form {
+#container .section {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 75px;
-  margin-bottom: 50px;
   opacity: 0.3;
-  transition: opacity 0.3s;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  transition: opacity 0.5s, padding-top 0.5s, padding-bottom 0.5s;
 }
-#container #form .section {
+#container .section .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+#container .section .header img {
+  height: 225px;
+  transition: height 0.3s;
+}
+#container .section .textboxes {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  opacity: 0.8;
-  transition: opacity 0.3s;
+  margin-top: -25px;
 }
-#container #form .section .image {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-right: 15px;
-  transition: margin-left 0.3s, margin-right 0.3s;
-}
-#container #form .section .image img {
-  height: 300px;
-}
-#container #form .section .text {
+#container .section .textboxes #left {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  margin-left: 15px;
-  transition: margin-left 0.3s, margin-right 0.3s;
+  justify-content: flex-start;
+  margin-right: 25px;
+  height: 100%;
 }
-#container #form .section .text .textbox {
+#container .section .textboxes #right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: 25px;
+  height: 100%;
+}
+#container .section .textboxes div .textbox {
   font-family: 'Poppins';
   opacity: 0.8;
   padding-left: 20px;
-  padding-right: 20px;
   font-size: 25px;
-  font-weight: 600;
   color: #FAE2B8;
-  width: 400px;
+  width: 450px;
   height: 65px;
   margin-top: 5px;
-  margin-bottom: 25px;
   background-color: rgba(39, 41, 100, 0.5);
   border: none;
   box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
   border-radius: 5px;
-  text-align: left;
+  font-weight: 600;
   transition: opacity 0.3s;
 }
-#container #form .section .text .textbox::placeholder {
+#container .section .textboxes div .textbox::placeholder {
   color: rgba(223, 224, 242, 0.5);
-  transition: color 0.3s;
+  font-weight: 600;
+  font-size: 20px;
+  opacity: 0.5;
+  transition: color 0.3s, opacity 0.3s;
 }
-#container #form .section .text .textbox:hover {
+#container .section .textboxes div .textbox:hover {
   opacity: 1;
 }
-#container #form .section .text .textbox:focus {
+#container .section .textboxes div .textbox:hover::placeholder {
+  opacity: 0.7;
+}
+#container .section .textboxes div .textbox:focus {
   outline: none;
   opacity: 1;
 }
-#container #form .section .text .textbox:focus::placeholder {
+#container .section .textboxes div .textbox:focus::placeholder {
   color: rgba(250, 226, 184, 0.5);
 }
-#container #form .section .text .label {
+#container .section .textboxes div .label {
   font-family: 'Poppins';
   color: #DFE0F2;
   margin-left: 10px;
+  margin-top: 15px;
   opacity: 0.5;
   font-weight: 500;
-  transition: opacity 0.3s;
 }
-#container #form .section .text .dropdown {
+#container .section .textboxes div .dropdown {
   font-family: 'Poppins';
   appearance: none;
   opacity: 0.8;
@@ -284,14 +230,14 @@ a {
   text-align: left;
   transition: all 0.3s;
 }
-#container #form .section .text .dropdown:hover {
+#container .section .textboxes div .dropdown:hover {
   opacity: 1;
 }
-#container #form .section .text .dropdown:focus {
+#container .section .textboxes div .dropdown:focus {
   outline: none;
   opacity: 1;
 }
-#container #form .section .text .dropdown option {
+#container .section .textboxes div .dropdown option {
   opacity: 0.5;
   font-size: 20px;
   padding-top: 2px;
@@ -300,7 +246,7 @@ a {
   font-weight: 500;
   background-color: rgba(39, 41, 100, 0.75);
 }
-#container #form .section .text .dropdownLabel {
+#container .section .textboxes div .dropdownLabel {
   font-family: 'Poppins';
   color: #FAE2B8;
   margin-left: 10px;
@@ -309,15 +255,14 @@ a {
   font-weight: 500;
   transition: opacity 0.3s;
 }
-#container #form .section .text .dropdown:hover + .dropdownLabel {
+#container .section .textboxes div .dropdown:hover + .dropdownLabel {
   opacity: 0.5;
 }
-#container #form .section .text .checkbox {
+#container .section .textboxes div .checkbox {
   display: none;
 }
-#container #form .section .text .checkboxLabel {
+#container .section .textboxes div .checkboxLabel {
   margin-top: 5px;
-  margin-bottom: 25px;
   background-color: rgba(39, 41, 100, 0.5);
   width: 80px;
   height: 40px;
@@ -330,7 +275,7 @@ a {
   justify-content: flex-start;
   transition: opacity 0.3s, background-color 0.3s;
 }
-#container #form .section .text .checkboxLabel .slider {
+#container .section .textboxes div .checkboxLabel .slider {
   width: 30px;
   height: 30px;
   margin-left: 5px;
@@ -338,50 +283,43 @@ a {
   background-color: white;
   transition: margin-left 0.3s;
 }
-#container #form .section .text .checkboxLabel:hover {
+#container .section .textboxes div .checkboxLabel:hover {
   opacity: 1;
 }
-#container #form .section .text #hasCourse:checked + #hasCourseLabel {
+#container .section .textboxes div #programmeCodeLabel, #container .section .textboxes div #semesterCodeLabel {
+  transition: font-size 0.3s, margin-top 0.3s;
+}
+#container .section .textboxes div #programmeCodeTextbox, #container .section .textboxes div #semesterCodeTextbox {
+  transition: height 0.3s;
+  /* global checkbox checked config */
+}
+#container .section .textboxes div .checkbox:checked + .checkboxLabel {
   background-color: #FAE2B8;
+  font-size: 15px;
 }
-#container #form .section .text #hasCourse:checked + #hasCourseLabel > .slider {
+#container .section .textboxes div .checkbox:checked + .checkboxLabel > .slider {
   margin-left: 45px;
+  /* hasProgramme specific checkbox checked config */
 }
-#container #form .section .text #hasCourse:not(:checked) ~ #courseCodeLabel {
+#container .section .textboxes div #hasProgramme:not(:checked) ~ #programmeCodeLabel {
   opacity: 0;
+  font-size: 0px;
+  margin-top: 0px;
 }
-#container #form .section .text #hasCourse:not(:checked) ~ #courseCodeTextbox {
+#container .section .textboxes div #hasProgramme:not(:checked) ~ #programmeCodeTextbox {
   opacity: 0;
+  height: 0px;
 }
-#container #form .section .text #isPublic:checked + #isPublicLabel {
-  background-color: #FAE2B8;
+#container .section .textboxes div #hasProgramme:not(:checked) ~ #semesterCodeLabel {
+  opacity: 0;
+  font-size: 0px;
+  margin-top: 0px;
 }
-#container #form .section .text #isPublic:checked + #isPublicLabel > .slider {
-  margin-left: 45px;
+#container .section .textboxes div #hasProgramme:not(:checked) ~ #semesterCodeTextbox {
+  opacity: 0;
+  height: 0px;
 }
-#container #form .section #left {
-  align-items: flex-end;
-  margin-right: 15px;
-  margin-left: 0px;
-}
-#container #form .section #left .textbox {
-  text-align: right;
-}
-#container #form .section #right {
-  align-items: flex-start;
-  margin-left: 15px;
-  margin-right: 0px;
-}
-#container #form .section:hover {
-  opacity: 1;
-}
-#container #form .section:hover #left {
-  margin-right: 25px;
-}
-#container #form .section:hover #right {
-  margin-left: 25px;
-}
-#container #form #create-button {
+#container .section #save-button {
   margin-top: 50px;
   text-decoration: none;
   margin-right: 20px;
@@ -399,13 +337,18 @@ a {
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
-#container #form #create-button:hover {
+#container .section #save-button:hover {
   background-color: rgba(250, 226, 184, 0.75);
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
 }
-#container #form #create-button:focus {
+#container .section #save-button:focus {
   outline: none;
 }
-#container #form:hover {
+#container .section:hover {
   opacity: 1;
+  padding-top: 50px;
+  padding-bottom: 50px;
+}
+#container .section:hover img {
+  height: 275px;
 }

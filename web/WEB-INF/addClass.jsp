@@ -29,6 +29,8 @@
             </div>
           </div>
         </div>
+          
+        <a id='error'>Error message</a>
 
         <form id='form' action="PerformAddClass">
 
@@ -67,6 +69,13 @@
             <div class='text' id='right'>
               <a class='label'>Description</a>
               <input class='textbox' type='text' name='description' placeholder='eg. This is a CS class.' required>
+              
+              <a class='label' id='name'>Is this class public?</a>
+              <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
+              <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
+                <div class='slider'></div>
+              </label>
+              
               <a class='label'>Class type</a>
               <select class='dropdown' name='classType'>
                   <option value='lecture'>Lecture</option>
