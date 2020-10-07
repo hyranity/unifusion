@@ -3,6 +3,7 @@ package Util;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -15,15 +16,21 @@ public class Errors {
     private HttpServletRequest request;
     
     // Regular constructor
-    public Errors() {
+    public Errors(HttpSession session) {
+        session.setAttribute("errorMessage", null);
         request = null;
         errorList = new ArrayList();
     }
 
     // To easily get previous errors
-    public Errors(HttpServletRequest request) {
+    public Errors(HttpServletRequest request, HttpSession session) {
+        session.setAttribute("errorMessage", null);
         this.request = request;
         errorList = new ArrayList();
+    }
+
+    public Errors() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 
@@ -59,13 +66,28 @@ public class Errors {
 
     }
     
-    // Get errorList from another servlet
-    public  void requestErrors(HttpServletRequest request){
-        this.errorList =  (ArrayList<String>) request.getAttribute("errorList");
+    // Get errorList from session, then delete it
+    public static  ArrayList<String> requestErrors(HttpSession session){
+        ArrayList<String> errors = (ArrayList<String>) session.getAttribute("errorList");
+        session.setAttribute("errorList", null);
+        return errors;
     }
     
-    // Put errorList into another servlet
-    public void respondErrors(HttpServletRequest request){
-         request.setAttribute("errorList", errorList);
+    // Put errorList into session
+    public void respondErrors(HttpSession session){
+         session.setAttribute("errorList", errorList);
     }
+    
+    // Put a simple error in session
+    public static void respondSimple(HttpSession session, String errorMessage){
+        session.setAttribute("errorMessage", errorMessage);
+    }
+    
+     // Get simple error from session, then delete it
+    public static String requestSimple(HttpSession session){
+        String message =  (String) session.getAttribute("errorMessage") == null? ""  : (String) session.getAttribute("errorMessage");
+        session.setAttribute("errorMessage", null);
+        return message;
+    }
+    
 }

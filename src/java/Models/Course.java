@@ -33,7 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Course.findAll", query = "SELECT c FROM Course c")
     , @NamedQuery(name = "Course.findByCoursecode", query = "SELECT c FROM Course c WHERE c.coursecode = :coursecode")
     , @NamedQuery(name = "Course.findByTitle", query = "SELECT c FROM Course c WHERE c.title = :title")
-    , @NamedQuery(name = "Course.findByDescription", query = "SELECT c FROM Course c WHERE c.description = :description")})
+    , @NamedQuery(name = "Course.findByDescription", query = "SELECT c FROM Course c WHERE c.description = :description")
+    , @NamedQuery(name = "Course.findByIspublic", query = "SELECT c FROM Course c WHERE c.ispublic = :ispublic")})
 public class Course implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,6 +54,10 @@ public class Course implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "DESCRIPTION")
     private String description;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ISPUBLIC")
+    private Boolean ispublic;
     @OneToMany(mappedBy = "coursecode")
     private Collection<Class> classCollection;
     @JoinColumn(name = "PROGRAMMECODE", referencedColumnName = "PROGRAMMECODE")
@@ -73,10 +78,11 @@ public class Course implements Serializable {
         this.coursecode = coursecode;
     }
 
-    public Course(String coursecode, String title, String description) {
+    public Course(String coursecode, String title, String description, Boolean ispublic) {
         this.coursecode = coursecode;
         this.title = title;
         this.description = description;
+        this.ispublic = ispublic;
     }
 
     public String getCoursecode() {
@@ -101,6 +107,14 @@ public class Course implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Boolean getIspublic() {
+        return ispublic;
+    }
+
+    public void setIspublic(Boolean ispublic) {
+        this.ispublic = ispublic;
     }
 
     @XmlTransient

@@ -6,6 +6,7 @@
 package Controllers;
 
 import Util.Server;
+import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -35,6 +36,9 @@ public class AddClass extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         if(!Server.isLoggedIn(request.getSession(false), response))
             return;
+        
+        Servlet servlet = new Servlet(request, response);
+        servlet.putInJsp("errorMessage", request.getAttribute("errorMessage"));
         
         request.getRequestDispatcher("WEB-INF/addClass.jsp").forward(request, response);
     }

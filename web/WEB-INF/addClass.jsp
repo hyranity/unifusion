@@ -30,7 +30,7 @@
           </div>
         </div>
           
-        <a id='error'>Error message</a>
+        <a id='error'>${errorMessage}</a>
 
         <form id='form' action="PerformAddClass">
 

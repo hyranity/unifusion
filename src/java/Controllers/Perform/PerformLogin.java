@@ -46,6 +46,8 @@ public class PerformLogin extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
+        
+        
         //Get credentials
         String email = request.getParameter("email");
         String password = request.getParameter("password");
@@ -56,6 +58,7 @@ public class PerformLogin extends HttpServlet {
         if(user == null){
             // User does not exist
             System.out.println("User does not exist");
+            Errors.respondSimple(request.getSession(), "User does not exist");
             response.sendRedirect("Login");
             return;
         }
@@ -64,6 +67,7 @@ public class PerformLogin extends HttpServlet {
         if(!Hasher.comparePassword(user.getPassword(), password, user.getPasswordsalt())){
             // Password is incorrect
             System.out.println("Password is incorrect");
+            Errors.respondSimple(request.getSession(), "Incorrect password");
             response.sendRedirect("Login");
             return;
         }

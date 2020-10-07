@@ -69,7 +69,7 @@ public class PerformAddClass extends HttpServlet {
         // Create classroom
         classroom.setClasstitle(servlet.getQueryStr("className"));
         classroom.setClassid(servlet.getQueryStr("classCode"));
-        classroom.setIspublic(true);
+        classroom.setIspublic(isPublic);
         classroom.setDescription(servlet.getQueryStr("description"));
         classroom.setClasstype(servlet.getQueryStr("classType"));
 
@@ -77,6 +77,7 @@ public class PerformAddClass extends HttpServlet {
         if (db.getSingleResult("classid", classroom.getClassid(), Models.Class.class) != null) {
             // There is a duplicate ID
             System.out.println("Duplicate class code!");
+            servlet.putInJsp("errorMessage", "This class code already exists.");
             servlet.toServlet("AddClass");
             return;
         }

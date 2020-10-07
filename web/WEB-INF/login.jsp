@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -23,6 +24,9 @@
 
     <div id='right'>
       <a id='title'>Login</a>
+      <a id='error'><%
+          out.print(Errors.requestSimple(session));
+          %></a>
       <form action="PerformLogin">
         <input class='textbox' type='text' name='email' placeholder='Email'>
         <input class='textbox' type='password' name='password' placeholder='Password'>

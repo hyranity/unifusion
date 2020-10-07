@@ -57,12 +57,14 @@ public class PerformAddCourse extends HttpServlet {
         String description = servlet.getQueryStr("description");
         boolean hasProgramme = servlet.getQueryStr("hasProgramme") != null;
         boolean hasSemester = servlet.getQueryStr("hasSemester") != null;
+        boolean isPublic = servlet.getQueryStr("isPublic") != null;
 
         // Validations go here
         // Set course object
         course.setCoursecode(courseCode);
         course.setDescription(description);
         course.setTitle(courseName);
+        course.setIspublic(isPublic);
 
         // If a programme is specified
         if (hasProgramme) {
