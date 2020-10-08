@@ -59,17 +59,18 @@
                         <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
                     </div>
 
-                    <div class='textboxes'>
-
-                        <div id='left'>
+                        <div class='textboxes' id='courseTextboxes'>
+                            
+                          <div id='left'>
+                            <a id='courseTextboxesMsg'>The course settings of a class cannot be edited.</a>
                             <a class='label' id='name'>Is this class part of a course?</a>
-                            <input type='checkbox' class='checkbox' id='hasCourse' name='hasCourse'>
+                            <input type='checkbox' class='checkbox' id='hasCourse' name='hasCourse' disabled>
                             <label class='checkboxLabel' for='hasCourse' id='hasCourseLabel'>
                                 <div class='slider'></div>
                             </label>
                             <a class='label' id='courseCodeLabel'>Course code</a>
-                            <input id='courseCodeTextbox' class='textbox' type='text' name='courseCode' placeholder='eg. LOL1337' value="${class.getCoursecode()}">
-                            <input type='hidden' id='courseCodeEnabled' name='courseCodeEnabled' value='false'>
+                            <input id='courseCodeTextbox' class='textbox' type='text' name='courseCode' placeholder='eg. LOL1337' value="${class.getCoursecode()}" disabled>
+                            <input type='hidden' id='courseCodeEnabled' name='courseCodeEnabled' value='false' disabled>
                         </div>
 
                     </div>
@@ -195,7 +196,10 @@
 
         <script>
             function hasCourseClicked() {
-                var hasCourse = document.getElementById("hasCourse");
+                
+                // note: editing course settings in a class has been disabled
+                
+                /*var hasCourse = document.getElementById("hasCourse");
                 var courseCodeTextbox = document.getElementById("courseCodeTextbox");
 
                 document.getElementById("courseCodeEnabled").value = hasCourse.checked;
@@ -204,7 +208,7 @@
                     courseCodeTextbox.disabled = false;
                 } else {
                     courseCodeTextbox.disabled = true;
-                }
+                }*/
             }
         </script>
 

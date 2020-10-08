@@ -313,6 +313,28 @@ a {
   opacity: 0;
   height: 0px;
 }
+/* for COURSE section specifically */
+#container .section #courseTextboxes #courseTextboxesMsg {
+  font-size: 17px;
+  line-height: 0px;
+  opacity: 0;
+  color: #FAE2B8;
+  font-weight: 500;
+  margin: 0px;
+  transition: all 0.5s;
+}
+#container .section #courseTextboxes .checkboxLabel {
+  background-color: rgba(223, 224, 242, 0.5);
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
+}
+#container .section #courseTextboxes .textbox {
+  background-color: rgba(66, 70, 148, 0.25);
+}
+#container .section #courseTextboxes:hover #courseTextboxesMsg {
+  opacity: 1;
+  line-height: 17px;
+  margin: 10px;
+}
 #container .section #save-button {
   margin-top: 50px;
   text-decoration: none;
