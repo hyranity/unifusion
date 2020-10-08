@@ -55,10 +55,13 @@ public class DB {
             em.merge(object);
             utx.commit();
 
-        } catch(ConstraintViolationException ex){
-            System.out.println(ex.getConstraintViolations());
+        } catch(javax.validation.ConstraintViolationException ex){
+            System.out.println("CONSTRAINTS");
+            System.out.println(ex.getConstraintViolations() + "LOOL");
         }catch (IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | javax.transaction.RollbackException | SystemException ex) {
-            Logger.getLogger(DB.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        } catch(Exception ex){
+            System.out.println("Unknown error");
         }
     }
 

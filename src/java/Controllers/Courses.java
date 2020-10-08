@@ -73,7 +73,7 @@ public class Courses extends HttpServlet {
 
             // if current user != creator
             if (currentUser.getUserid().equals(creator.getUserid())) {
-                editBt = "<a class='more' href='ClassDetails?class=" + courseCode + "'>Click to edit ></a>";
+                editBt = "<a class='more' href='CourseDetails?course=" + courseCode + "'>Click to edit ></a>";
                 moreCount -= 1;
             } else {
                 youBox = "<div class='box' id='you'>"

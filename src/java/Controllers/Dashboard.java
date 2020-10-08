@@ -88,10 +88,10 @@ public class Dashboard extends HttpServlet {
                     + "      \n"
                     + "          <div class='row'>\n"
                     + "\n";
+            
 
             // Print each class under each course
             for (Models.Class classroom : course.getClassCollection()) {
-
                 // Get the class teacher
                 Users classTeacher = db.getList(Models.Users.class, em.createNativeQuery("select u.* from Class c, Classparticipant cpa, Participant p, Users u where c.classid = ? and c.classid = cpa.classid and cpa.iscreator = true and p.participantid = cpa.participantid and u.userid = p.userid", Models.Users.class).setParameter(1, classroom.getClassid())).get(0);
 
