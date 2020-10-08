@@ -43,9 +43,21 @@ public class Class extends HttpServlet {
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
 
+        // Get currentUser
+        Users currentUser = Server.getUser(request, response);
+
         // Get class data
         String classId = servlet.getQueryStr("id");
-        Models.Class classroom = db.getSingleResult("classid", classId, Models.Class.class);
+
+        Query query = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, classId).setParameter(2, currentUser.getUserid());
+
+        // If no results
+        if (query.getResultList().isEmpty()) {
+            servlet.toServlet("Dashboard");
+            return;
+        }
+
+        Models.Class classroom = (Models.Class) query.getSingleResult();
 
         if (classroom == null) {
             // Classroom not found
@@ -54,16 +66,13 @@ public class Class extends HttpServlet {
             // Classroom is found
 
             // Get list of tutors
-            ArrayList<Users> tutorList = db.getList(Users.class, em.createNativeQuery("select u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid", Models.Users.class).setParameter(1, classId));
+            ArrayList<Users> tutorList = db.getList(Users.class, em.createNativeQuery("select  u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and c.classid = cpa.classid", Models.Users.class).setParameter(1, classId));
 
             // Get list of students
-            ArrayList<Users> studentList = db.getList(Users.class, em.createNativeQuery("select u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'student' and u.userid = p.userid and p.participantid = cpa.participantid", Models.Users.class).setParameter(1, classId));
+            ArrayList<Users> studentList = db.getList(Users.class, em.createNativeQuery("select  u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'student' and u.userid = p.userid and p.participantid = cpa.participantid and c.classid = cpa.classid", Models.Users.class).setParameter(1, classId));
 
             // Get creator
-            Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and cpa.iscreator = true", Models.Users.class).setParameter(1, classId)).get(0);
-
-            // Get currentUser
-            Users currentUser = Server.getUser(request, response);
+            Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and cpa.iscreator = true  and c.classid = cpa.classid", Models.Users.class).setParameter(1, classId)).get(0);
 
             // Displaying Members box
             String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";

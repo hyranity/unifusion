@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,7 @@
           </div>
         </div>
           
-        <a id='error'>${errorMessage}</a>
+        <a id='error'><%out.print(Errors.requestSimple(session));%></a>
 
         <form id='form' action="PerformAddClass">
 

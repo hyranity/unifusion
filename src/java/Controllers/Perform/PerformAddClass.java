@@ -11,6 +11,7 @@ import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import Models.*;
+import Util.Errors;
 import Util.Quick;
 import java.util.Calendar;
 import java.util.Date;
@@ -77,7 +78,7 @@ public class PerformAddClass extends HttpServlet {
         if (db.getSingleResult("classid", classroom.getClassid(), Models.Class.class) != null) {
             // There is a duplicate ID
             System.out.println("Duplicate class code!");
-            servlet.putInJsp("errorMessage", "This class code already exists.");
+            Errors.respondSimple(request.getSession(), "Another class with this code already exists");
             servlet.toServlet("AddClass");
             return;
         }
@@ -89,6 +90,7 @@ public class PerformAddClass extends HttpServlet {
             if (db.getSingleResult("coursecode", servlet.getQueryStr("courseCode"), Models.Course.class) == null) {
                 // Course does not exist
                 System.out.println("Course does not exist");
+                Errors.respondSimple(request.getSession(), "The specified course does not exist.");
                 servlet.toServlet("AddClass");
                 return;
             }

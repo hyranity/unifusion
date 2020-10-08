@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,10 +43,21 @@ public class Courses extends HttpServlet {
          // Declare variables
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
+        
+        // Get currentUser
+            Users currentUser = Server.getUser(request, response);
 
         // Get class data
         String courseCode = servlet.getQueryStr("id");
-        Course course  = db.getSingleResult("coursecode", courseCode, Course.class);
+        Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.coursecode = c.coursecode and cpa.participantid = p.participantid and p.userid = ?", Course.class).setParameter(1, courseCode).setParameter(2, currentUser.getUserid());
+        
+        // If no results
+        if(query.getResultList().isEmpty()){
+            servlet.toServlet("Dashboard");
+            return;
+        }
+        
+        Course course  =  (Course) query.getSingleResult();
         
 
         if (course == null) {
@@ -56,16 +68,15 @@ public class Courses extends HttpServlet {
             System.out.println(course.getTitle());
 
             // Get list of tutors
-            ArrayList<Users> tutorList = db.getList(Users.class, em.createNativeQuery("select u.* from courseparticipant cpa, course c, users u, participant p where c.coursecode = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid", Models.Users.class).setParameter(1, courseCode));
+            ArrayList<Users> tutorList = db.getList(Users.class, em.createNativeQuery("select u.* from courseparticipant cpa, course c, users u, participant p where c.coursecode = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and c.coursecode = cpa.coursecode", Models.Users.class).setParameter(1, courseCode));
 
             // Get list of students
-            ArrayList<Users> studentList = db.getList(Users.class, em.createNativeQuery("select u.* from courseparticipant cpa, course c, users u, participant p where c.coursecode = ? and cpa.role = 'student' and u.userid = p.userid and p.participantid = cpa.participantid", Models.Users.class).setParameter(1, courseCode));
+            ArrayList<Users> studentList = db.getList(Users.class, em.createNativeQuery("select u.* from courseparticipant cpa, course c, users u, participant p where c.coursecode = ? and cpa.role = 'student' and u.userid = p.userid and p.participantid = cpa.participantid and c.coursecode = cpa.coursecode", Models.Users.class).setParameter(1, courseCode));
 
             // Get creator
-            Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from courseparticipant cpa, course c, users u, participant p where c.coursecode = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and cpa.iscreator = true", Models.Users.class).setParameter(1, courseCode)).get(0);
+            Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from courseparticipant cpa, course c, users u, participant p where c.coursecode = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and cpa.iscreator = true and c.coursecode = cpa.coursecode", Models.Users.class).setParameter(1, courseCode)).get(0);
 
-            // Get currentUser
-            Users currentUser = Server.getUser(request, response);
+            
 
             // Displaying Members box
             String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
