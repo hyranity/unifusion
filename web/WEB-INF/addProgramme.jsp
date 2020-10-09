@@ -33,7 +33,7 @@
           
         <a id='error'>Error message</a>
 
-        <form id='form' action="PerformAddCourse">
+        <form id='form' action="PerformAddProgramme">
 
           <div class='section'>
             <div class='image' id='left'>
