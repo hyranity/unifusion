@@ -38,7 +38,6 @@ public class AddClass extends HttpServlet {
             return;
         
         Servlet servlet = new Servlet(request, response);
-        servlet.putInJsp("errorMessage", request.getAttribute("errorMessage"));
         
         request.getRequestDispatcher("WEB-INF/addClass.jsp").forward(request, response);
     }
