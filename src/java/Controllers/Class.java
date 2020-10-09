@@ -84,7 +84,7 @@ public class Class extends HttpServlet {
                 moreCount -= 1;
             } else {
                 youBox = "<div class='box' id='you'>"
-                        + "<img class='icon' src='" + ((Models.Users) request.getAttribute("currentUser")).getImageurl() + "'>"
+                        + "<img class='icon' src='" + ((Models.Users) request.getSession().getAttribute("user")).getImageurl() + "'>"
                         + "<a class='name'>You</a>"
                         + "</div>";
                 moreCount -= 2;

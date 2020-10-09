@@ -62,12 +62,20 @@ public class PerformJoinClass extends HttpServlet {
             servlet.toServlet("JoinClass");
             return;
         }
+        
+        // If this person already joined
+        Query joinQuery = em.createNativeQuery("select p.* from participant p, classparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ?").setParameter(1, user.getUserid()).setParameter(2, classroom.getClassid());
+        if(joinQuery.getResultList().size() > 0){
+            System.out.println("Already joined this class");
+            servlet.toServlet("JoinClass");
+            return;
+        }
 
         // Is this class associated with a course?
         if (classroom.getCoursecode() != null) {
 
             // Is this user participating in the course? He must be in the course first before joining the class
-            Query query = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.courseid = ?").setParameter(1, user.getUserid()).setParameter(2, classroom.getCoursecode().getCoursecode());
+            Query query = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.coursecode = ?").setParameter(1, user.getUserid()).setParameter(2, classroom.getCoursecode().getCoursecode());
 
             // If yes
             if (query.getResultList().size() > 0) {
