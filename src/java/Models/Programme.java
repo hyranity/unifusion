@@ -34,7 +34,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Programme.findByProgrammecode", query = "SELECT p FROM Programme p WHERE p.programmecode = :programmecode")
     , @NamedQuery(name = "Programme.findByTitle", query = "SELECT p FROM Programme p WHERE p.title = :title")
     , @NamedQuery(name = "Programme.findByDescription", query = "SELECT p FROM Programme p WHERE p.description = :description")
-    , @NamedQuery(name = "Programme.findByGradingstyle", query = "SELECT p FROM Programme p WHERE p.gradingstyle = :gradingstyle")})
+    , @NamedQuery(name = "Programme.findByGradingstyle", query = "SELECT p FROM Programme p WHERE p.gradingstyle = :gradingstyle")
+    , @NamedQuery(name = "Programme.findByIconurl", query = "SELECT p FROM Programme p WHERE p.iconurl = :iconurl")
+    , @NamedQuery(name = "Programme.findByBannerurl", query = "SELECT p FROM Programme p WHERE p.bannerurl = :bannerurl")
+    , @NamedQuery(name = "Programme.findByColourtheme", query = "SELECT p FROM Programme p WHERE p.colourtheme = :colourtheme")
+    , @NamedQuery(name = "Programme.findByIspublic", query = "SELECT p FROM Programme p WHERE p.ispublic = :ispublic")})
 public class Programme implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,12 +61,22 @@ public class Programme implements Serializable {
     @Size(max = 20)
     @Column(name = "GRADINGSTYLE")
     private String gradingstyle;
+    @Size(max = 50)
+    @Column(name = "ICONURL")
+    private String iconurl;
+    @Size(max = 50)
+    @Column(name = "BANNERURL")
+    private String bannerurl;
+    @Size(max = 20)
+    @Column(name = "COLOURTHEME")
+    private String colourtheme;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ISPUBLIC")
+    private Boolean ispublic;
     @JoinColumn(name = "INSTITUTIONCODE", referencedColumnName = "INSTITUTIONCODE")
     @ManyToOne
     private Institution institutioncode;
-    @JoinColumn(name = "CREATORID", referencedColumnName = "PARTICIPANTID")
-    @ManyToOne
-    private Participant creatorid;
     @OneToMany(mappedBy = "programmecode")
     private Collection<Course> courseCollection;
     @OneToMany(mappedBy = "programmecode")
@@ -77,10 +91,11 @@ public class Programme implements Serializable {
         this.programmecode = programmecode;
     }
 
-    public Programme(String programmecode, String title, String description) {
+    public Programme(String programmecode, String title, String description, Boolean ispublic) {
         this.programmecode = programmecode;
         this.title = title;
         this.description = description;
+        this.ispublic = ispublic;
     }
 
     public String getProgrammecode() {
@@ -115,20 +130,44 @@ public class Programme implements Serializable {
         this.gradingstyle = gradingstyle;
     }
 
+    public String getIconurl() {
+        return iconurl;
+    }
+
+    public void setIconurl(String iconurl) {
+        this.iconurl = iconurl;
+    }
+
+    public String getBannerurl() {
+        return bannerurl;
+    }
+
+    public void setBannerurl(String bannerurl) {
+        this.bannerurl = bannerurl;
+    }
+
+    public String getColourtheme() {
+        return colourtheme;
+    }
+
+    public void setColourtheme(String colourtheme) {
+        this.colourtheme = colourtheme;
+    }
+
+    public Boolean getIspublic() {
+        return ispublic;
+    }
+
+    public void setIspublic(Boolean ispublic) {
+        this.ispublic = ispublic;
+    }
+
     public Institution getInstitutioncode() {
         return institutioncode;
     }
 
     public void setInstitutioncode(Institution institutioncode) {
         this.institutioncode = institutioncode;
-    }
-
-    public Participant getCreatorid() {
-        return creatorid;
-    }
-
-    public void setCreatorid(Participant creatorid) {
-        this.creatorid = creatorid;
     }
 
     @XmlTransient

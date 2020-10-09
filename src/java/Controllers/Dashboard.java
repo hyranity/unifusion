@@ -59,6 +59,8 @@ public class Dashboard extends HttpServlet {
         // Execute all queries
         List<Course> courseList = courseQ.getResultList();
         List<Models.Class> classList = classQ.getResultList();
+        
+       
 
         // Generate course UI
         for (Course course : courseList) {
@@ -88,6 +90,7 @@ public class Dashboard extends HttpServlet {
                     + "      \n"
                     + "          <div class='row'>\n"
                     + "\n";
+            
             
 
             // Print each class under each course

@@ -31,10 +31,10 @@
           <div class='text'>
             <a id='title'>Join a Course</a>
             <a id='instruction'>Enter in the code of an existing course below.</a>
-            <form id='form'>
+            <form id='form' action="PerformJoinCourse">
                <div class='input' id='right'>
                 <a class='label'>Course code</a>
-                <input class='textbox' type='text' name='classCode' placeholder='eg. 177013'>
+                <input class='textbox' type='text' name='courseCode' placeholder='eg. 177013'>
               </div>
               <input type='submit' id='proceed-button' value='Join!'>
             </form>

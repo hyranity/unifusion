@@ -65,8 +65,6 @@ public class Participant implements Serializable {
     @JoinColumn(name = "USERID", referencedColumnName = "USERID")
     @ManyToOne
     private Users userid;
-    @OneToMany(mappedBy = "creatorid")
-    private Collection<Programme> programmeCollection;
     @OneToMany(mappedBy = "posterid")
     private Collection<Announcement> announcementCollection;
     @OneToMany(mappedBy = "participantid")
@@ -130,15 +128,6 @@ public class Participant implements Serializable {
 
     public void setUserid(Users userid) {
         this.userid = userid;
-    }
-
-    @XmlTransient
-    public Collection<Programme> getProgrammeCollection() {
-        return programmeCollection;
-    }
-
-    public void setProgrammeCollection(Collection<Programme> programmeCollection) {
-        this.programmeCollection = programmeCollection;
     }
 
     @XmlTransient

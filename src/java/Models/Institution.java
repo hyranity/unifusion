@@ -32,7 +32,11 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Institution.findByInstitutioncode", query = "SELECT i FROM Institution i WHERE i.institutioncode = :institutioncode")
     , @NamedQuery(name = "Institution.findByName", query = "SELECT i FROM Institution i WHERE i.name = :name")
     , @NamedQuery(name = "Institution.findByDescription", query = "SELECT i FROM Institution i WHERE i.description = :description")
-    , @NamedQuery(name = "Institution.findByAddress", query = "SELECT i FROM Institution i WHERE i.address = :address")})
+    , @NamedQuery(name = "Institution.findByAddress", query = "SELECT i FROM Institution i WHERE i.address = :address")
+    , @NamedQuery(name = "Institution.findByIconurl", query = "SELECT i FROM Institution i WHERE i.iconurl = :iconurl")
+    , @NamedQuery(name = "Institution.findByBannerurl", query = "SELECT i FROM Institution i WHERE i.bannerurl = :bannerurl")
+    , @NamedQuery(name = "Institution.findByColourtheme", query = "SELECT i FROM Institution i WHERE i.colourtheme = :colourtheme")
+    , @NamedQuery(name = "Institution.findByIspublic", query = "SELECT i FROM Institution i WHERE i.ispublic = :ispublic")})
 public class Institution implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,6 +61,19 @@ public class Institution implements Serializable {
     @Size(min = 1, max = 80)
     @Column(name = "ADDRESS")
     private String address;
+    @Size(max = 50)
+    @Column(name = "ICONURL")
+    private String iconurl;
+    @Size(max = 50)
+    @Column(name = "BANNERURL")
+    private String bannerurl;
+    @Size(max = 20)
+    @Column(name = "COLOURTHEME")
+    private String colourtheme;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ISPUBLIC")
+    private Boolean ispublic;
     @OneToMany(mappedBy = "institutioncode")
     private Collection<Programme> programmeCollection;
     @OneToMany(mappedBy = "institutioncode")
@@ -71,11 +88,12 @@ public class Institution implements Serializable {
         this.institutioncode = institutioncode;
     }
 
-    public Institution(String institutioncode, String name, String description, String address) {
+    public Institution(String institutioncode, String name, String description, String address, Boolean ispublic) {
         this.institutioncode = institutioncode;
         this.name = name;
         this.description = description;
         this.address = address;
+        this.ispublic = ispublic;
     }
 
     public String getInstitutioncode() {
@@ -108,6 +126,38 @@ public class Institution implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getIconurl() {
+        return iconurl;
+    }
+
+    public void setIconurl(String iconurl) {
+        this.iconurl = iconurl;
+    }
+
+    public String getBannerurl() {
+        return bannerurl;
+    }
+
+    public void setBannerurl(String bannerurl) {
+        this.bannerurl = bannerurl;
+    }
+
+    public String getColourtheme() {
+        return colourtheme;
+    }
+
+    public void setColourtheme(String colourtheme) {
+        this.colourtheme = colourtheme;
+    }
+
+    public Boolean getIspublic() {
+        return ispublic;
+    }
+
+    public void setIspublic(Boolean ispublic) {
+        this.ispublic = ispublic;
     }
 
     @XmlTransient

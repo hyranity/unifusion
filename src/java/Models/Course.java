@@ -34,6 +34,9 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Course.findByCoursecode", query = "SELECT c FROM Course c WHERE c.coursecode = :coursecode")
     , @NamedQuery(name = "Course.findByTitle", query = "SELECT c FROM Course c WHERE c.title = :title")
     , @NamedQuery(name = "Course.findByDescription", query = "SELECT c FROM Course c WHERE c.description = :description")
+    , @NamedQuery(name = "Course.findByIconurl", query = "SELECT c FROM Course c WHERE c.iconurl = :iconurl")
+    , @NamedQuery(name = "Course.findByBannerurl", query = "SELECT c FROM Course c WHERE c.bannerurl = :bannerurl")
+    , @NamedQuery(name = "Course.findByColourtheme", query = "SELECT c FROM Course c WHERE c.colourtheme = :colourtheme")
     , @NamedQuery(name = "Course.findByIspublic", query = "SELECT c FROM Course c WHERE c.ispublic = :ispublic")})
 public class Course implements Serializable {
 
@@ -54,6 +57,15 @@ public class Course implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "DESCRIPTION")
     private String description;
+    @Size(max = 50)
+    @Column(name = "ICONURL")
+    private String iconurl;
+    @Size(max = 50)
+    @Column(name = "BANNERURL")
+    private String bannerurl;
+    @Size(max = 20)
+    @Column(name = "COLOURTHEME")
+    private String colourtheme;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ISPUBLIC")
@@ -107,6 +119,30 @@ public class Course implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIconurl() {
+        return iconurl;
+    }
+
+    public void setIconurl(String iconurl) {
+        this.iconurl = iconurl;
+    }
+
+    public String getBannerurl() {
+        return bannerurl;
+    }
+
+    public void setBannerurl(String bannerurl) {
+        this.bannerurl = bannerurl;
+    }
+
+    public String getColourtheme() {
+        return colourtheme;
+    }
+
+    public void setColourtheme(String colourtheme) {
+        this.colourtheme = colourtheme;
     }
 
     public Boolean getIspublic() {

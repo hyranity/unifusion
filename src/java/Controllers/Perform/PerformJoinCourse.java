@@ -5,43 +5,40 @@
  */
 package Controllers.Perform;
 
-import Models.*;
-import Util.DB;
-import Util.Quick;
-import Util.Server;
-import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Calendar;
-import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import Util.*;
+import Models.*;
+import java.util.Calendar;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "PerformJoinClass", urlPatterns = {"/PerformJoinClass"})
-public class PerformJoinClass extends HttpServlet {
+@WebServlet(name = "PerformJoinCourse", urlPatterns = {"/PerformJoinCourse"})
+public class PerformJoinCourse extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
 
     @Resource
     private UserTransaction utx;
-
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        // Utility objects
+        
+         // Utility objects
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
 
@@ -49,62 +46,59 @@ public class PerformJoinClass extends HttpServlet {
         Users user = Server.getUser(request, response);
 
         // Obtain form data
-        String classId = servlet.getQueryStr("classCode");
+        String courseCode = servlet.getQueryStr("courseCode");
 
         // Fetch from db
-        Models.Class classroom = db.getSingleResult("classid", classId, Models.Class.class);
+        Models.Course course = db.getSingleResult("coursecode", courseCode, Models.Course.class);
 
         // If no class is found
-        if (classroom == null) {
-            System.out.println("No class is found");
-            servlet.toServlet("JoinClass");
+        if (course == null) {
+            System.out.println("No course is found");
+            servlet.toServlet("JoinCourse");
             return;
         }
         
         // If this person already joined
-        Query joinQuery = em.createNativeQuery("select p.* from participant p, classparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ?").setParameter(1, user.getUserid()).setParameter(2, classroom.getClassid());
+        Query joinQuery = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.coursecode = ?").setParameter(1, user.getUserid()).setParameter(2, course.getCoursecode());
         if(joinQuery.getResultList().size() > 0){
-            System.out.println("Already joined this class");
-            servlet.toServlet("JoinClass");
+            System.out.println("Already joined this course");
+            servlet.toServlet("JoinCourse");
             return;
         }
 
-        // Is this class associated with a course?
-        if (classroom.getCoursecode() != null) {
+        // Is this course associated with a programme?
+        if (course.getProgrammecode() != null) {
 
-            // Is this user participating in the course? He must be in the course first before joining the class
-            Query query = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.coursecode = ?", Models.Participant.class).setParameter(1, user.getUserid()).setParameter(2, classroom.getCoursecode().getCoursecode());
+            // Is this user participating in the programme? He must be in the programme first before joining the course
+            Query query = em.createNativeQuery("select p.* from participant p, programmeparticipant ppa where p.userid = ? and p.participantid = ppa.participantid and ppa.programmecode = ?").setParameter(1, user.getUserid()).setParameter(2, course.getProgrammecode().getProgrammecode());
 
             // If yes
             if (query.getResultList().size() > 0) {
                 // Use the existing participant object and add him into the class
                 Participant participant = (Participant) query.getSingleResult();
 
-                // Create new class participant
-                Classparticipant classPart = new Classparticipant();
-                classPart.setIscreator(true);
-                classPart.setRole("student");
-                classPart.setStatus("active");
-                classPart.setClassid(classroom);
-                classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
-                classPart.setParticipantid(participant); // Reuse existing participant
+                // Create new course participant
+                Courseparticipant coursePart = new Courseparticipant();
+                coursePart.setIscreator(true);
+                coursePart.setRole("student");
+                coursePart.setStatus("active");
+                coursePart.setCoursecode(course);
+                coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Classparticipantid"));
+                coursePart.setParticipantid(participant); // Reuse existing participant
 
                 //Insert into db
-                db.insert(classPart);
-                
-                 System.out.println("Class successfully joined");
-            servlet.toServlet("Class?id=" + classroom.getClassid());
+                db.insert(coursePart);
             } // If no
             else {
                 // Reject
-                System.out.println("Not participating in the course");
-                servlet.toServlet("JoinClass");
+                System.out.println("Not participating in the programme");
+                servlet.toServlet("JoinCourse");
                 return;
             }
 
-        } // not associated with a course
+        } // not associated with a programme
         else {
-            // Since not associated with a course, create new participant object
+            // Since not associated with a programme, create new participant object
             Participant participant = new Participant();
             participant.setDateadded(Calendar.getInstance().getTime());
             participant.setEducatorrole("student");
@@ -115,19 +109,20 @@ public class PerformJoinClass extends HttpServlet {
             db.insert(participant);
 
             // Create new class participant
-            Classparticipant classPart = new Classparticipant();
-            classPart.setIscreator(true);
-            classPart.setRole("student");
-            classPart.setStatus("active");
-            classPart.setClassid(classroom);
-            classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
-            classPart.setParticipantid(participant); // Use the newly created participant
+             Courseparticipant coursePart = new Courseparticipant();
+                coursePart.setIscreator(true);
+                coursePart.setRole("student");
+                coursePart.setStatus("active");
+                coursePart.setCoursecode(course);
+                coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Courseparticipantid"));
+                coursePart.setParticipantid(participant); // Use the newly created participant
 
-            db.insert(classPart);
+            db.insert(coursePart);
 
-            System.out.println("Class successfully joined");
-            servlet.toServlet("Class?id=" + classroom.getClassid());
+            System.out.println("Course successfully joined");
+            servlet.toServlet("Course?id=" + course.getCoursecode());
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
