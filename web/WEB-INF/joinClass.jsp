@@ -31,7 +31,7 @@
           <div class='text'>
             <a id='title'>Join a Class</a>
             <a id='instruction'>Enter in the code of an existing class below.</a>
-            <form id='form'>
+            <form id='form' action="PerformJoinClass">
                <div class='input' id='right'>
                 <a class='label'>Class code</a>
                 <input class='textbox' type='text' name='classCode' placeholder='eg. 177013'>
