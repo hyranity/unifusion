@@ -59,8 +59,6 @@ public class Dashboard extends HttpServlet {
         // Execute all queries
         List<Course> courseList = courseQ.getResultList();
         List<Models.Class> classList = classQ.getResultList();
-        
-       
 
         // Generate course UI
         for (Course course : courseList) {
@@ -70,7 +68,7 @@ public class Dashboard extends HttpServlet {
             // Print each course
             output += " <div class='course'>\n"
                     + "      \n"
-                    + "        <div class='course-details' onclick=\"location.href='Course?id=" + course.getCoursecode()+ "'\">\n"
+                    + "        <div class='course-details' onclick=\"location.href='Course?id=" + course.getCoursecode() + "'\">\n"
                     + "          <img class='icon' src='https://image.flaticon.com/icons/svg/3034/3034573.svg'>\n"
                     + "          <div class='details'>\n"
                     + "            <div class='top-details'>\n"
@@ -90,11 +88,23 @@ public class Dashboard extends HttpServlet {
                     + "      \n"
                     + "          <div class='row'>\n"
                     + "\n";
-            
-            
 
             // Print each class under each course
+            int counter = 0;
             for (Models.Class classroom : course.getClassCollection()) {
+                System.out.println("Displaying class for " + classroom.getClasstitle());
+
+                if (counter == 0) {
+                    // Start with new row
+                    output += "<div class='row'>";
+                }
+                
+                  if (counter % 2 == 0 && counter > 0) {
+                    // Break new row for every 2 classes
+                    output += "</div>";
+                    output += "<div class='row'>";
+                }
+
                 // Get the class teacher
                 Users classTeacher = db.getList(Models.Users.class, em.createNativeQuery("select u.* from Class c, Classparticipant cpa, Participant p, Users u where c.classid = ? and c.classid = cpa.classid and cpa.iscreator = true and p.participantid = cpa.participantid and u.userid = p.userid", Models.Users.class).setParameter(1, classroom.getClassid())).get(0);
 
@@ -111,6 +121,10 @@ public class Dashboard extends HttpServlet {
                         + "              </div>\n"
                         + "            </div>\n"
                         + "\n";
+
+              
+
+                counter++;
             }
 
             output += "\n\n</div>\n"
@@ -146,10 +160,9 @@ public class Dashboard extends HttpServlet {
                     + "                            </div>\n"
                     + "                            <a class='type'>CLASS</a>\n"
                     + "                            <a class='name'>" + classList.get(i).getClasstitle() + "</a>\n"
-                    + "                            <a class='description'>" +  (classList.get(i).getDescription() == null ? "No description" : classList.get(i).getDescription())+ "</a>\n"
+                    + "                            <a class='description'>" + (classList.get(i).getDescription() == null ? "No description" : classList.get(i).getDescription()) + "</a>\n"
                     + "                        </div>\n"
                     + "                    </div>";
-
 
         }
 

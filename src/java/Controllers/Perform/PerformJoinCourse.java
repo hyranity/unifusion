@@ -33,12 +33,12 @@ public class PerformJoinCourse extends HttpServlet {
 
     @Resource
     private UserTransaction utx;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-         // Utility objects
+
+        // Utility objects
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
 
@@ -57,10 +57,10 @@ public class PerformJoinCourse extends HttpServlet {
             servlet.toServlet("JoinCourse");
             return;
         }
-        
+
         // If this person already joined
         Query joinQuery = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.coursecode = ?").setParameter(1, user.getUserid()).setParameter(2, course.getCoursecode());
-        if(joinQuery.getResultList().size() > 0){
+        if (joinQuery.getResultList().size() > 0) {
             System.out.println("Already joined this course");
             servlet.toServlet("JoinCourse");
             return;
@@ -108,21 +108,34 @@ public class PerformJoinCourse extends HttpServlet {
 
             db.insert(participant);
 
-            // Create new class participant
-             Courseparticipant coursePart = new Courseparticipant();
-                coursePart.setIscreator(true);
-                coursePart.setRole("student");
-                coursePart.setStatus("active");
-                coursePart.setCoursecode(course);
-                coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Courseparticipantid"));
-                coursePart.setParticipantid(participant); // Use the newly created participant
+            // Create new course participant
+            Courseparticipant coursePart = new Courseparticipant();
+            coursePart.setIscreator(true);
+            coursePart.setRole("student");
+            coursePart.setStatus("active");
+            coursePart.setCoursecode(course);
+            coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Courseparticipantid"));
+            coursePart.setParticipantid(participant); // Use the newly created participant
 
             db.insert(coursePart);
+
+            // Add the user to every class within that course
+            for (Models.Class classroom : course.getClassCollection()) {
+                // Create new class participant for each class
+                Classparticipant classPart = new Classparticipant();
+                classPart.setIscreator(true);
+                classPart.setRole("student");
+                classPart.setStatus("active");
+                classPart.setClassid(classroom);
+                classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
+                classPart.setParticipantid(participant); // Use the newly created participant
+                db.insert(classPart);
+            }
 
             System.out.println("Course successfully joined");
             servlet.toServlet("Course?id=" + course.getCoursecode());
         }
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

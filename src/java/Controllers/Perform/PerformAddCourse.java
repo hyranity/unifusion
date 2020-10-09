@@ -127,7 +127,7 @@ public class PerformAddCourse extends HttpServlet {
         System.out.println("Successfully added a course!");
 
         servlet.toServlet("AddCourse");
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
