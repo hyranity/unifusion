@@ -42,12 +42,12 @@
 
                         <div id='left'>
                             <a class='label' id='name'>Course code</a>
-                            <input class='textbox' type='text' name='courseCode' placeholder='eg. GG420' readonly value="${course.getCoursecode()}">
+                            <input class='textbox' type='text' name='courseCode' placeholder='eg. GG420' readonly value="${course.getCoursecode()}" disabled>
                         </div>
 
                         <div id='right'>
                             <a class='label' id='email'>Course title</a>
-                            <input class='textbox' type='text' name='courseTitle' placeholder='Title' value="${course.getTitle()}">
+                            <input class='textbox' type='text' name='courseTitle' placeholder='Title' value="${course.getTitle()}" disabled>
                         </div>
 
                     </div>

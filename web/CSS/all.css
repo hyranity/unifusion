@@ -1,0 +1,74 @@
+#container #navbar {
+  position: absolute;
+  left: 100px;
+  top: 50px;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: left 0.5s;
+}
+#container #navbar #back {
+  font-family: 'Poppins';
+  font-size: 20px;
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  margin-right: 20px;
+  transition: all 0.5s;
+}
+#container #navbar #back span {
+  font-size: 0px;
+  transition: all 0.5s;
+}
+#container #navbar #scaffold {
+  font-size: 28px;
+  color: #FAE2B8;
+  opacity: 0.7;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar #scaffold:hover {
+  opacity: 1;
+}
+#container #navbar .link {
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  opacity: 0.5;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar .link:hover {
+  opacity: 1;
+}
+#container #navbar #currentLink {
+  opacity: 0.8;
+}
+#container #navbar #currentLink:hover {
+  opacity: 1;
+}
+#container #navbar:hover {
+  left: 120px;
+}
+#container #navbar:hover #back {
+  opacity: 0.7;
+  color: #DFE0F2;
+}
+#container #navbar:hover #back span {
+  font-size: 20px;
+  color: #DFE0F2;
+}
+#container #navbar:hover #back:hover {
+  opacity: 1;
+}
+#container #error {
+    font-size: 18px;
+    color: #e66a6a;
+    margin-top: 40px;
+    opacity: 0.8;
+    transition: all 0.5s;
+}
+#container #error:hover {
+    opacity: 1;
+}

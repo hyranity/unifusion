@@ -21,70 +21,6 @@ a {
   justify-content: flex-start;
   padding-bottom: 250px;
 }
-#container #navbar {
-  position: absolute;
-  left: 100px;
-  top: 50px;
-  z-index: 1;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  transition: left 0.5s;
-}
-#container #navbar #back {
-  font-family: 'Poppins';
-  font-size: 20px;
-  color: rgba(250, 226, 184, 0.75);
-  text-decoration: none;
-  margin-right: 20px;
-  transition: all 0.5s;
-}
-#container #navbar #back span {
-  font-size: 0px;
-  transition: all 0.5s;
-}
-#container #navbar #scaffold {
-  font-size: 28px;
-  color: #FAE2B8;
-  opacity: 0.7;
-  text-decoration: none;
-  margin-right: 20px;
-  transition: opacity 0.5s;
-}
-#container #navbar #scaffold:hover {
-  opacity: 1;
-}
-#container #navbar .link {
-  color: rgba(250, 226, 184, 0.75);
-  text-decoration: none;
-  opacity: 0.5;
-  margin-right: 20px;
-  transition: opacity 0.5s;
-}
-#container #navbar .link:hover {
-  opacity: 1;
-}
-#container #navbar #currentLink {
-  opacity: 0.8;
-}
-#container #navbar #currentLink:hover {
-  opacity: 1;
-}
-#container #navbar:hover {
-  left: 120px;
-}
-#container #navbar:hover #back {
-  opacity: 0.7;
-  color: #DFE0F2;
-}
-#container #navbar:hover #back span {
-  font-size: 20px;
-  color: #DFE0F2;
-}
-#container #navbar:hover #back:hover {
-  opacity: 1;
-}
 #container #top {
   display: flex;
   flex-direction: column;
@@ -219,7 +155,9 @@ a {
   color: #DFE0F2;
   font-weight: 500;
   max-width: 200px;
-  text-align: center;
+  text-align: left;
+  margin-left: 10px;
+  line-height: 20px;
 }
 #container #details .boxes .box:hover {
   opacity: 1;
@@ -536,7 +474,7 @@ a {
   opacity: 0.8;
   margin-top: 15px;
 }
-#container #classes {
+#container #courses {
   margin: 5px;
   display: flex;
   flex-direction: column;
@@ -547,7 +485,7 @@ a {
   opacity: 0.9;
   transition: all 0.3s;
 }
-#container #classes .top {
+#container #courses .top {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -555,13 +493,13 @@ a {
   margin-bottom: 20px;
   transition: all 0.5s;
 }
-#container #classes .top .heading {
+#container #courses .top .heading {
   font-size: 25px;
   color: #DFE0F2;
   margin-top: 5px;
   transition: all 0.5s;
 }
-#container #classes .top .stats {
+#container #courses .top .stats {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -571,7 +509,7 @@ a {
   margin-top: -10px;
   transition: all 0.5s;
 }
-#container #classes .top .stats .stat {
+#container #courses .top .stats .stat {
   background-color: rgba(39, 41, 100, 0.5);
   padding: 5px 15px 15px 15px;
   display: flex;
@@ -583,34 +521,34 @@ a {
   opacity: 0.7;
   transition: all 0.5s;
 }
-#container #classes .top .stats .stat .value {
+#container #courses .top .stats .stat .value {
   font-size: 50px;
   color: #FAE2B8;
 }
-#container #classes .top .stats .stat .desc {
+#container #courses .top .stats .stat .desc {
   font-size: 13px;
   color: #DFE0F2;
   margin-top: -12px;
   line-height: 13px;
   text-align: center;
 }
-#container #classes .top .stats .stat:hover {
+#container #courses .top .stats .stat:hover {
   opacity: 1;
 }
-#container #classes .more {
+#container #courses .more {
   font-size: 0px;
   color: #FAE2B8;
   margin-top: 0px;
   transition: all 0.5s;
 }
-#container #classes:hover {
+#container #courses:hover {
   opacity: 1;
   background-color: rgba(39, 41, 100, 0.5);
 }
-#container #classes:hover .top .heading {
+#container #courses:hover .top .heading {
   font-size: 35px;
 }
-#container #classes:hover .more {
+#container #courses:hover .more {
   font-size: 15px;
   opacity: 0.8;
   margin-top: 15px;

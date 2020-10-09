@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Join Course</title>
         <link rel="stylesheet" href="CSS/joinCourse.css">
+        <link rel="stylesheet" href="CSS/all.css">
     </head>
     <body>
       <div id='container'>

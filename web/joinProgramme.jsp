@@ -11,8 +11,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Join Class</title>
-        <link rel="stylesheet" href="CSS/joinClass.css">
+        <title>UniFusion :: Join Programme</title>
+        <link rel="stylesheet" href="CSS/joinProgramme.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     <body>
@@ -30,12 +30,12 @@
             <img src='https://image.flaticon.com/icons/svg/3300/3300028.svg'>
           </div>
           <div class='text'>
-            <a id='title'>Join a Class</a>
-            <a id='instruction'>Enter in the code of an existing class below.</a>
-            <form id='form' action="PerformJoinClass">
+            <a id='title'>Join a Programme</a>
+            <a id='instruction'>Enter in the code of an existing programme below.</a>
+            <form id='form' action="PerformJoinProgramme">
                <div class='input' id='right'>
-                <a class='label'>Class code</a>
-                <input class='textbox' type='text' name='classCode' placeholder='eg. 177013'>
+                <a class='label'>Programme code</a>
+                <input class='textbox' type='text' name='programmeCode' placeholder='eg. 177013'>
               </div>
               <input type='submit' id='proceed-button' value='Join!'>
             </form>
