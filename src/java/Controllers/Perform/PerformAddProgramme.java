@@ -5,14 +5,19 @@
  */
 package Controllers.Perform;
 
-import Util.*;
+import Util.DB;
+import Util.Servlet;
 import Models.*;
+import Util.Quick;
+import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -24,8 +29,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "PerformAddCourse", urlPatterns = {"/PerformAddCourse"})
-public class PerformAddCourse extends HttpServlet {
+@WebServlet(name = "PerformAddProgramme", urlPatterns = {"/PerformAddProgramme"})
+public class PerformAddProgramme extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -43,68 +48,65 @@ public class PerformAddCourse extends HttpServlet {
 
         // Objects to be utilized
         Users user = Server.getUser(request, response);
-        Course course = new Course();
+        Institution institution = new Institution();
         Programme programme = new Programme();
-        Semester semester = new Semester();
-        Courseparticipant cpa = new Courseparticipant();
+        Programmeparticipant ppa = new Programmeparticipant();
         Participant participant = new Participant();
 
         // Obtain field data
-        String courseCode = servlet.getQueryStr("courseCode");
-        String courseName = servlet.getQueryStr("courseName");
         String programmeCode = servlet.getQueryStr("programmeCode");
-        String semesterCode = servlet.getQueryStr("semesterCode");
+        String programmeTitle = servlet.getQueryStr("programmeCode");
+        String institutionCode = servlet.getQueryStr("institutionCode");
         String description = servlet.getQueryStr("description");
-        boolean hasProgramme = servlet.getQueryStr("hasProgramme") != null;
-        boolean hasSemester = servlet.getQueryStr("hasSemester") != null;
+        boolean hasInstitution = servlet.getQueryStr("hasInstitution") != null;
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
 
         // Validations go here
-        // Set course object
-        course.setCoursecode(courseCode);
-        course.setDescription(description);
-        course.setTitle(courseName);
-        course.setIspublic(isPublic);
+        // Create new programme
+        programme.setProgrammecode(programmeCode);
+        programme.setTitle(programmeTitle);
+        programme.setIspublic(isPublic);
+        programme.setDescription(description);
 
-        // If a programme is specified
-        if (hasProgramme) {
-            // Load programme from DB
-
-            // Check whether user participates in the programme 
+        // If an institution is specified
+        if (hasInstitution) {
+            // Load institution from DB
+            // Check whether user participates in the institution 
             // Check permission level
+            Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader'", Models.Institution.class);
+            query.setParameter(1, institutionCode);
+            query.setParameter(2, user.getUserid());
+
+            // Execute the query
+            List<Models.Institution> results = query.getResultList();
+
             // if valid
-            if (true) {
-                // Set course into the programme
-                //  course.setProgrammecode(programme);
+            if (results.size() > 0) {
+                // Set programme into the institution
+                programme.setInstitutioncode(results.get(0));
 
                 // Get the existing participant from programme
-                // If a semester is specified
-                if (hasSemester) {
-                    // Load semester from DB
+                Query participantQuery = em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader'", Models.Participant.class);
+                participantQuery.setParameter(1, institutionCode);
+                participantQuery.setParameter(2, user.getUserid());
 
-                    // Check whether user participates in the programme 
-                    // Check permission level
-                    // If valid,
-                    if (true) {
+                // Execute the query
+                List<Models.Participant> participantResults = participantQuery.getResultList();
+                participant = participantResults.get(0);
 
-                        // Set semester into the course
-                        //course.setSemestercode(semester);
-                    } // If invalid semester, show error message
-                    else {
-
-                    }
-                }
             } // If invalid programme, show error message
             else {
-
+                System.out.println("Programme code incorrect");
+                servlet.toServlet("AddProgramme");
+                return;
             }
 
-        } // If no programme is specified
+        } // If no institution is specified
         else {
 
             // Create a new participant since it's not related to any programme/institution
             participant.setDateadded(Calendar.getInstance().getTime());
-            participant.setEducatorrole("courseLeader");
+            participant.setEducatorrole("programmeLeader");
             participant.setStatus("active");
             participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "Participantid"));
             participant.setUserid(user);
@@ -112,22 +114,24 @@ public class PerformAddCourse extends HttpServlet {
 
         }
 
-        // Create a course participant to link this creator to this course
-        cpa.setParticipantid(participant);
-        cpa.setIscreator(true);
-        cpa.setRole("teacher");
-        cpa.setStatus("active");
-        cpa.setCoursecode(course);
-        cpa.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Courseparticipantid"));
+        // Insert the programme
+        db.insert(programme);
 
-        // insert into database 
-        db.insert(course);
-        db.insert(cpa);
+        // Create the programme participant
+        ppa.setParticipantid(participant); 
+        ppa.setIscreator(true);
+        ppa.setRole("teacher");
+        ppa.setStatus("active");
+        ppa.setProgrammecode(programme);
+        ppa.setProgrammeparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Programmeparticipantid"));
 
-        System.out.println("Successfully added a course!");
+        // Insert the programme
+        db.insert(ppa);
 
-        servlet.toServlet("AddCourse");
-        
+        // Redirect
+        System.out.println("Programme successfullly created");
+        servlet.toServlet("AddProgramme");
+        return;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

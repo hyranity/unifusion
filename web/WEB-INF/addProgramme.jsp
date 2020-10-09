@@ -40,16 +40,16 @@
               <img src='https://i.postimg.cc/kgFkP6cK/unifusion-create-class-graphic-1.png'>
             </div>
             <div class='text' id='right'>
-              <a class='label'>Course code</a>
-              <input class='textbox' type='text' name='courseCode' placeholder='eg. GG420' required>
-              <a class='label'>Course name</a>
-              <input class='textbox' type='text' name='courseName' placeholder='eg. Computer Science' required>
+              <a class='label'>Programme  code</a>
+              <input class='textbox' type='text' name='programmeCode' placeholder='eg. GG420' required>
+              <a class='label'>Programme name</a>
+              <input class='textbox' type='text' name='programmeTitle' placeholder='eg. Computer Science' required>
             </div>
           </div>
 
           <div class='section'>
             <div class='text' id='left'>
-              <a class='label' id='name'>Is this course part of an institution?</a>
+              <a class='label' id='name'>Is this programme part of an institution?</a>
               <input type='checkbox' class='checkbox' id='hasInstitution' name='hasInstitution' onclick='hasInstitutionClicked()'>
               <label class='checkboxLabel' for='hasInstitution' id='hasInstitutionLabel'>
                 <div class='slider'></div>
@@ -69,8 +69,8 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Description</a>
-              <input class='textbox' type='text' name='desc' placeholder='eg. This is a CS class.' required>
-              <a class='label' id='name'>Is this class public?</a>
+              <input class='textbox' type='text' name='description' placeholder='eg. This is a CS programme.' required>
+              <a class='label' id='name'>Is this programme public?</a>
               <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
               <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
                 <div class='slider'></div>

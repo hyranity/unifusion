@@ -107,7 +107,7 @@ public class PerformAddClass extends HttpServlet {
 
             // If no results
             if (results.size() == 0) {
-                System.out.println("Course does not exist");
+                System.out.println("User does not have authority to add a class to this course");
             } // If course exists
             else {
                 // Put this class into that course
