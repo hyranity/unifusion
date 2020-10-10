@@ -46,12 +46,14 @@ public class ClassDetails extends HttpServlet {
 
         // Get class from DB
         String classCode = servlet.getQueryStr("class");
-        Query query = em.createNativeQuery("select * from class c, classparticipant cpa, participant p where c.classID = ? and cpa.classid = c.classID and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, classCode).setParameter(2, user.getUserid());
+        Query query = em.createNativeQuery("select * from class c, classparticipant cpa, participant p where c.classID = ? and cpa.classid = c.classID and cpa.participantid = p.participantid and p.userid = ? and cpa.role='teacher'", Models.Class.class).setParameter(1, classCode).setParameter(2, user.getUserid());
         ArrayList<Models.Class> result = db.getList(Models.Class.class, query);
 
         if (result.size() == 0) {
             // If no results
             System.out.println("Null class");
+            servlet.toServlet("Dashboard");
+            return;
         } else {
             // If a class is found
             Models.Class classroom = result.get(0);

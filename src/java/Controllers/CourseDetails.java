@@ -5,12 +5,15 @@
  */
 package Controllers;
 
+import Models.Course;
+import Models.Programme;
 import java.io.IOException;
 import Util.*;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -41,14 +44,19 @@ public class CourseDetails extends HttpServlet {
         
         // Get the course from DB
         String courseCode = servlet.getQueryStr("course");
-        Models.Course course = db.getSingleResult("coursecode", courseCode, Models.Course.class);
+        
+        // Ensure this person is course leader
+        Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where p.userid = ? and c.coursecode = ? and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.educatorrole = 'courseLeader'", Models.Course.class);
+        query.setParameter(1, Server.getUser(request, response).getUserid());
+        query.setParameter(2, courseCode);
         
         // If invalid course code
-        if(course == null) { 
+        if(query.getResultList().size() == 0) { 
             System.out.println("Invalid course code");
+            servlet.toServlet("Dashboard");
         } else{
             // Course is valid, display data
-            servlet.putInJsp("course", course);
+            servlet.putInJsp("course", (Course) query.getSingleResult());
             servlet.servletToJsp("courseDetails.jsp");
         }
     }
