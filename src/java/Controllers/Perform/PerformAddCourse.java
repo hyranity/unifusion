@@ -10,9 +10,11 @@ import Models.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -72,12 +74,28 @@ public class PerformAddCourse extends HttpServlet {
 
             // Check whether user participates in the programme 
             // Check permission level
+            Query query = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p, users u where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'courseLeader'  or p.educatorrole = 'programmeLeader'", Models.Programme.class);
+            query.setParameter(1, programmeCode);
+            query.setParameter(2, user.getUserid());
+
+            // Execute the query
+            List<Models.Programme> results = query.getResultList();
+
             // if valid
-            if (true) {
+            if (results.size() > 0) {
                 // Set course into the programme
-                //  course.setProgrammecode(programme);
+                programme = results.get(0);
+                course.setProgrammecode(programme);
 
                 // Get the existing participant from programme
+                Query participantQuery = em.createNativeQuery("select p.* from programme pg, programmeparticipant ppa, participant p, users u where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'courseLeader' or p.educatorrole = 'programmeLeader'", Models.Participant.class);
+                participantQuery.setParameter(1, programmeCode);
+                participantQuery.setParameter(2, user.getUserid());
+                
+                // Execute the query
+                List<Models.Participant> participantResults = participantQuery.getResultList();
+                participant = participantResults.get(0);
+
                 // If a semester is specified
                 if (hasSemester) {
                     // Load semester from DB
@@ -96,7 +114,9 @@ public class PerformAddCourse extends HttpServlet {
                 }
             } // If invalid programme, show error message
             else {
-
+                System.out.println("Programme code incorrect");
+                servlet.toServlet("AddCourse");
+                return;
             }
 
         } // If no programme is specified
@@ -127,7 +147,7 @@ public class PerformAddCourse extends HttpServlet {
         System.out.println("Successfully added a course!");
 
         servlet.toServlet("AddCourse");
-        
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

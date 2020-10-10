@@ -73,7 +73,7 @@ public class PerformAddProgramme extends HttpServlet {
             // Load institution from DB
             // Check whether user participates in the institution 
             // Check permission level
-            Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader'", Models.Institution.class);
+            Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin'", Models.Institution.class);
             query.setParameter(1, institutionCode);
             query.setParameter(2, user.getUserid());
 
@@ -85,8 +85,8 @@ public class PerformAddProgramme extends HttpServlet {
                 // Set programme into the institution
                 programme.setInstitutioncode(results.get(0));
 
-                // Get the existing participant from programme
-                Query participantQuery = em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader'", Models.Participant.class);
+                // Get the existing participant from institution
+                Query participantQuery = em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin'", Models.Participant.class);
                 participantQuery.setParameter(1, institutionCode);
                 participantQuery.setParameter(2, user.getUserid());
 
@@ -94,9 +94,9 @@ public class PerformAddProgramme extends HttpServlet {
                 List<Models.Participant> participantResults = participantQuery.getResultList();
                 participant = participantResults.get(0);
 
-            } // If invalid programme, show error message
+            } // If invalid institution, show error message
             else {
-                System.out.println("Programme code incorrect");
+                System.out.println("Institution code incorrect");
                 servlet.toServlet("AddProgramme");
                 return;
             }
