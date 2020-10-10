@@ -47,7 +47,7 @@ public class Courses extends HttpServlet {
         // Get currentUser
             Users currentUser = Server.getUser(request, response);
 
-        // Get class data
+        // Get course data
         String courseCode = servlet.getQueryStr("id");
         Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.coursecode = c.coursecode and cpa.participantid = p.participantid and p.userid = ?", Course.class).setParameter(1, courseCode).setParameter(2, currentUser.getUserid());
         
@@ -61,7 +61,7 @@ public class Courses extends HttpServlet {
         
 
         if (course == null) {
-            // Classroom not found
+            // Course not found
             System.out.println("COURSE NOT FOUND");
         } else {
             // Course is found
@@ -82,7 +82,7 @@ public class Courses extends HttpServlet {
             String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
             int moreCount = tutorList.size() + studentList.size();
 
-            // if current user != creator
+            // if current user == creator
             if (currentUser.getUserid().equals(creator.getUserid())) {
                 editBt = "<a class='more' href='CourseDetails?course=" + courseCode + "'>Click to edit ></a>";
                 moreCount -= 1;

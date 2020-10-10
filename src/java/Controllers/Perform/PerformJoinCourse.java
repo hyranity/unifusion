@@ -88,20 +88,7 @@ public class PerformJoinCourse extends HttpServlet {
 
                 //Insert into db
                 db.insert(coursePart);
-                
-                 // Add the user to every class within that course
-            for (Models.Class classroom : course.getClassCollection()) {
-                // Create new class participant for each class
-                Classparticipant classPart = new Classparticipant();
-                classPart.setIscreator(true);
-                classPart.setRole("student");
-                classPart.setStatus("active");
-                classPart.setClassid(classroom);
-                classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
-                classPart.setParticipantid(participant); // Use the newly created participant
-                db.insert(classPart);
-            }
-            
+
             } // If no
             else {
                 // Reject
@@ -134,18 +121,17 @@ public class PerformJoinCourse extends HttpServlet {
             db.insert(coursePart);
 
             // Add the user to every class within that course
-            for (Models.Class classroom : course.getClassCollection()) {
-                // Create new class participant for each class
-                Classparticipant classPart = new Classparticipant();
-                classPart.setIscreator(true);
-                classPart.setRole("student");
-                classPart.setStatus("active");
-                classPart.setClassid(classroom);
-                classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
-                classPart.setParticipantid(participant); // Use the newly created participant
-                db.insert(classPart);
-            }
-
+//            for (Models.Class classroom : course.getClassCollection()) {
+//                // Create new class participant for each class
+//                Classparticipant classPart = new Classparticipant();
+//                classPart.setIscreator(true);
+//                classPart.setRole("student");
+//                classPart.setStatus("active");
+//                classPart.setClassid(classroom);
+//                classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
+//                classPart.setParticipantid(participant); // Use the newly created participant
+//                db.insert(classPart);
+//            }
             System.out.println("Course successfully joined");
             servlet.toServlet("Course?id=" + course.getCoursecode());
         }

@@ -5,13 +5,23 @@
  */
 package Controllers;
 
+import Models.*;
+import Util.DB;
+import Util.Server;
+import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -20,19 +30,84 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Programme", urlPatterns = {"/Programme"})
 public class Programmes extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    @PersistenceContext
+    EntityManager em;
+
+    @Resource
+    private UserTransaction utx;
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       Util.Servlet servlet = new Util.Servlet(request, response);
+
+        // Declare variables
+        Servlet servlet = new Servlet(request, response);
+        DB db = new DB(em, utx);
+
+        // Get currentUser
+        Users currentUser = Server.getUser(request, response);
+
+        // Get course data
+        String programmeCode = servlet.getQueryStr("id");
+        Query query = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ?", Programme.class).setParameter(1, programmeCode).setParameter(2, currentUser.getUserid());
+
+          // If no results
+        if(query.getResultList().isEmpty()){
+            servlet.toServlet("Dashboard");
+            return;
+        }
+        
+        Programme programme = (Programme) query.getSingleResult();
+        
+        if (programme == null) {
+            // Programme not found
+            System.out.println("PROGRAMME NOT FOUND");
+        } else {
+            // Programme is found
+            System.out.println(programme.getTitle());
+
+            // Get list of tutors
+            ArrayList<Users> tutorList = db.getList(Users.class, em.createNativeQuery("select u.* from programmeparticipant ppa, programme pg, users u, participant p where pg.programmecode = ? and ppa.role = 'teacher' and u.userid = p.userid and p.participantid = ppa.participantid and pg.programmecode = ppa.programmecode", Models.Users.class).setParameter(1, programmeCode));
+
+            // Get list of students
+            ArrayList<Users> studentList = db.getList(Users.class, em.createNativeQuery("select u.* from programmeparticipant ppa, programme pg, users u, participant p where pg.programmecode = ? and ppa.role = 'student' and u.userid = p.userid and p.participantid = ppa.participantid and pg.programmecode = ppa.programmecode", Models.Users.class).setParameter(1, programmeCode));
+
+            // Get creator
+            Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from programmeparticipant ppa, programme pg, users u, participant p where pg.programmecode = ? and ppa.role = 'teacher' and u.userid = p.userid and p.participantid = ppa.participantid and ppa.iscreator = true and pg.programmecode = ppa.programmecode", Models.Users.class).setParameter(1, programmeCode)).get(0);
+
+            
+
+            // Displaying Members box
+            String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
+            int moreCount = tutorList.size() + studentList.size();
+
+            // if current user == creator
+            if (currentUser.getUserid().equals(creator.getUserid())) {
+                editBt = "<a class='more' href='ProgrammeDetails?programme=" + programmeCode + "'>Click to edit ></a>";
+                moreCount -= 1;
+            } else {
+                youBox = "<div class='box' id='you'>"
+                        + "<img class='icon' src='" + ((Models.Users) request.getSession().getAttribute("user")).getImageurl() + "'>"
+                        + "<a class='name'>You</a>"
+                        + "</div>";
+                moreCount -= 2;
+            }
+
+            // Displaying "and xx more..."
+            if (moreCount > 0) {
+                moreStr = "<a id='noOfMembers'>and " + moreCount + " more...</a>";
+            }
+
+            // Put data in JSP
+            servlet.putInJsp("programme", programme);
+            servlet.putInJsp("tutorList", tutorList);
+            servlet.putInJsp("studentList", studentList);
+            servlet.putInJsp("youBox", youBox);
+            servlet.putInJsp("moreStr", moreStr);
+            servlet.putInJsp("creator", creator);
+            servlet.putInJsp("editBt", editBt);
+        }
+        
         servlet.servletToJsp("programme.jsp");
     }
 
