@@ -29,14 +29,17 @@ response.setDateHeader ("Expires", 0);
             <div id='top'>
                 <a id='heading'>Dashboard</a>
                 <div id='actions'>
-                    <a href='#'>Join</a>
-                    <a href='#'>Create</a>
+                    <a href='dashboardMenu.jsp'>Open menu</a> <!-- to change to href='DashboardMenu' -->
                 </div>
             </div>
 
             <div id='classes'>
                 
-                <!-- programme -->
+                ${output}
+                
+                <!--
+                
+                programme
       
                 <div class='programme'>
 
@@ -58,7 +61,7 @@ response.setDateHeader ("Expires", 0);
 
                   <div class='courses' id='courses_P0001'>
 
-                    <!-- course 1 in programme -->
+                    course 1 in programme
 
                     <div class='course'>
 
@@ -114,9 +117,9 @@ response.setDateHeader ("Expires", 0);
 
                     </div>
 
-                    <!-- end of course 1 in programme -->
+                    end of course 1 in programme
 
-                    <!-- course 2 in programme -->
+                    course 2 in programme
 
                     <div class='course'>
 
@@ -172,25 +175,23 @@ response.setDateHeader ("Expires", 0);
 
                     </div>
 
-                    <!-- end of course 2 in programme -->
+                    end of course 2 in programme
 
                   </div>
 
                 </div>
 
-                <!-- end of programme -->
+                end of programme
 
-                <!-- course -->
+                course
                 
-                ${output}
-
-<!--                <div class='course'>
+               <div class='course'>
 
                     <div class='course-details'>
                         <img class='icon' src='https://image.flaticon.com/icons/svg/3034/3034573.svg'>
                         <div class='details'>
                             <div class='top-details'>
-                                <a class='id'>CO001</a>
+                                <a class='id'>CO00</a>
                                 <a class='tutor'>John Doe</a>
                             </div>
                             <a class='type'>COURSE</a>
@@ -199,10 +200,10 @@ response.setDateHeader ("Expires", 0);
                         </div>
                     </div>
 
-                    <input type='checkbox' name='seeClasses' class='seeClasses' id='seeClasses_CO001' onclick='seeClasses("CO001")'>
-                    <label class='seeClassesLabel' id='seeClassesLabel_CO001' for='seeClasses_CO001'>View classes</label>
+                    <input type='checkbox' name='seeClasses' class='seeClasses' id='seeClasses_CO00' onclick='seeClasses("CO00")'>
+                    <label class='seeClassesLabel' id='seeClassesLabel_CO00' for='seeClasses_CO00'>View classes</label>
 
-                    <div class='classes' id='classes_CO001'>
+                    <div class='classes' id='classes_CO00'>
 
                         <div class='row'>
 
@@ -233,16 +234,32 @@ response.setDateHeader ("Expires", 0);
                             </div>
 
                         </div>
+                        
+                        <div class='row'>
+
+                            <div class='class' onclick="location.href = '#';">
+                                <img class='icon' src='https://image.flaticon.com/icons/svg/3034/3034573.svg'>
+                                <div class='details'>
+                                    <div class='top-details'>
+                                        <a class='id'>C001</a>
+                                        <a class='tutor'>John Doe</a>
+                                    </div>
+                                    <a class='type'>CLASS</a>
+                                    <a class='name'>Math</a>
+                                    <a class='description'>Intermediate</a>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
 
-                </div>-->
+                </div>
 
-                <!-- end of course -->
+                end of course
 
-                <!-- row 1 -->
+                row 1
 
-<!--                <div class='row'>
+    q          <div class='row'>
 
                      row 1, class 1 
 
@@ -337,6 +354,7 @@ response.setDateHeader ("Expires", 0);
 
                 if (checkbox.checked == true) {
                     classes.style.display = "flex";
+                    classes.style.flexDirection = "column";
                 } else {
                     classes.style.display = "none";
                 }
