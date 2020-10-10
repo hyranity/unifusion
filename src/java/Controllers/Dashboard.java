@@ -73,7 +73,7 @@ public class Dashboard extends HttpServlet {
 
             output += " <div class='programme'>\n"
                     + "\n"
-                    + "                  <div class='programme-details'>\n"
+                    + "                  <div class='programme-details'  onclick=\"location.href='Programme?id=" + programme.getProgrammecode() + "'\">\n"
                     + "                    <img class='icon' src='https://image.flaticon.com/icons/svg/3034/3034573.svg'>\n"
                     + "                    <div class='details'>\n"
                     + "                      <div class='top-details'>\n"
