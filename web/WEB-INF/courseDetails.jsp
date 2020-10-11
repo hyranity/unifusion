@@ -128,7 +128,7 @@
                                     out.print("<input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>");
                                 }
                             %>
-                            <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
+                            <label class='checkboxLabel' for='isPublic' id='isPublicLabel' ${course.getIspublic() ? "checked" : ""}>
                                 <div class='slider'></div>
                             </label>
                         </div>

@@ -170,13 +170,8 @@
                             <a class='dropdownLabel'>Click to view options</a>
 
                             <a class='label' id='name'>Is this class public?</a>
-                            <%
-                                if (classroom.getIspublic()) {
-                                    out.print("<input type='checkbox' class='checkbox' id='isPublic' name='isPublic' checked>");
-                                } else {
-                                    out.print("<input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>");
-                                }
-                            %>
+                            <input type='checkbox' class='checkbox' id='isPublic' name='isPublic' ${class.getIspublic() ? "checked" : ""}>
+                      
 
                             <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
                                 <div class='slider'></div>

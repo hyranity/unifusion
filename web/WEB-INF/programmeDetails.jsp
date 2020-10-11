@@ -61,7 +61,7 @@
             <div id='left'>
               <a id='institutionTextboxesMsg'>The institution details of a programme cannot be edited.</a>
               <a class='label' id='name'>Is this programme part of an institution?</a>
-              <input type='checkbox' class='checkbox' id='hasInstitution' name='hasInstitution' checked readonly>
+              <input type='checkbox' class='checkbox' id='hasInstitution' name='hasInstitution'  readonly>
               <label class='checkboxLabel' for='hasInstitution' id='hasInstitutionLabel'>
               <div class='slider'></div>
               </label>
@@ -89,7 +89,7 @@
 
             <div id='right'>
               <a class='label' id='name'>Is this class public?</a>
-              <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
+              <input type='checkbox' class='checkbox' id='isPublic' name='isPublic' ${programme.getIspublic() ? "checked" : ""}>
               <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
                 <div class='slider'></div>
               </label>
