@@ -1,3 +1,5 @@
+<%@page import="Util.Errors"%>
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,7 +24,7 @@
           <a id='subheading'>Programme name</a>
         </div>
           
-        <a id='error'>Error message</a>
+        <a id='error'><%out.print(Errors.requestSimple(session));%></a>
         
          <form action="PerformEditProgramme">
 
@@ -37,12 +39,12 @@
 
             <div id='left'>
             <a class='label' id='name'>Programme code</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. GG420'>
+              <input class='textbox' type='text' name='programmeCode' placeholder='eg. GG420' value="${programme.getProgrammecode()}" readonly>
             </div>
 
             <div id='right'>
-              <a class='label' id='email'>Email</a>
-              <input class='textbox' type='text' name='email' placeholder='Email'>
+              <a class='label' id='email'>Programme title</a>
+              <input class='textbox' type='text' name='programmeTitle' placeholder='eg. Software Systems Development' value="${programme.getTitle()}">
             </div>
 
           </div>
@@ -59,12 +61,12 @@
             <div id='left'>
               <a id='institutionTextboxesMsg'>The institution details of a programme cannot be edited.</a>
               <a class='label' id='name'>Is this programme part of an institution?</a>
-              <input type='checkbox' class='checkbox' id='hasInstitution' name='hasInstitution' checked disabled>
+              <input type='checkbox' class='checkbox' id='hasInstitution' name='hasInstitution' checked readonly>
               <label class='checkboxLabel' for='hasInstitution' id='hasInstitutionLabel'>
               <div class='slider'></div>
               </label>
               <a class='label' id='institutionCodeLabel'>Institution code</a>
-              <input id='institutionCodeTextbox' class='textbox' type='text' name='institutionCode' placeholder='eg. LOL1337' disabled>
+              <input id='institutionCodeTextbox' class='textbox' type='text' name='institutionCode' placeholder='eg. LOL1337' disabled value="${programme.getInstitutioncode()}">
               <input type='hidden' id='institutionCodeEnabled' name='institutionCodeEnabled' value='false' disabled>
             </div>
 
@@ -82,7 +84,7 @@
 
             <div id='left'>
             <a class='label' id='name'>Description</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. GG420'>
+              <input class='textbox' type='text' name='description' placeholder='eg. This is a CS course.' value="${programme.getDescription()}">
             </div>
 
             <div id='right'>

@@ -56,21 +56,21 @@ public class PerformAddProgramme extends HttpServlet {
 
         // Obtain field data
         String programmeCode = servlet.getQueryStr("programmeCode");
-        String programmeTitle = servlet.getQueryStr("programmeCode");
+        String programmeTitle = servlet.getQueryStr("programmeTitle");
         String institutionCode = servlet.getQueryStr("institutionCode");
         String description = servlet.getQueryStr("description");
         boolean hasInstitution = servlet.getQueryStr("hasInstitution") != null;
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
 
         // Validations go here
-         if(programmeCode == null || programmeTitle == null || description == null || programmeCode.trim().isEmpty() || programmeTitle.trim().isEmpty() || description.trim().isEmpty()){
-           // Has null data
+        if (programmeCode == null || programmeTitle == null || description == null || programmeCode.trim().isEmpty() || programmeTitle.trim().isEmpty() || description.trim().isEmpty()) {
+            // Has null data
             System.out.println("Null fields!");
             Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
             servlet.toServlet("AddProgramme");
             return;
         }
-         
+
         // Create new programme
         programme.setProgrammecode(programmeCode);
         programme.setTitle(programmeTitle);
@@ -127,7 +127,7 @@ public class PerformAddProgramme extends HttpServlet {
         db.insert(programme);
 
         // Create the programme participant
-        ppa.setParticipantid(participant); 
+        ppa.setParticipantid(participant);
         ppa.setIscreator(true);
         ppa.setRole("teacher");
         ppa.setStatus("active");

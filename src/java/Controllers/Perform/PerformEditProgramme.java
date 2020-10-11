@@ -24,8 +24,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "PerformEditCourse", urlPatterns = {"/PerformEditCourse"})
-public class PerformEditCourse extends HttpServlet {
+@WebServlet(name = "PerformEditProgramme", urlPatterns = {"/PerformEditProgramme"})
+public class PerformEditProgramme extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -42,44 +42,43 @@ public class PerformEditCourse extends HttpServlet {
         DB db = new DB(em, utx);
 
         // Obtain field data
-        String courseCode = servlet.getQueryStr("courseCode"); // WILL NEVER BE EDITED
-        String courseTitle = servlet.getQueryStr("courseTitle");
-        String programmeCode = servlet.getQueryStr("programmeCode");  // WILL NEVER BE EDITED
-        String semesterCode = servlet.getQueryStr("semesterCode");  // WILL NEVER BE EDITED
+        String programmeCode = servlet.getQueryStr("programmeCode"); // WILL NEVER BE EDITED
+        String programmeTitle = servlet.getQueryStr("programmeTitle");
+        String institutionCode = servlet.getQueryStr("institutionCode"); // WILL NEVER BE EDITED
         String description = servlet.getQueryStr("description");
         String bannerURL = servlet.getQueryStr("bannerURL");
         String colourTheme = servlet.getQueryStr("colourTheme");
         String iconURL = servlet.getQueryStr("iconURL");
-        boolean hasProgramme = servlet.getQueryStr("hasProgramme") != null;  // WILL NEVER BE EDITED
-        boolean hasSemester = servlet.getQueryStr("hasSemester") != null;  // WILL NEVER BE EDITED
+        boolean hasInstitution = servlet.getQueryStr("hasInstitution") != null;  // WILL NEVER BE EDITED
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
+        
+       
 
         // Validations go here
-        // Validate null fields (important fields only)
-        if (courseCode == null || courseTitle == null || description == null || courseCode.trim().isEmpty() || courseTitle.trim().isEmpty() || description.trim().isEmpty()) {
+        if (programmeCode == null || programmeTitle == null || description == null || programmeCode.trim().isEmpty() || programmeTitle.trim().isEmpty() || description.trim().isEmpty()) {
             // Has null data
             System.out.println("Null fields!");
             Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
-            servlet.toServlet("AddCourse");
+            servlet.toServlet("ProgrammeDetails?programme=" + programmeCode);
             return;
         }
 
-        // Get course from DB
-        Models.Course course = db.getSingleResult("coursecode", courseCode, Models.Course.class);
-
-        // Update course fields
-        course.setTitle(courseTitle);
-        course.setDescription(description);
-        course.setIspublic(isPublic);
-        course.setBannerurl(bannerURL);
-        course.setColourtheme(colourTheme);
-        course.setIconurl(iconURL);
-
-        // Update db
-        db.update(course);
+        // Get programme from DB
+        Models.Programme programme = db.getSingleResult("programmecode", programmeCode, Models.Programme.class);
+        
+        // Update programme fields
+        programme.setTitle(programmeTitle);
+        programme.setDescription(description);
+        programme.setIspublic(isPublic);
+        programme.setColourtheme(colourTheme);
+        programme.setBannerurl(bannerURL);
+        programme.setIconurl(iconURL);
+        
+        // Update in db
+        db.update(programme);
 
         // Redirect
-        servlet.toServlet("CourseDetails?course=" + courseCode);
+        servlet.toServlet("ProgrammeDetails?programme=" + programmeCode);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

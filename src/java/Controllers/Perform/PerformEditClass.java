@@ -29,43 +29,43 @@ public class PerformEditClass extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
-    
+
     @Resource
     private UserTransaction utx;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Set utility objects
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
-        
+
         // Get form data
         String classTitle = servlet.getQueryStr("classTitle");
-        String classCode = servlet.getQueryStr("classCode");
+        String classCode = servlet.getQueryStr("classCode");  // WILL NEVER BE EDITED
         String description = servlet.getQueryStr("description");
         String classType = servlet.getQueryStr("classType");
         String bannerURL = servlet.getQueryStr("bannerURL");
         String colourTheme = servlet.getQueryStr("colourTheme");
-        String courseCode = servlet.getQueryStr("courseCode");
-        String iconURL = null;
-        boolean hasCourse = servlet.getQueryStr("hasCourse") != null;
+        String courseCode = servlet.getQueryStr("courseCode");  // WILL NEVER BE EDITED
+        String iconURL = servlet.getQueryStr("iconURL");
+        boolean hasCourse = servlet.getQueryStr("hasCourse") != null;  // WILL NEVER BE EDITED
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
-        
+
         // Validation goes here
         // Validate important fields
-        if(classTitle == null || classCode == null || description == null || classType == null  || classTitle.trim().isEmpty() || classCode.trim().isEmpty() || description.trim().isEmpty() || classType.trim().isEmpty()){
-           // Has null data
+        if (classTitle == null || classCode == null || description == null || classType == null || classTitle.trim().isEmpty() || classCode.trim().isEmpty() || description.trim().isEmpty() || classType.trim().isEmpty()) {
+            // Has null data
             System.out.println("Null fields!");
             Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
-            servlet.toServlet("ClassDetails?class="+classCode);
+            servlet.toServlet("ClassDetails?class=" + classCode);
             return;
         }
-        
+
         // Get class from DB
         Models.Class classroom = db.getSingleResult("classid", classCode, Models.Class.class);
-        
+
         // Update class data
         classroom.setClasstitle(classTitle);
         classroom.setDescription(description);
@@ -74,24 +74,23 @@ public class PerformEditClass extends HttpServlet {
         classroom.setIconurl(iconURL);
         classroom.setIspublic(isPublic);
         classroom.setColourtheme(colourTheme);
-        
-        
-        if(hasCourse){
+
+        if (hasCourse) {
             // If has a course
-            
+
             // Get course from db
             Models.Course course = db.getSingleResult("courseid", courseCode, Models.Course.class);
             classroom.setCoursecode(course);
-        }else{
+        } else {
             // Remove any course
             classroom.setCoursecode(null);
         }
 
         // Update in DB
         db.update(classroom);
-        
+
         // Redirect
-        servlet.toServlet("ClassDetails?class="+classCode);
+        servlet.toServlet("ClassDetails?class=" + classCode);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

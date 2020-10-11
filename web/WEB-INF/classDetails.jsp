@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page import="Util.Quick"%>
 <%@page import="Models.Users"%>
 <%@page import="Models.Users"%>
@@ -26,7 +27,7 @@
                 <a id='subheading'>Group name</a>
             </div>
             
-            <a id='error'>Error message</a>
+            <a id='error'><%out.print(Errors.requestSimple(session));%></a>
 
             <form action="PerformEditClass">
 
