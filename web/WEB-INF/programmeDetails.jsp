@@ -23,6 +23,8 @@
         </div>
           
         <a id='error'>Error message</a>
+        
+         <form action="PerformEditProgramme">
 
         <!-- section 1: identity -->
 
@@ -128,7 +130,7 @@
         <div class='section'>
           <input id='save-button' type='submit' value='Save!'>
         </div>
-
+         </form>
       </div>
     </body>
 

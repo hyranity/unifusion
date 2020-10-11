@@ -8,6 +8,7 @@ package Controllers.Perform;
 import Util.DB;
 import Util.Servlet;
 import Models.*;
+import Util.Errors;
 import Util.Quick;
 import Util.Server;
 import java.io.IOException;
@@ -62,6 +63,14 @@ public class PerformAddProgramme extends HttpServlet {
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
 
         // Validations go here
+         if(programmeCode == null || programmeTitle == null || description == null || programmeCode.trim().isEmpty() || programmeTitle.trim().isEmpty() || description.trim().isEmpty()){
+           // Has null data
+            System.out.println("Null fields!");
+            Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
+            servlet.toServlet("AddProgramme");
+            return;
+        }
+         
         // Create new programme
         programme.setProgrammecode(programmeCode);
         programme.setTitle(programmeTitle);

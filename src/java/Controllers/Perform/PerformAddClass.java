@@ -64,15 +64,28 @@ public class PerformAddClass extends HttpServlet {
         Models.Class classroom = new Models.Class();
 
         // Get form data
+        String className = servlet.getQueryStr("className");
+        String classCode = servlet.getQueryStr("classCode");
+        String description = servlet.getQueryStr("description");
+        String classType = servlet.getQueryStr("classType");
         boolean hasCourse = servlet.getQueryStr("hasCourse") != null;
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
+        
+        // Validation goes here
+        if(className == null || classCode == null || description == null || classType == null  || className.trim().isEmpty() || classCode.trim().isEmpty() || description.trim().isEmpty() || classType.trim().isEmpty()){
+           // Has null data
+            System.out.println("Null fields!");
+            Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
+            servlet.toServlet("AddClass");
+            return;
+        }
 
         // Create classroom
-        classroom.setClasstitle(servlet.getQueryStr("className"));
-        classroom.setClassid(servlet.getQueryStr("classCode"));
+        classroom.setClasstitle(className);
+        classroom.setClassid(classCode);
         classroom.setIspublic(isPublic);
-        classroom.setDescription(servlet.getQueryStr("description"));
-        classroom.setClasstype(servlet.getQueryStr("classType"));
+        classroom.setDescription(description);
+        classroom.setClasstype(classType);
 
         // Check duplicate ID
         if (db.getSingleResult("classid", classroom.getClassid(), Models.Class.class) != null) {
