@@ -6,6 +6,7 @@
 package Controllers.Perform;
 
 import Util.DB;
+import Util.Errors;
 import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -51,6 +52,16 @@ public class PerformEditClass extends HttpServlet {
         String iconURL = null;
         boolean hasCourse = servlet.getQueryStr("hasCourse") != null;
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
+        
+        // Validation goes here
+        // Validate important fields
+        if(classTitle == null || classCode == null || description == null || classType == null  || classTitle.trim().isEmpty() || classCode.trim().isEmpty() || description.trim().isEmpty() || classType.trim().isEmpty()){
+           // Has null data
+            System.out.println("Null fields!");
+            Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
+            servlet.toServlet("ClassDetails?class="+classCode);
+            return;
+        }
         
         // Get class from DB
         Models.Class classroom = db.getSingleResult("classid", classCode, Models.Class.class);
