@@ -51,7 +51,7 @@
           <div class='section'>
             <div class='text' id='left'>
               <a class='label'>Description</a>
-              <input class='textbox' type='text' name='desc' placeholder='eg. This is quality institution.' required>
+              <input class='textbox' type='text' name='description' placeholder='eg. This is quality institution.' required>
               <a class='label'>Address</a>
               <input class='textbox' type='text' name='address' placeholder='eg. No 69, John Doe Street' required>
               <a class='label' id='name'>Is this institution public?</a>
