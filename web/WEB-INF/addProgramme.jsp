@@ -84,19 +84,4 @@
 
       </div>
     </body>
-    
-    <script>
-        function hasInstitutionClicked() {
-            var hasInstitution = document.getElementById("hasInstitution");
-            var institutionCodeTextbox = document.getElementById("institutionCodeTextbox");
-
-            document.getElementById("institutionCodeEnabled").value = hasInstitution.checked;
-
-            if (hasInstitution.checked) {
-                institutionCodeTextbox.disabled = false;
-            } else {
-                institutionCodeTextbox.disabled = true;
-            }
-        }
-    </script>
 </html>
