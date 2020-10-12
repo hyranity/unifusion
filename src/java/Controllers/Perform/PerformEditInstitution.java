@@ -5,7 +5,7 @@
  */
 package Controllers.Perform;
 
-import Models.Programme;
+import Models.Institution;
 import Util.DB;
 import Util.Errors;
 import Util.Server;
@@ -27,8 +27,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "PerformEditProgramme", urlPatterns = {"/PerformEditProgramme"})
-public class PerformEditProgramme extends HttpServlet {
+@WebServlet(name = "PerformEditInstitution", urlPatterns = {"/PerformEditInstitution"})
+public class PerformEditInstitution extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -45,51 +45,55 @@ public class PerformEditProgramme extends HttpServlet {
         DB db = new DB(em, utx);
 
         // Obtain field data
-        String programmeCode = servlet.getQueryStr("programmeCode"); // WILL NEVER BE EDITED
-        String programmeTitle = servlet.getQueryStr("programmeTitle");
         String institutionCode = servlet.getQueryStr("institutionCode"); // WILL NEVER BE EDITED
+        String institutionName = servlet.getQueryStr("institutionName");
+        String address = servlet.getQueryStr("address");
         String description = servlet.getQueryStr("description");
         String bannerURL = servlet.getQueryStr("bannerURL");
         String colourTheme = servlet.getQueryStr("colourTheme");
         String iconURL = servlet.getQueryStr("iconURL");
-        boolean hasInstitution = servlet.getQueryStr("hasInstitution") != null;  // WILL NEVER BE EDITED
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
 
         // Validations go here
-        if (programmeCode == null || programmeTitle == null || description == null || programmeCode.trim().isEmpty() || programmeTitle.trim().isEmpty() || description.trim().isEmpty()) {
+        if (institutionCode == null || institutionName == null || address == null || description == null || institutionCode.trim().isEmpty() || institutionName.trim().isEmpty() || address.trim().isEmpty() || description.trim().isEmpty()) {
             // Has null data
             System.out.println("Null fields!");
             Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
-            servlet.toServlet("ProgrammeDetails?programme=" + programmeCode);
+            servlet.toServlet("InstitutionDetails?institution=" + institutionCode);
             return;
         }
 
-        // Get the programme from DB where this person is participating inside it and is a programme leader
-        Query query = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where p.userid = ? and pg.programmecode = ? and pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and ppa.isCreator='true'", Models.Programme.class);
+        // Get the programme from DB where this person is participating inside it and is the creator
+        // Only allows creator to edit 
+        Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where p.userid = ? and i.institutioncode = ? and i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and ipa.isCreator = 'true'", Models.Institution.class);
         query.setParameter(1, Server.getUser(request, response).getUserid());
-        query.setParameter(2, programmeCode);
+        query.setParameter(2, institutionCode);
 
-        // If invalid course code
+        // If invalid institution code
         if (query.getResultList().size() == 0) {
-            System.out.println("Invalid programme code");
+            System.out.println("Invalid institution code");
             servlet.toServlet("Dashboard");
             return;
         } else {
-            Models.Programme programme = (Programme) query.getSingleResult();
+             // Institution is valid
+            Models.Institution institution = (Institution) query.getSingleResult();
 
-            // Update programme fields
-            programme.setTitle(programmeTitle);
-            programme.setDescription(description);
-            programme.setIspublic(isPublic);
-            programme.setColourtheme(colourTheme);
-            programme.setBannerurl(bannerURL);
-            programme.setIconurl(iconURL);
-
-            // Update in db
-            db.update(programme);
+            // Update fields
+            institution.setInstitutioncode(institutionCode);
+            institution.setName(institutionName);
+            institution.setDescription(description);
+            institution.setAddress(address);
+            institution.setIspublic(isPublic);
+            institution.setIconurl(iconURL);
+            institution.setBannerurl(bannerURL);
+            institution.setColourtheme(colourTheme);
+            
+            // Update
+            db.update(institution);
 
             // Redirect
-            servlet.toServlet("Programme?id=" + programmeCode);
+            servlet.toServlet("Institution?id=" + institutionCode);
+           
         }
 
     }

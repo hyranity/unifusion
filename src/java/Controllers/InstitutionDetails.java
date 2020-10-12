@@ -5,13 +5,23 @@
  */
 package Controllers;
 
+import Models.Institution;
+import Models.Programme;
+import Util.DB;
+import Util.Server;
+import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.annotation.Resource;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.transaction.UserTransaction;
 
 /**
  *
@@ -20,21 +30,40 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "InstitutionDetails", urlPatterns = {"/InstitutionDetails"})
 public class InstitutionDetails extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    @PersistenceContext
+    EntityManager em;
+    
+    @Resource
+    private UserTransaction utx;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-       // Redirect
-        Util.Servlet servlet = new Util.Servlet(request ,response);
-        servlet.servletToJsp("institutionDetails.jsp");
+       // Important utility classes
+        Servlet servlet = new Servlet(request, response);
+        DB db = new DB(em, utx);
+        
+        // Get the programme from DB
+        String institutionCode = servlet.getQueryStr("institution");
+        
+        // Get the programme from DB where this person is participating inside it and is a programme leader
+        Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where p.userid = ? and i.institutioncode = ? and i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.educatorrole = 'institutionAdmin'", Models.Institution.class);
+        query.setParameter(1, Server.getUser(request, response).getUserid());
+        query.setParameter(2, institutionCode);
+        
+        
+        // If invalid Institution code
+        if(query.getResultList().size() == 0) { 
+            System.out.println("Invalid institution code");
+           servlet.toServlet("Dashboard");
+            return;
+        } else{
+            Models.Institution institution = (Institution) query.getSingleResult();
+            
+            // Institution is valid, display data
+            servlet.putInJsp("institution", institution);
+            servlet.servletToJsp("institutionDetails.jsp");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

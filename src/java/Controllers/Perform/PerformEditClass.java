@@ -7,12 +7,15 @@ package Controllers.Perform;
 
 import Util.DB;
 import Util.Errors;
+import Util.Server;
 import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -64,33 +67,48 @@ public class PerformEditClass extends HttpServlet {
         }
 
         // Get class from DB
-        Models.Class classroom = db.getSingleResult("classid", classCode, Models.Class.class);
+        // Query only allows creator to edit class
+        Query query = em.createNativeQuery("select * from class c, classparticipant cpa, participant p where c.classID = ? and cpa.classid = c.classID and cpa.participantid = p.participantid and p.userid = ? and cpa.isCreator='true'", Models.Class.class).setParameter(1, classCode).setParameter(2, Server.getUser(request, response).getUserid());
+        ArrayList<Models.Class> result = db.getList(Models.Class.class, query);
 
-        // Update class data
-        classroom.setClasstitle(classTitle);
-        classroom.setDescription(description);
-        classroom.setBannerurl(bannerURL);
-        classroom.setClasstype(classType);
-        classroom.setIconurl(iconURL);
-        classroom.setIspublic(isPublic);
-        classroom.setColourtheme(colourTheme);
-
-        if (hasCourse) {
-            // If has a course
-
-            // Get course from db
-            Models.Course course = db.getSingleResult("courseid", courseCode, Models.Course.class);
-            classroom.setCoursecode(course);
+        if (result.size() == 0) {
+            // If no results
+            System.out.println("Null class");
+            servlet.toServlet("Dashboard");
+            return;
         } else {
-            // Remove any course
-            classroom.setCoursecode(null);
+            // If a class is found
+
+            // Get class from DB
+            Models.Class classroom = db.getSingleResult("classid", classCode, Models.Class.class);
+
+            // Update class data
+            classroom.setClasstitle(classTitle);
+            classroom.setDescription(description);
+            classroom.setBannerurl(bannerURL);
+            classroom.setClasstype(classType);
+            classroom.setIconurl(iconURL);
+            classroom.setIspublic(isPublic);
+            classroom.setColourtheme(colourTheme);
+
+            if (hasCourse) {
+                // If has a course
+
+                // Get course from db
+                Models.Course course = db.getSingleResult("courseid", courseCode, Models.Course.class);
+                classroom.setCoursecode(course);
+            } else {
+                // Remove any course
+                classroom.setCoursecode(null);
+            }
+
+            // Update in DB
+            db.update(classroom);
+
+            // Redirect
+            servlet.toServlet("Class?id=" + classCode);
         }
 
-        // Update in DB
-        db.update(classroom);
-
-        // Redirect
-        servlet.toServlet("ClassDetails?class=" + classCode);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

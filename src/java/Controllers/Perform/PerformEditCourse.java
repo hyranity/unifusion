@@ -5,14 +5,17 @@
  */
 package Controllers.Perform;
 
+import Models.Course;
 import Util.DB;
 import Util.Errors;
+import Util.Server;
 import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -67,19 +70,32 @@ public class PerformEditCourse extends HttpServlet {
         // Get course from DB
         Models.Course course = db.getSingleResult("coursecode", courseCode, Models.Course.class);
 
-        // Update course fields
-        course.setTitle(courseTitle);
-        course.setDescription(description);
-        course.setIspublic(isPublic);
-        course.setBannerurl(bannerURL);
-        course.setColourtheme(colourTheme);
-        course.setIconurl(iconURL);
+        // Get course from db where this person is the creator
+        // Only allow creator to edit
+        Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where p.userid = ? and c.coursecode = ? and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.educatorrole = 'courseLeader'", Models.Course.class);
+        query.setParameter(1, Server.getUser(request, response).getUserid());
+        query.setParameter(2, courseCode);
 
-        // Update db
-        db.update(course);
+        // If invalid course code
+        if (query.getResultList().size() == 0) {
+            System.out.println("Invalid course code");
+            servlet.toServlet("Dashboard");
+        } else {
+            // Update course fields
+            course.setTitle(courseTitle);
+            course.setDescription(description);
+            course.setIspublic(isPublic);
+            course.setBannerurl(bannerURL);
+            course.setColourtheme(colourTheme);
+            course.setIconurl(iconURL);
 
-        // Redirect
-        servlet.toServlet("CourseDetails?course=" + courseCode);
+            // Update db
+            db.update(course);
+
+            // Redirect
+            servlet.toServlet("Course?id=" + courseCode);
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

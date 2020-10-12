@@ -51,7 +51,7 @@
 
                             <div class='box'>
                                 <a class='label'>Name</a>
-                                <img class='icon' src=<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
+                                <img class='icon' src='<% out.print(Quick.getIcon(((Models.Class) request.getAttribute("classroom")).getIconurl()));%>'>
                                 <a class='text' id='className'>${classroom.getClasstitle()}</a>
                             </div>
 
@@ -91,7 +91,7 @@
                             <div class='boxes'>
 
                                 <div class='box'>
-                                    <img class='icon' src='${creator.getImageurl()}'>
+                                    <img class='icon' src='<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
                                     <a class='name'>${creator.getName()}</a>
                                 </div>
 

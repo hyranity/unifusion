@@ -9,6 +9,7 @@ import Models.Institution;
 import Models.Programme;
 import Models.Users;
 import Util.DB;
+import Util.Quick;
 import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -88,7 +89,7 @@ public class Institutions extends HttpServlet {
                 moreCount -= 1;
             } else {
                 youBox = "<div class='box' id='you'>"
-                        + "<img class='icon' src='" + ((Models.Users) request.getSession().getAttribute("user")).getImageurl() + "'>"
+                        + "<img class='icon' src='" + Quick.getIcon(((Models.Users) request.getSession().getAttribute("user")).getImageurl()) + "'>"
                         + "<a class='name'>You</a>"
                         + "</div>";
                 moreCount -= 2;

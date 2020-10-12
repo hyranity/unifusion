@@ -25,6 +25,8 @@
           <a id='subheading'>Institution name</a>
         </div>
           
+          <a id='error'><%out.print(Errors.requestSimple(session));%></a>
+          
         <form action="PerformEditInstitution">
 
         <!-- section 1: identity -->
@@ -38,12 +40,12 @@
 
             <div id='left'>
             <a class='label' id='name'>Institution code</a>
-              <input class='textbox' type='text' name='institutionCode' placeholder='eg. GG420'>
+              <input class='textbox' type='text' name='institutionCode' placeholder='eg. GG420' readonly value="${institution.getInstitutioncode()}">
             </div>
 
             <div id='right'>
               <a class='label' id='email'>Institution name</a>
-              <input class='textbox' type='text' name='institutionName' placeholder='eg. ABC College'>
+              <input class='textbox' type='text' name='institutionName' placeholder='eg. ABC College' value="${institution.getName()}">
             </div>
 
           </div>
@@ -60,14 +62,14 @@
 
             <div id='left'>
               <a class='label' id='name'>Description</a>
-              <input class='textbox' type='text' name='desc' placeholder='eg. This is a quality institution'>
+              <input class='textbox' type='text' name='description' placeholder='eg. This is a quality institution' value="${institution.getDescription()}">
               <a class='label' id='name'>Address</a>
-              <input class='textbox' type='text' name='address' placeholder='eg. No 69, John Doe Street'>
+              <input class='textbox' type='text' name='address' placeholder='eg. No 69, John Doe Street'  value="${institution.getAddress()}">
             </div>
 
             <div id='right'>
               <a class='label' id='name'>Is this institution public?</a>
-              <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
+              <input type='checkbox' class='checkbox' id='isPublic' name='isPublic' ${institution.getIspublic() ? "checked" : ""}>
               <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
                 <div class='slider'></div>
               </label>
@@ -87,9 +89,9 @@
 
             <div id='left'>
               <a class='label' id='name'>Icon URL</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. example.com'>
+              <input class='textbox' type='text' name='iconURL' placeholder='eg. example.com' value="${institution.getIconurl()}">
               <a class='label' id='name'>Banner URL</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. example.com'>
+              <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com' value="${institution.getBannerurl()}">
             </div>
 
             <div id='right'>
