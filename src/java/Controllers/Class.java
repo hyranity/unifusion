@@ -62,6 +62,7 @@ public class Class extends HttpServlet {
         if (classroom == null) {
             // Classroom not found
             System.out.println("CLASS NOT FOUND");
+            servlet.toServlet("Dashboard");
         } else {
             // Classroom is found
 
@@ -81,6 +82,7 @@ public class Class extends HttpServlet {
             // if current user != creator
             if (currentUser.getUserid().equals(creator.getUserid())) {
                 editBt = "<a class='more' href='ClassDetails?class=" + classId + "'>Click to edit ></a>";
+                creator.setName("You");
                 moreCount -= 1;
             } else {
                 youBox = "<div class='box' id='you'>"

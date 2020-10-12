@@ -55,4 +55,8 @@ public class Quick {
         return UUID.randomUUID().toString();
     }
     
+    public static String getIcon(String iconURL){
+        return iconURL == null ? "https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg" : iconURL;
+    }
+    
 }

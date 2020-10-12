@@ -1,3 +1,4 @@
+<%@page import="Models.Course"%>
 <%@page import="Util.Server"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="Models.Classparticipant"%>
@@ -51,7 +52,7 @@
 
                   <div class='box'>
                     <a class='label'>Name</a>
-                    <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+                    <img class='icon' src='<% out.print(Quick.getIcon(((Course) request.getAttribute("course")).getIconurl()));%>'>
                     <a class='text' id='courseName'>${course.getTitle()}</a>
                   </div>
 
@@ -91,7 +92,7 @@
                             <div class='boxes'>
 
                                 <div class='box'>
-                                    <img class='icon' src='${creator.getImageurl()}'>
+                                    <img class='icon' src='<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
                                     <a class='name'>${creator.getName()}</a>
                                 </div>
 

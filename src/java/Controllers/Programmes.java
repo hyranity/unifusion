@@ -62,6 +62,7 @@ public class Programmes extends HttpServlet {
         if (programme == null) {
             // Programme not found
             System.out.println("PROGRAMME NOT FOUND");
+            servlet.toServlet("Dashboard");
         } else {
             // Programme is found
             System.out.println(programme.getTitle());
@@ -84,6 +85,7 @@ public class Programmes extends HttpServlet {
             // if current user == creator
             if (currentUser.getUserid().equals(creator.getUserid())) {
                 editBt = "<a class='more' href='ProgrammeDetails?programme=" + programmeCode + "'>Click to edit ></a>";
+                creator.setName("You");
                 moreCount -= 1;
             } else {
                 youBox = "<div class='box' id='you'>"

@@ -27,7 +27,7 @@
             <div id='top'>
                 <div id='topOverlay'></div>
                 <div id='info'>
-                    <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+                    <img id='icon' src='<% out.print(Quick.getIcon(((Models.Class) request.getAttribute("classroom")).getIconurl()));%>'>
                     <div id='text'>
                         <a id='subheading'>Class</a>
                         <a id='heading'>${classroom.getClasstitle()}</a>
@@ -51,7 +51,7 @@
 
                             <div class='box'>
                                 <a class='label'>Name</a>
-                                <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+                                <img class='icon' src=<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
                                 <a class='text' id='className'>${classroom.getClasstitle()}</a>
                             </div>
 

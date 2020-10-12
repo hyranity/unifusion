@@ -81,7 +81,7 @@ public class PerformAddInstitution extends HttpServlet {
 
         // Create new institution
         institution.setInstitutioncode(institutionCode);
-        institution.setName(address);
+        institution.setName(institutionName);
         institution.setDescription(description);
         institution.setAddress(address);
         institution.setIspublic(isPublic);

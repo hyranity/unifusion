@@ -63,6 +63,7 @@ public class Courses extends HttpServlet {
         if (course == null) {
             // Course not found
             System.out.println("COURSE NOT FOUND");
+            servlet.toServlet("Dashboard");
         } else {
             // Course is found
             System.out.println(course.getTitle());
@@ -85,6 +86,7 @@ public class Courses extends HttpServlet {
             // if current user == creator
             if (currentUser.getUserid().equals(creator.getUserid())) {
                 editBt = "<a class='more' href='CourseDetails?course=" + courseCode + "'>Click to edit ></a>";
+                creator.setName("You");
                 moreCount -= 1;
             } else {
                 youBox = "<div class='box' id='you'>"
