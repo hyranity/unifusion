@@ -29,7 +29,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Institutionparticipant.findAll", query = "SELECT i FROM Institutionparticipant i")
     , @NamedQuery(name = "Institutionparticipant.findByInstitutionparticipantid", query = "SELECT i FROM Institutionparticipant i WHERE i.institutionparticipantid = :institutionparticipantid")
-    , @NamedQuery(name = "Institutionparticipant.findByRole", query = "SELECT i FROM Institutionparticipant i WHERE i.role = :role")})
+    , @NamedQuery(name = "Institutionparticipant.findByRole", query = "SELECT i FROM Institutionparticipant i WHERE i.role = :role")
+    , @NamedQuery(name = "Institutionparticipant.findByStatus", query = "SELECT i FROM Institutionparticipant i WHERE i.status = :status")
+    , @NamedQuery(name = "Institutionparticipant.findByIscreator", query = "SELECT i FROM Institutionparticipant i WHERE i.iscreator = :iscreator")})
 public class Institutionparticipant implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,6 +46,15 @@ public class Institutionparticipant implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "ROLE")
     private String role;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 20)
+    @Column(name = "STATUS")
+    private String status;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ISCREATOR")
+    private Boolean iscreator;
     @JoinColumn(name = "INSTITUTIONCODE", referencedColumnName = "INSTITUTIONCODE")
     @ManyToOne
     private Institution institutioncode;
@@ -58,9 +69,11 @@ public class Institutionparticipant implements Serializable {
         this.institutionparticipantid = institutionparticipantid;
     }
 
-    public Institutionparticipant(String institutionparticipantid, String role) {
+    public Institutionparticipant(String institutionparticipantid, String role, String status, Boolean iscreator) {
         this.institutionparticipantid = institutionparticipantid;
         this.role = role;
+        this.status = status;
+        this.iscreator = iscreator;
     }
 
     public String getInstitutionparticipantid() {
@@ -77,6 +90,22 @@ public class Institutionparticipant implements Serializable {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Boolean getIscreator() {
+        return iscreator;
+    }
+
+    public void setIscreator(Boolean iscreator) {
+        this.iscreator = iscreator;
     }
 
     public Institution getInstitutioncode() {

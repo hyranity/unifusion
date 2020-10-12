@@ -108,7 +108,7 @@ public class PerformAddCourse extends HttpServlet {
                 if (hasSemester) {
                     // Load semester from DB
 
-                    // Check whether user participates in the programme 
+                    // Check whether user participates in the semester 
                     // Check permission level
                     // If valid,
                     if (true) {
@@ -123,6 +123,7 @@ public class PerformAddCourse extends HttpServlet {
             } // If invalid programme, show error message
             else {
                 System.out.println("Programme code incorrect");
+                Errors.respondSimple(request.getSession(), "That programme code does not exist.");
                 servlet.toServlet("AddCourse");
                 return;
             }

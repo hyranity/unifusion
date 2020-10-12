@@ -70,6 +70,14 @@ public class PerformAddProgramme extends HttpServlet {
             servlet.toServlet("AddProgramme");
             return;
         }
+        
+        // Duplicate programme code
+        if(db.getSingleResult("programmecode", programmeCode, Programme.class) != null){
+            System.out.println("Has duplicate programme code!");
+            Errors.respondSimple(request.getSession(), "That programme code is taken.");
+            servlet.toServlet("AddInstitution");
+            return;
+        }
 
         // Create new programme
         programme.setProgrammecode(programmeCode);
@@ -106,6 +114,7 @@ public class PerformAddProgramme extends HttpServlet {
             } // If invalid institution, show error message
             else {
                 System.out.println("Institution code incorrect");
+                Errors.respondSimple(request.getSession(), "That institution code does not exist.");
                 servlet.toServlet("AddProgramme");
                 return;
             }
