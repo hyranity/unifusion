@@ -79,6 +79,8 @@ public class DB {
         
         try{
             item = classType.cast(query.getSingleResult());
+        }catch(NullPointerException | NoResultException ex){
+            System.out.println("No data found");
         }catch(Exception ex){
             ex.printStackTrace();
         }

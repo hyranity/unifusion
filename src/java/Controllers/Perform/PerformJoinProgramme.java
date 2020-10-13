@@ -123,9 +123,6 @@ public class PerformJoinProgramme extends HttpServlet {
             programmePart.setParticipantid(participant); // Use the newly created participant
             db.insert(programmePart);
             
-            // Add the user to every course within that programme
-            // Add the user to every class within each course
-            
             System.out.println("Programme successfully joined");
             servlet.toServlet("Programme?id=" + programme.getProgrammecode());
         }
