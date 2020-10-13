@@ -87,8 +87,15 @@ public class Dashboard extends HttpServlet {
                     + "                  </div>\n"
                     + "\n";
             
+            // Get courses in which user has joined
+            Query courseJoinQuery = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ? and c.programmecode = ?", Models.Course.class);
+            courseJoinQuery.setParameter(1, user.getUserid());
+            courseJoinQuery.setParameter(2, programme.getProgrammecode());
+            
+            List<Models.Course> programmeCourses = courseJoinQuery.getResultList();
+            
             // Only show "View Courses" button when there are courses inside
-            if(programme.getCourseCollection().size()> 0){
+            if(programmeCourses.size()> 0){
                 
                     output+= " <input type='checkbox' name='seeCourses' class='seeCourses' id='seeCourses_" + programme.getProgrammecode() + "' onclick='seeCourses(\"" + programme.getProgrammecode() + "\")'>\n"
                     + "                  <label class='seeCoursesLabel' id='seeCoursesLabel_" + programme.getProgrammecode() + "' for='seeCourses_" + programme.getProgrammecode() + "'>View courses</label>"
@@ -98,7 +105,7 @@ public class Dashboard extends HttpServlet {
 
             // Print each course
            
-            for (Course course : programme.getCourseCollection()) {
+            for (Course course : programmeCourses) {
             // Get the teacher
             Users teacher = db.getList(Models.Users.class, em.createNativeQuery("select u.* from Course c, Courseparticipant cpa, Participant p, Users u where c.coursecode = ? and c.coursecode = cpa.coursecode and cpa.iscreator = true and p.participantid = cpa.participantid and u.userid = p.userid", Models.Users.class).setParameter(1, course.getCoursecode())).get(0);
 
@@ -119,8 +126,15 @@ public class Dashboard extends HttpServlet {
                     + "        </div>\n"
                     + "        \n";
             
+             // Get classes in which user has joined
+            Query classJoinQuery = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and c.coursecode = ?", Models.Class.class);
+            classJoinQuery.setParameter(1, user.getUserid());
+            classJoinQuery.setParameter(2, course.getCoursecode());
+            
+            List<Models.Class> courseClasses = classJoinQuery.getResultList();
+            
             // Show the Classes list if only there are classes
-            if(course.getClassCollection().size() > 0){
+            if(courseClasses.size() > 0){
                 output+= "        <input type='checkbox' name='seeClasses' class='seeClasses' id='seeClasses_" + course.getCoursecode() + "' onclick='seeClasses(\"" + course.getCoursecode() + "\")'>\n"
                     + "        <label class='seeClassesLabel' id='seeClassesLabel_" + course.getCoursecode() + "' for='seeClasses_" + course.getCoursecode() + "'>View classes</label>\n"
                     + "        \n"
@@ -133,7 +147,7 @@ public class Dashboard extends HttpServlet {
 
             // Print each class under each course
             int counter = 0;
-            for (Models.Class classroom : course.getClassCollection()) {
+            for (Models.Class classroom : courseClasses) {
                 System.out.println("Displaying class for " + classroom.getClasstitle());
 
                 if (counter == 0) {
@@ -168,7 +182,7 @@ public class Dashboard extends HttpServlet {
             }
             
             // To close the <row> and <classes> elements, ONLY if classes exist
-            if(course.getClassCollection().size() > 0){
+            if(courseClasses.size() > 0){
                 output+= "</div></div>";
             }
 
@@ -178,7 +192,7 @@ public class Dashboard extends HttpServlet {
                     + "        \n";
         }
             // To close <courses> tag, ONLY if courses exist
-            if(programme.getCourseCollection().size() > 0){
+            if(programmeCourses.size() > 0){
                 output +="</div>";
             }
 
@@ -207,8 +221,15 @@ public class Dashboard extends HttpServlet {
                     + "        </div>\n"
                     + "        \n";
             
+            // Get classes in which user has joined
+            Query classJoinQuery = em.createNativeQuery("select c.* from classes c, classparticipant cpa, participant p where c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and c.coursecode = ?", Models.Class.class);
+            classJoinQuery.setParameter(1, user.getUserid());
+            classJoinQuery.setParameter(2, course.getCoursecode());
+            
+            List<Models.Class> courseClasses = classJoinQuery.getResultList();
+            
             // Show the Classes list if only there are classes
-            if(course.getClassCollection().size() > 0){
+            if(courseClasses.size() > 0){
                 output+= "        <input type='checkbox' name='seeClasses' class='seeClasses' id='seeClasses_" + course.getCoursecode() + "' onclick='seeClasses(\"" + course.getCoursecode() + "\")'>\n"
                     + "        <label class='seeClassesLabel' id='seeClassesLabel_" + course.getCoursecode() + "' for='seeClasses_" + course.getCoursecode() + "'>View classes</label>\n"
                     + "        \n"
@@ -221,7 +242,7 @@ public class Dashboard extends HttpServlet {
 
             // Print each class under each course
             int counter = 0;
-            for (Models.Class classroom : course.getClassCollection()) {
+            for (Models.Class classroom : courseClasses) {
                 System.out.println("Displaying class for " + classroom.getClasstitle());
 
                 if (counter == 0) {
@@ -256,7 +277,7 @@ public class Dashboard extends HttpServlet {
             }
             
             // To close the <row> and <classes> elements, ONLY if classes exist
-            if(course.getClassCollection().size() > 0){
+            if(courseClasses.size() > 0){
                 output+= "</div></div>";
             }
 

@@ -76,7 +76,7 @@ public class PerformJoinProgramme extends HttpServlet {
         if (programme.getInstitutioncode() != null) {
 
             // If this programme associated with an institution? He must be in the programme first before joining the course
-            Query query = em.createNativeQuery("select p.* from participant p, institutionparticipant ipa where p.userid = ? and p.participantid = ipa.participantid and ipa.institutioncode = ?").setParameter(1, user.getUserid()).setParameter(2, programme.getInstitutioncode().getInstitutioncode());
+            Query query = em.createNativeQuery("select p.* from participant p, institutionparticipant ipa where p.userid = ? and p.participantid = ipa.participantid and ipa.institutioncode = ?", Models.Participant.class).setParameter(1, user.getUserid()).setParameter(2, programme.getInstitutioncode().getInstitutioncode());
 
             // If yes
             if (query.getResultList().size() > 0) {
@@ -89,7 +89,7 @@ public class PerformJoinProgramme extends HttpServlet {
                 programmePart.setRole("student");
                 programmePart.setStatus("active");
                 programmePart.setProgrammecode(programme);
-                programmePart.setProgrammeparticipantid(Quick.generateID(em, utx, Programmeparticipant.class, "Programmeparticipantid"));
+                programmePart.setProgrammeparticipantid(Quick.generateID(em, utx, Programmeparticipant.class, "programmeparticipantid"));
                 programmePart.setParticipantid(participant); // Reuse existing participant
 
                 //Insert into db

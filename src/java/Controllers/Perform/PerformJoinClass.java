@@ -62,7 +62,7 @@ public class PerformJoinClass extends HttpServlet {
         }
         
         // If this person already joined
-        Query joinQuery = em.createNativeQuery("select p.* from participant p, classparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ?").setParameter(1, user.getUserid()).setParameter(2, classroom.getClassid());
+        Query joinQuery = em.createNativeQuery("select p.* from participant p, classparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ?", Models.Participant.class).setParameter(1, user.getUserid()).setParameter(2, classroom.getClassid());
         if(joinQuery.getResultList().size() > 0){
             System.out.println("Already joined this class");
             servlet.toServlet("JoinClass");

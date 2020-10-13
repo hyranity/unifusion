@@ -59,7 +59,7 @@ public class PerformJoinCourse extends HttpServlet {
         }
 
         // If this person already joined
-        Query joinQuery = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.coursecode = ?").setParameter(1, user.getUserid()).setParameter(2, course.getCoursecode());
+        Query joinQuery = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.coursecode = ?", Models.Participant.class).setParameter(1, user.getUserid()).setParameter(2, course.getCoursecode());
         if (joinQuery.getResultList().size() > 0) {
             System.out.println("Already joined this course");
             servlet.toServlet("JoinCourse");
@@ -70,7 +70,7 @@ public class PerformJoinCourse extends HttpServlet {
         if (course.getProgrammecode() != null) {
 
             // Is this user participating in the programme? He must be in the programme first before joining the course
-            Query query = em.createNativeQuery("select p.* from participant p, programmeparticipant ppa where p.userid = ? and p.participantid = ppa.participantid and ppa.programmecode = ?").setParameter(1, user.getUserid()).setParameter(2, course.getProgrammecode().getProgrammecode());
+            Query query = em.createNativeQuery("select p.* from participant p, programmeparticipant ppa where p.userid = ? and p.participantid = ppa.participantid and ppa.programmecode = ?", Models.Participant.class).setParameter(1, user.getUserid()).setParameter(2, course.getProgrammecode().getProgrammecode());
 
             // If yes
             if (query.getResultList().size() > 0) {
