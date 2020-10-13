@@ -90,7 +90,7 @@ public class PerformAddProgramme extends HttpServlet {
             // Load institution from DB
             // Check whether user participates in the institution 
             // Check permission level
-            Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin'", Models.Institution.class);
+            Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and (p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin')", Models.Institution.class);
             query.setParameter(1, institutionCode);
             query.setParameter(2, user.getUserid());
 
