@@ -13,6 +13,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Class</title>
         <link rel="stylesheet" href="CSS/class.css">
+        <link rel="stylesheet" href="CSS/all.css">
     </head>
     <body>
         <div id='container'>
@@ -34,6 +35,11 @@
                     </div>
                 </div>
             </div>
+                    
+            <div id='search'>
+              <input class='textbox' type='text' id='searchTextbox' placeholder='Search...'>
+              <input id='search-button' type='submit' value='>' onclick='search()'>
+            </div>
 
             <div id='content'>
 
@@ -43,7 +49,7 @@
 
                     <!-- START: details -->
 
-                    <div id='details' onclick='location.href = "#"'>
+                    <div class='panel' id='details' onclick='location.href = "#"'>
 
                         <a class='heading'>Details</a>
 
@@ -71,7 +77,7 @@
 
                     <!-- START: members -->
 
-                    <div id='members' onclick='location.href = "#"'>
+                    <div class='panel' id='members' onclick='location.href = "#"'>
 
                         <a class='heading'>Members</a>
 
@@ -109,6 +115,33 @@
                         </div>
 
                         <!-- END: members -->
+                        
+                        <!-- START: sessions -->
+
+                        <div class='panel' id='sessions' onclick='location.href="#"'>
+
+                          <div class='top'>
+                            <a class='heading'>Sessions</a>
+
+                            <div class='stats'>
+                              <div class='stat'>
+                                <a class='value' id='classworkWeek'>2</a>
+                                <a class='desc'>today</a>
+                              </div>
+
+                              <div class='stat'>
+                                <a class='value' id='classworkTotal'>5</a>
+                                <a class='desc'>this week</a>
+                              </div>
+                            </div>
+
+                            <a class='more'>Click to view more ></a>
+
+                          </div>
+
+                        </div>
+
+                        <!-- END: sessions -->
 
                     </div>
 
@@ -119,7 +152,7 @@
                     <div class='column' id='rightColumn'>
                         <!-- START: announcements -->
 
-                        <div id='announcements' onclick='location.href = "#"'>
+                        <div class='panel' id='announcements' onclick='location.href = "#"'>
 
                             <div class='top'>
                                 <a class='heading'>Announcements</a>
@@ -182,7 +215,7 @@
                         
                         <!-- START: classwork -->
 
-                        <div id='classwork' onclick='location.href="#"'>
+                        <div class='panel' id='classwork' onclick='location.href="#"'>
 
                           <div class='top'>
                             <a class='heading'>Classwork</a>
@@ -243,5 +276,24 @@
             </div>
 
     </body>
+    
+    <script>
+  
+    function search() {
+      var query = document.getElementById("searchTextbox").value;
+      var panels = document.getElementsByClassName('panel');
+
+      for (var i = 0; i < panels.length; i++) {
+          if (panels[i].id.includes(query)) {
+          panels[i].style.display = "flex";
+          panels[i].style.opacity = "1";
+        } else {
+          panels[i].style.opacity = "0";
+          panels[i].style.display = "none";
+        }
+      }
+    }
+
+    </script>
 
 </html>

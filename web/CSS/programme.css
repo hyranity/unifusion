@@ -5,7 +5,8 @@ html, body {
   margin: 0px;
   padding: 0px;
   width: 100%;
-  height: auto;
+  height: 100%;
+  background-color: #424694;
 }
 a {
   font-family: 'Poppins';
@@ -13,13 +14,11 @@ a {
 }
 #container {
   width: 100%;
-  height: 100%;
-  background-color: #424694;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-bottom: 250px;
+  padding-bottom: 150px;
 }
 #container #top {
   display: flex;
@@ -30,12 +29,11 @@ a {
   background-image: url("https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/books-scaled.jpg");
   width: 100%;
   height: 400px;
-  position: absolute;
   transition: opacity 0.3s;
 }
 #container #top #topOverlay {
   width: 100%;
-  height: 100%;
+  height: 400px;
   position: absolute;
   background-image: linear-gradient(rgba(66, 70, 148, 0.05), #424694);
   z-index: 0;
@@ -78,16 +76,83 @@ a {
 #container #top:hover #info #text #subheading {
   opacity: 1;
 }
+#container #search {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: -50px;
+  margin-bottom: 50px;
+  z-index: 1;
+}
+#container #search .textbox {
+  font-family: 'Poppins';
+  opacity: 0.8;
+  padding-left: 20px;
+  font-size: 20px;
+  color: #FAE2B8;
+  width: 200px;
+  height: 40px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  font-weight: 600;
+  text-align: center;
+  transition: all 0.3s;
+}
+#container #search .textbox::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  font-weight: 600;
+  font-size: 20px;
+  opacity: 0.5;
+  transition: color 0.3s, opacity 0.3s;
+}
+#container #search .textbox:hover {
+  opacity: 1;
+}
+#container #search .textbox:hover::placeholder {
+  opacity: 0.7;
+}
+#container #search .textbox:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #search .textbox:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #search #search-button {
+  margin-left: 10px;
+  text-decoration: none;
+  margin-right: 20px;
+  color: #DFE0F2;
+  font-size: 20px;
+  font-family: 'Poppins';
+  font-weight: 600;
+  background-color: rgba(250, 226, 184, 0.5);
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+#container #search #search-button:hover {
+  background-color: rgba(250, 226, 184, 0.75);
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+}
+#container #search #search-button:focus {
+  outline: none;
+}
+#container #search:hover .textbox {
+  width: 300px;
+}
 #container #content {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
-  margin-top: 400px;
-}
-#container #content .column {
-  display: flex;
-  flex-direction: column;
   justify-content: center;
 }
 #container #content #leftColumn {

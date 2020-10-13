@@ -35,7 +35,7 @@
             <form id='form' action="PerformJoinClass">
                <div class='input' id='right'>
                 <a class='label'>Class code</a>
-                <input class='textbox' type='text' name='classCode' placeholder='eg. 177013'>
+                <input class='textbox' type='text' name='classCode' placeholder='eg. 177013' required>
               </div>
               <input type='submit' id='proceed-button' value='Join!'>
             </form>

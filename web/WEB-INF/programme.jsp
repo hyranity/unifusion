@@ -30,6 +30,11 @@
             </div>
           </div>
         </div>
+            
+            <div id='search'>
+              <input class='textbox' type='text' id='searchTextbox' placeholder='Search...'>
+              <input id='search-button' type='submit' value='>' onclick='search()'>
+            </div>
 
         <div id='content'>
 
@@ -39,7 +44,7 @@
 
             <!-- START: details -->
 
-            <div id='details' onclick='location.href="#"'>
+            <div class='panel' id='details' onclick='location.href="#"'>
 
               <a class='heading'>Details</a>
 
@@ -66,7 +71,7 @@
 
             <!-- START: members -->
 
-            <div id='members' onclick='location.href="#"'>
+            <div class='panel' id='members' onclick='location.href="#"'>
 
               <a class='heading'>Members</a>
 
@@ -115,7 +120,7 @@
 
             <!-- START: announcements -->
 
-            <div id='announcements' onclick='location.href="#"'>
+            <div class='panel' id='announcements' onclick='location.href="#"'>
 
               <div class='top'>
                 <a class='heading'>Announcements</a>
@@ -178,7 +183,7 @@
 
             <!-- START: courses -->
 
-            <div id='courses' onclick='location.href="#"'>
+            <div class='panel' id='courses' onclick='location.href="#"'>
 
               <div class='top'>
                 <a class='heading'>Courses</a>
@@ -199,5 +204,24 @@
       </div>
 
     </body>
+    
+    <script>
+  
+    function search() {
+      var query = document.getElementById("searchTextbox").value;
+      var panels = document.getElementsByClassName('panel');
+
+      for (var i = 0; i < panels.length; i++) {
+          if (panels[i].id.includes(query)) {
+          panels[i].style.display = "flex";
+          panels[i].style.opacity = "1";
+        } else {
+          panels[i].style.opacity = "0";
+          panels[i].style.display = "none";
+        }
+      }
+    }
+
+    </script>
 
 </html>
