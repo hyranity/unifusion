@@ -24,7 +24,7 @@
               <a class='header'>Classes</a>
               <div class='links'>
                 <a class='link' href='AddClass'>Create a class</a>
-                <a class='link' href='#'>Join a class</a>
+                <a class='link' href='JoinClass'>Join a class</a>
               </div>  
             </div>
 
@@ -32,23 +32,23 @@
               <a class='header'>Courses</a>
               <div class='links'>
                 <a class='link' href='AddCourse'>Create a course</a>
-                <a class='link' href='#'>Join a course</a>
+                <a class='link' href='JoinCourse'>Join a course</a>
               </div>  
             </div>
 
             <div class='section'>
               <a class='header'>Programmes</a>
               <div class='links'>
-                <a class='link' href='#'>Create a programme</a>
-                <a class='link' href='#'>Join a programme</a>
+                <a class='link' href='AddProgramme'>Create a programme</a>
+                <a class='link' href='JoinProgramme'>Join a programme</a>
               </div>  
             </div>
 
             <div class='section'>
-              <a class='header'>Insitutions</a>
+              <a class='header'>Institutions</a>
               <div class='links'>
-                <a class='link' href='#'>Create a institution</a>
-                <a class='link' href='#'>Join a institution</a>
+                <a class='link' href='AddInstitution'>Create a institution</a>
+                <a class='link' href='JoinInstitution'>Join a institution</a>
               </div>  
             </div>
 

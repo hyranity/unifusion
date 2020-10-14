@@ -29,7 +29,7 @@ response.setDateHeader ("Expires", 0);
             <div id='top'>
                 <a id='heading'>Dashboard</a>
                 <div id='actions'>
-                    <a href='dashboardMenu.jsp'>Open menu</a> <!-- to change to href='DashboardMenu' -->
+                    <a href='DashboardMenu'>Open menu</a> <!-- to change to href='DashboardMenu' -->
                 </div>
             </div>
 
