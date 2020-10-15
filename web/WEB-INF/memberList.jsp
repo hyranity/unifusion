@@ -20,9 +20,9 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Members</a>
             </div>
           </div>
@@ -39,8 +39,11 @@
         </div>
 
         <div id='list'>
+            
+            ${tutors}
+            ${students}
 
-          <div class='member' id='tutor' onclick="location.href='#';">
+<!--          <div class='member' id='tutor' onclick="location.href='#';">
             <a class='info'>TUTOR</a>
             <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <a class='id'>001</a>
@@ -59,7 +62,7 @@
             <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <a class='id'>007</a>
             <a class='name'>Aioi Yuuko</a>
-          </div>
+          </div>-->
 
         </div>
 
