@@ -20,6 +20,70 @@ a {
   justify-content: flex-start;
   padding-bottom: 150px;
 }
+#container #navbar {
+  position: absolute;
+  left: 100px;
+  top: 50px;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: left 0.5s;
+}
+#container #navbar #back {
+  font-family: 'Poppins';
+  font-size: 20px;
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  margin-right: 20px;
+  transition: all 0.5s;
+}
+#container #navbar #back span {
+  font-size: 0px;
+  transition: all 0.5s;
+}
+#container #navbar #scaffold {
+  font-size: 28px;
+  color: #FAE2B8;
+  opacity: 0.7;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar #scaffold:hover {
+  opacity: 1;
+}
+#container #navbar .link {
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  opacity: 0.5;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar .link:hover {
+  opacity: 1;
+}
+#container #navbar #currentLink {
+  opacity: 0.8;
+}
+#container #navbar #currentLink:hover {
+  opacity: 1;
+}
+#container #navbar:hover {
+  left: 120px;
+}
+#container #navbar:hover #back {
+  opacity: 0.7;
+  color: #DFE0F2;
+}
+#container #navbar:hover #back span {
+  font-size: 20px;
+  color: #DFE0F2;
+}
+#container #navbar:hover #back:hover {
+  opacity: 1;
+}
 #container #top {
   display: flex;
   flex-direction: column;
@@ -82,11 +146,51 @@ a {
   align-items: center;
   justify-content: flex-start;
 }
+#container #form .textbox {
+  font-family: 'Poppins';
+  opacity: 0.8;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #FAE2B8;
+  width: 500px;
+  height: 55px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  transition: opacity 0.3s;
+}
+#container #form .textbox::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  transition: color 0.3s;
+}
+#container #form .textbox:hover {
+  opacity: 1;
+}
+#container #form .textbox:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #form .textbox:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #form .label {
+  font-family: 'Poppins';
+  color: #DFE0F2;
+  margin-left: 10px;
+  opacity: 0.5;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
 #container #form #input {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  margin-top: 20px;
 }
 #container #form #input #left {
   display: flex;
@@ -125,28 +229,12 @@ a {
 #container #form #input #left .textarea:focus::placeholder {
   color: rgba(250, 226, 184, 0.5);
 }
-#container #form #input #left .label {
-  font-family: 'Poppins';
-  color: #DFE0F2;
-  margin-left: 10px;
-  opacity: 0.5;
-  font-weight: 500;
-  transition: opacity 0.3s;
-}
 #container #form #input #right {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   margin-left: 25px;
-}
-#container #form #input #right .label {
-  font-family: 'Poppins';
-  color: #DFE0F2;
-  margin-left: 10px;
-  opacity: 0.5;
-  font-weight: 500;
-  transition: opacity 0.3s;
 }
 #container #form #input #right #uploader {
   color: transparent;

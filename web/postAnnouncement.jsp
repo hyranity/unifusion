@@ -8,50 +8,53 @@
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     
-  <body>
-    <div id='container'>
+    <body>
+      <div id='container'>
 
-      <div id='navbar'>
-        <a href='#' id='back'>&lt; <span>Back</span></a>
-        <a href='#' id='scaffold'>Scaffold</a>
-        <a href='#' class='link'>Dashboard</a>
-        <a href='#' class='link'>Account</a>
-      </div>
-
-      <div id='top'>
-        <div id='topOverlay'></div>
-        <div id='info'>
-          <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-          <div id='text'>
-            <a id='subheading'>C001 - Class Name (Class)</a>
-            <a id='heading'>Post Announcement</a>
-          </div>
-        </div>
-      </div>
-
-      <form id='form' action=''>
-
-        <div id='input'>
-
-          <div id='left'>
-            <a class='label'>Message</a>
-            <textarea class="textarea" name='message' placeholder='What do you want to tell everyone about?'></textarea>
-          </div>
-
-          <div id='right'>
-            <a class='label'>Attachments</a>
-            <input id='uploader' type='file' title="your text"/>
-
-          </div>
-
+        <div id='navbar'>
+          <a href='#' id='back'>&lt; <span>Back</span></a>
+          <a href='#' id='scaffold'>Scaffold</a>
+          <a href='#' class='link'>Dashboard</a>
+          <a href='#' class='link'>Account</a>
         </div>
 
-        <input id='post-button' type='submit' value='Post!'>
+        <div id='top'>
+          <div id='topOverlay'></div>
+          <div id='info'>
+            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <div id='text'>
+              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='heading'>Post Announcement</a>
+            </div>
+          </div>
+        </div>
 
-      </form>
+        <form id='form' action=''>
 
-    </div>
+          <a class='label' style='margin-left: -485px;'>Title</a>
+          <input class='textbox' type='text' name='title' placeholder='eg. New announcement!'>
 
-  </body>
+          <div id='input'>
+
+            <div id='left'>
+              <a class='label'>Message</a>
+              <textarea class="textarea" name='message' placeholder='What do you want to tell everyone about?'></textarea>
+            </div>
+
+            <div id='right'>
+              <a class='label'>Attachments</a>
+              <input id='uploader' type='file' title="your text"/>
+
+            </div>
+
+          </div>
+
+          <input id='post-button' type='submit' value='Post!'>
+
+        </form>
+
+      </div>
+
+    </body>
     
 </html>
