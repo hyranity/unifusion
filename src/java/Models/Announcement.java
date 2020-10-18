@@ -34,7 +34,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Announcement.findByAnnouncementid", query = "SELECT a FROM Announcement a WHERE a.announcementid = :announcementid")
     , @NamedQuery(name = "Announcement.findByTitle", query = "SELECT a FROM Announcement a WHERE a.title = :title")
     , @NamedQuery(name = "Announcement.findByMessage", query = "SELECT a FROM Announcement a WHERE a.message = :message")
-    , @NamedQuery(name = "Announcement.findByDateannounced", query = "SELECT a FROM Announcement a WHERE a.dateannounced = :dateannounced")})
+    , @NamedQuery(name = "Announcement.findByDateannounced", query = "SELECT a FROM Announcement a WHERE a.dateannounced = :dateannounced")
+    , @NamedQuery(name = "Announcement.findByFileurl", query = "SELECT a FROM Announcement a WHERE a.fileurl = :fileurl")})
 public class Announcement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,6 +60,9 @@ public class Announcement implements Serializable {
     @Column(name = "DATEANNOUNCED")
     @Temporal(TemporalType.DATE)
     private Date dateannounced;
+    @Size(max = 500)
+    @Column(name = "FILEURL")
+    private String fileurl;
     @JoinColumn(name = "CLASSID", referencedColumnName = "CLASSID")
     @ManyToOne
     private Class classid;
@@ -119,6 +123,14 @@ public class Announcement implements Serializable {
 
     public void setDateannounced(Date dateannounced) {
         this.dateannounced = dateannounced;
+    }
+
+    public String getFileurl() {
+        return fileurl;
+    }
+
+    public void setFileurl(String fileurl) {
+        this.fileurl = fileurl;
     }
 
     public Class getClassid() {
