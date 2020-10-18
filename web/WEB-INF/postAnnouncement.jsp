@@ -21,15 +21,20 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Post Announcement</a>
             </div>
           </div>
         </div>
 
-        <form id='form' action=''>
+        <form id='form' action='PerformPostAnnouncement' enctype ="multipart/form-data" method='post'>
+            
+            <!-- Hidden fields -->
+            <input type="hidden" name="id" value="${id}"/>
+            <input type="hidden" name="type" value="${type}"/>
+             <!-- End of Hidden fields -->
 
           <a class='label' style='margin-left: -485px;'>Title</a>
           <input class='textbox' type='text' name='title' placeholder='eg. New announcement!'>
@@ -43,7 +48,7 @@
 
             <div id='right'>
               <a class='label'>Attachments</a>
-              <input id='uploader' type='file' title="your text"/>
+              <input id='uploader' type='file' title="your text" name="file" size='50'/>
 
             </div>
 
