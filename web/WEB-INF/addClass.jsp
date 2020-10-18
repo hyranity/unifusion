@@ -31,7 +31,7 @@
           </div>
         </div>
           
-        <a id='error'><%out.print(Errors.requestSimple(session));%></a>
+        <a id='error' style='margin-top: 40px;'><%out.print(Errors.requestSimple(session));%></a>
 
         <form id='form' action="PerformAddClass">
 

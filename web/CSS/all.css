@@ -65,7 +65,6 @@
 #container #error {
     font-size: 18px;
     color: #e66a6a;
-    margin-top: 40px;
     opacity: 0.8;
     transition: all 0.5s;
 }
