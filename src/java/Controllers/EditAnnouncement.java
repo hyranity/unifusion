@@ -12,7 +12,6 @@ import Util.Quick;
 import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,8 +28,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "AnnouncementDetails", urlPatterns = {"/AnnouncementDetails"})
-public class AnnouncementDetails extends HttpServlet {
+@WebServlet(name = "EditAnnouncement", urlPatterns = {"/EditAnnouncement"})
+public class EditAnnouncement extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -41,7 +40,8 @@ public class AnnouncementDetails extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+       
+        
         // Util objects
         Util.Servlet servlet = new Util.Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
@@ -54,6 +54,9 @@ public class AnnouncementDetails extends HttpServlet {
         String type = servlet.getQueryStr("type");
         String id = servlet.getQueryStr("id");
         String code = servlet.getQueryStr("code"); // announcement id
+        
+        
+        
 
         Query query;
 
@@ -65,18 +68,13 @@ public class AnnouncementDetails extends HttpServlet {
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.classid = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, classroom.getClassid()).setParameter(2, code).getSingleResult();
 
-                // If the user is  the poster
-                if (user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())) {
-                    // Show button
-                    String button = "<div id='buttons'>\n"
-                            + "                    <input id='edit-button' class='button' type='submit' value='Edit' onclick='window.location.href=\"EditAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                    <input id='remove-button' class='button' type='submit' value='Delete' onclick='window.location.href=\"PerformDeleteAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                </div>";
-                    
-                    servlet.putInJsp("button", button);
+                // If the user is not the poster
+                if(!user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())){
+                    System.out.println("Unauthorized user!");
+                    servlet.toServlet("AnnouncementDetails?id=" + id + "&code=" + code + "&type=" + type);
+                    return;
                 }
-
-
+                
                 // Put into JSP
                 servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
                 servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
@@ -91,18 +89,13 @@ public class AnnouncementDetails extends HttpServlet {
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.coursecode = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, course.getCoursecode()).setParameter(2, code).getSingleResult();
 
-                 // If the user is  the poster
-                if (user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())) {
-                    // Show button
-                    String button = "<div id='buttons'>\n"
-                            + "                    <input id='edit-button' class='button' type='submit' value='Edit' onclick='window.location.href=\"EditAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                    <input id='remove-button' class='button' type='submit' value='Delete' onclick='window.location.href=\"PerformDeleteAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                </div>";
-                    
-                    servlet.putInJsp("button", button);
+                // If the user is not the poster
+                if(!user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())){
+                    System.out.println("Unauthorized user!");
+                    servlet.toServlet("AnnouncementDetails?id=" + id + "&code=" + code + "&type=" + type);
+                    return;
                 }
-
-
+                
                 // Put into JSP
                 servlet.putInJsp("subheading", course.getCoursecode() + " - " + course.getTitle() + " (Course)");
                 servlet.putInJsp("icon", Quick.getIcon(course.getIconurl()));
@@ -117,18 +110,13 @@ public class AnnouncementDetails extends HttpServlet {
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.programmecode = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, programme.getProgrammecode()).setParameter(2, code).getSingleResult();
 
-                  // If the user is  the poster
-                if (user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())) {
-                    // Show button
-                    String button = "<div id='buttons'>\n"
-                            + "                    <input id='edit-button' class='button' type='submit' value='Edit' onclick='window.location.href=\"EditAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                    <input id='remove-button' class='button' type='submit' value='Delete' onclick='window.location.href=\"PerformDeleteAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                </div>";
-                    
-                    servlet.putInJsp("button", button);
+                // If the user is not the poster
+                if(!user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())){
+                    System.out.println("Unauthorized user!");
+                    servlet.toServlet("AnnouncementDetails?id=" + id + "&code=" + code + "&type=" + type);
+                    return;
                 }
-
-
+                
                 // Put into JSP
                 servlet.putInJsp("subheading", programme.getProgrammecode() + " - " + programme.getTitle() + " (Programme)");
                 servlet.putInJsp("icon", Quick.getIcon(programme.getIconurl()));
@@ -143,17 +131,12 @@ public class AnnouncementDetails extends HttpServlet {
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.institutioncode = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, institution.getInstitutioncode()).setParameter(2, code).getSingleResult();
 
-                // If the user is  the poster
-                if (user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())) {
-                    // Show button
-                    String button = "<div id='buttons'>\n"
-                            + "                    <input id='edit-button' class='button' type='submit' value='Edit' onclick='window.location.href=\"EditAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                    <input id='remove-button' class='button' type='submit' value='Delete' onclick='window.location.href=\"PerformDeleteAnnouncement?id=" + id + "&code=" + code + "&type=" + type +"\"'>\n"
-                            + "                </div>";
-                    
-                    servlet.putInJsp("button", button);
+                // If the user is not the poster
+                if(!user.getUserid().equals(announcement.getPosterid().getUserid().getUserid())){
+                    System.out.println("Unauthorized user!");
+                    servlet.toServlet("AnnouncementDetails?id=" + id + "&code=" + code + "&type=" + type);
+                    return;
                 }
-
                 // Put into JSP
                 servlet.putInJsp("subheading", institution.getInstitutioncode() + " - " + institution.getName() + " (Institution)");
                 servlet.putInJsp("icon", Quick.getIcon(institution.getIconurl()));
@@ -164,34 +147,18 @@ public class AnnouncementDetails extends HttpServlet {
             } else {
                 // Incorrect type
                 System.out.println("Type is incorrect");
-                servlet.toServlet("Dashboard");
+                servlet.toServlet("AnnouncementDetails?id=" + id + "&code=" + code + "&type=" + type);
                 return;
             }
 
-            String fileStr = "";
-
-            // Get each file
-            if (announcement.getFileurl() != null) {
-                String[] files = announcement.getFileurl().split("\\|");
-
-                for (String file : files) {
-                    String name = file.substring(file.indexOf("\\") + 1, file.length());
-
-                    fileStr += "<div class='attachment'>\n"
-                            + "            <img class='icon' src='https://icons.iconarchive.com/icons/pelfusion/flat-file-type/512/doc-icon.png'>\n"
-                            + "            <a href='AnnouncementFile?type=" + type + "&id=" + id + "&code=" + code + "&file=" + file + "' class='name'>" + name + "</a>\n"
-                            + "          </div>";
-                }
-
-                servlet.putInJsp("fileStr", fileStr);
-            }
 
         } catch (NoResultException e) {
             System.out.println("No data found");
-            servlet.toServlet("Dashboard");
+            servlet.toServlet("AnnouncementDetails?id=" + id + "&code=" + code + "&type=" + type);
             return;
         }
-        servlet.servletToJsp("announcementDetails.jsp");
+        servlet.servletToJsp("editAnnouncement.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

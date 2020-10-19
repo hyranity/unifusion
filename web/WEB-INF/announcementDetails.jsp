@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page import="Models.Announcement"%>
 <%@page import="Models.Users"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -38,6 +39,7 @@
                     <a id='announcementId'>${announcement.getAnnouncementid()}</a>
                     <a id='announcementTitle'>${announcement.getTitle()}</a>
                 </div>
+                <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%></a>
 
                 <div id='details'>
 
@@ -71,10 +73,9 @@
                               </div>-->
                 </div>
 
-                <div id='buttons'>
-                    <input id='edit-button' class='button' type='submit' value='Edit'>
-                    <input id='remove-button' class='button' type='submit' value='Delete'>
-                </div>
+                ${button}
+                
+                
 
             </div>
 

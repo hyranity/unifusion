@@ -63,8 +63,6 @@ public class PerformPostAnnouncement extends HttpServlet {
             Util.DB db = new Util.DB(em, utx);
             Models.Users user = Server.getUser(request, response);
 
-           
-
             String title = "";
             String message = "";
             String id = "";

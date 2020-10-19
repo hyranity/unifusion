@@ -108,4 +108,9 @@ public class Quick {
         Files.copy(file.toPath(), response.getOutputStream());
     }
     
+    public static void deleteFile(String filename){
+        File file = new File(filename);
+        file.delete();
+    }
+    
 }

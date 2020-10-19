@@ -24,37 +24,46 @@
           <div id='info'>
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Edit Announcement</a>
             </div>
           </div>
         </div>
 
-        <form id='form' action=''>
+        <form id='form' action='PerformEditAnnouncement'>
+            
+             <!-- Hidden fields -->
+            <input type="hidden" name="id" value="${id}"/>
+            <input type="hidden" name="type" value="${type}"/>
+            <input type="hidden" name="code" value="${announcement.getAnnouncementid()}"/>
+             <!-- End of Hidden fields -->
 
           <div id='header'>
-            <a id='announcementId'>A001</a>
-            <a id='announcementTitle'>Announcement Name</a>
+            <a id='announcementId'>Announcement</a>
+            <a id='announcementTitle'>${announcement.getTitle()}</a>
           </div>
             
-          <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%>test</a>
+          <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%></a>
 
           <a class='label' style='margin-left: -485px;'>Title</a>
-          <input class='textbox' type='text' name='title' placeholder='eg. New announcement!'>
+          <input class='textbox' type='text' name='title' placeholder='eg. New announcement!' value="${announcement.getTitle()}">
 
-          <div id='input'>
+          <div id='input' >
 
             <div id='left'>
               <a class='label'>Message</a>
-              <textarea class="textarea" name='message' placeholder='What do you want to tell everyone about?'></textarea>
+              <textarea class="textarea" name='message' placeholder='What do you want to tell everyone about?' >${announcement.getMessage()}</textarea>
             </div>
 
-            <div id='right'>
+            <!-- Uneditable -->
+<!--            <div id='right'>
               <a class='label'>Attachments</a>
               <input id='uploader' type='file' title="your text" multiple/>
-            </div>
+            </div>-->
 
           </div>
+            <br/>
+            <a class='label'>Note: Uploaded files cannot be edited.</a>
 
           <input id='post-button' type='submit' value='Save!'>
 

@@ -57,10 +57,28 @@ public class DB {
 
         } catch(javax.validation.ConstraintViolationException ex){
             System.out.println("CONSTRAINTS");
-            System.out.println(ex.getConstraintViolations() + "LOOL");
+            System.out.println(ex.getConstraintViolations() );
         }catch (IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | javax.transaction.RollbackException | SystemException ex) {
             System.out.println(ex.getMessage());
         } catch(Exception ex){
+            System.out.println("Unknown error");
+        }
+    }
+     
+      public void delete(Object object) {
+        try {
+            utx.begin();
+            object = em.merge(object);
+            em.remove(object);
+            utx.commit();
+
+        } catch(javax.validation.ConstraintViolationException ex){
+            System.out.println("CONSTRAINTS");
+            System.out.println(ex.getConstraintViolations());
+        }catch (IllegalStateException | SecurityException | HeuristicMixedException | HeuristicRollbackException | NotSupportedException | javax.transaction.RollbackException | SystemException ex) {
+            System.out.println(ex.getMessage());
+        } catch(Exception ex){
+            ex.printStackTrace();
             System.out.println("Unknown error");
         }
     }
