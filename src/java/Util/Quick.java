@@ -5,6 +5,7 @@
  */
 package Util;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Date;
 import java.util.UUID;
@@ -15,6 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.io.FileExistsException;
 import org.joda.time.*;
 
 /**
@@ -72,6 +76,10 @@ public class Quick {
         } else{
             return "Unknown role";
         }
+    }
+    
+    public static void writeFile(FileItem item, String entireFileName) throws FileUploadException, FileExistsException, Exception{
+        item.write(new File(entireFileName));
     }
     
 }

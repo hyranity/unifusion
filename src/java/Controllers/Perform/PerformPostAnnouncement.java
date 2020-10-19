@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.annotation.Resource;
@@ -36,6 +37,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.*;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.io.FileExistsException;
 import org.joda.time.DateTime;
 
 /**
@@ -61,8 +63,7 @@ public class PerformPostAnnouncement extends HttpServlet {
             Util.DB db = new Util.DB(em, utx);
             Models.Users user = Server.getUser(request, response);
 
-            // File path for uploading
-            String filePath = "C:/Scaffold/data";
+           
 
             String title = "";
             String message = "";
@@ -90,7 +91,8 @@ public class PerformPostAnnouncement extends HttpServlet {
                 }
             }
 
-            System.out.println(title);
+             // File path for uploading
+            String filePath = "/ScaffoldData/" + id + "/Announcements";
 
             // Validation goes here
             if (title == null || message == null || title.trim().isEmpty() || message.trim().isEmpty()) {
@@ -245,11 +247,16 @@ public class PerformPostAnnouncement extends HttpServlet {
 
                         // File cant contain '|' character, using it for separating multiple urls in db
                         if (name.contains("|")) {
-                            Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
+                            System.out.println("Invalid characters");
+                            Errors.respondSimple(request.getSession(), "Your uploaded file(s) have invalid characters.");
                             return null;
                         }
-
-                        item.write(new File(filePath + File.separator + name));
+                        try{
+                            Quick.writeFile(item, filePath + File.separator + name);
+                        }catch(FileExistsException ex){
+                            // Ignore this error and reuse the existing file in the directly
+                            System.out.println("File duplicated, reusing existing one");
+                        }
                         System.out.println("Writing in " + filePath + File.separator + name);
                         uploadedFiles.add(filePath + File.separator + name);
                     }
@@ -258,7 +265,7 @@ public class PerformPostAnnouncement extends HttpServlet {
                  System.out.println("File uploaded successfully");
             } catch (FileUploadException ex) {
                 Logger.getLogger(PerformPostAnnouncement.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (Exception ex) {
+            }  catch (Exception ex) {
                 Logger.getLogger(PerformPostAnnouncement.class.getName()).log(Level.SEVERE, null, ex);
             }
            
