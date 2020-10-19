@@ -36,7 +36,7 @@
           <a class='dropdownLabel'>Click to view options</a>
           <input class='textbox' type='text' id='searchTextbox' placeholder='Search...'>
           <input id='search-button' class='button' type='submit' value='>' onclick='search()'>
-            <a href='#' id='create-button' class='button'>Post an Announcement</a>
+            <a href='${postURL}' id='create-button' class='button'>Post an Announcement</a>
         </div>
 
         <div id='list'>

@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -28,6 +29,8 @@
             </div>
           </div>
         </div>
+              
+              <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%></a>
 
         <form id='form' action='PerformPostAnnouncement' enctype ="multipart/form-data" method='post'>
             

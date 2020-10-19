@@ -79,6 +79,7 @@ public class Announcement extends HttpServlet {
                 servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
                 servlet.putInJsp("id", classroom.getClassid());
                 servlet.putInJsp("type", "class");
+                servlet.putInJsp("postURL", "PostAnnouncement?id="+id+"&type="+type);
                 servlet.putInJsp("announcementUI", announcementUI);
 
             } else if ("course".equalsIgnoreCase(type)) {
@@ -105,6 +106,7 @@ public class Announcement extends HttpServlet {
                 servlet.putInJsp("icon", Quick.getIcon(course.getIconurl()));
                 servlet.putInJsp("id", course.getCoursecode());
                 servlet.putInJsp("type", "course");
+                servlet.putInJsp("postURL", "PostAnnouncement?id="+id+"&type="+type);
                 servlet.putInJsp("announcementUI", announcementUI);
             } else if ("programme".equalsIgnoreCase(type)) {
                 // Get the course
@@ -130,6 +132,7 @@ public class Announcement extends HttpServlet {
                 servlet.putInJsp("icon", Quick.getIcon(programme.getIconurl()));
                 servlet.putInJsp("id", programme.getProgrammecode());
                 servlet.putInJsp("type", "programme");
+                servlet.putInJsp("postURL", "PostAnnouncement?id="+id+"&type="+type);
                 servlet.putInJsp("announcementUI", announcementUI);
             } else if ("institution".equalsIgnoreCase(type)) {
                 // Get the course
@@ -155,6 +158,7 @@ public class Announcement extends HttpServlet {
                 servlet.putInJsp("icon", Quick.getIcon(institution.getIconurl()));
                 servlet.putInJsp("id", institution.getInstitutioncode());
                 servlet.putInJsp("type", "institution");
+                servlet.putInJsp("postURL", "PostAnnouncement?id="+id+"&type="+type);
                 servlet.putInJsp("announcementUI", announcementUI);
             } else {
                 // Incorrect type
