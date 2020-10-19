@@ -90,7 +90,7 @@ public class PerformPostAnnouncement extends HttpServlet {
             }
 
              // File path for uploading
-            String filePath = "/ScaffoldData/" + id + "/Announcements";
+            String filePath = "/ScaffoldData/" + type + "/" + id + "/Announcements";
 
             // Validation goes here
             if (title == null || message == null || title.trim().isEmpty() || message.trim().isEmpty()) {
@@ -139,7 +139,7 @@ public class PerformPostAnnouncement extends HttpServlet {
                 } else if ("institution".equalsIgnoreCase(type)) {
                     // Get the course
                     Models.Institution institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and ipa.role = 'teacher'", Institution.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
-                    Models.Participant participant = (Models.Participant) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and ipa.role = 'teacher'", Participant.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                    Models.Participant participant = (Models.Participant) em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and ipa.role = 'teacher'", Participant.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
 
                     // No error, assign announcement
                     announcement.setInstitutioncode(institution);

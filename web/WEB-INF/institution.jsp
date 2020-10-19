@@ -144,7 +144,7 @@
 
               </div>
 
-              <a class='more'>Click to view more ></a>
+              <a class='more' href="Announcement?type=institution&id=${institution.getInstitutioncode()}">Click to view more ></a>
 
             </div>
 

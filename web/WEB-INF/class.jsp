@@ -176,7 +176,7 @@
 
                             </div>
 
-                            <a class='more'>Click to view more ></a>
+                            <a class='more' href="Announcement?type=class&id=${classroom.getClassid()}">Click to view more ></a>
 
                         </div>
 

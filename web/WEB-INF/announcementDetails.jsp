@@ -39,7 +39,7 @@
                     <a id='announcementId'>Announcement</a>
                     <a id='announcementTitle'>${announcement.getTitle()}</a>
                 </div>
-                <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%></a>
+                    <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%></a>
 
                 <div id='details'>
 

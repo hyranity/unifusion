@@ -133,6 +133,7 @@ public class Institutions extends HttpServlet {
             servlet.putInJsp("moreStr", moreStr);
             servlet.putInJsp("creator", creator);
             servlet.putInJsp("editBt", editBt);
+             servlet.putInJsp("announcementUI", announcementUI);
         }
         
         servlet.servletToJsp("institution.jsp");
