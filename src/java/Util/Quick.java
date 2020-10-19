@@ -59,4 +59,19 @@ public class Quick {
         return iconURL == null ||  iconURL.trim().isEmpty()? "https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg" : iconURL;
     }
     
+    public static String getRole(String role){
+
+        if(role.equalsIgnoreCase("classTeacher")){
+            return "Class Teacher";
+        } else if(role.equalsIgnoreCase("courseLeader")){
+            return "Course Leader";
+        } else if(role.equalsIgnoreCase("programmeLeader")){
+            return "Programme Leader";
+        } else if(role.equalsIgnoreCase("institutionAdmin")){
+            return "Administrator";
+        } else{
+            return "Unknown role";
+        }
+    }
+    
 }

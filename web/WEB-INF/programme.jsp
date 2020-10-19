@@ -52,7 +52,7 @@
 
                 <div class='box'>
                   <a class='label'>Name</a>
-                  <img class='icon' src=<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
+                  <img class='icon' src='<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
                   <a class='text' id='programmeName'>${programme.getTitle()}</a>
                 </div>
 
