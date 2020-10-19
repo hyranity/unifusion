@@ -99,6 +99,31 @@ public class Institutions extends HttpServlet {
             if (moreCount > 0) {
                 moreStr = "<a id='noOfMembers'>and " + moreCount + " more...</a>";
             }
+            
+               // Get announcements
+            String announcementUI = "";
+            int counter = 0;
+            for (Models.Announcement announcement : institution.getAnnouncementCollection()) {
+                // Get top 3 only
+                if (counter > 2) {
+                    break;
+                }
+
+                // Build UI
+                announcementUI += "<div class='announcement'>\n"
+                        + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) +"</a>\n"
+                        + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl() )+ "'>\n"
+                        + "                  <div class='text'>\n"
+                        + "                    <a class='message'><span>" +  announcement.getTitle() +"</span></a>\n"
+                        + "                    <a class='item'>"+ announcement.getPosterid().getUserid().getName() +"</a>\n"
+                        + "                  </div>\n"
+                        + "                </div>";
+            }
+            
+            // Get  announcement count
+            Query weeklyQuery = em.createNativeQuery("select count(*) from announcement where institutioncode = ? and current_date = date(dateannounced)").setParameter(1, institution.getInstitutioncode());
+            servlet.putInJsp("todayAnnounced", weeklyQuery.getSingleResult());
+            servlet.putInJsp("announcementCount", institution.getAnnouncementCollection().size());
 
             // Put data in JSP
             servlet.putInJsp("institution", institution);

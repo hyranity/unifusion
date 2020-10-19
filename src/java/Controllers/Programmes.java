@@ -52,14 +52,14 @@ public class Programmes extends HttpServlet {
         String programmeCode = servlet.getQueryStr("id");
         Query query = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ?", Programme.class).setParameter(1, programmeCode).setParameter(2, currentUser.getUserid());
 
-          // If no results
-        if(query.getResultList().isEmpty()){
+        // If no results
+        if (query.getResultList().isEmpty()) {
             servlet.toServlet("Dashboard");
             return;
         }
-        
+
         Programme programme = (Programme) query.getSingleResult();
-        
+
         if (programme == null) {
             // Programme not found
             System.out.println("PROGRAMME NOT FOUND");
@@ -76,8 +76,6 @@ public class Programmes extends HttpServlet {
 
             // Get creator
             Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from programmeparticipant ppa, programme pg, users u, participant p where pg.programmecode = ? and ppa.role = 'teacher' and u.userid = p.userid and p.participantid = ppa.participantid and ppa.iscreator = true and pg.programmecode = ppa.programmecode", Models.Users.class).setParameter(1, programmeCode)).get(0);
-
-            
 
             // Displaying Members box
             String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
@@ -101,7 +99,36 @@ public class Programmes extends HttpServlet {
                 moreStr = "<a id='noOfMembers'>and " + moreCount + " more...</a>";
             }
 
+            // Get announcements
+            String announcementUI = "";
+            int counter = 0;
+            for (Models.Announcement announcement : programme.getAnnouncementCollection()) {
+                // Get top 3 only
+                if (counter > 2) {
+                    break;
+                }
+
+                // Build UI
+                announcementUI += "<div class='announcement'>\n"
+                        + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) +"</a>\n"
+                        + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl() )+ "'>\n"
+                        + "                  <div class='text'>\n"
+                        + "                    <a class='message'><span>" +  announcement.getTitle() +"</span></a>\n"
+                        + "                    <a class='item'>"+ announcement.getPosterid().getUserid().getName() +"</a>\n"
+                        + "                  </div>\n"
+                        + "                </div>";
+            }
+            
+            // Get  announcement count
+            Query weeklyQuery = em.createNativeQuery("select count(*) from announcement where programmecode = ? and current_date = date(dateannounced)").setParameter(1, programme.getProgrammecode());
+            servlet.putInJsp("todayAnnounced", weeklyQuery.getSingleResult());
+            servlet.putInJsp("announcementCount", programme.getAnnouncementCollection().size());
+            
+            
+
+
             // Put data in JSP
+            servlet.putInJsp("announcementUI", announcementUI);
             servlet.putInJsp("programme", programme);
             servlet.putInJsp("tutorList", tutorList);
             servlet.putInJsp("studentList", studentList);
@@ -110,7 +137,7 @@ public class Programmes extends HttpServlet {
             servlet.putInJsp("creator", creator);
             servlet.putInJsp("editBt", editBt);
         }
-        
+
         servlet.servletToJsp("programme.jsp");
     }
 

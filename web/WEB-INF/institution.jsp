@@ -104,7 +104,7 @@
 
                             </div>
 
-                <a class='more'>Click to view more ></a>
+                <a class='more'  href='MemberList?type=institution&id=${institution.getInstitutioncode()}'>Click to view more ></a>
 
               </div>
 
@@ -127,51 +127,20 @@
 
                 <div class='stats'>
                   <div class='stat'>
-                    <a class='value' id='announcementsDay'>3</a>
+                    <a class='value' id='announcementsDay'>${todayAnnounced}</a>
                     <a class='desc'>today</a>
                   </div>
 
                   <div class='stat'>
-                    <a class='value' id='announcementsWeek'>12</a>
-                    <a class='desc'>this week</a>
+                    <a class='value' id='announcementsWeek'>${announcementCount}</a>
+                    <a class='desc'>total</a>
                   </div>
                 </div>
               </div>
 
               <div class='bottom'>
 
-                <!-- sample announcement 1 -->
-
-                <div class='announcement'>
-                  <a class='time'>15m ago</a>
-                  <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                  <div class='text'>
-                    <a class='message'><span>Name</span> posted item</a>
-                    <a class='item'>Item name</a>
-                  </div>
-                </div>
-
-                <!-- sample announcement 2 -->
-
-                <div class='announcement'>
-                  <a class='time'>3h ago</a>
-                  <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                  <div class='text'>
-                    <a class='message'><span>Name</span> commented</a>
-                    <a class='item'>Comment excerpt</a>
-                  </div>
-                </div>
-
-                <!-- sample announcement 3 -->
-
-                <div class='announcement'>
-                  <a class='time'>6h ago</a>
-                  <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-                  <div class='text'>
-                    <a class='message'><span>Name</span> posted item</a>
-                    <a class='item'>Item name</a>
-                  </div>
-                </div>
+               ${announcementUI}
 
               </div>
 

@@ -96,6 +96,31 @@ public class Class extends HttpServlet {
             if (moreCount > 0) {
                 moreStr = "<a id='noOfMembers'>and " + moreCount + " more...</a>";
             }
+            
+               // Get announcements
+            String announcementUI = "";
+            int counter = 0;
+            for (Models.Announcement announcement : classroom.getAnnouncementCollection()) {
+                // Get top 3 only
+                if (counter > 2) {
+                    break;
+                }
+
+                // Build UI
+                announcementUI += "<div class='announcement'>\n"
+                        + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) +"</a>\n"
+                        + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl() )+ "'>\n"
+                        + "                  <div class='text'>\n"
+                        + "                    <a class='message'><span>" +  announcement.getTitle() +"</span></a>\n"
+                        + "                    <a class='item'>"+ announcement.getPosterid().getUserid().getName() +"</a>\n"
+                        + "                  </div>\n"
+                        + "                </div>";
+            }
+            
+            // Get  announcement count
+            Query weeklyQuery = em.createNativeQuery("select count(*) from announcement where classid = ? and current_date = date(dateannounced)").setParameter(1, classroom.getClassid());
+            servlet.putInJsp("todayAnnounced", weeklyQuery.getSingleResult());
+            servlet.putInJsp("announcementCount", classroom.getAnnouncementCollection().size());
 
             // Put data in JSP
             servlet.putInJsp("classroom", classroom);

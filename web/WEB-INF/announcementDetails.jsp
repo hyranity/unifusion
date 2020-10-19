@@ -36,7 +36,7 @@
             <div id='content' action=''>
 
                 <div id='header'>
-                    <a id='announcementId'>${announcement.getAnnouncementid()}</a>
+                    <a id='announcementId'>Announcement</a>
                     <a id='announcementTitle'>${announcement.getTitle()}</a>
                 </div>
                 <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%></a>
@@ -44,8 +44,8 @@
                 <div id='details'>
 
                     <div id='dateDetails'>
-                        <a id='ago'>2h ago</a>
-                        <a id='date'>01 Jan 2020</a>
+                        <a id='ago'><% out.print(Quick.timeSince(((Announcement) request.getAttribute("announcement")).getDateannounced())); %></a>
+                        <a id='date'><% out.print(Quick.formatDate(((Announcement) request.getAttribute("announcement")).getDateannounced())); %></a>
                     </div>
 
                     <div id='poster'>

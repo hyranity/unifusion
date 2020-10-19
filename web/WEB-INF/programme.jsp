@@ -23,7 +23,7 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='<% out.print(Quick.getIcon(((Programme) request.getAttribute("programme")).getIconurl()));%>'>
+                <img id='icon' src='<% out.print(Quick.getIcon(((Programme) request.getAttribute("programme")).getIconurl()));%>'>
             <div id='text'>
               <a id='subheading'>Programme</a>
               <a id='heading'>${programme.getTitle()}</a>
@@ -52,7 +52,7 @@
 
                 <div class='box'>
                   <a class='label'>Name</a>
-                  <img class='icon' src='<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
+                  <img class='icon' src='<% out.print(Quick.getIcon(((Programme) request.getAttribute("programme")).getIconurl()));%>'>
                   <a class='text' id='programmeName'>${programme.getTitle()}</a>
                 </div>
 
@@ -91,7 +91,7 @@
                             <div class='boxes'>
 
                                 <div class='box'>
-                                    <img class='icon' src='${creator.getImageurl()}'>
+                                    <img class='icon' src='<% out.print(Quick.getIcon(((Users) request.getAttribute("creator")).getImageurl()));%>'>
                                     <a class='name'>${creator.getName()}</a>
                                 </div>
 
@@ -104,7 +104,7 @@
 
                             </div>
 
-                <a class='more'>Click to view more ></a>
+                <a class='more' href='MemberList?type=programme&id=${programme.getProgrammecode()}'>Click to view more ></a>
 
               </div>
 
@@ -127,20 +127,22 @@
 
                 <div class='stats'>
                   <div class='stat'>
-                    <a class='value' id='announcementsDay'>3</a>
+                    <a class='value' id='announcementsDay'>${todayAnnounced}</a>
                     <a class='desc'>today</a>
                   </div>
 
                   <div class='stat'>
-                    <a class='value' id='announcementsWeek'>12</a>
-                    <a class='desc'>this week</a>
+                    <a class='value' id='announcementsWeek'>${announcementCount}</a>
+                    <a class='desc'>total</a>
                   </div>
                 </div>
               </div>
 
               <div class='bottom'>
+                  
+                  ${announcementUI}
 
-                <!-- sample announcement 1 -->
+<!--                 sample announcement 1 
 
                 <div class='announcement'>
                   <a class='time'>15m ago</a>
@@ -151,7 +153,7 @@
                   </div>
                 </div>
 
-                <!-- sample announcement 2 -->
+                 sample announcement 2 
 
                 <div class='announcement'>
                   <a class='time'>3h ago</a>
@@ -162,7 +164,7 @@
                   </div>
                 </div>
 
-                <!-- sample announcement 3 -->
+                 sample announcement 3 
 
                 <div class='announcement'>
                   <a class='time'>6h ago</a>
@@ -171,11 +173,11 @@
                     <a class='message'><span>Name</span> posted item</a>
                     <a class='item'>Item name</a>
                   </div>
-                </div>
+                </div>-->
 
               </div>
 
-              <a class='more'>Click to view more ></a>
+              <a class='more' href="Announcement?type=programme&id=${programme.getProgrammecode()}">Click to view more ></a>
 
             </div>
 

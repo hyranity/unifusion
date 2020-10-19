@@ -109,9 +109,9 @@
 
             <div id='left'>
               <a class='label' id='name'>Icon URL</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. example.com'>
+              <input class='textbox' type='text' name='iconURL' placeholder='eg. example.com'>
               <a class='label' id='name'>Banner URL</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. example.com'>
+              <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com'>
             </div>
 
             <div id='right'>
