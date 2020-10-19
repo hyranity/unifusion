@@ -48,7 +48,7 @@
 
             <div id='right'>
               <a class='label'>Attachments</a>
-              <input id='uploader' type='file' title="your text" name="file" size='50'/>
+              <input id='uploader' type='file' title="your text" name="file" size='50' multiple/>
 
             </div>
 
