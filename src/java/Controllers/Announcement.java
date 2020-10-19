@@ -64,7 +64,7 @@ public class Announcement extends HttpServlet {
                     
                     String icon = Quick.getIcon(announcement.getPosterid().getUserid().getImageurl());
                     
-                    announcementUI += "<div class='announcement'>\n"
+                    announcementUI += "<div class='announcement' onclick='window.location.href=\"AnnouncementDetails?code=" + announcement.getAnnouncementid() + "&id=" + classroom.getClassid() + "&type=class\"'>\n"
                             + "            <a class='time'>15m ago</a>\n"
                             + "            <img class='icon' src='" + icon + "'>\n"
                             + "            <div class='text'>\n"
@@ -90,7 +90,7 @@ public class Announcement extends HttpServlet {
                     
                     String icon = Quick.getIcon(announcement.getPosterid().getUserid().getImageurl());
                     
-                    announcementUI += "<div class='announcement'>\n"
+                    announcementUI += "<div class='announcement' onclick='window.location.href=\"AnnouncementDetails?code=" + announcement.getAnnouncementid() + "&id=" + course.getCoursecode() + "&type=course\"'>\n"
                             + "            <a class='time'>15m ago</a>\n"
                             + "            <img class='icon' src='" + icon + "'>\n"
                             + "            <div class='text'>\n"
@@ -140,7 +140,7 @@ public class Announcement extends HttpServlet {
                     
                     String icon = Quick.getIcon(announcement.getPosterid().getUserid().getImageurl());
                     
-                    announcementUI += "<div class='announcement'>\n"
+                    announcementUI += "<div class='announcement' onclick='window.location.href=\"AnnouncementDetails?code=" + announcement.getAnnouncementid() + "&id=" + institution.getInstitutioncode() + "&type=institution\"'>\n"
                             + "            <a class='time'>15m ago</a>\n"
                             + "            <img class='icon' src='" + icon + "'>\n"
                             + "            <div class='text'>\n"
