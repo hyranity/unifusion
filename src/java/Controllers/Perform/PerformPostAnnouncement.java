@@ -162,7 +162,7 @@ public class PerformPostAnnouncement extends HttpServlet {
 
             if (fileList == null) {
                 // Error occurred
-                servlet.toServlet("PostAnnouncement");
+                servlet.toServlet("PostAnnouncement?type=" + type + "&id=" + id);
                 return;
             }
 
@@ -255,7 +255,9 @@ public class PerformPostAnnouncement extends HttpServlet {
                             Quick.writeFile(item, filePath + File.separator + name);
                         }catch(FileExistsException ex){
                             // Ignore this error and reuse the existing file in the directly
-                            System.out.println("File duplicated, reusing existing one");
+                            System.out.println("Duplicate file name for " +name);
+                            Errors.respondSimple(request.getSession(), "Your uploaded file, " +name + " has a duplicate file name.");
+                            return null;
                         }
                         System.out.println("Writing in " + filePath + File.separator + name);
                         uploadedFiles.add(filePath + File.separator + name);

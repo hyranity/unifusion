@@ -7,11 +7,13 @@ package Util;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -80,6 +82,30 @@ public class Quick {
     
     public static void writeFile(FileItem item, String entireFileName) throws FileUploadException, FileExistsException, Exception{
         item.write(new File(entireFileName));
+    }
+    
+    public static void displayFile(String filename,ServletContext context, HttpServletRequest request, HttpServletResponse response, Util.Servlet servlet, String errorRedirectURL) throws IOException{
+        File file = new File(filename);
+        String fileType = context.getMimeType(filename);
+        
+        // Check for valid types
+        if(fileType != null){
+            // Don't do anything, since it's a valid file type
+        } else if(fileType == null && filename.contains(".mp4")){
+            fileType = "video/mp4";
+        } else{
+             Errors.respondSimple(request.getSession(), "Unplayable file type");
+             System.out.println("Unplayable file type");
+             servlet.toServlet(errorRedirectURL);
+             return;
+        }
+        
+     
+        
+        response.setHeader("Content-Type", fileType);
+        response.setHeader("Content-Length", String.valueOf(file.length()));
+        response.setHeader("Content-Disposition", "inline; filename=\"" + filename + "\"");
+        Files.copy(file.toPath(), response.getOutputStream());
     }
     
 }

@@ -8,11 +8,17 @@ package Controllers;
 import Models.Course;
 import Models.Institution;
 import Models.Programme;
+import Util.Errors;
 import Util.Quick;
 import Util.Server;
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
-import java.util.List;
+import java.net.URLConnection;
+import java.nio.file.Files;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -29,8 +35,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "AnnouncementDetails", urlPatterns = {"/AnnouncementDetails"})
-public class AnnouncementDetails extends HttpServlet {
+@WebServlet(name = "AnnouncementFile", urlPatterns = {"/AnnouncementFile"})
+public class AnnouncementFile extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -41,12 +47,12 @@ public class AnnouncementDetails extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         // Util objects
         Util.Servlet servlet = new Util.Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
         Models.Users user = Server.getUser(request, response);
-
+        
         // Announcement object
         Models.Announcement announcement = new Models.Announcement();
 
@@ -55,8 +61,10 @@ public class AnnouncementDetails extends HttpServlet {
         String id = servlet.getQueryStr("id");
         String code = servlet.getQueryStr("code"); // announcement id
 
+        System.out.println(code);
+        
         Query query;
-
+        
         try {
             if ("class".equalsIgnoreCase(type)) {
                 // Get the class
@@ -65,26 +73,12 @@ public class AnnouncementDetails extends HttpServlet {
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.classid = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, classroom.getClassid()).setParameter(2, code).getSingleResult();
 
-                // Put into JSP
-                servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
-                servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
-                servlet.putInJsp("id", classroom.getClassid());
-                servlet.putInJsp("type", "class");
-                servlet.putInJsp("announcement", announcement);
-
             } else if ("course".equalsIgnoreCase(type)) {
                 // Get the course
                 Models.Course course = (Models.Course) em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.coursecode = c.coursecode and cpa.participantid = p.participantid and p.userid = ?", Course.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
 
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.coursecode = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, course.getCoursecode()).setParameter(2, code).getSingleResult();
-
-                // Put into JSP
-                servlet.putInJsp("subheading", course.getCoursecode() + " - " + course.getTitle() + " (Course)");
-                servlet.putInJsp("icon", Quick.getIcon(course.getIconurl()));
-                servlet.putInJsp("id", course.getCoursecode());
-                servlet.putInJsp("type", "course");
-                servlet.putInJsp("announcement", announcement);
 
             } else if ("programme".equalsIgnoreCase(type)) {
                 // Get the programme
@@ -93,13 +87,6 @@ public class AnnouncementDetails extends HttpServlet {
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.programmecode = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, programme.getProgrammecode()).setParameter(2, code).getSingleResult();
 
-                // Put into JSP
-                servlet.putInJsp("subheading", programme.getProgrammecode() + " - " + programme.getTitle() + " (Programme)");
-                servlet.putInJsp("icon", Quick.getIcon(programme.getIconurl()));
-                servlet.putInJsp("id", programme.getProgrammecode());
-                servlet.putInJsp("type", "programme");
-                servlet.putInJsp("announcement", announcement);
-
             } else if ("institution".equalsIgnoreCase(type)) {
                 // Get the course
                 Models.Institution institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Institution.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
@@ -107,45 +94,23 @@ public class AnnouncementDetails extends HttpServlet {
                 // Get the announcement
                 announcement = (Models.Announcement) em.createNativeQuery("select a.* from announcement a where a.institutioncode = ? and a.announcementid = ?", Models.Announcement.class).setParameter(1, institution.getInstitutioncode()).setParameter(2, code).getSingleResult();
 
-                // Put into JSP
-                servlet.putInJsp("subheading", institution.getInstitutioncode() + " - " + institution.getName() + " (Institution)");
-                servlet.putInJsp("icon", Quick.getIcon(institution.getIconurl()));
-                servlet.putInJsp("id", institution.getInstitutioncode());
-                servlet.putInJsp("type", "institution");
-                servlet.putInJsp("announcement", announcement);
-
             } else {
                 // Incorrect type
                 System.out.println("Type is incorrect");
                 servlet.toServlet("Dashboard");
                 return;
             }
-
-            String fileStr = "";
-
-            // Get each file
-            if (announcement.getFileurl() != null) {
-                String[] files = announcement.getFileurl().split("\\|");
-                
-                for (String file : files) {
-                    String name = file.substring(file.indexOf("\\")+1, file.length());
-                    
-                    fileStr += "<div class='attachment'>\n"
-                            + "            <img class='icon' src='https://icons.iconarchive.com/icons/pelfusion/flat-file-type/512/doc-icon.png'>\n"
-                            + "            <a href='AnnouncementFile?type=" + type + "&id=" + id + "&code=" + code + "&file=" + file + "' class='name'>" + name + "</a>\n"
-                            + "          </div>";
-                }
-                
-                
-                servlet.putInJsp("fileStr", fileStr);
-            }
+            
 
         } catch (NoResultException e) {
             System.out.println("No data found");
             servlet.toServlet("Dashboard");
             return;
         }
-        servlet.servletToJsp("announcementDetails.jsp");
+        
+        String filename = servlet.getQueryStr("file");
+        
+        Quick.displayFile(filename, getServletContext(), request, response, servlet, "AnnouncementDetails?id=" + id + "&code=" + code + "&type=" + type);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

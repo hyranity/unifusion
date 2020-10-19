@@ -68,8 +68,8 @@ public class Announcement extends HttpServlet {
                             + "            <a class='time'>15m ago</a>\n"
                             + "            <img class='icon' src='" + icon + "'>\n"
                             + "            <div class='text'>\n"
-                            + "              <a class='message'><span>" + announcement.getPosterid().getUserid().getName() + "</span> announced</a>\n"
-                            + "              <a class='item'>" + announcement.getTitle() + "</a>\n"
+                          + "              <a class='message'><span>" + announcement.getTitle() + "</span></a>\n"
+                            + "              <a class='item'>" + announcement.getPosterid().getUserid().getName() + "</a>\n"
                             + "            </div>\n"
                             + "          </div>";
                 }
@@ -94,8 +94,8 @@ public class Announcement extends HttpServlet {
                             + "            <a class='time'>15m ago</a>\n"
                             + "            <img class='icon' src='" + icon + "'>\n"
                             + "            <div class='text'>\n"
-                            + "              <a class='message'><span>" + announcement.getPosterid().getUserid().getName() + "</span> announced</a>\n"
-                            + "              <a class='item'>" + announcement.getTitle() + "</a>\n"
+                            + "              <a class='message'><span>" + announcement.getTitle() + "</span></a>\n"
+                            + "              <a class='item'>" + announcement.getPosterid().getUserid().getName() + "</a>\n"
                             + "            </div>\n"
                             + "          </div>";
                 }
@@ -119,8 +119,8 @@ public class Announcement extends HttpServlet {
                             + "            <a class='time'>15m ago</a>\n"
                             + "            <img class='icon' src='" + icon + "'>\n"
                             + "            <div class='text'>\n"
-                            + "              <a class='message'><span>" + announcement.getPosterid().getUserid().getName() + "</span> announced</a>\n"
-                            + "              <a class='item'>" + announcement.getTitle() + "</a>\n"
+                          + "              <a class='message'><span>" + announcement.getTitle() + "</span></a>\n"
+                            + "              <a class='item'>" + announcement.getPosterid().getUserid().getName() + "</a>\n"
                             + "            </div>\n"
                             + "          </div>";
                 }
@@ -144,8 +144,8 @@ public class Announcement extends HttpServlet {
                             + "            <a class='time'>15m ago</a>\n"
                             + "            <img class='icon' src='" + icon + "'>\n"
                             + "            <div class='text'>\n"
-                            + "              <a class='message'><span>" + announcement.getPosterid().getUserid().getName() + "</span> announced</a>\n"
-                            + "              <a class='item'>" + announcement.getTitle() + "</a>\n"
+                          + "              <a class='message'><span>" + announcement.getTitle() + "</span></a>\n"
+                            + "              <a class='item'>" + announcement.getPosterid().getUserid().getName() + "</a>\n"
                             + "            </div>\n"
                             + "          </div>";
                 }
@@ -165,6 +165,9 @@ public class Announcement extends HttpServlet {
         } catch (NoResultException e) {
             System.out.println("No data found");
             servlet.toServlet("Dashboard");
+            return;
+        } catch (Exception ex){
+            servlet.toServlet("Home");
             return;
         }
 
