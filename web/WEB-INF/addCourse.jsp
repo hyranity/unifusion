@@ -57,9 +57,9 @@
                         <a class='label' id='programmeCodeLabel'>Programme code</a>
                         <input id='programmeCodeTextbox' class='textbox' type='text' name='programmeCode' placeholder='eg. LOL1337' disabled>
                         <input type='hidden' id='programmeCodeEnabled' name='programmeCodeEnabled' value='false'>
-                        <a class='label' id='semesterCodeLabel'>Semester code (optional)</a>
+                        <!--<a class='label' id='semesterCodeLabel'>Semester code (optional)</a>
                         <input id='semesterCodeTextbox' class='textbox' type='text' name='semesterCode' placeholder='eg. LOL1337' disabled>
-                        <input type='hidden' id='semesterCodeEnabled' name='semesterCodeEnabled' value='false'>
+                        <input type='hidden' id='semesterCodeEnabled' name='semesterCodeEnabled' value='false'>-->
                     </div>
                     <div class='image' id='right'>
                         <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
