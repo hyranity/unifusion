@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Create a Programme</title>
+        <title>UniFusion :: Create an Insititution</title>
         <link rel="stylesheet" href="CSS/addInstitution.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
