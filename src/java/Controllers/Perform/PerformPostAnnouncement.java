@@ -34,8 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadBase.InvalidContentTypeException;
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.disk.*;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileExistsException;
 import org.joda.time.DateTime;
@@ -55,20 +56,22 @@ public class PerformPostAnnouncement extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
+        response.setContentType("text/html;charset=UTF-8");
+
+        // Util objects
+        Util.Servlet servlet = new Util.Servlet(request, response);
+        Util.DB db = new Util.DB(em, utx);
+        Models.Users user = Server.getUser(request, response);
+
+        String title = "";
+        String message = "";
+        String id = "";
+        String type = "";
+
         try {
-            response.setContentType("text/html;charset=UTF-8");
 
-            // Util objects
-            Util.Servlet servlet = new Util.Servlet(request, response);
-            Util.DB db = new Util.DB(em, utx);
-            Models.Users user = Server.getUser(request, response);
-
-            String title = "";
-            String message = "";
-            String id = "";
-            String type = "";
-
-            // Get form fields
+//            // Get form fields
             List<FileItem> items = new ServletFileUpload(new DiskFileItemFactory()).parseRequest(request);
             for (FileItem item : items) {
                 if (item.isFormField()) {
@@ -89,7 +92,7 @@ public class PerformPostAnnouncement extends HttpServlet {
                 }
             }
 
-             // File path for uploading
+            // File path for uploading
             String filePath = "/ScaffoldData/" + type + "/" + id + "/Announcements";
 
             // Validation goes here
@@ -180,13 +183,15 @@ public class PerformPostAnnouncement extends HttpServlet {
 
             // If no file is uploaded, make it null in db
             announcement.setFileurl(fileUrl.isEmpty() ? null : fileUrl);
-            
+
             // Set in db
             db.insert(announcement);
 
             System.out.println("Announcement successfully posted");
             servlet.toServlet("Announcement?type=" + type + "&id=" + id);
-        } catch (FileUploadException ex) {
+        } catch (InvalidContentTypeException ex) {
+            servlet.toServlet("Dashboard");
+        } catch (Exception ex) {
             Logger.getLogger(PerformPostAnnouncement.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
@@ -249,12 +254,12 @@ public class PerformPostAnnouncement extends HttpServlet {
                             Errors.respondSimple(request.getSession(), "Your uploaded file(s) have invalid characters.");
                             return null;
                         }
-                        try{
+                        try {
                             Quick.writeFile(item, filePath + File.separator + name);
-                        }catch(FileExistsException ex){
+                        } catch (FileExistsException ex) {
                             // Ignore this error and reuse the existing file in the directly
-                            System.out.println("Duplicate file name for " +name);
-                            Errors.respondSimple(request.getSession(), "Your uploaded file, " +name + " has a duplicate file name.");
+                            System.out.println("Duplicate file name for " + name);
+                            Errors.respondSimple(request.getSession(), "Your uploaded file, " + name + " has a duplicate file name.");
                             return null;
                         }
                         System.out.println("Writing in " + filePath + File.separator + name);
@@ -262,13 +267,12 @@ public class PerformPostAnnouncement extends HttpServlet {
                     }
                 }
 
-                 System.out.println("File uploaded successfully");
+                System.out.println("File uploaded successfully");
             } catch (FileUploadException ex) {
                 Logger.getLogger(PerformPostAnnouncement.class.getName()).log(Level.SEVERE, null, ex);
-            }  catch (Exception ex) {
+            } catch (Exception ex) {
                 Logger.getLogger(PerformPostAnnouncement.class.getName()).log(Level.SEVERE, null, ex);
             }
-           
 
         }
 

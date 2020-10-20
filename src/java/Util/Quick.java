@@ -141,6 +141,32 @@ public class Quick {
         return formatter.print(period);
     }
     
+     public static String timeTo(Date date) {
+        Period period = new Period(DateTime.now(), new DateTime(date));
+
+        PeriodFormatterBuilder builder = new PeriodFormatterBuilder();
+
+        if (period.getYears() > 0) {
+            builder.appendYears().appendSuffix(" yrs left");
+        } else if (period.getMonths() > 0) {
+            builder.appendMonths().appendSuffix(" mths left");
+        } else if (period.getWeeks() > 0) {
+            builder.appendWeeks().appendSuffix(" wks left");
+        } else if (period.getDays() > 0) {
+            builder.appendDays().appendSuffix(" days left");
+        } else if (period.getHours() > 0) {
+            builder.appendHours().appendSuffix(" hrs left");
+        } else if (period.getMinutes() > 0) {
+            builder.appendMinutes().appendSuffix(" min left");
+        } else {
+            return "Starting";
+        }
+
+        PeriodFormatter formatter = builder.printZeroNever().toFormatter();
+        
+        return formatter.print(period);
+    }
+    
     public static String formatDate(Date date){
         String dateStr =  new DateTime(date).toString(DateTimeFormat.mediumDate());
         StringBuilder sb = new StringBuilder(dateStr);

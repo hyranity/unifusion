@@ -28,7 +28,7 @@
           <div id='info'>
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Sessions</a>
             </div>
           </div>
@@ -42,14 +42,16 @@
           </select>
           <a class='dropdownLabel'>Click to view options</a>
           <input id='search-button' class='button' type='submit' value='>' onclick='search()'>
-          <a href='#' id='create-button' class='button'>Create a Session</a>
+          <a href='AddSession?id=${id}' id='create-button' class='button'>Create a Session</a>
         </div>
 
         <div id='list'>
+            
+            ${sessionUI}
 
           <!-- sample session 1 -->
 
-          <div class='session' id='upcoming'>
+<!--          <div class='session' id='upcoming'>
             <a class='time'>In 1h 13m</a>
             <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='text'>
@@ -58,7 +60,7 @@
             </div>
           </div>
 
-          <!-- sample session 2 -->
+           sample session 2 
 
           <div class='session' id='past'>
             <a class='time'>2d ago</a>
@@ -69,7 +71,7 @@
             </div>
           </div>
 
-          <!-- sample session 3 -->
+           sample session 3 
 
           <div class='session' id='past'>
             <a class='time'>3d ago</a>
@@ -78,7 +80,7 @@
               <a class='message'>12.30 pm, 10 Jan 2021</a>
               <a class='tutor'>John Doe</a>
             </div>
-          </div>
+          </div>-->
 
         </div>
 

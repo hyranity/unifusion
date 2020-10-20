@@ -3,6 +3,8 @@
   <persistence-unit name="unifusionPU" transaction-type="JTA">
     <jta-data-source>java:app/unifusion</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
+    <properties>
+        <property name="eclipselink.cache.shared.default" value="false"/>
+    </properties>
   </persistence-unit>
 </persistence>

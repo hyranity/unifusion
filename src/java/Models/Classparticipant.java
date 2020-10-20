@@ -70,6 +70,8 @@ public class Classparticipant implements Serializable {
     private Boolean iscreator;
     @OneToMany(mappedBy = "classparticipantid")
     private Collection<Attendance> attendanceCollection;
+    @OneToMany(mappedBy = "creatorid")
+    private Collection<Session> sessionCollection;
     @OneToMany(mappedBy = "classparticipantid")
     private Collection<Submission> submissionCollection;
     @JoinColumn(name = "CLASSID", referencedColumnName = "CLASSID")
@@ -156,6 +158,15 @@ public class Classparticipant implements Serializable {
 
     public void setAttendanceCollection(Collection<Attendance> attendanceCollection) {
         this.attendanceCollection = attendanceCollection;
+    }
+
+    @XmlTransient
+    public Collection<Session> getSessionCollection() {
+        return sessionCollection;
+    }
+
+    public void setSessionCollection(Collection<Session> sessionCollection) {
+        this.sessionCollection = sessionCollection;
     }
 
     @XmlTransient

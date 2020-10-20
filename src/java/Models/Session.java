@@ -52,10 +52,10 @@ public class Session implements Serializable {
     @Column(name = "TEMPVENUENAME")
     private String tempvenuename;
     @Column(name = "STARTTIME")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date starttime;
     @Column(name = "ENDTIME")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endtime;
     @Basic(optional = false)
     @NotNull
@@ -66,6 +66,9 @@ public class Session implements Serializable {
     @JoinColumn(name = "CLASSID", referencedColumnName = "CLASSID")
     @ManyToOne
     private Class classid;
+    @JoinColumn(name = "CREATORID", referencedColumnName = "CLASSPARTICIPANTID")
+    @ManyToOne
+    private Classparticipant creatorid;
     @JoinColumn(name = "VENUEID", referencedColumnName = "VENUEID")
     @ManyToOne
     private Venue venueid;
@@ -137,6 +140,14 @@ public class Session implements Serializable {
 
     public void setClassid(Class classid) {
         this.classid = classid;
+    }
+
+    public Classparticipant getCreatorid() {
+        return creatorid;
+    }
+
+    public void setCreatorid(Classparticipant creatorid) {
+        this.creatorid = creatorid;
     }
 
     public Venue getVenueid() {

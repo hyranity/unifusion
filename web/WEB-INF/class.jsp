@@ -135,7 +135,7 @@
                               </div>
                             </div>
 
-                            <a class='more'>Click to view more ></a>
+                            <a class='more' href="Sessions?id=${classroom.getClassid()}">Click to view more ></a>
 
                           </div>
 
