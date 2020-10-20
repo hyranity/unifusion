@@ -153,7 +153,7 @@ public class PerformAddCourse extends HttpServlet {
 
         System.out.println("Successfully added a course!");
 
-        servlet.toServlet("Dashboard");
+        servlet.toServlet("Course?id="+courseCode);
 
     }
 

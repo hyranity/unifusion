@@ -45,7 +45,7 @@ public class ProgrammeDetails extends HttpServlet {
         String programmeCode = servlet.getQueryStr("programme");
         
         // Get the programme from DB where this person is participating inside it and is a programme leader
-        Query query = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where p.userid = ? and pg.programmecode = ? and pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and p.educatorrole = 'programmeLeader'", Models.Programme.class);
+        Query query = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where p.userid = ? and pg.programmecode = ? and pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and (p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin')", Models.Programme.class);
         query.setParameter(1, Server.getUser(request, response).getUserid());
         query.setParameter(2, programmeCode);
         

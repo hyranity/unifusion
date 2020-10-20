@@ -64,6 +64,8 @@ public class Sessions extends HttpServlet {
             boolean isPast = false;
             String status = "id'upcoming'";
             String countdown = "";
+            
+            
 
             // If end time already passed, it is in the past
             if (new DateTime(session.getEndtime()).isBefore(DateTime.now())) {
@@ -79,7 +81,7 @@ public class Sessions extends HttpServlet {
             
             DateTimeFormatter date = DateTimeFormat.forPattern("MMM d',' h:mm a");
             
-            sessionUI = "<div class='session' " + status + ">\n"
+            sessionUI += "<div class='session' " + status + ">\n"
                     + "            <a class='time'>" + countdown + "</a>\n"
                     + "            <img class='tutorIcon' src='"+ Quick.getIcon(session.getCreatorid().getParticipantid().getUserid().getImageurl()) +"'>\n"
                     + "            <div class='text'>\n"
@@ -89,6 +91,7 @@ public class Sessions extends HttpServlet {
                     + "          </div>";
 
         }
+        
         
         // Get institution to display "add venue" button
         String addVenueBt = "";

@@ -66,8 +66,8 @@
               <div class='slider'></div>
               </label>
               <a class='label' id='institutionCodeLabel'>Institution code</a>
-              <input id='institutionCodeTextbox' class='textbox' type='text' name='institutionCode' placeholder='eg. LOL1337' disabled value="${programme.getInstitutioncode()}">
-              <input type='hidden' id='institutionCodeEnabled' name='institutionCodeEnabled' value='false' disabled>
+              <input id='institutionCodeTextbox' class='textbox' type='text' name='institutionCode' placeholder='eg. LOL1337' disabled value="${programme.getInstitutioncode()}" ${programme.getInstitutioncode() == null ? "" : "checked"}>
+              <input type='hidden' id='institutionCodeEnabled' name='institutionCodeEnabled' value='${programme.getInstitutioncode() == null ? "false" : "true"}' disabled>
             </div>
 
           </div>

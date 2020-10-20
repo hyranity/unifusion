@@ -46,7 +46,7 @@ public class CourseDetails extends HttpServlet {
         String courseCode = servlet.getQueryStr("course");
         
         // Ensure this person is course leader
-        Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where p.userid = ? and c.coursecode = ? and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and cpa.isCreator='true'", Models.Course.class);
+        Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where p.userid = ? and c.coursecode = ? and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and (p.educatorrole = 'courseLeader' or p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin')", Models.Course.class);
         query.setParameter(1, Server.getUser(request, response).getUserid());
         query.setParameter(2, courseCode);
         

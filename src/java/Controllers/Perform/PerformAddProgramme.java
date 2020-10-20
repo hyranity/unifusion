@@ -148,7 +148,7 @@ public class PerformAddProgramme extends HttpServlet {
 
         // Redirect
         System.out.println("Programme successfullly created");
-        servlet.toServlet("AddProgramme");
+        servlet.toServlet("Programme?id="+programmeCode);
         return;
     }
 

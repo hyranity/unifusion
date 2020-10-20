@@ -52,6 +52,7 @@ public class PerformAddSession extends HttpServlet {
         Models.Class classroom = new Models.Class();
         Models.Classparticipant classparticipant = new Models.Classparticipant();
         DB db = new DB(em, utx);
+        boolean isVirtualVenue = false;
 
         // Get class code
         String classid = servlet.getQueryStr("id");
@@ -81,6 +82,7 @@ public class PerformAddSession extends HttpServlet {
         DateTime endDate = DateTime.parse(servlet.getQueryStr("date"));
         String startTime = servlet.getQueryStr("startTime");
         String endTime = servlet.getQueryStr("endTime");
+        isVirtualVenue = servlet.getQueryStr("isVirtualVenue") != null;
 
         // Getting startTime
         int startHour = Integer.parseInt(startTime.split(":")[0]);
@@ -110,40 +112,47 @@ public class PerformAddSession extends HttpServlet {
         //NOTE: need to check venue id also
         Query query = null;
 
-        // If this is a standalone class, prevent double booking from this class' scope only
-        if (classroom.getCoursecode() == null) {
+        // Get class' institution
+        Query institutionQuery = em.createNativeQuery("select i.* from class cl, course c, programme p, institution i where cl.classid = ? and cl.coursecode = c.COURSECODE and c.PROGRAMMECODE = p.PROGRAMMECODE and p.INSTITUTIONCODE = i.INSTITUTIONCODE", Models.Institution.class).setParameter(1, classid);
+
+        // If this class does NOT have institution, prevent double booking from this class' scope only
+        if (isVirtualVenue || institutionQuery.getResultList().size() == 0) {
             query = em.createNativeQuery("select s.* from session s where  (s.startTime between ? and ? ) or ( s.endTime between ? and ? ) and s.classid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
             query.setParameter(3, startDate.toDate());
             query.setParameter(4, endDate.toDate());
             query.setParameter(5, classid);
+
+            // Redirect if session ady booked
+            if (query.getResultList().size() > 0) {
+                System.out.println("This session already booked!");
+                Errors.respondSimple(request.getSession(), "The specified venue and/or time slot is occupied.");
+                servlet.toServlet("AddSession?id=" + classid);
+                return;
+            }
         } else {
             // Check double booking based on venue ID
+            System.out.println("Performing algorithm to prevent double booking based on venue ID");
+            return; 
         }
 
-        if (query.getResultList().size() > 0) {
-            System.out.println("This session already booked!");
-            Errors.respondSimple(request.getSession(), "The specified venue and/or time slot is occupied.");
-            servlet.toServlet("AddSession?id=" + classid);
-            return;
-        } else {
-            // No errors, create new Session
-            Session session = new Session();
-            session.setSessionid(Quick.generateID(em, utx, Session.class, "sessionid"));
-            session.setIsreplacement(false);
-            session.setStarttime(startDate.toDate());
-            session.setEndtime(endDate.toDate());
-            session.setClassid(classroom);
-            session.setCreatorid(classparticipant);
+        // No errors, create new Session
+        Session session = new Session();
+        session.setSessionid(Quick.generateID(em, utx, Session.class, "sessionid"));
+        session.setIsreplacement(false);
+        session.setStarttime(startDate.toDate());
+        session.setEndtime(endDate.toDate());
+        session.setClassid(classroom);
+        session.setCreatorid(classparticipant);
 
-            // Put in db
-            db.insert(session);
+        // Put in db
+        db.insert(session);
 
-            System.out.println("New session created");
+        System.out.println("New session created");
 
-            servlet.toServlet("Sessions?id=" + classid);
-        }
+        servlet.toServlet("Sessions?id=" + classid);
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

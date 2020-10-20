@@ -55,7 +55,7 @@
                             <div class='slider'></div>
                         </label>
                         <a class='label' id='programmeCodeLabel'>Programme code</a>
-                        <input id='programmeCodeTextbox' class='textbox' type='text' name='programmeCode' placeholder='eg. LOL1337' disabled>
+                        <input id='programmeCodeTextbox' class='textbox' type='text' name='programmeCode' placeholder='eg. LOL1337' >
                         <input type='hidden' id='programmeCodeEnabled' name='programmeCodeEnabled' value='false'>
                         <!--<a class='label' id='semesterCodeLabel'>Semester code (optional)</a>
                         <input id='semesterCodeTextbox' class='textbox' type='text' name='semesterCode' placeholder='eg. LOL1337' disabled>
