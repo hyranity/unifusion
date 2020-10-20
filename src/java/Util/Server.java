@@ -25,8 +25,9 @@ public class Server {
     public static Users getUser(HttpServletRequest request, HttpServletResponse response){
         
         if(request.getSession(false) == null){
-            Servlet servlet = new Servlet(request, response);
-            servlet.toServlet("Login");
+//            Servlet servlet = new Servlet(request, response);
+//            servlet.toServlet("Login");
+            return null;
         }
         
         return (Users) request.getSession(false).getAttribute("user");
