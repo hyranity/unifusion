@@ -1,3 +1,5 @@
+<%@page import="Models.Institution"%>
+<%@page import="Util.Quick"%>
 <%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,39 +24,43 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='<% out.print(Quick.getIcon(((Institution) request.getAttribute("institution")).getIconurl()));%>'>
             <div id='text'>
-              <a id='subheading'>I001 - Institution Name (Institution)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Edit Venue</a>
             </div>
           </div>
         </div>
 
-        <form id='form' action=''>
-
+        <form id='form' action='PerformEditVenue'>
+            
+            <!-- Hidden fields -->
+            <input type="hidden" name="id" value="${id}"/>
+            <input type="hidden" name="code" value="${code}"/>
+            
           <div id='header'>
-            <a id='venueId'>V001</a>
-            <a id='venueTitle'>Venue Name</a>
+            <a id='venueId'>${venue.getVenueid()}</a>
+            <a id='venueTitle'>${venue.getTitle()}</a>
           </div>
 
-          <a id='error'>%out.print(Errors.requestSimple(session));%></a>
+          <a id='error'><%out.print(Errors.requestSimple(session));%></a>
 
           <div id='input'>
 
             <a class='label'>Name</a>
-            <input class='textbox' type='text' name='name' placeholder='eg. Class C-15'>
+            <input class='textbox' type='text' name='name' placeholder='eg. Class C-15' value="${venue.getTitle()}">
 
             <a class='label'>Location</a>
-            <textarea class="textarea" name='location' placeholder='eg. Alien Insitute Main Campus, Area 51, Nevada'></textarea>
+            <textarea class="textarea" name='location' placeholder='eg. Alien Insitute Main Campus, Area 51, Nevada'>${venue.getLocation()}</textarea>
 
             <div id='bottom'>
               <div id='left'>
                 <a class='label'>Capacity</a>
-                <input class='number' type='number' name='capacity' placeholder='eg. 150'>
+                <input class='number' type='number' name='capacity' placeholder='eg. 150' value="${venue.getCapacity()}">
               </div>
               <div id='right'>
                 <a class='label' id='name'>Is this venue currently active?</a>
-                <input type='checkbox' class='checkbox' id='isActive' name='isActive'>
+                <input type='checkbox' class='checkbox' id='isActive' name='isActive' ${ venue.getIsactive() ? "checked" : "" }>
                 <label class='checkboxLabel' for='isActive' id='isActiveLabel'>
                   <div class='slider'></div>
                 </label>

@@ -24,7 +24,7 @@
           <div id='info'>
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
-              <a id='subheading'>I001 - Institution Name (Institution)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Venues</a>
             </div>
           </div>
@@ -44,12 +44,13 @@
           <a class='dropdownLabel'>Click to view options</a>
           <input class='textbox' type='text' id='searchTextbox' placeholder='Search...'>
           <input id='search-button' class='button' type='submit' value='>' onclick='search()'>
-          <a href='#' id='create-button' class='button'>Add a Venue</a>
+          <a href='AddVenue?id=${id}' id='create-button' class='button'>Add a Venue</a>
         </div>
 
         <div id='list'>
+            ${venueUI}
 
-          <div class='venue' onclick="location.href='#';">
+<!--          <div class='venue' onclick="location.href='#';">
             <a class='status'>ACTIVE</a>
             <a class='id'>001</a>
             <a class='name'>Ur Moms House</a>
@@ -68,7 +69,7 @@
             <a class='id'>007</a>
             <a class='name'>Uncle James Living Room</a>
             <a class='location'>Afghanistan</a>
-          </div>
+          </div>-->
 
         </div>
 

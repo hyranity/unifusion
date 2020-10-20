@@ -1,3 +1,5 @@
+<%@page import="Models.Institution"%>
+<%@page import="Util.Quick"%>
 <%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -22,9 +24,9 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='<% out.print(Quick.getIcon(((Institution) request.getAttribute("institution")).getIconurl()));%>'>
             <div id='text'>
-              <a id='subheading'>I001 - Institution Name (Institution)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Venue Details</a>
             </div>
           </div>
@@ -33,28 +35,28 @@
         <div id='content' action=''>
 
           <div id='header'>
-            <a id='announcementId'>V001</a>
-            <a id='announcementTitle'>Venue Name</a>
+            <a id='announcementId'>${venue.getVenueid()}</a>
+            <a id='announcementTitle'>${venue.getTitle()}</a>
           </div>
 
           <div id='row'>
             <div class='detail' id='capacity'>
               <a class='label'>CAPACITY</a>
-              <a class='value'>150</a>
+              <a class='value'>${venue.getCapacity()}</a>
             </div>
 
             <div class='detail' id='status'>
               <a class='label'>STATUS</a>
-              <a class='value'>Public</a>
+              <a class='value'>${venue.getIsactive() ? "ACTIVE" : "INACTIVE"}</a>
             </div>
           </div>
 
           <div class='detail' id='location'>
             <a class='label'>LOCATION</a>
-            <a class='value'>123 Idiot Street</a>
+            <a class='value'>${venue.getLocation()}</a>
           </div>
 
-          <div id='buttons'>
+          <div id='buttons' onclick="window.location.href='EditVenue?id=${id}&code=${code}'">
             <input id='edit-button' class='button' type='submit' value='Edit'>
             <!--<input id='remove-button' class='button' type='submit' value='Delete'>-->
           </div>

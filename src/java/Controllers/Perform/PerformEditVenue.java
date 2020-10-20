@@ -5,11 +5,8 @@
  */
 package Controllers.Perform;
 
-import Models.Classparticipant;
 import Models.Institution;
-import Models.Venue;
 import Util.Errors;
-import Util.Quick;
 import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,8 +26,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "PerformAddVenue", urlPatterns = {"/PerformAddVenue"})
-public class PerformAddVenue extends HttpServlet {
+@WebServlet(name = "PerformEditVenue", urlPatterns = {"/PerformEditVenue"})
+public class PerformEditVenue extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -42,19 +39,20 @@ public class PerformAddVenue extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
-        Util.Servlet servlet = null;
-
+        // Util objects
+        Util.Servlet servlet = new Util.Servlet(request, response);
+        Util.DB db = new Util.DB(em, utx);
+        Models.Users user = Server.getUser(request, response);
+        Models.Institution institution = new Institution();
+        Models.Venue venue = new Models.Venue();
+        
         String institutionCode = "";
-        try {
-            
-            // Util objects
-            servlet = new Util.Servlet(request, response);
-            Util.DB db = new Util.DB(em, utx);
-            Models.Users user = Server.getUser(request, response);
-            Models.Institution institution = new Institution();
+        String venueId = "";
 
-            // Get query strings
-            institutionCode = servlet.getQueryStr("id");
+        try {
+            // Get query string
+             institutionCode = servlet.getQueryStr("id");
+             venueId = servlet.getQueryStr("code");
             String name = servlet.getQueryStr("name");
             String location = servlet.getQueryStr("location");
             int capacity = Integer.parseInt(servlet.getQueryStr("capacity"));
@@ -65,49 +63,50 @@ public class PerformAddVenue extends HttpServlet {
                 // Has null data
                 System.out.println("Null fields!");
                 Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
-                servlet.toServlet("AddVenue?id=" + institutionCode);
+                servlet.toServlet("EditVenue?id=" + institutionCode+"&code="+venueId);
                 return;
             }
-            
-            
 
-            // Note: Venue only works for institution.
+            // Get institution while doing authorization check
             try {
-                // Find the class' institution
                 institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.educatorrole='institutionAdmin' and p.userid = ?", Models.Institution.class).setParameter(1, institutionCode).setParameter(2, user.getUserid()).getSingleResult();
-
 
             } catch (NoResultException e) {
                 System.out.println("No institution found");
                 servlet.toServlet("Dashboard");
                 return;
             }
+
+            // Get venue; no need authorization since already done above
+            try {
+                venue = (Models.Venue) em.createNativeQuery("select * from venue where institutioncode = ? and venueid = ?", Models.Venue.class).setParameter(1, institutionCode).setParameter(2, venueId).getSingleResult();
+
+            } catch (NoResultException e) {
+                System.out.println("No venue found");
+                servlet.toServlet("Dashboard");
+                return;
+            }
             
-            // Add new venue
-            Venue venue = new Venue();
-            venue.setVenueid(Quick.generateID(em, utx, Venue.class, "venueid"));
-            venue.setCapacity(capacity);
-            venue.setInstitutioncode(institution);
-            venue.setIsactive(isActive);
-            venue.setLocation(location);
+            // Update data
             venue.setTitle(name);
+            venue.setCapacity(capacity);
+            venue.setLocation(location);
+            venue.setIsactive(isActive);
             
-            // Insert in db
-            db.insert(venue);
-
-            // Put in JSP
-            servlet.putInJsp("id", institution.getInstitutioncode());
-
+            // Update in db
+            db.update(venue);
+            
+            // Redirect 
+            servlet.toServlet("VenueDetails?id=" + institutionCode+"&code="+venueId);
+            
         } catch (NumberFormatException numberFormatException) {
             System.out.println("Capacity is invalid!");
             Errors.respondSimple(request.getSession(), "Capacity has to be a number");
-            servlet.toServlet("AddVenue?id=" + institutionCode);
+            servlet.toServlet("EditVenue?id=" + institutionCode+"&code="+venueId);
             return;
         }
 
-        // Redirect
-        servlet.toServlet("Venues?id="+institutionCode);
-
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

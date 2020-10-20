@@ -5,10 +5,7 @@
  */
 package Controllers;
 
-import Models.Course;
 import Models.Institution;
-import Models.Programme;
-import Util.Quick;
 import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,8 +25,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "AddVenue", urlPatterns = {"/AddVenue"})
-public class AddVenue extends HttpServlet {
+@WebServlet(name = "VenueDetails", urlPatterns = {"/VenueDetails"})
+public class VenueDetails extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -40,34 +37,51 @@ public class AddVenue extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+       
+        
         // Util objects
         Util.Servlet servlet = new Util.Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
         Models.Users user = Server.getUser(request, response);
         Models.Institution institution = new Institution(); 
+        Models.Venue venue = new Models.Venue();
         
         // Get query string
         String institutionCode = servlet.getQueryStr("id"); 
+        String venueId = servlet.getQueryStr("code"); 
 
         Query query;
 
-        // Note: Venue only works for institution.
+        // Get institution while doing authorization check
         try {
-            institution = (Models.Institution) em.createNativeQuery("select * from institution where institutioncode = ?", Models.Institution.class).setParameter(1, institutionCode).getSingleResult();
+           institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.educatorrole='institutionAdmin' and p.userid = ?", Models.Institution.class).setParameter(1, institutionCode).setParameter(2, user.getUserid()).getSingleResult();
 
         } catch (NoResultException e) {
             System.out.println("No institution found");
             servlet.toServlet("Dashboard");
             return;
         }
+        
+         // Get venue; no need authorization since already done above
+        try {
+            venue = (Models.Venue) em.createNativeQuery("select * from venue where institutioncode = ? and venueid = ?", Models.Venue.class).setParameter(1, institutionCode).setParameter(2, venueId).getSingleResult();
+
+        } catch (NoResultException e) {
+            System.out.println("No venue found");
+            servlet.toServlet("Dashboard");
+            return;
+        }
 
         // Put in JSP
+        servlet.putInJsp("subheading", institution.getInstitutioncode() + " - " + institution.getName() + " (Institution)");
         servlet.putInJsp("id", institution.getInstitutioncode());
+        servlet.putInJsp("code", venue.getVenueid());
+        servlet.putInJsp("venue", venue);
+        servlet.putInJsp("institution", institution);
         
         // Redirect
-        servlet.servletToJsp("addVenue.jsp");
-
+        servlet.servletToJsp("venueDetails.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
