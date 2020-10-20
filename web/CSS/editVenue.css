@@ -140,16 +140,41 @@ a {
 #container #top:hover #info #text #subheading {
   opacity: 1;
 }
-#container #error {
-    margin-top: -50px;
-    margin-bottom: 50px;
-}
 #container #form {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+}
+#container #form #header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-bottom: 30px;
+  margin-top: -30px;
+  opacity: 0.7;
   z-index: 1;
+  transition: all 0.5s;
+}
+#container #form #header #venueId {
+  color: #DFE0F2;
+  font-size: 20px;
+}
+#container #form #header #venueTitle {
+  color: #FAE2B8;
+  font-size: 40px;
+  margin-top: -10px;
+}
+#container #form #error {
+  font-size: 18px;
+  color: #e66a6a;
+  opacity: 0.8;
+  z-index: 1;
+  transition: all 0.5s;
+}
+#container #form #error:hover {
+  opacity: 1;
 }
 #container #form #input {
   display: flex;

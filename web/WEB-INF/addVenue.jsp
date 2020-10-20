@@ -45,8 +45,19 @@
                     <a class='label'>Location</a>
                     <textarea class="textarea" name='location' placeholder='eg. Alien Insitute Main Campus, Area 51, Nevada'></textarea>
 
-                    <a class='label'>Capacity</a>
-                    <input class='number' type='number' name='capacity' placeholder='eg. 150'>
+                    <div id='bottom'>
+                      <div id='left'>
+                        <a class='label'>Capacity</a>
+                        <input class='number' type='number' name='capacity' placeholder='eg. 150'>
+                      </div>
+                      <div id='right'>
+                        <a class='label' id='name'>Is this venue currently active?</a>
+                        <input type='checkbox' class='checkbox' id='isActive' name='isActive'>
+                        <label class='checkboxLabel' for='isActive' id='isActiveLabel'>
+                          <div class='slider'></div>
+                        </label>
+                      </div>
+                    </div>
 
                 </div>
 
