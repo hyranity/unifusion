@@ -75,13 +75,12 @@ public class Course implements Serializable {
     @JoinColumn(name = "PROGRAMMECODE", referencedColumnName = "PROGRAMMECODE")
     @ManyToOne
     private Programme programmecode;
-    @JoinColumn(name = "SEMESTERCODE", referencedColumnName = "SEMESTERCODE")
-    @ManyToOne
-    private Semester semestercode;
     @OneToMany(mappedBy = "coursecode")
     private Collection<Announcement> announcementCollection;
     @OneToMany(mappedBy = "coursecode")
     private Collection<Courseparticipant> courseparticipantCollection;
+    @OneToMany(mappedBy = "coursecode")
+    private Collection<Venue> venueCollection;
 
     public Course() {
     }
@@ -170,14 +169,6 @@ public class Course implements Serializable {
         this.programmecode = programmecode;
     }
 
-    public Semester getSemestercode() {
-        return semestercode;
-    }
-
-    public void setSemestercode(Semester semestercode) {
-        this.semestercode = semestercode;
-    }
-
     @XmlTransient
     public Collection<Announcement> getAnnouncementCollection() {
         return announcementCollection;
@@ -194,6 +185,15 @@ public class Course implements Serializable {
 
     public void setCourseparticipantCollection(Collection<Courseparticipant> courseparticipantCollection) {
         this.courseparticipantCollection = courseparticipantCollection;
+    }
+
+    @XmlTransient
+    public Collection<Venue> getVenueCollection() {
+        return venueCollection;
+    }
+
+    public void setVenueCollection(Collection<Venue> venueCollection) {
+        this.venueCollection = venueCollection;
     }
 
     @Override

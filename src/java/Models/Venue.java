@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -58,6 +60,15 @@ public class Venue implements Serializable {
     private String location;
     @OneToMany(mappedBy = "venueid")
     private Collection<Session> sessionCollection;
+    @JoinColumn(name = "COURSECODE", referencedColumnName = "COURSECODE")
+    @ManyToOne
+    private Course coursecode;
+    @JoinColumn(name = "INSTITUTIONCODE", referencedColumnName = "INSTITUTIONCODE")
+    @ManyToOne
+    private Institution institutioncode;
+    @JoinColumn(name = "PROGRAMMECODE", referencedColumnName = "PROGRAMMECODE")
+    @ManyToOne
+    private Programme programmecode;
 
     public Venue() {
     }
@@ -112,6 +123,30 @@ public class Venue implements Serializable {
 
     public void setSessionCollection(Collection<Session> sessionCollection) {
         this.sessionCollection = sessionCollection;
+    }
+
+    public Course getCoursecode() {
+        return coursecode;
+    }
+
+    public void setCoursecode(Course coursecode) {
+        this.coursecode = coursecode;
+    }
+
+    public Institution getInstitutioncode() {
+        return institutioncode;
+    }
+
+    public void setInstitutioncode(Institution institutioncode) {
+        this.institutioncode = institutioncode;
+    }
+
+    public Programme getProgrammecode() {
+        return programmecode;
+    }
+
+    public void setProgrammecode(Programme programmecode) {
+        this.programmecode = programmecode;
     }
 
     @Override

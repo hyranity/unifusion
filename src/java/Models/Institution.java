@@ -79,6 +79,8 @@ public class Institution implements Serializable {
     @OneToMany(mappedBy = "institutioncode")
     private Collection<Announcement> announcementCollection;
     @OneToMany(mappedBy = "institutioncode")
+    private Collection<Venue> venueCollection;
+    @OneToMany(mappedBy = "institutioncode")
     private Collection<Institutionparticipant> institutionparticipantCollection;
 
     public Institution() {
@@ -176,6 +178,15 @@ public class Institution implements Serializable {
 
     public void setAnnouncementCollection(Collection<Announcement> announcementCollection) {
         this.announcementCollection = announcementCollection;
+    }
+
+    @XmlTransient
+    public Collection<Venue> getVenueCollection() {
+        return venueCollection;
+    }
+
+    public void setVenueCollection(Collection<Venue> venueCollection) {
+        this.venueCollection = venueCollection;
     }
 
     @XmlTransient

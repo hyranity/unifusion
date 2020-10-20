@@ -24,7 +24,12 @@ public class Server {
    // Returns the current user if logged in
     public static Users getUser(HttpServletRequest request, HttpServletResponse response){
         
-        return request.getSession(false) == null? null : (Users) request.getSession(false).getAttribute("user");
+        if(request.getSession(false) == null){
+            Servlet servlet = new Servlet(request, response);
+            servlet.toServlet("Login");
+        }
+        
+        return (Users) request.getSession(false).getAttribute("user");
     }
     
     // To validate user in JSP
