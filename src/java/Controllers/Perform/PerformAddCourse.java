@@ -47,7 +47,6 @@ public class PerformAddCourse extends HttpServlet {
         Users user = Server.getUser(request, response);
         Course course = new Course();
         Programme programme = new Programme();
-        Semester semester = new Semester();
         Courseparticipant cpa = new Courseparticipant();
         Participant participant = new Participant();
 
@@ -55,7 +54,6 @@ public class PerformAddCourse extends HttpServlet {
         String courseCode = servlet.getQueryStr("courseCode");
         String courseName = servlet.getQueryStr("courseName");
         String programmeCode = servlet.getQueryStr("programmeCode");
-        String semesterCode = servlet.getQueryStr("semesterCode");
         String description = servlet.getQueryStr("description");
         boolean hasProgramme = servlet.getQueryStr("hasProgramme") != null;
         boolean hasSemester = servlet.getQueryStr("hasSemester") != null;
