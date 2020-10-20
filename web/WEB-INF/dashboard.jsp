@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page import="Models.Users"%>
 <%@page import="Util.Quick"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -32,6 +33,9 @@ response.setDateHeader ("Expires", 0);
                     <a href='DashboardMenu'>Open menu</a> <!-- to change to href='DashboardMenu' -->
                 </div>
             </div>
+            
+            <!--  To throw away all errors that may have redirected here-->
+            <input type="hidden" value="<%out.print(Errors.requestSimple(session));%>"/>
 
             <div id='classes'>
                 

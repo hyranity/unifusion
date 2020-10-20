@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -44,7 +45,8 @@ public class Sessions extends HttpServlet {
         Servlet servlet = new Servlet(request, response);
         Models.Users user = Server.getUser(request, response);
         Models.Class classroom = new Models.Class();
-
+        Models.Institution institution = new Models.Institution();
+        
         // Get class code
         String classid = servlet.getQueryStr("id");
 
@@ -86,6 +88,20 @@ public class Sessions extends HttpServlet {
                     + "            </div>\n"
                     + "          </div>";
 
+        }
+        
+        // Get institution to display "add venue" button
+        String addVenueBt = "";
+          try {
+            // Find the class' institution
+             institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, programme p, course c, class cl where cl.classid = ? and cl.coursecode = c.coursecode and c.programmecode = p.programmecode and p.institutioncode = i.institutioncode", Models.Institution.class).setParameter(1, classid).getSingleResult();
+            
+             // Add the button
+             addVenueBt = "";
+        } catch (NoResultException e) {
+            // Not in an institution, no need to add the button
+            System.out.println("Not in an institution");
+            
         }
 
         // Put in jsp

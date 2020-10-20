@@ -79,8 +79,6 @@ public class Course implements Serializable {
     private Collection<Announcement> announcementCollection;
     @OneToMany(mappedBy = "coursecode")
     private Collection<Courseparticipant> courseparticipantCollection;
-    @OneToMany(mappedBy = "coursecode")
-    private Collection<Venue> venueCollection;
 
     public Course() {
     }
@@ -185,15 +183,6 @@ public class Course implements Serializable {
 
     public void setCourseparticipantCollection(Collection<Courseparticipant> courseparticipantCollection) {
         this.courseparticipantCollection = courseparticipantCollection;
-    }
-
-    @XmlTransient
-    public Collection<Venue> getVenueCollection() {
-        return venueCollection;
-    }
-
-    public void setVenueCollection(Collection<Venue> venueCollection) {
-        this.venueCollection = venueCollection;
     }
 
     @Override
