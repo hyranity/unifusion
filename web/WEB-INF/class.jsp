@@ -125,13 +125,13 @@
 
                             <div class='stats'>
                               <div class='stat'>
-                                <a class='value' id='classworkWeek'>2</a>
+                                <a class='value' id='classworkWeek'>${todaySessions}</a>
                                 <a class='desc'>today</a>
                               </div>
 
                               <div class='stat'>
-                                <a class='value' id='classworkTotal'>5</a>
-                                <a class='desc'>this week</a>
+                                <a class='value' id='classworkTotal'>${totalSessions}</a>
+                                <a class='desc'>total</a>
                               </div>
                             </div>
 

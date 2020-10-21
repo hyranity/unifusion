@@ -52,7 +52,7 @@ public class PerformAddSession extends HttpServlet {
         Models.Class classroom = new Models.Class();
         Models.Classparticipant classparticipant = new Models.Classparticipant();
         DB db = new DB(em, utx);
-        boolean isVirtualVenue = false;
+        boolean isVirtualVenue = true;
 
         // Get class code
         String classid = servlet.getQueryStr("id");
@@ -82,7 +82,7 @@ public class PerformAddSession extends HttpServlet {
         DateTime endDate = DateTime.parse(servlet.getQueryStr("date"));
         String startTime = servlet.getQueryStr("startTime");
         String endTime = servlet.getQueryStr("endTime");
-        isVirtualVenue = servlet.getQueryStr("isVirtualVenue") != null;
+      //  isVirtualVenue = servlet.getQueryStr("isVirtualVenue") != null;
 
         // Getting startTime
         int startHour = Integer.parseInt(startTime.split(":")[0]);
@@ -114,7 +114,7 @@ public class PerformAddSession extends HttpServlet {
 
         // Get class' institution
         Query institutionQuery = em.createNativeQuery("select i.* from class cl, course c, programme p, institution i where cl.classid = ? and cl.coursecode = c.COURSECODE and c.PROGRAMMECODE = p.PROGRAMMECODE and p.INSTITUTIONCODE = i.INSTITUTIONCODE", Models.Institution.class).setParameter(1, classid);
-
+    
         // If this class does NOT have institution, prevent double booking from this class' scope only
         if (isVirtualVenue && institutionQuery.getResultList().size() == 0) {
             query = em.createNativeQuery("select s.* from session s where  (s.startTime between ? and ? ) or ( s.endTime between ? and ? ) and s.classid = ?");

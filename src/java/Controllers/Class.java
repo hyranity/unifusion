@@ -118,11 +118,16 @@ public class Class extends HttpServlet {
             }
             
             // Get  announcement count
-            Query weeklyQuery = em.createNativeQuery("select count(*) from announcement where classid = ? and current_date = date(dateannounced)").setParameter(1, classroom.getClassid());
-            servlet.putInJsp("todayAnnounced", weeklyQuery.getSingleResult());
-            servlet.putInJsp("announcementCount", classroom.getAnnouncementCollection().size());
+            Query todayAnnouncements = em.createNativeQuery("select count(*) from announcement where classid = ? and current_date = date(dateannounced)").setParameter(1, classroom.getClassid());
+            
+               // Get  announcement count
+            Query todaySessions = em.createNativeQuery("select count(*) from session where classid = ? and current_date = date(starttime)").setParameter(1, classroom.getClassid());
 
             // Put data in JSP
+            servlet.putInJsp("todaySessions", todaySessions.getSingleResult());
+            servlet.putInJsp("totalSessions", classroom.getSessionCollection().size());
+            servlet.putInJsp("todayAnnounced", todayAnnouncements.getSingleResult());
+            servlet.putInJsp("announcementCount", classroom.getAnnouncementCollection().size());
             servlet.putInJsp("classroom", classroom);
             servlet.putInJsp("tutorList", tutorList);
             servlet.putInJsp("studentList", studentList);
