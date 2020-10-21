@@ -110,6 +110,7 @@ public class Sessions extends HttpServlet {
         // Put in jsp
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
         servlet.putInJsp("id", classid);
+        servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
         servlet.putInJsp("sessionUI", sessionUI);
 
         // Redirect
