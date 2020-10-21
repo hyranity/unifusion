@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -46,13 +47,17 @@ public class Sessions extends HttpServlet {
         Models.Users user = Server.getUser(request, response);
         Models.Class classroom = new Models.Class();
         Models.Institution institution = new Models.Institution();
-        
+        Models.Classparticipant cpa = new Models.Classparticipant();
+
         // Get class code
         String classid = servlet.getQueryStr("id");
 
         // Fetch from db
         try {
             classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa,participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, classid).setParameter(2, user.getUserid()).getSingleResult();
+            // Get current user class participant
+            cpa = (Models.Classparticipant) em.createNativeQuery("select cpa.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Classparticipant.class).setParameter(1, classid).setParameter(2, user.getUserid()).getSingleResult();
+
         } catch (Exception ex) {
             // Error means no result, redirect to classroom page
             servlet.toServlet("Class?id=" + classid);
@@ -64,47 +69,50 @@ public class Sessions extends HttpServlet {
             boolean isPast = false;
             String status = "id'upcoming'";
             String countdown = "";
-            
-            
 
             // If end time already passed, it is in the past
             if (new DateTime(session.getEndtime()).isBefore(DateTime.now())) {
                 status = "id='past'";
-               isPast = true;
+                isPast = true;
             }
-            
-            if(isPast){
+
+            if (isPast) {
                 countdown = Quick.timeSince(session.getStarttime());
-            }else{
+            } else {
                 countdown = Quick.timeTo(session.getStarttime());
             }
-            
+
             DateTimeFormatter date = DateTimeFormat.forPattern("MMM d',' h:mm a");
-            
+
             sessionUI += "<div class='session' " + status + ">\n"
                     + "            <a class='time'>" + countdown + "</a>\n"
-                    + "            <img class='tutorIcon' src='"+ Quick.getIcon(session.getCreatorid().getParticipantid().getUserid().getImageurl()) +"'>\n"
+                    + "            <img class='tutorIcon' src='" + Quick.getIcon(session.getCreatorid().getParticipantid().getUserid().getImageurl()) + "'>\n"
                     + "            <div class='text'>\n"
                     + "              <a class='message'>" + new DateTime(session.getStarttime()).toString(date) + "</a>\n"
-                    + "              <a class='tutor'>"+ session.getCreatorid().getParticipantid().getUserid().getName() +"</a>\n"
+                    + "              <a class='tutor'>" + session.getCreatorid().getParticipantid().getUserid().getName() + "</a>\n"
                     + "            </div>\n"
                     + "          </div>";
 
         }
-        
-        
+
         // Get institution to display "add venue" button
         String addVenueBt = "";
-          try {
+        try {
             // Find the class' institution
-             institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, programme p, course c, class cl where cl.classid = ? and cl.coursecode = c.coursecode and c.programmecode = p.programmecode and p.institutioncode = i.institutioncode", Models.Institution.class).setParameter(1, classid).getSingleResult();
-            
-             // Add the button
-             addVenueBt = "";
+            institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, programme p, course c, class cl where cl.classid = ? and cl.coursecode = c.coursecode and c.programmecode = p.programmecode and p.institutioncode = i.institutioncode", Models.Institution.class).setParameter(1, classid).getSingleResult();
+
+            // Add the button
+            addVenueBt = "";
         } catch (NoResultException e) {
             // Not in an institution, no need to add the button
             System.out.println("Not in an institution");
-            
+
+        }
+
+        // Show "create session" to only teachers
+        String createSession = "";
+        if (cpa.getRole().equalsIgnoreCase("teacher")) {
+            createSession = "<a href='AddSession?id=" + classid + "' id='create-button' class='button'>Create a Session</a>";
         }
 
         // Put in jsp

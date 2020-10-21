@@ -49,13 +49,17 @@ public class Class extends HttpServlet {
         // Get class data
         String classId = servlet.getQueryStr("id");
 
+        // Get class
         Query query = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, classId).setParameter(2, currentUser.getUserid());
 
+       
+        
         // If no results
         if (query.getResultList().isEmpty()) {
             servlet.toServlet("Dashboard");
             return;
         }
+        
 
         Models.Class classroom = (Models.Class) query.getSingleResult();
 

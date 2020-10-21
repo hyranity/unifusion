@@ -22,7 +22,7 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
               <a id='subheading'>${subheading}</a>
               <a id='heading'>Create Session</a>

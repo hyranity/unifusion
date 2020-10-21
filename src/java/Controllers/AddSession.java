@@ -6,6 +6,7 @@
 package Controllers;
 
 import Models.Class;
+import Util.Quick;
 import Util.Server;
 import Util.Servlet;
 import java.io.IOException;
@@ -57,6 +58,7 @@ public class AddSession extends HttpServlet {
         // Put in jsp
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
         servlet.putInJsp("id", classid);
+        servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
         
         // Redirect
         servlet.servletToJsp("addSession.jsp");
