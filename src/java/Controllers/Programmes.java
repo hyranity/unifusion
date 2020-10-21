@@ -109,7 +109,7 @@ public class Programmes extends HttpServlet {
                 }
 
                 // Build UI
-                announcementUI += "<div class='announcement'>\n"
+                announcementUI += "<div class='announcement' onclick='window.location.href=\"AnnouncementDetails?type=programme&id=" + programme.getProgrammecode() + "&code=" + announcement.getAnnouncementid() + "\"'>\n"
                         + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) +"</a>\n"
                         + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl() )+ "'>\n"
                         + "                  <div class='text'>\n"
