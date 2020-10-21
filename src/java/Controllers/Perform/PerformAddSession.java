@@ -116,7 +116,7 @@ public class PerformAddSession extends HttpServlet {
         Query institutionQuery = em.createNativeQuery("select i.* from class cl, course c, programme p, institution i where cl.classid = ? and cl.coursecode = c.COURSECODE and c.PROGRAMMECODE = p.PROGRAMMECODE and p.INSTITUTIONCODE = i.INSTITUTIONCODE", Models.Institution.class).setParameter(1, classid);
 
         // If this class does NOT have institution, prevent double booking from this class' scope only
-        if (isVirtualVenue || institutionQuery.getResultList().size() == 0) {
+        if (isVirtualVenue && institutionQuery.getResultList().size() == 0) {
             query = em.createNativeQuery("select s.* from session s where  (s.startTime between ? and ? ) or ( s.endTime between ? and ? ) and s.classid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
