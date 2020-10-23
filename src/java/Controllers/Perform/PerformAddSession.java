@@ -6,6 +6,7 @@
 package Controllers.Perform;
 
 import Models.Session;
+import Models.Venue;
 import Util.DB;
 import Util.Errors;
 import Util.Quick;
@@ -47,6 +48,7 @@ public class PerformAddSession extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         // Objects
+        Session session = new Session();
         Servlet servlet = new Servlet(request, response);
         Models.Users user = Server.getUser(request, response);
         Models.Class classroom = new Models.Class();
@@ -68,7 +70,7 @@ public class PerformAddSession extends HttpServlet {
         }
 
         // Validations go here
-        if (servlet.getQueryStr("venue") == null || servlet.getQueryStr("date") == null || servlet.getQueryStr("startTime") == null || servlet.getQueryStr("endTime") == null || servlet.getQueryStr("venue").trim().isEmpty() || servlet.getQueryStr("date").trim().isEmpty() || servlet.getQueryStr("startTime").trim().isEmpty() || servlet.getQueryStr("endTime").trim().isEmpty()) {
+        if (((servlet.getQueryStr("tempVenue") == null && servlet.getQueryStr("venueId") == null) || servlet.getQueryStr("date") == null || servlet.getQueryStr("startTime") == null || servlet.getQueryStr("endTime") == null) || (servlet.getQueryStr("tempVenue").trim().isEmpty() && servlet.getQueryStr("venueId").trim().isEmpty()) || servlet.getQueryStr("date").trim().isEmpty() || servlet.getQueryStr("startTime").trim().isEmpty() || servlet.getQueryStr("endTime").trim().isEmpty()) {
             // Has null data
             System.out.println("Null fields!");
             Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
@@ -77,12 +79,13 @@ public class PerformAddSession extends HttpServlet {
         }
 
         // Get from form
-        String venue = servlet.getQueryStr("venue");
+        String tempVenue = servlet.getQueryStr("tempVenue");
+        String venueId = servlet.getQueryStr("venueId");
         DateTime startDate = DateTime.parse(servlet.getQueryStr("date"));
         DateTime endDate = DateTime.parse(servlet.getQueryStr("date"));
         String startTime = servlet.getQueryStr("startTime");
         String endTime = servlet.getQueryStr("endTime");
-      //  isVirtualVenue = servlet.getQueryStr("isVirtualVenue") != null;
+        //  isVirtualVenue = servlet.getQueryStr("isVirtualVenue") != null;
 
         // Getting startTime
         int startHour = Integer.parseInt(startTime.split(":")[0]);
@@ -111,12 +114,33 @@ public class PerformAddSession extends HttpServlet {
         // Check to see if this time and place already booked
         //NOTE: need to check venue id also
         Query query = null;
+        
 
         // Get class' institution
         Query institutionQuery = em.createNativeQuery("select i.* from class cl, course c, programme p, institution i where cl.classid = ? and cl.coursecode = c.COURSECODE and c.PROGRAMMECODE = p.PROGRAMMECODE and p.INSTITUTIONCODE = i.INSTITUTIONCODE", Models.Institution.class).setParameter(1, classid);
-    
-        // If this class does NOT have institution, prevent double booking from this class' scope only
-        if (isVirtualVenue && institutionQuery.getResultList().size() == 0) {
+
+        // If a venue is provided AND class belongs in an institution 
+        if ((venueId != null || tempVenue.trim().isEmpty()) && institutionQuery.getResultList().size() > 0) {
+
+            // Get venue by Id
+            Venue venue = db.getSingleResult("venueid", venueId, Venue.class);
+
+            // If venue == null, show error
+            if (venue == null) {
+                System.out.println("Invalid venue ID!");
+                Errors.respondSimple(request.getSession(), "Selected venue does not exist.");
+                servlet.toServlet("AddSession?id=" + classid);
+                return;
+            }
+
+            // Check double booking based on venue ID
+            System.out.println("Performing algorithm to prevent double booking based on venue ID");
+            return;
+
+            // Set specified venue into the session
+            // session.setVenueid(venue);
+        } // If this class does NOT have institution AND have temp venue, prevent double booking from this class' scope only
+        else if (tempVenue != null &&  !tempVenue.trim().isEmpty() && institutionQuery.getResultList().size() == 0) {
             query = em.createNativeQuery("select s.* from session s where  (s.startTime between ? and ? ) or ( s.endTime between ? and ? ) and s.classid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
@@ -131,20 +155,34 @@ public class PerformAddSession extends HttpServlet {
                 servlet.toServlet("AddSession?id=" + classid);
                 return;
             }
+
+            // Since tempVenue is provided, use that
+            session.setTempvenuename(tempVenue);
         } else {
-            // Check double booking based on venue ID
-            System.out.println("Performing algorithm to prevent double booking based on venue ID");
-            return; 
+            // It must be either two choices above; else, there is an error
+            System.out.println("Could not process venue");
+            Errors.respondSimple(request.getSession(), "Something went wrong.");
+            servlet.toServlet("AddSession?id=" + classid);
+            return;
         }
 
         // No errors, create new Session
-        Session session = new Session();
-        session.setSessionid(Quick.generateID(em, utx, Session.class, "sessionid"));
         session.setIsreplacement(false);
         session.setStarttime(startDate.toDate());
         session.setEndtime(endDate.toDate());
         session.setClassid(classroom);
         session.setCreatorid(classparticipant);
+
+        // Generate unique ID
+        String sessionId = Quick.generateStr(6); // Generate random string
+
+        // Check for duplicate, reroll if found
+        while (em.createNativeQuery("select * from session where sessionid = ?").setParameter(1, sessionId).getResultList().size() > 0) {
+            sessionId = Quick.generateStr(6); // Regenerate random string
+        }
+
+        // Set ID
+        session.setSessionid(sessionId);
 
         // Put in db
         db.insert(session);

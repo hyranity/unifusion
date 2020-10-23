@@ -46,7 +46,7 @@
               </div>
               <div class='timeBox'>
                 <a class='label'>End time</a>
-                <input class='time' type='time' name='startTime'>
+                <input class='time' type='time' name='endTime'>
               </div>
             </div>
 

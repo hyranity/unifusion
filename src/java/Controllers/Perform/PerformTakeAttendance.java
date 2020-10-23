@@ -68,10 +68,13 @@ public class PerformTakeAttendance extends HttpServlet {
             DateTime endTime = new DateTime(session.getEndtime());
             DateTime now = new DateTime();
 
-            // If before class starts
+            System.out.println("Is before " + startTime.toString() + "? " + now.isBefore(startTime));
+            
+
             if (now.isBefore(startTime)) {
                 Errors.respondSimple(request.getSession(), "Class has not yet begun.");
                 servlet.toServlet("TakeAttendance");
+                return;
             } // If after class ended 
             else if (now.isAfter(endTime)) {
                 Errors.respondSimple(request.getSession(), "Class has already ended.");
@@ -101,6 +104,7 @@ public class PerformTakeAttendance extends HttpServlet {
                 if (attendanceQuery.getResultList().size() > 0) {
                     Errors.respondSimple(request.getSession(), "Attendance already marked");
                     servlet.toServlet("TakeAttendance");
+                    return;
                 }
 
                 // Create new attendance object
@@ -115,6 +119,7 @@ public class PerformTakeAttendance extends HttpServlet {
 
                 System.out.println("Successfully marked attendance");
                 servlet.servletToJsp("takeAttendance.jsp");
+                return;
             } else {
 
             }

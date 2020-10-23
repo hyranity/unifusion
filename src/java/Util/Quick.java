@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Date;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -137,11 +138,11 @@ public class Quick {
         }
 
         PeriodFormatter formatter = builder.printZeroNever().toFormatter();
-        
+
         return formatter.print(period);
     }
-    
-     public static String timeTo(Date date) {
+
+    public static String timeTo(Date date) {
         Period period = new Period(DateTime.now(), new DateTime(date));
 
         PeriodFormatterBuilder builder = new PeriodFormatterBuilder();
@@ -163,14 +164,27 @@ public class Quick {
         }
 
         PeriodFormatter formatter = builder.printZeroNever().toFormatter();
-        
+
         return formatter.print(period);
     }
-    
-    public static String formatDate(Date date){
-        String dateStr =  new DateTime(date).toString(DateTimeFormat.mediumDate());
+
+    public static String formatDate(Date date) {
+        String dateStr = new DateTime(date).toString(DateTimeFormat.mediumDate());
         StringBuilder sb = new StringBuilder(dateStr);
         return sb.deleteCharAt(dateStr.indexOf(",")).toString();
+    }
+
+    // To generate a random string
+    public static String generateStr(int length) {  
+        String charpool = "abcdefhijklmnqrsuvwxyz1234567890";
+        String output = "";
+
+        for (int i = 0; i < length; i++) {
+            int randomIndex = new Random().nextInt(charpool.length());
+            output += charpool.charAt(randomIndex);
+        }
+
+        return output.toUpperCase();
     }
 
 }

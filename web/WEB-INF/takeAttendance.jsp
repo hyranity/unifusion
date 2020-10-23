@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -33,6 +34,7 @@
                 </div>
                 <input type='submit' id='proceed-button' value='Proceed!'>
               </form>
+              <a id='error'><%out.print(Errors.requestSimple(session));%></a>
             </div>
           </div>
 
