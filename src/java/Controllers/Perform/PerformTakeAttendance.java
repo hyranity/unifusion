@@ -8,6 +8,7 @@ package Controllers.Perform;
 import Models.Attendance;
 import Models.Classparticipant;
 import Models.Session;
+import Util.Errors;
 import Util.Quick;
 import Util.Server;
 import java.io.IOException;
@@ -41,51 +42,86 @@ public class PerformTakeAttendance extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         // Important objects
         Util.Servlet servlet = new Util.Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
         Models.Users user = Server.getUser(request, response);
         Classparticipant cpa = new Classparticipant();
-        
+
         // Get attendance code
         String code = servlet.getQueryStr("code");
-        
+
         // Find db for session  with this code
-       Models.Session session =  db.getSingleResult("sessionid", code, Models.Session.class);
-       
-       if(session == null){
-           // Incorrect session code
-           System.out.println("Attendance code is incorrect");
-       } else{
-           // Correct session code
-           
-           // Find the class participant linked to this class and this user
-           Query query = em.createNativeQuery("select cpa.* from classparticipant cpa, class c, participant p, session s where s.sessionid = ? and s.classid = c.classid and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Classparticipant.class);
-           query.setParameter(1, code);
-           query.setParameter(2, user.getUserid());
-           
-           try{
-               cpa = (Classparticipant) query.getSingleResult();
-           }catch(Exception ex){
-               // Classparticipant not found
-               System.out.println("Class participant not found");
-           }
-           
-           // Create new attendance object
-           Attendance attendance = new Attendance();
-           attendance.setAttendanceid(Quick.generateID(em, utx, Attendance.class, "attendanceid"));
-           attendance.setClassparticipantid(cpa);
-           attendance.setDateattended(DateTime.now().toDate());
-           attendance.setSessionid(session);
-           
-           // Put in db
-           db.insert(attendance);
-           
-           System.out.println("Successfully marked attendance");
-       }
-        
-        servlet.servletToJsp("takeAttendance.jsp");
+        Models.Session session = db.getSingleResult("sessionid", code, Models.Session.class);
+
+        if (session == null) {
+            // Incorrect session code
+            System.out.println("Attendance code is incorrect");
+            Errors.respondSimple(request.getSession(), "Attendance code is incorrect.");
+            servlet.toServlet("TakeAttendance");
+        } else {
+            // Correct session code
+
+            // Check to ensure that is within class start and end time
+            DateTime startTime = new DateTime(session.getStarttime());
+            DateTime endTime = new DateTime(session.getEndtime());
+            DateTime now = new DateTime();
+
+            // If before class starts
+            if (now.isBefore(startTime)) {
+                Errors.respondSimple(request.getSession(), "Class has not yet begun.");
+                servlet.toServlet("TakeAttendance");
+            } // If after class ended 
+            else if (now.isAfter(endTime)) {
+                Errors.respondSimple(request.getSession(), "Class has already ended.");
+                servlet.toServlet("TakeAttendance");
+                return;
+            } // Within class time
+            else if (now.isAfter(startTime) && now.isBefore(endTime)) {
+
+                // Find the class participant linked to this class and this user
+                Query cpaQuery = em.createNativeQuery("select cpa.* from classparticipant cpa, class c, participant p, session s where s.sessionid = ? and s.classid = c.classid and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Classparticipant.class);
+                cpaQuery.setParameter(1, code);
+                cpaQuery.setParameter(2, user.getUserid());
+
+                try {
+                    cpa = (Classparticipant) cpaQuery.getSingleResult();
+                } catch (Exception ex) {
+                    // Classparticipant not found
+                    System.out.println("Class participant not found");
+                }
+
+                // Check if attendance already marked
+                Query attendanceQuery = em.createNativeQuery("select * from attendance where sessionid = ? and classparticipantid = ?", Classparticipant.class);
+                attendanceQuery.setParameter(1, code);
+                attendanceQuery.setParameter(2, cpa.getClassparticipantid());
+
+                // If marked
+                if (attendanceQuery.getResultList().size() > 0) {
+                    Errors.respondSimple(request.getSession(), "Attendance already marked");
+                    servlet.toServlet("TakeAttendance");
+                }
+
+                // Create new attendance object
+                Attendance attendance = new Attendance();
+                attendance.setAttendanceid(Quick.generateID(em, utx, Attendance.class, "attendanceid"));
+                attendance.setClassparticipantid(cpa);
+                attendance.setDateattended(DateTime.now().toDate());
+                attendance.setSessionid(session);
+
+                // Put in db
+                db.insert(attendance);
+
+                System.out.println("Successfully marked attendance");
+                servlet.servletToJsp("takeAttendance.jsp");
+            } else {
+
+            }
+
+            servlet.servletToJsp("takeAttendance.jsp");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
