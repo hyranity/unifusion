@@ -35,7 +35,6 @@
         <form id='form' action='PerformAddSession'>
             
             <input type="hidden" value="${id}" name="id"/>
-
             <a class='label' style='margin-left: -470px;'>Date</a>
             <input class='date' type='date' name='date'>
 
@@ -46,7 +45,7 @@
               </div>
               <div class='timeBox'>
                 <a class='label'>End time</a>
-                <input class='time' type='time' name='endTime'>
+                <input class='time' type='time' name='startTime'>
               </div>
             </div>
 
@@ -97,9 +96,16 @@
 
             </div>
 
-            <a class='label' style='margin-left: -200px;'>Temporary Venue (If none in list)</a>
-            <input class='textbox' type='text' name='tempVenue' placeholder='eg. meet.google.com/abcdef' style='height: 45px; font-size: 17px; width: 450px;'>
+            <a class='label' id='name'>Is this venue not included above?</a>
+            <input type='checkbox' class='checkbox' id='hasTempVenue' name='hasTempVenue' onclick='hasProgrammeClicked()'>
+            <label class='checkboxLabel' for='hasTempVenue' id='hasTempVenueLabel'>
+              <div class='slider'></div>
+            </label>
 
+            <a class='label' style='margin-left: -200px;' id='tempVenueLabel'>Temporary venue (If none in list)</a>
+            <input class='textbox' type='text' name='tempVenue' id='tempVenueTextbox' placeholder='eg. meet.google.com/abcdef' style='height: 45px; font-size: 17px; width: 400px;'>
+            <input type='hidden' id='tempVenueEnabled' name='tempVenueEnabled' value='false'>
+            
             <input id='post-button' type='submit' value='Create!'>
 
           </form>
@@ -141,14 +147,14 @@
         }
 
         function selectVenue(venueId) {
-              // set venueId input hidden value
-              document.getElementById("venueId").value = venueId;
+          // set venueId input hidden value
+          document.getElementById("venueId").value = venueId;
 
           // reset all venue boxes colours
           var venues = document.getElementsByClassName('venue');
 
           for (var i = 0; i < venues.length; i++) {
-              venues[i].style.backgroundColor = "rgba(39, 41, 100, 0.5)";
+            venues[i].style.backgroundColor = "rgba(39, 41, 100, 0.5)";
             venues[i].children[0].style.color = "rgba(250, 226, 184, 0.75)";
             venues[i].children[1].style.color = "rgba(223, 224, 242, 0.75)";
           }
@@ -158,6 +164,19 @@
           selectedVenue.style.backgroundColor = "rgba(250, 226, 184, 0.75)";
           selectedVenue.children[0].style.color = "rgba(39, 41, 100, 1)";
           selectedVenue.children[1].style.color = "rgba(39, 41, 100, 0.75)";
+        }
+        
+        function hasTempVenueClicked() {
+            var hasTempVenue = document.getElementById("hasTempVenue");
+            var tempVenueTextbox = document.getElementById("tempVenueTextbox");
+
+            document.getElementById("tempVenueEnabled").value = hasTempVenue.checked;
+
+            if (hasTempVenue.checked) {
+                tempVenueTextbox.disabled = false;
+            } else {
+                tempVenueTextbox.disabled = true;
+            }
         }
 
       </script>

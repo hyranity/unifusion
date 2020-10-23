@@ -442,6 +442,47 @@ a {
   opacity: 1;
   margin-left: 10px;
 }
+#container #form .checkbox {
+  display: none;
+}
+#container #form .checkboxLabel {
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(39, 41, 100, 0.5);
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+#container #form .checkboxLabel .slider {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 5px;
+  background-color: white;
+  transition: margin-left 0.3s;
+}
+#container #form .checkboxLabel:hover {
+  opacity: 1;
+}
+#container #form #hasTempVenue:checked + #hasTempVenueLabel {
+  background-color: #FAE2B8;
+}
+#container #form #hasTempVenue:checked + #hasTempVenueLabel > .slider {
+  margin-left: 45px;
+}
+#container #form #hasTempVenue:not(:checked) ~ #tempVenueLabel {
+  opacity: 0;
+}
+#container #form #hasTempVenue:not(:checked) ~ #tempVenueTextbox {
+  opacity: 0;
+}
 #container #form #post-button {
   margin-top: 70px;
   text-decoration: none;
