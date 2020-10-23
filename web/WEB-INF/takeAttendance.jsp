@@ -26,10 +26,10 @@
                 <a class='value'>Thursday 3-5pm</a>
               </div>
 
-              <form id='form'>
+              <form id='form' action="PerformTakeAttendance">
                  <div class='input' id='right'>
                   <a class='label'>Class code</a>
-                  <input class='textbox' type='text' name='classCode' placeholder='eg. 177013'>
+                  <input class='textbox' type='text' name='code' placeholder='eg. 177013'>
                 </div>
                 <input type='submit' id='proceed-button' value='Proceed!'>
               </form>
