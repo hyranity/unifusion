@@ -105,7 +105,7 @@
             </div>
           </div>
 
-          <div class='member'>
+<!--          <div class='member'>
             <a class='info'>MEMBER</a>
             <div class='buttons'>
               <select class='dropdown' onchange='editAttendance("002")'>
@@ -175,7 +175,7 @@
                 <a class='time-checked'>-</a>
               </div>
             </div>
-          </div>
+          </div>-->
 
         </div>
 

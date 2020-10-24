@@ -32,7 +32,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Attendance.findAll", query = "SELECT a FROM Attendance a")
     , @NamedQuery(name = "Attendance.findByAttendanceid", query = "SELECT a FROM Attendance a WHERE a.attendanceid = :attendanceid")
-    , @NamedQuery(name = "Attendance.findByDateattended", query = "SELECT a FROM Attendance a WHERE a.dateattended = :dateattended")})
+    , @NamedQuery(name = "Attendance.findByDateattended", query = "SELECT a FROM Attendance a WHERE a.dateattended = :dateattended")
+    , @NamedQuery(name = "Attendance.findByStatus", query = "SELECT a FROM Attendance a WHERE a.status = :status")})
 public class Attendance implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +48,9 @@ public class Attendance implements Serializable {
     @Column(name = "DATEATTENDED")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateattended;
+    @Size(max = 20)
+    @Column(name = "STATUS")
+    private String status;
     @JoinColumn(name = "CLASSPARTICIPANTID", referencedColumnName = "CLASSPARTICIPANTID")
     @ManyToOne
     private Classparticipant classparticipantid;
@@ -80,6 +84,14 @@ public class Attendance implements Serializable {
 
     public void setDateattended(Date dateattended) {
         this.dateattended = dateattended;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Classparticipant getClassparticipantid() {

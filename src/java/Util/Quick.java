@@ -116,6 +116,16 @@ public class Quick {
         file.delete();
     }
 
+    public static String minsBetween(Date date1, Date date2) {
+
+        // Get time difference
+        Period period = new Period(new DateTime(date1), new DateTime(date2));
+
+        // Build and return string in minutes
+        PeriodFormatterBuilder builder = new PeriodFormatterBuilder();
+        return builder.appendMinutes().printZeroNever().toFormatter().print(period);
+    }
+
     public static String timeSince(Date date) {
         Period period = new Period(new DateTime(date), DateTime.now());
 
@@ -175,7 +185,7 @@ public class Quick {
     }
 
     // To generate a random string
-    public static String generateStr(int length) {  
+    public static String generateStr(int length) {
         String charpool = "abcdefhijklmnqrsuvwxyz1234567890";
         String output = "";
 

@@ -66,6 +66,7 @@ public class PerformAddSession extends HttpServlet {
         } catch (Exception ex) {
             // Error means no result, redirect to classroom page
             servlet.toServlet("Class?id=" + classid);
+            return;
         }
 
         // Validations go here

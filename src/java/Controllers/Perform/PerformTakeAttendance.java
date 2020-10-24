@@ -106,6 +106,8 @@ public class PerformTakeAttendance extends HttpServlet {
                     servlet.toServlet("TakeAttendance");
                     return;
                 }
+                
+                // Check if late using Quick.minsBetween()
 
                 // Create new attendance object
                 Attendance attendance = new Attendance();
@@ -113,6 +115,7 @@ public class PerformTakeAttendance extends HttpServlet {
                 attendance.setClassparticipantid(cpa);
                 attendance.setDateattended(DateTime.now().toDate());
                 attendance.setSessionid(session);
+                attendance.setStatus("present");
 
                 // Put in db
                 db.insert(attendance);
