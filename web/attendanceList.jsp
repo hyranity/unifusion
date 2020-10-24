@@ -9,13 +9,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Sessions</title>
+        <title>UniFusion :: Attendance List</title>
         <link rel="stylesheet" href="CSS/attendanceList.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     
     <body>
-      <div id='container'>
+      <div id='container' action=''>
 
         <div id='navbar'>
           <a href='#' id='back'>&lt; <span>Back</span></a>
@@ -48,7 +48,7 @@
           </div>
 
           <div class='stat'>
-            <a class='label'>ON TIME</a>
+            <a class='label'>PRESENT</a>
             <a class='value'>7</a>
           </div>
 
@@ -66,7 +66,7 @@
         <div id='search'>
           <select class='dropdown' id='statusAttribute'>
             <option value='all'>All</option>
-            <option value='on time'>On Time</option>
+            <option value='present'>Present</option>
             <option value='late'>Late</option>
             <option value='absent'>Absent</option>
           </select>
@@ -76,13 +76,22 @@
           </select>
           <a class='dropdownLabel'>Click to view options</a>
           <input class='textbox' type='text' id='searchTextbox' placeholder='Search...'>
-          <input id='search-button' type='submit' value='>' onclick='search()'>
+          <a id='search-button' onclick='searchList()'>></a>
         </div>
 
         <div id='list'>
 
-          <div class='member tutor' onclick="location.href='#';">
+          <div class='member tutor'>
             <a class='info'>TUTOR</a>
+            <div class='buttons'>
+              <select class='dropdown' onchange='editAttendance("001")'>
+                <option value='present' selected>Present</option>
+                <option value='late'>Late</option>
+                <option value='absent'>Absent</option>
+              </select>
+              <a class='dropdownLabel'>v</a>
+              <a class='save-button' id='save-button_001' href='EditAttendance?id=001&status=present'>></a>
+            </div>
             <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='details'>
               <div class='top-details'>
@@ -90,14 +99,47 @@
                 <a class='name'>Naganohara Mio</a>
               </div>
               <div class='time-details'>
-                <a class='time-label'>ON TIME</a>
+                <a class='time-label'>PRESENT</a>
                 <a class='time-checked'>2.02pm</a>
               </div>
             </div>
           </div>
 
-          <div class='member' onclick="location.href='#';">
+          <div class='member'>
             <a class='info'>MEMBER</a>
+            <div class='buttons'>
+              <select class='dropdown' onchange='editAttendance("002")'>
+                <option value='present' selected>Present</option>
+                <option value='late'>Late</option>
+                <option value='absent'>Absent</option>
+              </select>
+              <a class='dropdownLabel'>v</a>
+              <a class='save-button' id='save-button_002' href='EditAttendance?id=002&status=present'>></a>
+            </div>
+            <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <div class='details'>
+              <div class='top-details'>
+                <a class='id'>002</a>
+                <a class='name'>Jeff Bezos</a>
+              </div>
+              <div class='time-details'>
+                <a class='time-label'>PRESENT</a>
+                <a class='time-checked'>2.03pm</a>
+              </div>
+            </div>
+          </div>
+
+          <div class='member'>
+            <a class='info'>MEMBER</a>
+            <div class='buttons'>
+              <select class='dropdown' onchange='editAttendance("003")'>
+                <option value='present'>Present</option>
+                <option value='late' selected>Late</option>
+                <option value='absent'>Absent</option>
+              </select>
+              <a class='dropdownLabel'>v</a>
+              <a class='save-button' id='save-button_003' href='EditAttendance?id=003&status=late'>></a>
+            </div>
             <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='details'>
               <div class='top-details'>
@@ -111,8 +153,17 @@
             </div>
           </div>
 
-          <div class='member absent' onclick="location.href='#';">
+          <div class='member absent'>
             <a class='info'>MEMBER</a>
+            <div class='buttons'>
+              <select class='dropdown' onchange='editAttendance("007")'>
+                <option value='present'>Present</option>
+                <option value='late'>Late</option>
+                <option value='absent' selected>Absent</option>
+              </select>
+              <a class='dropdownLabel'>v</a>
+              <a class='save-button' id='save-button_007' href='EditAttendance?id=007&status=absent'>></a>
+            </div>
             <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='details'>
               <div class='top-details'>
@@ -134,7 +185,7 @@
 
     <script>
 
-    function search() {
+    function searchList() {
             var query = document.getElementById("searchTextbox").value;
       var attribute = document.getElementById("searchAttribute").value;
       var statusAttribute = document.getElementById("statusAttribute").value;
@@ -142,9 +193,10 @@
       var members = document.getElementsByClassName('member');
 
       for (var i = 0; i < members.length; i++) {
-            var id = members[i].children[2].children[0].children[0].textContent;
-        var name = members[i].children[2].children[0].children[1].textContent;
-        var status = members[i].children[2].children[1].children[0].textContent;
+
+            var id = members[i].children[3].children[0].children[0].textContent;
+        var name = members[i].children[3].children[0].children[1].textContent;
+        var status = members[i].children[3].children[1].children[0].textContent;
         var data = "";
 
         if (statusAttribute === "all" || status.toLowerCase() === statusAttribute.toLowerCase()) {
@@ -168,6 +220,12 @@
         }
       }
 
+    }
+
+    function editAttendance(id) {
+      document.getElementById("save-button_" + id).href = "EditAttendance?id=" + id + "&status=" + event.target.value;  
+
+      //alert(document.getElementById("save-button_" + id).href);
     }
 
     </script>
