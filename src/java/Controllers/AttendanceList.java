@@ -102,7 +102,7 @@ public class AttendanceList extends HttpServlet {
                     + "                <option value='absent' " + absentOption + ">Absent</option>\n"
                     + "              </select>\n"
                     + "              <a class='dropdownLabel'>v</a>\n"
-                    + "              <a class='save-button' id='save-button_" + attendance.getAttendanceid() + "' href='EditAttendance?id=" + attendance.getAttendanceid() + "&status=present'>></a>\n"
+                    + "              <a class='save-button' id='save-button_" + attendance.getAttendanceid() + "' href='PerformEditAttendance?id=" + attendance.getAttendanceid() + "&status=present'>></a>\n"
                     + "            </div>\n"
                     + "            <img class='icon' src='" + Quick.getIcon(attendance.getClassparticipantid().getParticipantid().getUserid().getImageurl()) + "'>\n"
                     + "            <div class='details'>\n"
