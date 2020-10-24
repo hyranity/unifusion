@@ -54,7 +54,6 @@ public class PerformAddSession extends HttpServlet {
         Models.Class classroom = new Models.Class();
         Models.Classparticipant classparticipant = new Models.Classparticipant();
         DB db = new DB(em, utx);
-        boolean isVirtualVenue = true;
 
         // Get class code
         String classid = servlet.getQueryStr("id");
@@ -118,9 +117,9 @@ public class PerformAddSession extends HttpServlet {
 
         // Get class' institution
         Query institutionQuery = em.createNativeQuery("select i.* from class cl, course c, programme p, institution i where cl.classid = ? and cl.coursecode = c.COURSECODE and c.PROGRAMMECODE = p.PROGRAMMECODE and p.INSTITUTIONCODE = i.INSTITUTIONCODE", Models.Institution.class).setParameter(1, classid);
-
+        
         // If a venue is provided AND class belongs in an institution 
-        if ((venueId != null || tempVenue.trim().isEmpty()) && institutionQuery.getResultList().size() > 0) {
+        if (((venueId != null && !venueId.trim().isEmpty()) || tempVenue.trim().isEmpty()) && institutionQuery.getResultList().size() > 0) {
 
             // Get venue by Id
             Venue venue = db.getSingleResult("venueid", venueId, Venue.class);
@@ -135,12 +134,26 @@ public class PerformAddSession extends HttpServlet {
 
             // Check double booking based on venue ID
             System.out.println("Performing algorithm to prevent double booking based on venue ID");
-            return;
-
+            query = em.createNativeQuery("select s.* from session s where  ((s.startTime between ? and ? ) or ( s.endTime between ? and ? )) and s.classid = ? and s.venueid = ?");
+            query.setParameter(1, startDate.toDate());
+            query.setParameter(2, endDate.toDate());
+            query.setParameter(3, startDate.toDate());
+            query.setParameter(4, endDate.toDate());
+            query.setParameter(5, classid);
+            query.setParameter(6, venue.getVenueid());
+            
+            // Redirect if session ady booked
+            if (query.getResultList().size() > 0) {
+                System.out.println("This venue already booked!");
+                Errors.respondSimple(request.getSession(), "The specified venue is occupied.");
+                servlet.toServlet("AddSession?id=" + classid);
+                return;
+            }
+           
             // Set specified venue into the session
-            // session.setVenueid(venue);
+            session.setVenueid(venue);
         } // If this class does NOT have institution AND have temp venue, prevent double booking from this class' scope only
-        else if (tempVenue != null &&  !tempVenue.trim().isEmpty() && institutionQuery.getResultList().size() == 0) {
+        else if ((tempVenue != null &&  !tempVenue.trim().isEmpty()) || institutionQuery.getResultList().size() == 0) {
             query = em.createNativeQuery("select s.* from session s where  (s.startTime between ? and ? ) or ( s.endTime between ? and ? ) and s.classid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
@@ -151,7 +164,7 @@ public class PerformAddSession extends HttpServlet {
             // Redirect if session ady booked
             if (query.getResultList().size() > 0) {
                 System.out.println("This session already booked!");
-                Errors.respondSimple(request.getSession(), "The specified venue and/or time slot is occupied.");
+                Errors.respondSimple(request.getSession(), "The specified time slot is occupied.");
                 servlet.toServlet("AddSession?id=" + classid);
                 return;
             }

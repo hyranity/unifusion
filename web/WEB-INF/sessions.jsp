@@ -49,7 +49,7 @@
             
             <!-- sample session 1 -->
 
-            <div class='session' id='upcoming'>
+<!--            <div class='session' id='upcoming'>
               <a class='time'>In 1h 13m</a>
               <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
               <div class='text'>
@@ -57,7 +57,7 @@
                 <a class='message'>3.00 pm, 13 Jan 2021</a>
                 <a class='tutor'>John Doe</a>
               </div>
-            </div>
+            </div>-->
             
             ${sessionUI}
 

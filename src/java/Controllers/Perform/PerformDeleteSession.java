@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
+package Controllers.Perform;
 
-import Models.Class;
-import Models.Institution;
-import Models.Venue;
-import Util.Quick;
+import Models.Attendance;
+import Models.Session;
+import Util.DB;
 import Util.Server;
 import Util.Servlet;
 import java.io.IOException;
@@ -16,7 +15,6 @@ import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,8 +26,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "AddSession", urlPatterns = {"/AddSession"})
-public class AddSession extends HttpServlet {
+@WebServlet(name = "PerformDeleteSession", urlPatterns = {"/PerformDeleteSession"})
+public class PerformDeleteSession extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -42,60 +40,45 @@ public class AddSession extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
 
         // Objects
+        Session session = new Session();
         Servlet servlet = new Servlet(request, response);
         Models.Users user = Server.getUser(request, response);
         Models.Class classroom = new Models.Class();
+        Models.Classparticipant classparticipant = new Models.Classparticipant();
+        DB db = new DB(em, utx);
 
         // Get class code
         String classid = servlet.getQueryStr("id");
+        String sessionId = servlet.getQueryStr("code");
 
         // Fetch from db
         try {
-            classroom = (Class) em.createNativeQuery("select c.* from class c, classparticipant cpa,participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role = 'teacher'", Models.Class.class).setParameter(1, classid).setParameter(2, user.getUserid()).getSingleResult();
+            // Get classroom WITH authorization
+            classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa,participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role = 'teacher'", Models.Class.class).setParameter(1, classid).setParameter(2, user.getUserid()).getSingleResult();
+            classparticipant = (Models.Classparticipant) em.createNativeQuery("select cpa.* from class c, classparticipant cpa,participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role = 'teacher'", Models.Classparticipant.class).setParameter(1, classid).setParameter(2, user.getUserid()).getSingleResult();
+
+            // Get session (no need authorization as it's done above)
+            session = (Session) em.createNativeQuery("select * from session where sessionid = ?", Models.Session.class).setParameter(1, sessionId).getSingleResult();
+
         } catch (Exception ex) {
             // Error means no result, redirect to classroom page
+            System.out.println(ex.getMessage());
             servlet.toServlet("Class?id=" + classid);
+            return;
         }
 
-        // Get class' institution
-        Query institutionQuery = em.createNativeQuery("select i.* from class cl, course c, programme p, institution i where cl.classid = ? and cl.coursecode = c.COURSECODE and c.PROGRAMMECODE = p.PROGRAMMECODE and p.INSTITUTIONCODE = i.INSTITUTIONCODE", Models.Institution.class).setParameter(1, classid);
-
-        // Show VenueList only if class has an institution
-        String hideVenueList = "";
-        String venueUI = "";
-        String tempChecked = "";
-        String tempVenueStr = "Temporary venue (If none in list)";
-        if (institutionQuery.getResultList().size() == 0) {
-            hideVenueList = "display:none;";
-            tempChecked = "checked";
-            tempVenueStr = "Venue";
-        } else {
-            // If has institution, load all venues
-            for (Venue venue : ((Institution) institutionQuery.getSingleResult()).getVenueCollection()) {
-
-                // Only load active ones
-                if (venue.getIsactive()) {
-                    venueUI += " <div class='venue' id='venue-" + venue.getVenueid() + "' onclick='selectVenue(\"" + venue.getVenueid() + "\")'>\n"
-                            + "                  <a class='id'>" + venue.getVenueid() + "</a>\n"
-                            + "                  <a class='name'>" + venue.getTitle() + "</a>\n"
-                            + "                  <a class='location'>" + venue.getLocation() + "</a>\n"
-                            + "                </div>";
-                }
-            }
+        // Perform deletion on attendees
+        for (Attendance attendance : session.getAttendanceCollection()) {
+            db.delete(attendance);
         }
 
-        // Put in jsp
-        servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
-        servlet.putInJsp("id", classid);
-        servlet.putInJsp("hideVenueList", hideVenueList);
-        servlet.putInJsp("tempChecked", tempChecked);
-        servlet.putInJsp("venueUI", venueUI);
-        servlet.putInJsp("tempVenueStr", tempVenueStr);
-        servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
+        // Fetch updated session
+        session = (Session) em.createNativeQuery("select * from session where sessionid = ?", Models.Session.class).setParameter(1, sessionId).getSingleResult();
 
-        // Redirect
-        servlet.servletToJsp("addSession.jsp");
+        // Perform deletion on session
+        db.delete(session);
 
+        servlet.toServlet("Sessions?id=" + classid);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

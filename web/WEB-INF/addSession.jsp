@@ -45,15 +45,15 @@
               </div>
               <div class='timeBox'>
                 <a class='label'>End time</a>
-                <input class='time' type='time' name='startTime'>
+                <input class='time' type='time' name='endTime'>
               </div>
             </div>
 
-            <div id='venues'>
+            <div id='venues' style="${hideVenueList}">
 
               <a class='label'>Select a Venue:</a>
 
-              <div id='search'>
+              <div id='search' >
                 <select class='dropdown' id='searchAttribute'>
                   <option value='id'>ID</option>
                   <option value='name'>Name</option>
@@ -64,9 +64,11 @@
                 <div id='search-button' class='button' value='>' onclick='searchVenue()'>></div>
               </div>
 
-              <div id='list'>
+              <div id='list' >
+                  
+                  ${venueUI}
 
-                <div class='venue' id='venue-001' onclick='selectVenue("001")'>
+<!--                <div class='venue' id='venue-001' onclick='selectVenue("001")'>
                   <a class='id'>001</a>
                   <a class='name'>Ur Moms House</a>
                   <a class='location'>Malaysia</a>
@@ -88,7 +90,7 @@
                   <a class='id'>420</a>
                   <a class='name'>England is my city</a>
                   <a class='location'>London town</a>
-                </div>
+                </div>-->
 
                 <input type='hidden' id='venueId' name='venueId' value=''> <!-- NOTE: STORE SELECTED VENUE ID HERE -->
 
@@ -96,13 +98,13 @@
 
             </div>
 
-            <a class='label' id='name'>Is this venue not included above?</a>
-            <input type='checkbox' class='checkbox' id='hasTempVenue' name='hasTempVenue' onclick='hasProgrammeClicked()'>
-            <label class='checkboxLabel' for='hasTempVenue' id='hasTempVenueLabel'>
+            <a class='label' id='name' style="${hideVenueList}">Is this venue not included above?</a>
+            <input type='checkbox' class='checkbox' id='hasTempVenue' name='hasTempVenue' onclick='hasProgrammeClicked()' ${tempChecked}>
+            <label class='checkboxLabel' for='hasTempVenue' id='hasTempVenueLabel' style="${hideVenueList}">
               <div class='slider'></div>
             </label>
 
-            <a class='label' style='margin-left: -200px;' id='tempVenueLabel'>Temporary venue (If none in list)</a>
+            <a class='label' style='margin-left: -200px;' id='tempVenueLabel'>${tempVenueStr}</a>
             <input class='textbox' type='text' name='tempVenue' id='tempVenueTextbox' placeholder='eg. meet.google.com/abcdef' style='height: 45px; font-size: 17px; width: 400px;'>
             <input type='hidden' id='tempVenueEnabled' name='tempVenueEnabled' value='false'>
             

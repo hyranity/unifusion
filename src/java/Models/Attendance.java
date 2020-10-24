@@ -45,7 +45,7 @@ public class Attendance implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "DATEATTENDED")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateattended;
     @JoinColumn(name = "CLASSPARTICIPANTID", referencedColumnName = "CLASSPARTICIPANTID")
     @ManyToOne

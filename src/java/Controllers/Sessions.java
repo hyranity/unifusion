@@ -67,7 +67,7 @@ public class Sessions extends HttpServlet {
 
         for (Session session : classroom.getSessionCollection()) {
             boolean isPast = false;
-            String status = "id'upcoming'";
+            String status = "id='upcoming'";
             String countdown = "";
 
             // If end time already passed, it is in the past
@@ -84,15 +84,22 @@ public class Sessions extends HttpServlet {
 
             DateTimeFormatter date = DateTimeFormat.forPattern("MMM d',' h:mm a");
 
-            sessionUI += "<div class='session' " + status + ">\n"
+            // Show session ID only if creator
+            String sessId = "";
+
+            if (cpa.getRole().equalsIgnoreCase("teacher")) {
+                sessId += "<a class='sessionId'>" + session.getSessionid() + "</a>";
+            }
+
+            sessionUI += "<div class='session' " + status + " onclick='window.location.href=\"SessionDetails?id=" + classid + "&code=" + session.getSessionid() + "\"'>\n"
                     + "            <a class='time'>" + countdown + "</a>\n"
                     + "            <img class='tutorIcon' src='" + Quick.getIcon(session.getCreatorid().getParticipantid().getUserid().getImageurl()) + "'>\n"
                     + "            <div class='text'>\n"
+                    + sessId
                     + "              <a class='message'>" + new DateTime(session.getStarttime()).toString(date) + "</a>\n"
                     + "              <a class='tutor'>" + session.getCreatorid().getParticipantid().getUserid().getName() + "</a>\n"
                     + "            </div>\n"
                     + "          </div>";
-
         }
 
         // Get institution to display "add venue" button
