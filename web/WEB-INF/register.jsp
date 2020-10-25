@@ -6,6 +6,7 @@
         <title>UniFusion :: Register</title>
         <link rel="stylesheet" href="CSS/register.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="JS/validator.js"></script>
     </head>
 <body>
@@ -25,7 +26,7 @@
 
     <div id='right'>
       <a id='title'>Register</a>
-      <a id='error' style='opacity: 0; font-size: 0px'></a>
+      <a id='error'></a>
       <form id='form' action="PerformRegister">
         <input class='textbox' id='name-textbox' type='text' name='name' placeholder='Full name'>
         <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email'>
@@ -38,9 +39,6 @@
   </div>
 </body>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="js/validator.js"></script>
-
 <script>
     
     $("form").submit(function(e) {
@@ -52,6 +50,7 @@
         
         validateInput($("#name-textbox"), "name", $("#error"));
         validateInput($("#email-textbox"), "email", $("#error"));
+        validatePassword($("#password-textbox"), $("#confirmPassword-textbox"), $("#error"));
         
         if (errorsExist()) {
             e.preventDefault();
@@ -63,7 +62,8 @@
     
     function errorsExist() {
         if (isValid($("#name-textbox"), "name") &
-            isValid($("#email-textbox"), "email"))
+            isValid($("#email-textbox"), "email") &
+            isValidPassword($("#password-textbox"), $("#confirmPassword-textbox")))
         {
             return false;
         }

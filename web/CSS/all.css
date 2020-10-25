@@ -63,11 +63,11 @@
   opacity: 1;
 }
 #container #error {
-    font-size: 18px;
+    font-size: 15px;
     color: #e66a6a;
-    opacity: 0.8;
+    opacity: 1;
     transition: all 0.5s;
 }
-#container #error:hover {
-    opacity: 1;
+input {
+    transition: all 0.5s;
 }
