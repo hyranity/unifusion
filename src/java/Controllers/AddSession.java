@@ -55,6 +55,7 @@ public class AddSession extends HttpServlet {
         } catch (Exception ex) {
             // Error means no result, redirect to classroom page
             servlet.toServlet("Class?id=" + classid);
+            return;
         }
 
         // Get class' institution
@@ -95,7 +96,7 @@ public class AddSession extends HttpServlet {
 
         // Redirect
         servlet.servletToJsp("addSession.jsp");
-
+        return;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

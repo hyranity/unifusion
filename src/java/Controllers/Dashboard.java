@@ -78,7 +78,7 @@ public class Dashboard extends HttpServlet {
 
             output += "<div class='institution'>\n"
                     + "\n"
-                    + "        <div class='institution-details'>\n"
+                    + "        <div class='institution-details' onclick=\"location.href='Institution?id=" + institution.getInstitutioncode() + "'\">\n"
                     + "          <img class='icon' src='" + Quick.getIcon(institution.getIconurl()) + "'>\n"
                     + "          <div class='details'>\n"
                     + "            <div class='top-details'>\n"

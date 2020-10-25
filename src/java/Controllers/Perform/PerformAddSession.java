@@ -156,7 +156,7 @@ public class PerformAddSession extends HttpServlet {
             session.setVenueid(venue);
         } // If this class does NOT have institution AND have temp venue, prevent double booking from this class' scope only
         else if ((tempVenue != null && !tempVenue.trim().isEmpty()) || institutionQuery.getResultList().size() == 0) {
-            query = em.createNativeQuery("select s.* from session s where  (s.startTime between ? and ? ) or ( s.endTime between ? and ? ) and s.classid = ?");
+            query = em.createNativeQuery("select s.* from session s where  ((s.startTime between ? and ? ) or ( s.endTime between ? and ? )) and s.classid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
             query.setParameter(3, startDate.toDate());
