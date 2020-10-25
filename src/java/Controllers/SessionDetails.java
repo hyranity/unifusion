@@ -106,7 +106,7 @@ public class SessionDetails extends HttpServlet {
         String venue = session.getVenueid() == null ? session.getTempvenuename() : session.getVenueid().getTitle();
 
         // Get attendance
-        Query attendanceQuery = em.createNativeQuery("select * from attendance where classparticipantid = ? and sessionid = ?", Models.Attendance.class).setParameter(1, cpa.getClassparticipantid()).setParameter(2, session.getSessionid());
+        Query attendanceQuery = em.createNativeQuery("select * from attendance where classparticipantid = ? and sessionid = ? and (status='late' or status='present')", Models.Attendance.class).setParameter(1, cpa.getClassparticipantid()).setParameter(2, session.getSessionid());
 
         String attendedStatus = "";
 
@@ -132,10 +132,10 @@ public class SessionDetails extends HttpServlet {
         // Put in JSP
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
         servlet.putInJsp("classroom", classroom);
-        servlet.putInJsp("date", date);
         servlet.putInJsp("venue", venue);
         servlet.putInJsp("venueUrl", venueUrl);
         servlet.putInJsp("range", range);
+         servlet.putInJsp("date", date);
         servlet.putInJsp("session", session);
         servlet.putInJsp("teacher", session.getCreatorid().getParticipantid().getUserid());
         servlet.putInJsp("teacherIcon", Quick.getIcon(session.getCreatorid().getParticipantid().getUserid().getImageurl()));

@@ -58,10 +58,10 @@ public class AttendanceList extends HttpServlet {
         // Fetch from db
         try {
             // Get class
-            classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa,participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, classId).setParameter(2, user.getUserid()).getSingleResult();
+            classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa,participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role='teacher'", Models.Class.class).setParameter(1, classId).setParameter(2, user.getUserid()).getSingleResult();
 
             // Get current user class participant
-            cpa = (Models.Classparticipant) em.createNativeQuery("select cpa.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Classparticipant.class).setParameter(1, classId).setParameter(2, user.getUserid()).getSingleResult();
+            cpa = (Models.Classparticipant) em.createNativeQuery("select cpa.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role='teacher'", Models.Classparticipant.class).setParameter(1, classId).setParameter(2, user.getUserid()).getSingleResult();
 
             // Get session
             session = (Session) em.createNativeQuery("select * from session where sessionid = ? and classid = ?", Models.Session.class).setParameter(1, code).setParameter(2, classId).getSingleResult();
@@ -80,21 +80,25 @@ public class AttendanceList extends HttpServlet {
             // Print status
             String status = attendance.getStatus() == null ? "ABSENT" : attendance.getStatus();
 
-            // Print time attended
-            DateTimeFormatter time = DateTimeFormat.forPattern("h'.'mm a");
-            String timeAttended = new DateTime(attendance.getDateattended()).toString(time);
-            
             // Print only if absent
-            String absentClass =  status.equalsIgnoreCase("absent") ? "absent" : "";
+            String absentClass = status.equalsIgnoreCase("absent") ? "absent" : "";
             
+            // Print role
+            String role = attendance.getClassparticipantid().getRole().equalsIgnoreCase("teacher") ? "TUTOR" : "MEMBER";
+            String tutorClass = attendance.getClassparticipantid().getRole().equalsIgnoreCase("teacher") ? "tutor" : "";
+
             // Print each option
             String absentOption = status.equalsIgnoreCase("absent") ? "selected" : "";
             String presentOption = status.equalsIgnoreCase("present") ? "selected" : "";
             String lateOption = status.equalsIgnoreCase("late") ? "selected" : "";
 
+            // Print time attended
+            DateTimeFormatter time = DateTimeFormat.forPattern("h'.'mm a");
+            String timeAttended = status.equalsIgnoreCase("absent") ? "-" : new DateTime(attendance.getDateattended()).toString(time);
+
             // Print the actual attendance UI
-            attendanceUI += "<div class='member " + absentClass + "'>\n" 
-                    + "            <a class='info'>MEMBER</a>\n"
+            attendanceUI += "<div class='member " + absentClass + " " + tutorClass + "'>\n"
+                    + "            <a class='info'>" + role + "</a>\n"
                     + "            <div class='buttons'>\n"
                     + "              <select class='dropdown' onchange='editAttendance(\"" + attendance.getAttendanceid() + "\")'>\n"
                     + "                <option value='present' " + presentOption + ">Present</option>\n"
@@ -112,15 +116,38 @@ public class AttendanceList extends HttpServlet {
                     + "              </div>\n"
                     + "              <div class='time-details'>\n"
                     + "                <a class='time-label'>" + status.toUpperCase() + "</a>\n"
-                    + "                <a class='time-checked'>"+ timeAttended + "</a>\n"
+                    + "                <a class='time-checked'>" + timeAttended + "</a>\n"
                     + "              </div>\n"
                     + "            </div>\n"
                     + "          </div>";
         }
 
+        // Get date
+        DateTimeFormatter dateFmt = DateTimeFormat.forPattern("d MMM YYYY");
+        String date = new DateTime(session.getStarttime()).toString(dateFmt);
+
+        // Get time range
+        DateTimeFormatter rangeFmt = DateTimeFormat.forPattern("h'.'mm a");
+        String range = new DateTime(session.getStarttime()).toString(rangeFmt) + " - " + new DateTime(session.getEndtime()).toString(rangeFmt);
+
+        // Get total counts
+        int total = em.createNativeQuery("select * from attendance where sessionid = ?").setParameter(1, code).getResultList().size();
+        int present = em.createNativeQuery("select * from attendance where sessionid = ? and status='present'").setParameter(1, code).getResultList().size();
+        int late = em.createNativeQuery("select * from attendance where sessionid = ? and status='late'").setParameter(1, code).getResultList().size();
+        int absent = em.createNativeQuery("select * from attendance where sessionid = ? and status='absent'").setParameter(1, code).getResultList().size();
+
         // Put in JSP
+        servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
+        servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
         servlet.putInJsp("attendanceUI", attendanceUI);
+        servlet.putInJsp("classroom", classroom);
         servlet.putInJsp("session", session);
+        servlet.putInJsp("total", total);
+        servlet.putInJsp("present", present);
+        servlet.putInJsp("late", late);
+        servlet.putInJsp("absent", absent);
+        servlet.putInJsp("range", range);
+        servlet.putInJsp("date", date);
 
         // Redirect
         servlet.servletToJsp("attendanceList.jsp");

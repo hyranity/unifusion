@@ -79,7 +79,7 @@
 
                 <div id='buttons'>
                     <!--<input id='edit-button' class='button' type='submit' value='Edit'>-->
-                    <a href='#' id='attendance-button' class='button' ${hideIfStudent}>View Attendance List</a>
+                    <a href='AttendanceList?id=${classroom.getClassid()}&code=${id}' id='attendance-button' class='button' ${hideIfStudent}>View Attendance List</a>
                     <a href='PerformDeleteSession?id=${classroom.getClassid()}&code=${id}' id='remove-button' class='button' ${hideIfStudent}>Delete</a>
                 </div>
 

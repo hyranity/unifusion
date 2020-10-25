@@ -27,39 +27,39 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Attendance List</a>
             </div>
           </div>
         </div>
 
         <div id='header'>
-          <a id='sessionId'>S001</a>
-          <a id='sessionDate'>1 January 2021</a>
-          <a id='sessionTime'>2.00 pm - 4.30 pm</a>
+          <a id='sessionId'>${session.getSessionid()}</a>
+          <a id='sessionDate'>${date}</a>
+          <a id='sessionTime'>${range}</a>
         </div>
 
         <div id='stats'>
           <div class='stat'>
             <a class='label'>TOTAL</a>
-            <a class='value'>10</a>
+            <a class='value'>${total}</a>
           </div>
 
           <div class='stat'>
             <a class='label'>PRESENT</a>
-            <a class='value'>7</a>
+            <a class='value'>${present}</a>
           </div>
 
           <div class='stat'>
             <a class='label'>LATE</a>
-            <a class='value'>1</a>
+            <a class='value'>${late}</a>
           </div>
 
           <div class='stat'>
             <a class='label'>ABSENT</a>
-            <a class='value'>2</a>
+            <a class='value'>${absent}</a>
           </div>
         </div>
 
@@ -80,8 +80,10 @@
         </div>
 
         <div id='list'>
+            
+            ${attendanceUI}
 
-          <div class='member tutor'>
+<!--          <div class='member tutor'>
             <a class='info'>TUTOR</a>
             <div class='buttons'>
               <select class='dropdown' onchange='editAttendance("001")'>
@@ -103,7 +105,7 @@
                 <a class='time-checked'>2.02pm</a>
               </div>
             </div>
-          </div>
+          </div>-->
 
 <!--          <div class='member'>
             <a class='info'>MEMBER</a>
@@ -223,7 +225,7 @@
     }
 
     function editAttendance(id) {
-      document.getElementById("save-button_" + id).href = "EditAttendance?id=" + id + "&status=" + event.target.value;  
+      document.getElementById("save-button_" + id).href = "PerformEditAttendance?id=" + id + "&status=" + event.target.value;  
 
       //alert(document.getElementById("save-button_" + id).href);
     }

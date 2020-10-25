@@ -5,6 +5,8 @@
  */
 package Controllers.Perform;
 
+import Models.Attendance;
+import Models.Classparticipant;
 import Models.Session;
 import Models.Venue;
 import Util.DB;
@@ -114,11 +116,10 @@ public class PerformAddSession extends HttpServlet {
         // Check to see if this time and place already booked
         //NOTE: need to check venue id also
         Query query = null;
-        
 
         // Get class' institution
         Query institutionQuery = em.createNativeQuery("select i.* from class cl, course c, programme p, institution i where cl.classid = ? and cl.coursecode = c.COURSECODE and c.PROGRAMMECODE = p.PROGRAMMECODE and p.INSTITUTIONCODE = i.INSTITUTIONCODE", Models.Institution.class).setParameter(1, classid);
-        
+
         // If a venue is provided AND class belongs in an institution 
         if (((venueId != null && !venueId.trim().isEmpty()) || tempVenue.trim().isEmpty()) && institutionQuery.getResultList().size() > 0) {
 
@@ -142,7 +143,7 @@ public class PerformAddSession extends HttpServlet {
             query.setParameter(4, endDate.toDate());
             query.setParameter(5, classid);
             query.setParameter(6, venue.getVenueid());
-            
+
             // Redirect if session ady booked
             if (query.getResultList().size() > 0) {
                 System.out.println("This venue already booked!");
@@ -150,11 +151,11 @@ public class PerformAddSession extends HttpServlet {
                 servlet.toServlet("AddSession?id=" + classid);
                 return;
             }
-           
+
             // Set specified venue into the session
             session.setVenueid(venue);
         } // If this class does NOT have institution AND have temp venue, prevent double booking from this class' scope only
-        else if ((tempVenue != null &&  !tempVenue.trim().isEmpty()) || institutionQuery.getResultList().size() == 0) {
+        else if ((tempVenue != null && !tempVenue.trim().isEmpty()) || institutionQuery.getResultList().size() == 0) {
             query = em.createNativeQuery("select s.* from session s where  (s.startTime between ? and ? ) or ( s.endTime between ? and ? ) and s.classid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
@@ -197,9 +198,25 @@ public class PerformAddSession extends HttpServlet {
 
         // Set ID
         session.setSessionid(sessionId);
-
+        
         // Put in db
         db.insert(session);
+
+        // Create an attendance list
+        for (Classparticipant cpa : classroom.getClassparticipantCollection()) {
+            Attendance attendance = new Attendance();
+            attendance.setAttendanceid(Quick.generateID(em, utx, Attendance.class, "attendanceid"));
+            attendance.setClassparticipantid(cpa);
+            attendance.setSessionid(session);
+           
+            // If participant is teacher, auto mark as present
+             attendance.setStatus(cpa.getRole().equalsIgnoreCase("teacher") ? "present" : "absent");
+            
+            attendance.setDateattended(new Date());
+
+            // Put in db
+            db.insert(attendance);
+        }
 
         System.out.println("New session created");
 

@@ -69,7 +69,6 @@ public class PerformTakeAttendance extends HttpServlet {
             DateTime now = new DateTime();
 
             System.out.println("Is before " + startTime.toString() + "? " + now.isBefore(startTime));
-            
 
             if (now.isBefore(startTime)) {
                 Errors.respondSimple(request.getSession(), "Class has not yet begun.");
@@ -96,7 +95,7 @@ public class PerformTakeAttendance extends HttpServlet {
                 }
 
                 // Check if attendance already marked
-                Query attendanceQuery = em.createNativeQuery("select * from attendance where sessionid = ? and classparticipantid = ?", Classparticipant.class);
+                Query attendanceQuery = em.createNativeQuery("select * from attendance where sessionid = ? and classparticipantid = ? and (status='present' or status='late') ", Attendance.class);
                 attendanceQuery.setParameter(1, code);
                 attendanceQuery.setParameter(2, cpa.getClassparticipantid());
 
@@ -106,19 +105,38 @@ public class PerformTakeAttendance extends HttpServlet {
                     servlet.toServlet("TakeAttendance");
                     return;
                 }
-                
+
                 // Check if late using Quick.minsBetween()
+                // Get the attendance
+                attendanceQuery = em.createNativeQuery("select * from attendance where sessionid = ? and classparticipantid = ? and status='absent'", Attendance.class);
+                attendanceQuery.setParameter(1, code);
+                attendanceQuery.setParameter(2, cpa.getClassparticipantid());
 
-                // Create new attendance object
-                Attendance attendance = new Attendance();
-                attendance.setAttendanceid(Quick.generateID(em, utx, Attendance.class, "attendanceid"));
-                attendance.setClassparticipantid(cpa);
-                attendance.setDateattended(DateTime.now().toDate());
-                attendance.setSessionid(session);
-                attendance.setStatus("present");
+                // If attendance ady make but not updated
+                if (attendanceQuery.getResultList().size() > 0) {
+                    Attendance attendance = (Attendance) attendanceQuery.getSingleResult();
 
-                // Put in db
-                db.insert(attendance);
+                    // Update
+                    attendance.setDateattended(DateTime.now().toDate());
+                    attendance.setStatus("present");
+
+                    // Put in db
+                    db.update(attendance);
+                } else {
+                    // Make a new attendance
+                    Attendance attendance = new Attendance();
+                    attendance.setAttendanceid(Quick.generateID(em, utx, Attendance.class, "attendanceid"));
+                    attendance.setClassparticipantid(cpa);
+                    attendance.setSessionid(session);
+
+                    // If participant is teacher, auto mark as present
+                    attendance.setStatus("present");
+
+                    attendance.setDateattended(new Date());
+                    
+                    // Put in db
+                    db.update(attendance);
+                }
 
                 System.out.println("Successfully marked attendance");
                 servlet.servletToJsp("takeAttendance.jsp");
