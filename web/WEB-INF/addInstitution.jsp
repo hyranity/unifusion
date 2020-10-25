@@ -39,7 +39,7 @@
 
           <div class='section'>
             <div class='image' id='left'>
-              <img src='https://i.postimg.cc/kgFkP6cK/unifusion-create-class-graphic-1.png'>
+              <img src='https://i.postimg.cc/PrYP2szz/unifusion-create-institution-graphic-1.png'>
             </div>
             <div class='text' id='right'>
               <a class='label'>Institution code</a>
@@ -62,7 +62,7 @@
               </label>
             </div>
             <div class='image' id='right'>
-              <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+              <img src='https://i.postimg.cc/L8VhFtWJ/unifusion-create-institution-graphic-2.png'>
             </div>
           </div>
 
