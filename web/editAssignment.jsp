@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Create an Assignment</title>
+        <title>UniFusion :: Edit an Assignment</title>
         <link rel="stylesheet" href="CSS/editAssignment.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
