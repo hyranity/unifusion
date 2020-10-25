@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Create an Assignment</title>
-        <link rel="stylesheet" href="CSS/addAssignment.css">
+        <link rel="stylesheet" href="CSS/editAssignment.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     
@@ -25,14 +25,19 @@
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
               <a id='subheading'>C001 - Class Name (Class)</a>
-              <a id='heading'>Create Assignment</a>
+              <a id='heading'>Edit Assignment</a>
             </div>
           </div>
         </div>
           
-        <a id='error' style='margin-bottom: 30px;'><%out.print(Errors.requestSimple(session));%></a>
+        <a id='error' style='margin-top: -30px; margin-bottom: 30px;'><%out.print(Errors.requestSimple(session));%></a>
 
         <form id='form' action=''>
+
+          <div id='header'>
+            <a id='assignmentId'>AS001</a>
+            <a id='assignmentTitle'>Assignment Name</a>
+          </div>
 
           <a class='label' style='margin-left: -485px;'>Title</a>
           <input class='textbox' type='text' name='title' placeholder='eg. Semester Assignment'>
@@ -61,14 +66,14 @@
             </div>
             <div class='right' style='margin-left: 50px; flex-direction: row; align-items: center;'>
               <a class='label' id='name'>Is this assignment only<br> used to show marks?</a>
-              <input type='checkbox' class='checkbox' id='isActive' name='isForMarksOnly'>
-              <label class='checkboxLabel' for='isForMarksOnly' id='isForMarksOnlyLabel' style='margin-left: 15px;'>
+              <input type='checkbox' class='checkbox' id='isActive' name='isActive'>
+              <label class='checkboxLabel' for='isActive' id='isActiveLabel' style='margin-left: 15px;'>
                 <div class='slider'></div>
               </label>
             </div>
           </div>
 
-          <input id='create-button' type='submit' value='Create!'>
+          <input id='save-button' type='submit' value='Save!'>
 
         </form>
 
