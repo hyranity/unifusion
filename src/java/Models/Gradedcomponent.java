@@ -41,7 +41,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "Gradedcomponent.findByTotalmarks", query = "SELECT g FROM Gradedcomponent g WHERE g.totalmarks = :totalmarks")
     , @NamedQuery(name = "Gradedcomponent.findByIssueddate", query = "SELECT g FROM Gradedcomponent g WHERE g.issueddate = :issueddate")
     , @NamedQuery(name = "Gradedcomponent.findByDeadline", query = "SELECT g FROM Gradedcomponent g WHERE g.deadline = :deadline")
-    , @NamedQuery(name = "Gradedcomponent.findByIstoshowmarksonly", query = "SELECT g FROM Gradedcomponent g WHERE g.istoshowmarksonly = :istoshowmarksonly")})
+    , @NamedQuery(name = "Gradedcomponent.findByIstoshowmarksonly", query = "SELECT g FROM Gradedcomponent g WHERE g.istoshowmarksonly = :istoshowmarksonly")
+    , @NamedQuery(name = "Gradedcomponent.findByFileurl", query = "SELECT g FROM Gradedcomponent g WHERE g.fileurl = :fileurl")})
 public class Gradedcomponent implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -78,6 +79,9 @@ public class Gradedcomponent implements Serializable {
     @NotNull
     @Column(name = "ISTOSHOWMARKSONLY")
     private Boolean istoshowmarksonly;
+    @Size(max = 500)
+    @Column(name = "FILEURL")
+    private String fileurl;
     @OneToMany(mappedBy = "componentid")
     private Collection<Submission> submissionCollection;
     @JoinColumn(name = "CLASSID", referencedColumnName = "CLASSID")
@@ -154,6 +158,14 @@ public class Gradedcomponent implements Serializable {
 
     public void setIstoshowmarksonly(Boolean istoshowmarksonly) {
         this.istoshowmarksonly = istoshowmarksonly;
+    }
+
+    public String getFileurl() {
+        return fileurl;
+    }
+
+    public void setFileurl(String fileurl) {
+        this.fileurl = fileurl;
     }
 
     @XmlTransient

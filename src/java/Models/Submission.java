@@ -33,10 +33,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Submission.findAll", query = "SELECT s FROM Submission s")
     , @NamedQuery(name = "Submission.findBySubmissionid", query = "SELECT s FROM Submission s WHERE s.submissionid = :submissionid")
-    , @NamedQuery(name = "Submission.findByItem", query = "SELECT s FROM Submission s WHERE s.item = :item")
     , @NamedQuery(name = "Submission.findByMarks", query = "SELECT s FROM Submission s WHERE s.marks = :marks")
     , @NamedQuery(name = "Submission.findByComment", query = "SELECT s FROM Submission s WHERE s.comment = :comment")
-    , @NamedQuery(name = "Submission.findByDatesubmitted", query = "SELECT s FROM Submission s WHERE s.datesubmitted = :datesubmitted")})
+    , @NamedQuery(name = "Submission.findByDatesubmitted", query = "SELECT s FROM Submission s WHERE s.datesubmitted = :datesubmitted")
+    , @NamedQuery(name = "Submission.findByFileurl", query = "SELECT s FROM Submission s WHERE s.fileurl = :fileurl")})
 public class Submission implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,9 +46,6 @@ public class Submission implements Serializable {
     @Size(min = 1, max = 40)
     @Column(name = "SUBMISSIONID")
     private String submissionid;
-    @Size(max = 100)
-    @Column(name = "ITEM")
-    private String item;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "MARKS")
     private BigDecimal marks;
@@ -60,6 +57,9 @@ public class Submission implements Serializable {
     @Column(name = "DATESUBMITTED")
     @Temporal(TemporalType.DATE)
     private Date datesubmitted;
+    @Size(max = 500)
+    @Column(name = "FILEURL")
+    private String fileurl;
     @JoinColumn(name = "CLASSPARTICIPANTID", referencedColumnName = "CLASSPARTICIPANTID")
     @ManyToOne
     private Classparticipant classparticipantid;
@@ -87,14 +87,6 @@ public class Submission implements Serializable {
         this.submissionid = submissionid;
     }
 
-    public String getItem() {
-        return item;
-    }
-
-    public void setItem(String item) {
-        this.item = item;
-    }
-
     public BigDecimal getMarks() {
         return marks;
     }
@@ -117,6 +109,14 @@ public class Submission implements Serializable {
 
     public void setDatesubmitted(Date datesubmitted) {
         this.datesubmitted = datesubmitted;
+    }
+
+    public String getFileurl() {
+        return fileurl;
+    }
+
+    public void setFileurl(String fileurl) {
+        this.fileurl = fileurl;
     }
 
     public Classparticipant getClassparticipantid() {
