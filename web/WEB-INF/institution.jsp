@@ -163,6 +163,20 @@
             </div>
 
             <!-- END: courses -->
+            
+            <!-- START: venues -->
+
+            <div class='panel' id='programmes' onclick='location.href="#"'>
+
+              <div class='top'>
+                <a class='heading'>Venues</a>
+              </div>
+
+              <a href='#' class='more'>Click to view more ></a>
+
+            </div>
+
+            <!-- END: venues -->
 
           </div>
 
