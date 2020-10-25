@@ -5,6 +5,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Register</title>
         <link rel="stylesheet" href="CSS/register.css">
+        <link rel="stylesheet" href="CSS/all.css">
+        <script src="JS/validator.js"></script>
     </head>
 <body>
   <div id='container'>
@@ -23,15 +25,51 @@
 
     <div id='right'>
       <a id='title'>Register</a>
-      <form action="PerformRegister">
-        <input class='textbox' type='text' name='name' placeholder='Full name'>
-        <input class='textbox' type='text' name='email' placeholder='Email'>
-        <input class='textbox' type='password' name='password' placeholder='Password'>
-        <input class='textbox' type='password' name='password' placeholder='Confirm password'>
+      <a id='error' style='opacity: 0; font-size: 0px'></a>
+      <form id='form' action="PerformRegister">
+        <input class='textbox' id='name-textbox' type='text' name='name' placeholder='Full name'>
+        <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email'>
+        <input class='textbox' id='password-textbox' type='password' name='password' placeholder='Password'>
+        <input class='textbox' id='confirmPassword-textbox' type='password' name='password' placeholder='Confirm password'>
         <input id='button' type='submit' value='>'>
       </form>
     </div>
     
   </div>
 </body>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="js/validator.js"></script>
+
+<script>
+    
+    $("form").submit(function(e) {
+        validateForm(e);
+    });
+    
+    function validateForm(e) {
+        resetErrorLabel($("#error"));
+        
+        validateInput($("#name-textbox"), "name", $("#error"));
+        validateInput($("#email-textbox"), "email", $("#error"));
+        
+        if (errorsExist()) {
+            e.preventDefault();
+            displayErrorLabel($("#error"));
+        } else {
+            
+        }
+    }
+    
+    function errorsExist() {
+        if (isValid($("#name-textbox"), "name") &
+            isValid($("#email-textbox"), "email"))
+        {
+            return false;
+        }
+        return true;
+    }
+    
+</script>
+
 </html>
