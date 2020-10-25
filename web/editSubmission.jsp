@@ -5,7 +5,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Submit Assignment</title>
-        <link rel="stylesheet" href="CSS/addSubmission.css">
+        <link rel="stylesheet" href="CSS/editSubmission.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     
@@ -25,7 +25,7 @@
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
               <a id='subheading'>C001 - Class Name (Class)</a>
-              <a id='heading'>Submit Assignment</a>
+              <a id='heading'>Edit Submission</a>
             </div>
           </div>
         </div>
@@ -35,6 +35,7 @@
           <div id='header'>
             <a id='assignmentId'>AS001</a>
             <a id='assignmentTitle'>Assignment Name</a>
+            <a id='submissionId'>Your submission ID:<br><span>SU001</span></a>
           </div>
             
           <a id='error' style='margin-bottom: 30px;'><%out.print(Errors.requestSimple(session));%></a>
@@ -53,7 +54,7 @@
 
           </div>
 
-          <input id='submit-button' type='submit' value='Submit!'>
+          <input id='save-button' type='submit' value='Save!'>
 
         </form>
 

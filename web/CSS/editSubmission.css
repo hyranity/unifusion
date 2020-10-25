@@ -105,6 +105,16 @@ a {
   font-size: 40px;
   margin-top: -10px;
 }
+#container #form #header #submissionId {
+  color: #dfe0f2;
+  font-size: 20px;
+  margin-top: 10px;
+  line-height: 30px;
+}
+#container #form #header #submissionId span {
+  color: rgba(250, 226, 184, 0.75);
+  font-size: 30px;
+}
 #container #form #header:hover {
   opacity: 1;
 }
@@ -333,7 +343,7 @@ a {
 #container #form #isActive:checked + #isActiveLabel > .slider {
   margin-left: 45px;
 }
-#container #form #submit-button {
+#container #form #save-button {
   margin-top: 70px;
   text-decoration: none;
   margin-right: 20px;
@@ -351,10 +361,10 @@ a {
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
-#container #form #submit-button:hover {
+#container #form #save-button:hover {
   background-color: rgba(250, 226, 184, 0.75);
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
 }
-#container #form #submit-button:focus {
+#container #form #save-button:focus {
   outline: none;
 }
