@@ -1,0 +1,401 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+html,
+body {
+  margin: 0px;
+  padding: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #424694;
+}
+
+a {
+  font-family: "Poppins";
+  font-weight: 600;
+}
+
+#container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding-bottom: 150px;
+}
+#container #navbar {
+  position: absolute;
+  left: 100px;
+  top: 50px;
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: left 0.5s;
+}
+#container #navbar #back {
+  font-family: "Poppins";
+  font-size: 20px;
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  margin-right: 20px;
+  transition: all 0.5s;
+}
+#container #navbar #back span {
+  font-size: 0px;
+  transition: all 0.5s;
+}
+#container #navbar #scaffold {
+  font-size: 28px;
+  color: #fae2b8;
+  opacity: 0.7;
+  text-decoration: none;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar #scaffold:hover {
+  opacity: 1;
+}
+#container #navbar .link {
+  color: rgba(250, 226, 184, 0.75);
+  text-decoration: none;
+  opacity: 0.5;
+  margin-right: 20px;
+  transition: opacity 0.5s;
+}
+#container #navbar .link:hover {
+  opacity: 1;
+}
+#container #navbar #currentLink {
+  opacity: 0.8;
+}
+#container #navbar #currentLink:hover {
+  opacity: 1;
+}
+#container #navbar:hover {
+  left: 120px;
+}
+#container #navbar:hover #back {
+  opacity: 0.7;
+  color: #dfe0f2;
+}
+#container #navbar:hover #back span {
+  font-size: 20px;
+  color: #dfe0f2;
+}
+#container #navbar:hover #back:hover {
+  opacity: 1;
+}
+#container #top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  background-image: url("https://mk0analyticsindf35n9.kinstacdn.com/wp-content/uploads/2020/03/books-scaled.jpg");
+  width: 100%;
+  height: 400px;
+  transition: opacity 0.3s;
+}
+#container #top #topOverlay {
+  width: 100%;
+  height: 400px;
+  position: absolute;
+  background-image: linear-gradient(rgba(66, 70, 148, 0.05), #424694);
+  z-index: 0;
+}
+#container #top #info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+#container #top #info #icon {
+  height: 100px;
+  width: 100px;
+  border-radius: 500px;
+  margin-right: 15px;
+}
+#container #top #info #text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+#container #top #info #text #subheading {
+  font-size: 18px;
+  color: #fae2b8;
+  font-weight: 500;
+  opacity: 0.5;
+  transition: all 0.3s;
+}
+#container #top #info #text #heading {
+  font-size: 60px;
+  color: #dfe0f2;
+  font-family: "Poppins";
+  line-height: 60px;
+}
+#container #top:hover {
+  opacity: 1;
+}
+#container #top:hover #info #text #subheading {
+  opacity: 1;
+}
+#container #form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+#container #form .textbox {
+  font-family: "Poppins";
+  opacity: 0.8;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fae2b8;
+  width: 500px;
+  height: 55px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  margin-bottom: 20px;
+  transition: opacity 0.3s;
+}
+#container #form .textbox::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  transition: color 0.3s;
+}
+#container #form .textbox:hover {
+  opacity: 1;
+}
+#container #form .textbox:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #form .textbox:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #form .label {
+  font-family: "Poppins";
+  color: #dfe0f2;
+  margin-left: 10px;
+  opacity: 0.5;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+#container #form .textarea {
+  font-family: "Poppins";
+  opacity: 0.8;
+  padding: 15px 25px 15px 25px;
+  font-size: 17px;
+  font-weight: 600;
+  color: #fae2b8;
+  width: 500px;
+  height: 300px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  transition: opacity 0.3s;
+}
+#container #form .textarea::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+#container #form .textarea:hover {
+  opacity: 1;
+}
+#container #form .textarea:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #form .textarea:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #form #uploader {
+  /*color: transparent;*/
+  width: 300px;
+  height: 300px;
+  background-color: rgba(39, 41, 100, 0.5);
+  padding: 15px 25px 15px 25px;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 17px;
+  opacity: 0.8;
+  color: rgba(223, 224, 242, 0.5);
+  transition: all 0.5s;
+}
+#container #form #uploader::-webkit-file-upload-button {
+  /*visibility: hidden;*/
+  text-decoration: none;
+  margin-right: 15px;
+  color: #dfe0f2;
+  font-size: 17px;
+  font-family: "Poppins";
+  font-weight: 600;
+  background-color: rgba(250, 226, 184, 0.5);
+  padding: 10px 20px 10px 20px;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
+}
+#container #form #uploader:hover {
+  opacity: 1;
+}
+#container #form #uploader:focus {
+  border: none;
+}
+#container #form .row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+#container #form .row .left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+#container #form .row .right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  margin-left: 25px;
+}
+#container #form .date {
+  font-family: "Poppins";
+  opacity: 0.8;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fae2b8;
+  width: 500px;
+  height: 55px;
+  margin-bottom: 15px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  transition: opacity 0.3s;
+}
+#container #form .date::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  transition: color 0.3s;
+}
+#container #form .date::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+#container #form .date:hover {
+  opacity: 1;
+}
+#container #form .date:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #form .date:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #form .number {
+  font-family: "Poppins";
+  opacity: 0.8;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #fae2b8;
+  width: 150px;
+  height: 55px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  transition: opacity 0.3s;
+}
+#container #form .number::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  transition: color 0.3s;
+}
+#container #form .number:hover {
+  opacity: 1;
+}
+#container #form .number:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #form .number:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #form .checkbox {
+  display: none;
+}
+#container #form .checkboxLabel {
+  background-color: rgba(39, 41, 100, 0.5);
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+#container #form .checkboxLabel .slider {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 5px;
+  background-color: white;
+  transition: margin-left 0.3s;
+}
+#container #form .checkboxLabel:hover {
+  opacity: 1;
+}
+#container #form #isForMarksOnly:checked + #isForMarksOnlyLabel {
+  background-color: #fae2b8;
+}
+#container #form #isForMarksOnly:checked + #isForMarksOnlyLabel > .slider {
+  margin-left: 45px;
+}
+#container #form #create-button {
+  margin-top: 70px;
+  text-decoration: none;
+  margin-right: 20px;
+  color: #dfe0f2;
+  font-size: 25px;
+  font-family: "Poppins";
+  font-weight: 600;
+  background-color: rgba(250, 226, 184, 0.5);
+  padding-left: 25px;
+  padding-right: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 3px;
+  border: none;
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+#container #form #create-button:hover {
+  background-color: rgba(250, 226, 184, 0.75);
+  box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
+}
+#container #form #create-button:focus {
+  outline: none;
+}
