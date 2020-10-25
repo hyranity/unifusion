@@ -5,10 +5,13 @@
  */
 package Util;
 
+import Controllers.Perform.PerformPostAnnouncement;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -21,6 +24,7 @@ import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileExistsException;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
@@ -195,6 +199,72 @@ public class Quick {
         }
 
         return output.toUpperCase();
+    }
+
+    public static ArrayList<String> performUpload(String filePath, List<FileItem> multiparts, HttpServletRequest request, Util.Servlet servlet) {
+        ArrayList<String> uploadedFiles = new ArrayList();
+
+        // If the form submission is multipart content
+        if (ServletFileUpload.isMultipartContent(request)) {
+
+            try {
+                System.out.println(multiparts.size());
+                for (FileItem item : multiparts) {
+                    System.out.println("is item form field? " + item.getFieldName());
+                    if (!item.isFormField()) {
+                        String name = new File(item.getName()).getName();
+
+                        // File cant contain '|' character, using it for separating multiple urls in db
+                        if (name.contains("|")) {
+                            System.out.println("Invalid characters");
+                            Errors.respondSimple(request.getSession(), "Your uploaded file(s) have invalid characters.");
+                            return null;
+                        }
+                        try {
+                            Quick.writeFile(item, filePath + File.separator + name);
+                        } catch (FileExistsException ex) {
+                            // Ignore this error and reuse the existing file in the directly
+                            System.out.println("Duplicate file name for " + name);
+                            Errors.respondSimple(request.getSession(), "Your uploaded file, " + name + " has a duplicate file name.");
+                            return null;
+                        }
+                        System.out.println("Writing in " + filePath + File.separator + name);
+                        uploadedFiles.add(filePath + File.separator + name);
+                    }
+                }
+
+                System.out.println("File uploaded successfully");
+            } catch (FileUploadException ex) {
+                System.out.println(ex.getMessage());
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+
+        }
+
+        return uploadedFiles;
+    }
+
+    public static String combineStrArr(ArrayList<String> arrStr) {
+        String outputStr = "";
+        int counter = 0;
+        for (String file : arrStr) {
+            counter++;
+
+            outputStr += file;
+
+            // If not yet end, add separator
+            if (counter < arrStr.size()) {
+                outputStr += "|";
+            }
+        }
+
+        return outputStr;
+    }
+    
+    public static String uploadFile(String filePath, List<FileItem> multiparts, HttpServletRequest request, Util.Servlet servlet){
+        ArrayList<String> fileList = performUpload(filePath, multiparts, request, servlet);
+        return combineStrArr(fileList);
     }
 
 }

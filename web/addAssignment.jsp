@@ -32,7 +32,7 @@
           
         <a id='error' style='margin-bottom: 30px;'><%out.print(Errors.requestSimple(session));%></a>
 
-        <form id='form' action=''>
+        <form id='form' action='PerformAddAssignment' enctype ="multipart/form-data">
 
           <a class='label' style='margin-left: -485px;'>Title</a>
           <input class='textbox' type='text' name='title' placeholder='eg. Semester Assignment'>
