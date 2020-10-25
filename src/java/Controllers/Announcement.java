@@ -57,7 +57,7 @@ public class Announcement extends HttpServlet {
         try {
             if ("class".equalsIgnoreCase(type)) {
                 // Get the class
-                Models.Class classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role = 'teacher'", Models.Class.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                Models.Class classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
 
                 // Generate announcement UI
                 for (Models.Announcement announcement : classroom.getAnnouncementCollection()) {
@@ -84,7 +84,7 @@ public class Announcement extends HttpServlet {
 
             } else if ("course".equalsIgnoreCase(type)) {
                 // Get the course
-                Models.Course course = (Models.Course) em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.coursecode = c.coursecode and cpa.participantid = p.participantid and p.userid = ? and cpa.role = 'teacher'", Course.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                Models.Course course = (Models.Course) em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.coursecode = c.coursecode and cpa.participantid = p.participantid and p.userid = ?", Course.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
 
                   // Generate announcement UI
                 for (Models.Announcement announcement : course.getAnnouncementCollection()) {
@@ -110,7 +110,7 @@ public class Announcement extends HttpServlet {
                 servlet.putInJsp("announcementUI", announcementUI);
             } else if ("programme".equalsIgnoreCase(type)) {
                 // Get the course
-                Models.Programme programme = (Models.Programme) em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ? and ppa.role = 'teacher'", Programme.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                Models.Programme programme = (Models.Programme) em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ?", Programme.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
 
                   // Generate announcement UI
                 for (Models.Announcement announcement : programme.getAnnouncementCollection()) {
@@ -136,7 +136,7 @@ public class Announcement extends HttpServlet {
                 servlet.putInJsp("announcementUI", announcementUI);
             } else if ("institution".equalsIgnoreCase(type)) {
                 // Get the course
-                Models.Institution institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and ipa.role = 'teacher'", Institution.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                Models.Institution institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Institution.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
 
                   // Generate announcement UI
                 for (Models.Announcement announcement : institution.getAnnouncementCollection()) {
@@ -160,6 +160,7 @@ public class Announcement extends HttpServlet {
                 servlet.putInJsp("type", "institution");
                 servlet.putInJsp("postURL", "PostAnnouncement?id="+id+"&type="+type);
                 servlet.putInJsp("announcementUI", announcementUI);
+                
             } else {
                 // Incorrect type
                 System.out.println("Type is incorrect");
@@ -167,6 +168,7 @@ public class Announcement extends HttpServlet {
                 return;
             }
         } catch (NoResultException e) {
+            e.printStackTrace();
             System.out.println("No data found");
             servlet.toServlet("Dashboard");
             return;

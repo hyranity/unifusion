@@ -94,6 +94,9 @@ public class PerformJoinProgramme extends HttpServlet {
 
                 //Insert into db
                 db.insert(programmePart);
+
+                System.out.println("Programme successfully joined");
+                servlet.toServlet("Programme?id=" + programme.getProgrammecode());
             } // If no
             else {
                 // Reject
@@ -103,7 +106,8 @@ public class PerformJoinProgramme extends HttpServlet {
             }
         } // Not associated with an institution
         else {
-            // Since not associated with a programme, create new participant object
+
+            // Since not associated with a institution, create new participant object
             Participant participant = new Participant();
             participant.setDateadded(Calendar.getInstance().getTime());
             participant.setEducatorrole("student");
@@ -122,7 +126,7 @@ public class PerformJoinProgramme extends HttpServlet {
             programmePart.setProgrammeparticipantid(Quick.generateID(em, utx, Programmeparticipant.class, "Programmeparticipantid"));
             programmePart.setParticipantid(participant); // Use the newly created participant
             db.insert(programmePart);
-            
+
             System.out.println("Programme successfully joined");
             servlet.toServlet("Programme?id=" + programme.getProgrammecode());
         }

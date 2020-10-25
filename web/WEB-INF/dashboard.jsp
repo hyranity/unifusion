@@ -3,9 +3,9 @@
 <%@page import="Util.Quick"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
-response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
-response.setHeader("Pragma","no-cache"); //HTTP 1.0
-response.setDateHeader ("Expires", 0);
+    response.setHeader("Cache-Control", "no-cache"); //HTTP 1.1
+    response.setHeader("Pragma", "no-cache"); //HTTP 1.0
+    response.setDateHeader("Expires", 0);
 //prevents caching at the proxy server
 %>
 
@@ -33,14 +33,16 @@ response.setDateHeader ("Expires", 0);
                     <a href='DashboardMenu'>Open menu</a> <!-- to change to href='DashboardMenu' -->
                 </div>
             </div>
-            
+
             <!--  To throw away all errors that may have redirected here-->
             <input type="hidden" value="<%out.print(Errors.requestSimple(session));%>"/>
 
             <div id='classes'>
-                
+
+
+
                 ${output}
-                
+
                 <!--
                 
                 programme
@@ -338,19 +340,30 @@ response.setDateHeader ("Expires", 0);
         </div>
 
         <script>
+            function seeProgrammes(institutionId) {
+                var checkbox = document.getElementById("seeProgrammes_" + institutionId);
+                var programmes = document.getElementById("programmes_" + institutionId);
+                if (checkbox.checked == true) {
+                    programmes.style.display = "flex";
+                    programmes.style.flexDirection = "column";
+                } else {
+                    programmes.style.display = "none";
+                }
+            }
+
             function seeCourses(programmeId) {
                 var checkbox = document.getElementById("seeCourses_" + programmeId);
                 var courses = document.getElementById("courses_" + programmeId);
                 //alert(checkbox.checked);
 
                 if (checkbox.checked == true) {
-                  courses.style.display = "flex";
-                  courses.style.flexDirection = "column";
+                    courses.style.display = "flex";
+                    courses.style.flexDirection = "column";
                 } else {
-                  courses.style.display = "none";
+                    courses.style.display = "none";
                 }
-              }
-            
+            }
+
             function seeClasses(courseId) {
                 var checkbox = document.getElementById("seeClasses_" + courseId);
                 var classes = document.getElementById("classes_" + courseId);
