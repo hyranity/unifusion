@@ -136,13 +136,15 @@ public class PerformAddSession extends HttpServlet {
 
             // Check double booking based on venue ID
             System.out.println("Performing algorithm to prevent double booking based on venue ID");
-            query = em.createNativeQuery("select s.* from session s where  ((s.startTime between ? and ? ) or ( s.endTime between ? and ? )) and s.classid = ? and s.venueid = ?");
+            query = em.createNativeQuery("select s.* from session s where  (((s.startTime between ? and ? ) or ( s.endTime between ? and ? )) or  ((? between s.startTime and s.endTime ) or ( ? between s.startTime and s.endTime ))) and s.classid = ? and s.venueid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
             query.setParameter(3, startDate.toDate());
             query.setParameter(4, endDate.toDate());
-            query.setParameter(5, classid);
-            query.setParameter(6, venue.getVenueid());
+            query.setParameter(5, startDate.toDate());
+            query.setParameter(6, endDate.toDate());
+            query.setParameter(7, classid);
+            query.setParameter(8, venue.getVenueid());
 
             // Redirect if session ady booked
             if (query.getResultList().size() > 0) {
@@ -156,12 +158,14 @@ public class PerformAddSession extends HttpServlet {
             session.setVenueid(venue);
         } // If this class does NOT have institution AND have temp venue, prevent double booking from this class' scope only
         else if ((tempVenue != null && !tempVenue.trim().isEmpty()) || institutionQuery.getResultList().size() == 0) {
-            query = em.createNativeQuery("select s.* from session s where  ((s.startTime between ? and ? ) or ( s.endTime between ? and ? )) and s.classid = ?");
+            query = em.createNativeQuery("select s.* from session s where  (((s.startTime between ? and ? ) or ( s.endTime between ? and ? )) or ((? between s.startTime and s.endTime ) or ( ? between s.startTime and s.endTime ))) and s.classid = ?");
             query.setParameter(1, startDate.toDate());
             query.setParameter(2, endDate.toDate());
             query.setParameter(3, startDate.toDate());
             query.setParameter(4, endDate.toDate());
-            query.setParameter(5, classid);
+            query.setParameter(5, startDate.toDate());
+            query.setParameter(6, endDate.toDate());
+            query.setParameter(7, classid);
 
             // Redirect if session ady booked
             if (query.getResultList().size() > 0) {
