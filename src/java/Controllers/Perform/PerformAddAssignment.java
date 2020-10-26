@@ -125,7 +125,7 @@ public class PerformAddAssignment extends HttpServlet {
             String fileUrl = Quick.uploadFile(filePath, items, request, servlet); // Use Quick's uploadFile() method
 
             // Check for error
-            if (fileUrl.equalsIgnoreCase("error")) {
+            if (fileUrl != null && fileUrl.equalsIgnoreCase("error")) {
                 servlet.toServlet("AddAssignment?id=" + id);
                 return;
             }
@@ -136,11 +136,15 @@ public class PerformAddAssignment extends HttpServlet {
             db.insert(assignment);
 
             // Redirect
-            servlet.toServlet("Assignments");
+            servlet.toServlet("Assignments?id=" + id);
 
         } catch (FileUploadException ex) {
             Logger.getLogger(PerformAddAssignment.class.getName()).log(Level.SEVERE, null, ex);
             Errors.respondSimple(request.getSession(), "File could not be uploaded");
+            servlet.toServlet("AddAssignment?id=" + id);
+            return;
+        } catch(NumberFormatException ex){
+            Errors.respondSimple(request.getSession(), "Marks must be specified correctly.");
             servlet.toServlet("AddAssignment?id=" + id);
             return;
         }
