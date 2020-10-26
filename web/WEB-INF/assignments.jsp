@@ -22,9 +22,9 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Assignments</a>
             </div>
           </div>
@@ -40,12 +40,14 @@
           </select>
           <a class='dropdownLabel'>Click to view options</a>
           <input id='search-button' class='button' type='submit' value='>' onclick='search()'>
-          <a href='#' id='create-button' class='button'>Create an Assignment</a>
+          ${addBt}
         </div>
 
         <div id='list'>
+            
+            ${assignmentUI}
 
-          <!-- sample assignment 1 -->
+<!--           sample assignment 1 
 
           <div class='assignment submitted'>
             <a class='time'>Submitted</a>
@@ -54,7 +56,8 @@
             <a class='deadline'>11 January 2021</a>
           </div>
 
-          <!-- sample assignment 2 -->
+          
+           sample assignment 2 
 
           <div class='assignment current'>
             <a class='time'>In 3d</a>
@@ -63,7 +66,7 @@
             <a class='deadline'>14 January 2021</a>
           </div>
 
-          <!-- sample assignment 3 -->
+           sample assignment 3 
 
           <div class='assignment submitted late'>
             <a class='time'>Late</a>
@@ -72,14 +75,14 @@
             <a class='deadline'>8 January 2021</a>
           </div>
 
-          <!-- sample assignment 3 -->
+           sample assignment 4
 
           <div class='assignment missing'>
             <a class='time'>Missing</a>
             <a class='assignmentId'>S00006</a>
             <a class='title'>Tutorial 3 Extra</a>
             <a class='deadline'>2 January 2021</a>
-          </div>
+          </div>-->
 
         </div>
 

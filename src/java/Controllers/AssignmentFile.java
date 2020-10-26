@@ -5,6 +5,8 @@
  */
 package Controllers;
 
+import Models.Gradedcomponent;
+import Util.Quick;
 import Util.Server;
 import Util.Servlet;
 import java.io.IOException;
@@ -23,8 +25,8 @@ import javax.transaction.UserTransaction;
  *
  * @author mast3
  */
-@WebServlet(name = "AddAssignment", urlPatterns = {"/AddAssignment"})
-public class AddAssignment extends HttpServlet {
+@WebServlet(name = "AssignmentFile", urlPatterns = {"/AssignmentFile"})
+public class AssignmentFile extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -35,30 +37,39 @@ public class AddAssignment extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
-        // Utility objects
+        
+         // Utility objects
         Servlet servlet = new Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
-        
-        // Get class code
-        String classId = servlet.getQueryStr("id");
+
+        // Get class code and assignment id
+        String classId = servlet.getQueryStr("code");
+        String id = servlet.getQueryStr("id");
         Models.Users user = Server.getUser(request, response);
 
-        // Get class
+        // Objects
         Models.Class classroom = new Models.Class();
+        Models.Classparticipant cpa = new Models.Classparticipant();
+        Models.Gradedcomponent assignment = new Models.Gradedcomponent();
 
         try {
-            classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role='teacher'", Models.Class.class).setParameter(1, classId).setParameter(2, user.getUserid()).getSingleResult();
+            // Get class participant
+            cpa = (Models.Classparticipant) em.createNativeQuery("select cpa.* from classparticipant cpa, participant p where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ?", Models.Classparticipant.class).setParameter(1, user.getUserid()).setParameter(2, classId).getSingleResult();
+            classroom = cpa.getClassid();
+
+            // Get assignment
+            assignment = (Gradedcomponent) em.createNativeQuery("select * from gradedcomponent where componentid = ? and classid = ?", Models.Gradedcomponent.class).setParameter(1, id).setParameter(2, classId).getSingleResult();
+
         } catch (Exception ex) {
-            System.out.println("Cannot get classroom");
+            ex.printStackTrace();
             servlet.toServlet("Dashboard");
             return;
         }
-
-        servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
-        servlet.putInJsp("id", classroom.getClassid());
-        servlet.servletToJsp("addAssignment.jsp");
-
+        
+        String filename = servlet.getQueryStr("file");
+        
+        Quick.displayFile(filename, getServletContext(), request, response, servlet, "AssignmentDetails?id=" + id + "&code=" + classId);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

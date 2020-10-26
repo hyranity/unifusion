@@ -112,7 +112,14 @@ public class Quick {
         response.setHeader("Content-Type", fileType);
         response.setHeader("Content-Length", String.valueOf(file.length()));
         response.setHeader("Content-Disposition", "inline; filename=\"" + filename + "\"");
-        Files.copy(file.toPath(), response.getOutputStream());
+        try {
+            Files.copy(file.toPath(), response.getOutputStream());
+        } catch (Exception ex) {
+            Errors.respondSimple(request.getSession(), "No file found");
+            System.out.println("No file found");
+            servlet.toServlet(errorRedirectURL);
+            return;
+        }
     }
 
     public static void deleteFile(String filename) {
@@ -175,6 +182,29 @@ public class Quick {
             builder.appendMinutes().appendSuffix(" min left");
         } else {
             return "Starting";
+        }
+
+        PeriodFormatter formatter = builder.printZeroNever().toFormatter();
+
+        return formatter.print(period);
+    }
+    
+    public static String daysTo(Date date) {
+        Period period = new Period(DateTime.now(), new DateTime(date));
+
+        PeriodFormatterBuilder builder = new PeriodFormatterBuilder();
+
+        if (period.getYears() > 0) {
+            builder.appendYears().appendSuffix(" yrs left");
+        } else if (period.getMonths() > 0) {
+            builder.appendMonths().appendSuffix(" mths left");
+        } else if (period.getWeeks() > 0) {
+            builder.appendWeeks().appendSuffix(" wks left");
+        } else if (period.getDays() > 0) {
+            builder.appendDays().appendSuffix(" days left");
+        
+        } else {
+            return "today";
         }
 
         PeriodFormatter formatter = builder.printZeroNever().toFormatter();
