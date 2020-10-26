@@ -24,7 +24,7 @@
           <div id='info'>
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Create Assignment</a>
             </div>
           </div>
@@ -32,7 +32,10 @@
           
         <a id='error' style='margin-bottom: 30px;'><%out.print(Errors.requestSimple(session));%></a>
 
-        <form id='form' action='PerformAddAssignment' enctype ="multipart/form-data">
+        <form id='form' action='PerformAddAssignment' enctype ="multipart/form-data" method="post">
+            
+            <!-- To store ID -->
+            <input type="hidden" value="${id}" name="id"/>
 
           <a class='label' style='margin-left: -485px;'>Title</a>
           <input class='textbox' type='text' name='title' placeholder='eg. Semester Assignment'>
@@ -46,7 +49,7 @@
 
             <div class='right'>
               <a class='label'>Attachments</a>
-              <input id='uploader' type='file' multiple />
+              <input id='uploader' type='file' name="files" size='50' multiple />
             </div>
 
           </div>

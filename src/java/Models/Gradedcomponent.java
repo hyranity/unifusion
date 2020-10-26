@@ -6,7 +6,6 @@
 package Models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -62,11 +61,10 @@ public class Gradedcomponent implements Serializable {
     @Size(min = 1, max = 500)
     @Column(name = "DETAILS")
     private String details;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Basic(optional = false)
     @NotNull
     @Column(name = "TOTALMARKS")
-    private BigDecimal totalmarks;
+    private double totalmarks;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ISSUEDDATE")
@@ -95,7 +93,7 @@ public class Gradedcomponent implements Serializable {
         this.componentid = componentid;
     }
 
-    public Gradedcomponent(String componentid, String title, String details, BigDecimal totalmarks, Date issueddate, Boolean istoshowmarksonly) {
+    public Gradedcomponent(String componentid, String title, String details, double totalmarks, Date issueddate, Boolean istoshowmarksonly) {
         this.componentid = componentid;
         this.title = title;
         this.details = details;
@@ -128,11 +126,11 @@ public class Gradedcomponent implements Serializable {
         this.details = details;
     }
 
-    public BigDecimal getTotalmarks() {
+    public double getTotalmarks() {
         return totalmarks;
     }
 
-    public void setTotalmarks(BigDecimal totalmarks) {
+    public void setTotalmarks(double totalmarks) {
         this.totalmarks = totalmarks;
     }
 

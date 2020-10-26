@@ -264,6 +264,18 @@ public class Quick {
     
     public static String uploadFile(String filePath, List<FileItem> multiparts, HttpServletRequest request, Util.Servlet servlet){
         ArrayList<String> fileList = performUpload(filePath, multiparts, request, servlet);
+
+        // Return "error" if an error occured
+        if(fileList == null){
+            return "error";
+        }
+        
+        // Return null if no files uploaded
+        if(fileList.size() == 0l){
+            System.out.println("No files uploaded");
+            return null;
+        }
+        
         return combineStrArr(fileList);
     }
 

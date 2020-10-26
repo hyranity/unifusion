@@ -6,7 +6,6 @@
 package Models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -48,7 +47,7 @@ public class Submission implements Serializable {
     private String submissionid;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "MARKS")
-    private BigDecimal marks;
+    private Double marks;
     @Size(max = 500)
     @Column(name = "COMMENT")
     private String comment;
@@ -87,11 +86,11 @@ public class Submission implements Serializable {
         this.submissionid = submissionid;
     }
 
-    public BigDecimal getMarks() {
+    public Double getMarks() {
         return marks;
     }
 
-    public void setMarks(BigDecimal marks) {
+    public void setMarks(Double marks) {
         this.marks = marks;
     }
 
