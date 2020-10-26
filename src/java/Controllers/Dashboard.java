@@ -395,7 +395,7 @@ public class Dashboard extends HttpServlet {
                     + "        \n";
 
             // Get classes in which user has joined
-            Query classJoinQuery = em.createNativeQuery("select c.* from classes c, classparticipant cpa, participant p where c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and c.coursecode = ?", Models.Class.class);
+            Query classJoinQuery = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and c.coursecode = ?", Models.Class.class);
             classJoinQuery.setParameter(1, user.getUserid());
             classJoinQuery.setParameter(2, course.getCoursecode());
 

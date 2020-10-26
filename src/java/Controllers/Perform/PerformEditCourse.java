@@ -63,7 +63,7 @@ public class PerformEditCourse extends HttpServlet {
             // Has null data
             System.out.println("Null fields!");
             Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
-            servlet.toServlet("AddCourse");
+            servlet.toServlet("EditCourse");
             return;
         }
 
