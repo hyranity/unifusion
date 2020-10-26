@@ -42,7 +42,7 @@
           </select>
           <a class='dropdownLabel'>Click to view options</a>
           <input id='search-button' class='button' type='submit' value='>' onclick='search()'>
-          <a href='AddSession?id=${id}' id='create-button' class='button'>Create a Session</a>
+          ${addSessionBt}
         </div>
 
         <div id='list'>

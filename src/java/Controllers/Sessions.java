@@ -84,7 +84,7 @@ public class Sessions extends HttpServlet {
 
             DateTimeFormatter date = DateTimeFormat.forPattern("MMM d',' h:mm a");
 
-            // Show session ID only if creator
+            // Show session ID  button  only if creator
             String sessId = "";
 
             if (cpa.getRole().equalsIgnoreCase("teacher")) {
@@ -100,6 +100,8 @@ public class Sessions extends HttpServlet {
                     + "              <a class='tutor'>" + session.getCreatorid().getParticipantid().getUserid().getName() + "</a>\n"
                     + "            </div>\n"
                     + "          </div>";
+
+           
         }
 
         // Get institution to display "add venue" button
@@ -117,14 +119,15 @@ public class Sessions extends HttpServlet {
         }
 
         // Show "create session" to only teachers
-        String createSession = "";
+        String addSessionBt = "";
         if (cpa.getRole().equalsIgnoreCase("teacher")) {
-            createSession = "<a href='AddSession?id=" + classid + "' id='create-button' class='button'>Create a Session</a>";
+            addSessionBt = "<a href='AddSession?id=" + classid + "' id='create-button' class='button'>Create a Session</a>";
         }
 
         // Put in jsp
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
         servlet.putInJsp("id", classid);
+        servlet.putInJsp("addSessionBt", addSessionBt);
         servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
         servlet.putInJsp("sessionUI", sessionUI);
 
