@@ -14,10 +14,10 @@
       <div id='container'>
 
         <div id='navbar'>
-          <a href='#' id='back'>&lt; <span>Back</span></a>
-          <a href='#' id='scaffold'>Scaffold</a>
-          <a href='#' class='link'>Dashboard</a>
-          <a href='#' class='link'>Account</a>
+            <a href='Dashboard' id='back'>&lt; <span>Back</span></a>
+            <a href='Home' id='scaffold'>Scaffold</a>
+            <a href='Dashboard' class='link'>Dashboard</a>
+            <a href='AccountDetails' class='link'>Account</a>
         </div>
 
         <div id='top'>
@@ -163,6 +163,20 @@
             </div>
 
             <!-- END: courses -->
+            
+            <!-- START: venues -->
+
+            <div class='panel' id='programmes' onclick='location.href="#"'>
+
+              <div class='top'>
+                <a class='heading'>Venues</a>
+              </div>
+
+              <a href='#' class='more'>Click to view more ></a>
+
+            </div>
+
+            <!-- END: venues -->
 
           </div>
 

@@ -6,11 +6,17 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Take Attendance</title>
         <link rel="stylesheet" href="CSS/takeAttendance.css">
+        <link rel="stylesheet" href="CSS/all.css">
     </head>
     <body>
         <div id='container'>
 
-          <a href='#' id='back'>&lt; Back</a>
+            <div id='navbar'>
+                <a href='Dashboard' id='back'>&lt; <span>Back</span></a>
+                <a href='Home' id='scaffold'>Scaffold</a>
+                <a href='Dashboard' class='link'>Dashboard</a>
+                <a href='AccountDetails' class='link'>Account</a>
+            </div>
 
           <div id='top'>
             <div class='image'>

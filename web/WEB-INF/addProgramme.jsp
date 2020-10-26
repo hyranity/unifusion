@@ -38,7 +38,7 @@
 
           <div class='section'>
             <div class='image' id='left'>
-              <img src='https://i.postimg.cc/kgFkP6cK/unifusion-create-class-graphic-1.png'>
+              <img src='https://i.postimg.cc/G2K4PkF0/unifusion-create-programme-graphic-1.png'>
             </div>
             <div class='text' id='right'>
               <a class='label'>Programme  code</a>
@@ -60,13 +60,13 @@
               <input type='hidden' id='institutionCodeEnabled' name='institutionCodeEnabled' value='false'>
             </div>
             <div class='image' id='right'>
-              <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+              <img src='https://i.postimg.cc/Y0ShdhRv/unifusion-create-programme-graphic-2.png'>
             </div>
           </div>
             
           <div class='section'>
             <div class='image' id='left'>
-              <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+              <img src='https://i.postimg.cc/C56dXSrm/unifusion-create-programme-graphic-3.png'>
             </div>
             <div class='text' id='right'>
               <a class='label'>Description</a>
@@ -85,4 +85,19 @@
 
       </div>
     </body>
+    
+    <script>
+        function hasProgrammeClicked() {
+            var hasInstitution = document.getElementById("hasInstitution");
+            var institutionCodeTextbox = document.getElementById("institutionCodeTextbox");
+
+            document.getElementById("institutionCodeEnabled").value = hasInstitution.checked;
+
+            if (hasInstitution.checked) {
+                institutionCodeTextbox.disabled = false;
+            } else {
+                institutionCodeTextbox.disabled = true;
+            }
+        }
+    </script>
 </html>

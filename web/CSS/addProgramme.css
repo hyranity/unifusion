@@ -276,16 +276,16 @@ a {
   margin-left: 45px;
   /* hasInstitution specific checkbox checked config */
 }
-#container #form .section .text #hasProgramme:checked + #hasProgrammeLabel {
+#container #form .section .text #hasInstitution:checked + #hasInstitutionLabel {
   background-color: #FAE2B8;
 }
-#container #form .section .text #hasProgramme:checked + #hasProgrammeLabel > .slider {
+#container #form .section .text #hasInstitution:checked + #hasInstitutionLabel > .slider {
   margin-left: 45px;
 }
-#container #form .section .text #hasProgramme:not(:checked) ~ #programmeCodeLabel {
+#container #form .section .text #hasInstitution:not(:checked) ~ #institutionCodeLabel {
   opacity: 0;
 }
-#container #form .section .text #hasProgramme:not(:checked) ~ #programmeCodeTextbox {
+#container #form .section .text #hasInstitution:not(:checked) ~ #institutionCodeTextbox {
   opacity: 0;
 }
 #container #form .section #left {
