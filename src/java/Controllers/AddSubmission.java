@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,16 +21,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "AssignmentDetails", urlPatterns = {"/AssignmentDetails"})
-public class AssignmentDetails extends HttpServlet {
+@WebServlet(name = "AddSubmission", urlPatterns = {"/AddSubmission"})
+public class AddSubmission extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -42,7 +38,7 @@ public class AssignmentDetails extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-
+        
         // Utility objects
         Servlet servlet = new Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
@@ -71,72 +67,17 @@ public class AssignmentDetails extends HttpServlet {
             servlet.toServlet("Dashboard");
             return;
         }
-
-        // Get deadline
-        DateTimeFormatter dateFmt = DateTimeFormat.forPattern("d MMM YYYY");
-        String deadline = new DateTime(assignment.getDeadline()).toString(dateFmt);
-
-        // Buttons to show teacher only
-        String editBt = "";
-        String viewSubmissionsBt = "";
-        String deleteBt = "";
-        if (cpa.getRole().equalsIgnoreCase("teacher")) {
-            editBt = "<a href='EditAssignment?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='edit-button' class='button'>Edit</a>";
-            viewSubmissionsBt = "<a href='Submissions?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='viewSubmissions-button' class='button'>View Submissions</a>";
-            deleteBt = "<a href='PerformDeleteAssignment?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='remove-button' class='button'>Delete</a>";
-        }
-
-        // Buttons to show student only
-        String viewMySubmission = "";
-        String submitBt = "";
-        if (cpa.getRole().equalsIgnoreCase("student")) {
-            submitBt = "<a href='AddSubmission?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='makeSubmission-button' class='button'>Make Submission</a>";
-            viewMySubmission = "<a href='SubmissionDetails?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='viewMySubmission-button' class='button'>View My Submission</a>";
-        }
-
-        // Display attachments
-        String fileStr = "";
-
-        // Get each file
-        if (assignment.getFileurl() != null) {
-            String[] files = assignment.getFileurl().split("\\|");
-
-            for (String file : files) {
-                String name = file.substring(file.indexOf("\\") + 1, file.length());
-
-                fileStr += "<div class='attachment'>\n"
-                        + "            <img class='icon' src='https://icons.iconarchive.com/icons/pelfusion/flat-file-type/512/doc-icon.png'>\n"
-                        + "            <a href='AssignmentFile?id=" + id + "&code=" + classId + "&file=" + file + "' class='name'>" + name + "</a>\n"
-                        + "          </div>";
-            }
-
-            servlet.putInJsp("fileStr", fileStr);
-        }
-
-        // Has this user submitted ?
-        try {
-            submission = (Submission) em.createNativeQuery("select s.* from submission s, gradedcomponent g where g.componentid = s.componentid and g.componentid = ? and s.classparticipantid = ?", Submission.class).setParameter(1, id).setParameter(2, cpa.getClassparticipantid()).getSingleResult();
-            System.out.println("Assignment already submitted");
-            servlet.putInJsp("viewMySubmission", viewMySubmission);
-        } catch (NoResultException ex) {
-            // Not yet submitted
-            System.out.println("Assignment not yet submitted");
-            servlet.putInJsp("submitBt", submitBt);
-        }
-
+        
         // Put in JSP
-        servlet.putInJsp("deadline", deadline);
-        servlet.putInJsp("viewSubmissionsBt", viewSubmissionsBt);
-        servlet.putInJsp("editBt", editBt);
-
-        servlet.putInJsp("deleteBt", deleteBt);
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
         servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
         servlet.putInJsp("assignment", assignment);
-
+        servlet.putInJsp("id", assignment.getComponentid()); // Component id
+        servlet.putInJsp("code", classroom.getClassid()); // Class code
+        
         // Redirect
-        servlet.servletToJsp("assignmentDetails.jsp");
-
+        servlet.servletToJsp("addSubmission.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

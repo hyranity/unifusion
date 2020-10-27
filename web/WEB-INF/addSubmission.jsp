@@ -22,19 +22,23 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Submit Assignment</a>
             </div>
           </div>
         </div>
 
-        <form id='form' action=''>
+        <form id='form' action='PerformAddSubmission' enctype ="multipart/form-data" method="post">
+            
+            <!-- To store assignment id and class code -->
+            <input type="hidden" value="${id}" name="id"/>
+            <input type="hidden" value="${code}" name="code"/>
 
           <div id='header'>
-            <a id='assignmentId'>AS001</a>
-            <a id='assignmentTitle'>Assignment Name</a>
+            <a id='assignmentId'>${assignment.getComponentid()}</a>
+            <a id='assignmentTitle'>${assignment.getTitle()}</a>
           </div>
             
           <a id='error' style='margin-bottom: 30px;'><%out.print(Errors.requestSimple(session));%></a>
@@ -48,7 +52,7 @@
 
             <div class='right'>
               <a class='label'>Attachments</a>
-              <input id='uploader' type='file' multiple />
+              <input id='uploader' type='file' multiple name="files" />
             </div>
 
           </div>
