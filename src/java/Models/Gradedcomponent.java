@@ -68,10 +68,10 @@ public class Gradedcomponent implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "ISSUEDDATE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date issueddate;
     @Column(name = "DEADLINE")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date deadline;
     @Basic(optional = false)
     @NotNull

@@ -54,7 +54,7 @@ public class Submission implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "DATESUBMITTED")
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date datesubmitted;
     @Size(max = 500)
     @Column(name = "FILEURL")

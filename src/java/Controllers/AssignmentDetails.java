@@ -82,7 +82,7 @@ public class AssignmentDetails extends HttpServlet {
         String deleteBt = "";
         if (cpa.getRole().equalsIgnoreCase("teacher")) {
             editBt = "<a href='EditAssignment?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='edit-button' class='button'>Edit</a>";
-            viewSubmissionsBt = "<a href='Submissions?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='viewSubmissions-button' class='button'>View Submissions</a>";
+            viewSubmissionsBt = "<a href='SubmissionList?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='viewSubmissions-button' class='button'>View Submissions</a>";
             deleteBt = "<a href='PerformDeleteAssignment?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='remove-button' class='button'>Delete</a>";
         }
 
@@ -91,7 +91,7 @@ public class AssignmentDetails extends HttpServlet {
         String submitBt = "";
         if (cpa.getRole().equalsIgnoreCase("student")) {
             submitBt = "<a href='AddSubmission?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='makeSubmission-button' class='button'>Make Submission</a>";
-            viewMySubmission = "<a href='SubmissionDetails?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "' id='viewMySubmission-button' class='button'>View My Submission</a>";
+            viewMySubmission = "<a href='SubmissionDetails?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "&stud=" + cpa.getClassparticipantid() + "' id='viewMySubmission-button' class='button'>View My Submission</a>";
         }
 
         // Display attachments

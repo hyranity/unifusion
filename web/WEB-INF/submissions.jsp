@@ -22,9 +22,9 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
-              <a id='subheading'>AS001 - Assignment Name</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Assignment Submissions</a>
             </div>
           </div>
@@ -47,8 +47,10 @@
         </div>
 
         <div id='list'>
+            
+            ${submissions}
 
-          <!-- sample submission 1 -->
+<!--           sample submission 1 
 
           <div class='submission marked'>
             <a class='time'>12:30 pm</a>
@@ -57,7 +59,7 @@
             <a class='date'>11 January 2021</a>
           </div>
 
-          <!-- sample submission 2 -->
+           sample submission 2 
 
           <div class='submission pending'>
             <a class='time'>12:34 pm</a>
@@ -66,14 +68,14 @@
             <a class='date'>11 January 2021</a>
           </div>
 
-          <!-- sample submission 3 -->
+           sample submission 3 
 
           <div class='submission pending late'>
             <a class='time'>2:33 pm</a>
             <a class='memberId'>M007</a>
             <a class='name'>Aioi Yuuko</a>
             <a class='date'>12 January 2021</a>
-          </div>
+          </div>-->
 
         </div>
 

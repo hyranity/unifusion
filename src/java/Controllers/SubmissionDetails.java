@@ -51,6 +51,7 @@ public class SubmissionDetails extends HttpServlet {
         // Get class code and assignment id
         String classId = servlet.getQueryStr("code");
         String id = servlet.getQueryStr("id");
+        String studentId = servlet.getQueryStr("stud");
         Models.Users user = Server.getUser(request, response);
 
         // Objects
@@ -58,7 +59,7 @@ public class SubmissionDetails extends HttpServlet {
         Models.Classparticipant cpa = new Models.Classparticipant();
         Models.Gradedcomponent assignment = new Models.Gradedcomponent();
         Submission submission = new Submission();
-
+     
         try {
             // Get class participant
             cpa = (Models.Classparticipant) em.createNativeQuery("select cpa.* from classparticipant cpa, participant p where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ?", Models.Classparticipant.class).setParameter(1, user.getUserid()).setParameter(2, classId).getSingleResult();
@@ -75,9 +76,20 @@ public class SubmissionDetails extends HttpServlet {
 
         // Get assignment
         try {
-            submission = (Submission) em.createNativeQuery("select s.* from submission s, gradedcomponent g where g.componentid = s.componentid and g.componentid = ? and s.classparticipantid = ?", Submission.class).setParameter(1, id).setParameter(2, cpa.getClassparticipantid()).getSingleResult();
+
+            // Get the submission of this student
+            submission = (Submission) em.createNativeQuery("select s.* from submission s, gradedcomponent g where g.componentid = s.componentid and g.componentid = ? and s.classparticipantid = ?", Submission.class).setParameter(1, id).setParameter(2, studentId).getSingleResult();
+
         } catch (NoResultException ex) {
+
             System.out.println("No submission found");
+            servlet.toServlet("AssignmentDetails?id=" + id + "&code=" + classId);
+            return;
+        }
+        
+        // Deter any other user
+        if(!cpa.getRole().equalsIgnoreCase("teacher") && !submission.getClassparticipantid().getClassparticipantid().equalsIgnoreCase(cpa.getClassparticipantid())){
+            System.out.println("Not authorized");
             servlet.toServlet("AssignmentDetails?id=" + id + "&code=" + classId);
             return;
         }
@@ -85,8 +97,8 @@ public class SubmissionDetails extends HttpServlet {
         // Get time submitted
         DateTimeFormatter dateFmt = DateTimeFormat.forPattern("d MMM YYYY");
         DateTimeFormatter timeFmt = DateTimeFormat.forPattern("h'.'mma");
-        String dateSubmitted = new DateTime(assignment.getDeadline()).toString(dateFmt);
-        String timeSubmitted = new DateTime(assignment.getDeadline()).toString(timeFmt);
+        String dateSubmitted = new DateTime(submission.getDatesubmitted()).toString(dateFmt);
+        String timeSubmitted = new DateTime(submission.getDatesubmitted()).toString(timeFmt);
 
         // Get student details
         String student = submission.getClassparticipantid().getParticipantid().getUserid().getName();
@@ -108,17 +120,17 @@ public class SubmissionDetails extends HttpServlet {
 
             servlet.putInJsp("attachments", attachments);
         }
-        
+
         // Show only to teacher
-        if(cpa.getRole().equalsIgnoreCase("teacher")){
+        if (cpa.getRole().equalsIgnoreCase("teacher")) {
             String gradeSubmission = "<a href='GradeSubmission?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "&submission=" + submission.getSubmissionid() + "' id='grade-button' class='button'>Grade Submission</a>";
             servlet.putInJsp("gradeSubmission", gradeSubmission);
         }
-        
+
         // Show only to student
-        if(cpa.getRole().equalsIgnoreCase("student")){
-           String deleteSubmission = "<a href='PerformDeleteSubmission?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "&submission=" + submission.getSubmissionid() + "' id='remove-button' class='button'>Delete</a>";
-           servlet.putInJsp("deleteSubmission", deleteSubmission);
+        if (cpa.getRole().equalsIgnoreCase("student")) {
+            String deleteSubmission = "<a href='PerformDeleteSubmission?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "&submission=" + submission.getSubmissionid() + "' id='remove-button' class='button'>Delete</a>";
+            servlet.putInJsp("deleteSubmission", deleteSubmission);
         }
 
         // Put in JSP

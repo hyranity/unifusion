@@ -7,6 +7,7 @@ package Controllers;
 
 import Models.Gradedcomponent;
 import Models.Submission;
+import Models.Users;
 import Util.Quick;
 import Util.Server;
 import Util.Servlet;
@@ -14,7 +15,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,8 +30,8 @@ import org.joda.time.format.DateTimeFormatter;
  *
  * @author mast3
  */
-@WebServlet(name = "Assignments", urlPatterns = {"/Assignments"})
-public class Assignments extends HttpServlet {
+@WebServlet(name = "SubmissionList", urlPatterns = {"/SubmissionList"})
+public class SubmissionList extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -47,86 +47,68 @@ public class Assignments extends HttpServlet {
         Servlet servlet = new Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
 
-        // Get class code
-        String classId = servlet.getQueryStr("id");
+        // Get class code and assignment id
+        String classId = servlet.getQueryStr("code");
+        String id = servlet.getQueryStr("id");
         Models.Users user = Server.getUser(request, response);
 
         // Objects
         Models.Class classroom = new Models.Class();
         Models.Classparticipant cpa = new Models.Classparticipant();
+        Models.Gradedcomponent assignment = new Models.Gradedcomponent();
 
         try {
             // Get class participant
             cpa = (Models.Classparticipant) em.createNativeQuery("select cpa.* from classparticipant cpa, participant p where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ?", Models.Classparticipant.class).setParameter(1, user.getUserid()).setParameter(2, classId).getSingleResult();
             classroom = cpa.getClassid();
+
+            // Get assignment
+            assignment = (Gradedcomponent) em.createNativeQuery("select * from gradedcomponent where componentid = ? and classid = ?", Models.Gradedcomponent.class).setParameter(1, id).setParameter(2, classId).getSingleResult();
+
         } catch (Exception ex) {
             ex.printStackTrace();
             servlet.toServlet("Dashboard");
             return;
         }
 
-        // Print add assignment button only to teachers
-        String addBt = cpa.getRole().equalsIgnoreCase("teacher") ? "<a href=\"AddAssignment?id=" + classroom.getClassid() + "\" id='create-button' class='button' >Create an Assignment</a>" : "";
+        // Display submission list
+        String submissions = "";
+        for (Submission submission : assignment.getSubmissionCollection()) {
 
-        // Load all assignments
-        String assignmentUI = "";
-        for (Gradedcomponent assignment : classroom.getGradedcomponentCollection()) {
-            // Get the assignment's submission by this logged in user
-            // submission = em.createNativeQuery("....");
-
-            // Determine submission status
-            String status = "current";
-
-            // Show submission status for students
-            if (cpa.getRole().equalsIgnoreCase("student")) {
-                // Get assignment
-                Submission submission = new Submission();
-                try {
-                    submission = (Submission) em.createNativeQuery("select s.* from submission s, gradedcomponent g where g.componentid = s.componentid and g.componentid = ? and s.classparticipantid = ?", Submission.class).setParameter(1, assignment.getComponentid()).setParameter(2, cpa.getClassparticipantid()).getSingleResult();
-                    
-                    // Submitted
-                    status = "submitted";
-                    
-                    // If submitted late
-                    if(new DateTime(submission.getDatesubmitted()).isAfter(new DateTime(assignment.getDeadline()))){
-                        status += " late";
-                    }
-                } catch (NoResultException ex) {
-                    // Not submitted yet
-                    
-                    // If already past deadline
-                    if(new DateTime().isAfter(new DateTime(assignment.getDeadline()))){
-                        status = "missing";
-                    }
+            // Get the submission status
+            String status = submission.getMarks() == null ? "pending" : "marked";
+            
+            if(status.equalsIgnoreCase("pending")){
+                // If late
+                if(new DateTime(submission.getDatesubmitted()).isAfter(new DateTime(assignment.getDeadline()))){
+                    status += " late";
                 }
             }
 
-            // Get deadline
+            // Get student details
+            Users student = submission.getClassparticipantid().getParticipantid().getUserid();
+
+            // Get time submitted
             DateTimeFormatter dateFmt = DateTimeFormat.forPattern("d MMM YYYY");
-            String deadline = new DateTime(assignment.getDeadline()).toString(dateFmt);
+            DateTimeFormatter timeFmt = DateTimeFormat.forPattern("h'.'mma");
+            String dateSubmitted = new DateTime(submission.getDatesubmitted()).toString(dateFmt);
+            String timeSubmitted = new DateTime(submission.getDatesubmitted()).toString(timeFmt);
 
-            // Determine 'time' field
-            String time = "";
-            if (status.equalsIgnoreCase("current")) {
-                // Show countdown
-                time = Quick.daysTo(assignment.getDeadline());
-            }
-
-            assignmentUI += "<div class='assignment " + status + "' onclick='window.location.href=\"AssignmentDetails?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "\"'>\n"
-                    + "            <a class='time'>" + time + "</a>\n"
-                    + "            <a class='assignmentId'>" + assignment.getComponentid() + "</a>\n"
-                    + "            <a class='title'>" + assignment.getTitle() + "</a>\n"
-                    + "            <a class='deadline'>" + deadline + "</a>\n"
+            submissions += "<div class='submission " + status + "' onclick='window.location.href=\"SubmissionDetails?id=" + assignment.getComponentid() + "&code=" + assignment.getClassid().getClassid() + "&stud=" + submission.getClassparticipantid().getClassparticipantid() + "\"'>\n"
+                    + "            <a class='time'>" + timeSubmitted + "</a>\n"
+                    + "            <a class='memberId'>" + student.getUserid() + "</a>\n"
+                    + "            <a class='name'>" + student.getName() + "</a>\n"
+                    + "            <a class='date'>" + dateSubmitted + "</a>\n"
                     + "          </div>";
         }
 
+        // Put in JSP
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
-        servlet.putInJsp("id", classroom.getClassid());
         servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
-        servlet.putInJsp("assignmentUI", assignmentUI);
-        servlet.putInJsp("addBt", addBt);
-        servlet.servletToJsp("assignments.jsp");
+        servlet.putInJsp("assignment", assignment);
+        servlet.putInJsp("submissions", submissions);
 
+        servlet.servletToJsp("submissions.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
