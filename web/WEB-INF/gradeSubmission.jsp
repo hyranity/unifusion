@@ -62,6 +62,9 @@
 
             <a class='label' style='margin-left: -80px;'>Total Marks</a>
             <input class='number' type='number' name='marks' placeholder='eg. 100'>
+            
+            <a class='label' style='margin-left: -400px;'>Tutor's remarks</a>
+            <textarea class="textarea" name='remarks' placeholder='What is this assignment about?'></textarea>
 
             <div id='buttons'>
               <input id='confirm-button' class='button' type='submit' value='Confirm!'>
