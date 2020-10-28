@@ -111,7 +111,7 @@ public class PerformAddClass extends HttpServlet {
             // Note: Participant is usually created when user joins a class/course/programme/institution OR creates a class/course/programme/institution for the FIRST time.
             // Check if educator is participating in the same course AND authorized; if so, use that same participant
             // Get the course in which this person is a teacher
-            Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p, users u where c.COURSECODE = ? and cpa.COURSECODE = c.COURSECODE and cpa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and cpa.\"ROLE\" = 'teacher'", Models.Course.class);
+            Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p, users u where c.COURSECODE = ? and cpa.COURSECODE = c.COURSECODE and cpa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and (p.educatorrole = 'classTeacher'  or p.educatorrole = 'courseLeader'  or p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin')", Models.Course.class);
             query.setParameter(1, servlet.getQueryStr("courseCode"));
             query.setParameter(2, user.getUserid());
 
