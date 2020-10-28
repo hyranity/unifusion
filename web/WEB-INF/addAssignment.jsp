@@ -64,7 +64,7 @@
             </div>
             <div class='right' style='margin-left: 50px; flex-direction: row; align-items: center;'>
               <a class='label' id='name'>Is this assignment only<br> used to show marks?</a>
-              <input type='checkbox' class='checkbox' id='isActive' name='isForMarksOnly' >
+              <input type='checkbox' class='checkbox' id='isForMarksOnly' name='isForMarksOnly' >
               <label class='checkboxLabel' for='isForMarksOnly' id='isForMarksOnlyLabel' style='margin-left: 15px;'>
                 <div class='slider'></div>
               </label>
