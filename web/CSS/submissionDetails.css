@@ -258,16 +258,30 @@ a {
 #container #content #details #poster:hover {
   opacity: 1;
 }
-#container #content #message {
+#container #content .remarks {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  opacity: 0.8;
+  margin-top: 30px;
+  transition: all 0.5s;
+}
+#container #content .remarks .remarksLabel {
+  color: #FAE2B8;
+  font-size: 22px;
+  margin-left: -10px;
+  margin-bottom: 5px;
+}
+#container #content .remarks .remarksContent {
   color: #DFE0F2;
   opacity: 0.7;
   width: 700px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
-  margin-top: 40px;
   transition: all 0.5s;
 }
-#container #content #message:hover {
+#container #content .remarks:hover {
   opacity: 1;
 }
 #container #content #attachments {

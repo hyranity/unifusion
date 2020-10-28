@@ -65,8 +65,16 @@
                     </div>
 
                 </div>
+                
+                <div class='remarks'>
+                    <a class='remarksLabel'>Student's remarks</a>
+                    <a class='remarksContent' id='studentRemarks'>${submission.getComment()}</a>
+                </div>
 
-                <a id='message'>${submission.getComment()}</a>
+                <div class='remarks'>
+                    <a class='remarksLabel'>Tutor's remarks</a>
+                    <a class='remarksContent' id='tutorRemarks'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.<br><br>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</a>
+                </div>
 
                 <div id='attachments'>
                     
