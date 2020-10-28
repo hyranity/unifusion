@@ -58,7 +58,8 @@ public class PerformAddAssignment extends HttpServlet {
         String title = "";
         String details = "";
         String id = "";
-        String deadline = "";
+        String deadlineDate = "";
+        String deadlineTime = "";
         double marks = 0;
         boolean isForMarksOnly = false;
 
@@ -77,8 +78,11 @@ public class PerformAddAssignment extends HttpServlet {
                         case "id":
                             id = item.getString();
                             break;
-                        case "deadline":
-                            deadline = item.getString();
+                        case "deadlineDate":
+                            deadlineDate = item.getString();
+                            break;
+                        case "deadlineTime":
+                            deadlineTime = item.getString();
                             break;
                         case "isForMarksOnly":
                             isForMarksOnly = true;
@@ -90,7 +94,7 @@ public class PerformAddAssignment extends HttpServlet {
                 }
             }
             // Validation goes here
-            if (title == null || details == null || deadline == null || id == null || title.trim().isEmpty() || details.trim().isEmpty() || deadline.trim().isEmpty() || id.trim().isEmpty()) {
+            if (title == null || details == null || deadlineDate == null || id == null || deadlineTime == null || deadlineTime.trim().isEmpty() || title.trim().isEmpty() || details.trim().isEmpty() || deadlineDate.trim().isEmpty() || id.trim().isEmpty()) {
                 // Has null data
                 System.out.println("Null fields!");
                 Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
@@ -108,10 +112,16 @@ public class PerformAddAssignment extends HttpServlet {
                 return;
             }
 
+            // Getting deadlineTime
+            int hour = Integer.parseInt(deadlineTime.split(":")[0]);
+            int min = Integer.parseInt(deadlineTime.split(":")[1]);
+            DateTime deadline = DateTime.parse(deadlineDate);
+            deadline = deadline.withHourOfDay(hour).withMinuteOfHour(min);
+
             // Create new Assignment
             Gradedcomponent assignment = new Gradedcomponent();
             assignment.setClassid(classroom);
-            assignment.setDeadline(new DateTime(deadline).toDate());
+            assignment.setDeadline(deadline.toDate());
             assignment.setIssueddate(new DateTime().toDate());
             assignment.setTotalmarks(marks);
             assignment.setIstoshowmarksonly(isForMarksOnly);
@@ -143,7 +153,7 @@ public class PerformAddAssignment extends HttpServlet {
             Errors.respondSimple(request.getSession(), "File could not be uploaded");
             servlet.toServlet("AddAssignment?id=" + id);
             return;
-        } catch(NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             Errors.respondSimple(request.getSession(), "Marks must be specified correctly.");
             servlet.toServlet("AddAssignment?id=" + id);
             return;

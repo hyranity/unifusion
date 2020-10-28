@@ -71,11 +71,14 @@ public class EditAssignment extends HttpServlet {
         // Get deadline
         DateTimeFormatter dateFmt = DateTimeFormat.forPattern("YYYY-MM-dd");
         String deadline = new DateTime(assignment.getDeadline()).toString(dateFmt);
+        DateTimeFormatter timeFmt = DateTimeFormat.forPattern("HH':'mm");
+        String timeDeadline = new DateTime(assignment.getDeadline()).toString(timeFmt);
 
         // Put in JSP
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
         servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
         servlet.putInJsp("assignment", assignment);
+        servlet.putInJsp("timeDeadline", timeDeadline);
         servlet.putInJsp("deadline", deadline);
 
         // Redirect

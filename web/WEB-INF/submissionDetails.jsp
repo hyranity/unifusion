@@ -61,7 +61,7 @@
 
                     <div class='detail'>
                         <a class='label'>MARKS</a>
-                        <a class='value'>${submission.getMarks() == null? "N/A" : submission.getMarks() +"/100"}</a>
+                        <a class='value'>${submission.getMarks() == null? "N/A" : submission.getMarks().toString()} / ${assignment.getTotalmarks()}</a>
                     </div>
 
                 </div>

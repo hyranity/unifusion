@@ -6,6 +6,7 @@
 package Controllers.Perform;
 
 import Models.Gradedcomponent;
+import Models.Submission;
 import Util.Errors;
 import Util.Server;
 import Util.Servlet;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,21 +22,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
-import org.joda.time.DateTime;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "PerformEditAssignment", urlPatterns = {"/PerformEditAssignment"})
-public class PerformEditAssignment extends HttpServlet {
-    
+@WebServlet(name = "PerformGradeSubmission", urlPatterns = {"/PerformGradeSubmission"})
+public class PerformGradeSubmission extends HttpServlet {
+
     @PersistenceContext
     EntityManager em;
-    
+
     @Resource
     private UserTransaction utx;
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -42,47 +43,32 @@ public class PerformEditAssignment extends HttpServlet {
         // Utility objects
         Servlet servlet = new Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
+        Models.Users user = Server.getUser(request, response);
 
-        // Get class code and assignment id
+        // Get field data
         String classId = servlet.getQueryStr("code");
         String id = servlet.getQueryStr("id");
-        Models.Users user = Server.getUser(request, response);
+        String submissionId = servlet.getQueryStr("submission");
+        String marksStr = servlet.getQueryStr("marks");
+        String remarks = servlet.getQueryStr("remarks"); // Optional
+        double marks = 0;
 
         // Objects
         Models.Class classroom = new Models.Class();
         Models.Classparticipant cpa = new Models.Classparticipant();
         Models.Gradedcomponent assignment = new Models.Gradedcomponent();
+        Submission submission = new Submission();
 
-        // Get data from field
-        String title = servlet.getQueryStr("title");
-        String details = servlet.getQueryStr("details");
-        String deadlineDate = servlet.getQueryStr("deadlineDate");
-       String deadlineTime = servlet.getQueryStr("deadlineTime");
-        boolean isToShowMarksOnly = servlet.getQueryStr("isForMarksOnly") != null;
-        double totalMarks = 0;
-
-        // Validate null fields
-        if ((title == null || details == null || deadlineDate == null) || deadlineTime == null || deadlineTime.trim().isEmpty() || (title.trim().isEmpty() || details.trim().isEmpty() || deadlineDate.trim().isEmpty())) {
-            System.out.println("Edit Assignment has null fields");
-            Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
-            servlet.toServlet("EditAssignment?id=" + id + "&code=" + classId);
-            return;
-        }
-        
-        // Getting deadlineTime
-            int hour = Integer.parseInt(deadlineTime.split(":")[0]);
-            int min = Integer.parseInt(deadlineTime.split(":")[1]);
-            DateTime deadline = DateTime.parse(deadlineDate);
-            deadline = deadline.withHourOfDay(hour).withMinuteOfHour(min);
-        
+        // Marks cannot be null
         try {
-            totalMarks = Double.parseDouble(servlet.getQueryStr("marks"));
-        } catch (NumberFormatException numberFormatException) {
-            System.out.println("Couldn't parse total marks");
-            servlet.toServlet("Dashboard");
+            marks = Double.parseDouble(marksStr);
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid marks");
+            Errors.respondSimple(request.getSession(), "Marks must be specified correctly.");
+            servlet.toServlet("GradeSubmission?id=" + id + "&code="+ classId + "&submission="+ submissionId);
             return;
         }
-        
+
         try {
             // Get class participant
             cpa = (Models.Classparticipant) em.createNativeQuery("select cpa.* from classparticipant cpa, participant p where p.userid = ? and p.participantid = cpa.participantid and cpa.classid = ? and cpa.role='teacher'", Models.Classparticipant.class).setParameter(1, user.getUserid()).setParameter(2, classId).getSingleResult();
@@ -90,26 +76,34 @@ public class PerformEditAssignment extends HttpServlet {
 
             // Get assignment
             assignment = (Gradedcomponent) em.createNativeQuery("select * from gradedcomponent where componentid = ? and classid = ?", Models.Gradedcomponent.class).setParameter(1, id).setParameter(2, classId).getSingleResult();
-            
+
         } catch (Exception ex) {
-            System.out.println("No data found");
+            ex.printStackTrace();
             servlet.toServlet("Dashboard");
             return;
         }
 
-        // Update the assignment
-        assignment.setTitle(title);
-        assignment.setDeadline(deadline.toDate());
-        assignment.setTotalmarks(totalMarks);
-        assignment.setIstoshowmarksonly(isToShowMarksOnly);
-        assignment.setDetails(details);
+        // Get assignment
+        try {
+            // Get the submission 
+            submission = (Submission) em.createNativeQuery("select * from submission where componentid = ? and submissionid= ?", Submission.class).setParameter(1, id).setParameter(2, submissionId).getSingleResult();
+        } catch (NoResultException ex) {
+            System.out.println("No submission found");
+            servlet.toServlet("AssignmentDetails?id=" + id + "&code=" + classId);
+            return;
+        }
 
-        // Update in db
-        db.update(assignment);
-
-        // Redirect
-        servlet.toServlet("AssignmentDetails?id=" + id + "&code=" + classId);
+        // Update the marks
+        submission.setMarks(marks);
         
+        // Update the remarks
+        // submission.setRemarks(remarks);
+        
+        // Update in db
+        db.update(submission);
+        
+        // Redirect
+        servlet.toServlet("GradeSubmission?id=" + id + "&code="+ classId + "&submission="+ submissionId);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -94,6 +94,7 @@ public class GradeSubmission extends HttpServlet {
         servlet.putInJsp("code", classroom.getClassid()); // Class code
         servlet.putInJsp("submissionId", submission.getSubmissionid()); // Submission ID
         servlet.putInJsp("submission", submission);
+        servlet.putInJsp("alreadyGraded", submission.getMarks() != null);
         servlet.putInJsp("assignment", assignment);
         servlet.putInJsp("dateSubmitted", dateSubmitted);
         servlet.putInJsp("timeSubmitted", timeSubmitted);

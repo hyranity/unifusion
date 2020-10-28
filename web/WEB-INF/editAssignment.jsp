@@ -71,7 +71,7 @@
             </div>
             <div class='right'>
               <a class='label'>Deadline time</a>
-              <input class='time' type='time' name='deadlineTime'>
+              <input class='time' type='time' name='deadlineTime' value="${timeDeadline}">
             </div>
           </div>
 
