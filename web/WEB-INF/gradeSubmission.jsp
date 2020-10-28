@@ -27,35 +27,35 @@
           <div id='top'>
             <div id='topOverlay'></div>
             <div id='info'>
-              <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+              <img id='icon' src='${icon}'>
               <div id='text'>
-                <a id='subheading'>C001 - Class Name (Class)</a>
+                <a id='subheading'>${subheading}</a>
                 <a id='heading'>Grade Submission</a>
               </div>
             </div>
           </div>
 
-          <div id='content' action=''>
+          <div id='content' action='PerformGradeSubmission'>
 
             <div id='header'>
-              <a id='assignmentId'>AS001</a>
-              <a id='assignmentTitle'>Assignment Name</a>
+              <a id='assignmentId'>${assignment.getComponentid()}</a>
+              <a id='assignmentTitle'>${assignment.getTitle()}</a>
             </div>
 
             <div id='details'>
 
               <div id='poster'>
-                <img id='posterIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+                <img id='posterIcon' src='${studentIcon}'>
                 <div id='posterDetails'>
                   <a id='posterRole'>MEMBER</a>
-                  <a href='#' id='posterName'>Aioi Yuuko</a>
+                  <a href='#' id='posterName'>${student.getName()}</a>
                 </div>
               </div>
 
               <div class='detail'>
                 <a class='label'>SUBMITTED</a>
-                <a class='value'>01 Jan 2020</a>
-                <a class='subvalue'>12.30pm</a>
+                <a class='value'>${dateSubmitted}</a>
+                <a class='subvalue'>${timeSubmitted}</a>
               </div>
 
             </div>
