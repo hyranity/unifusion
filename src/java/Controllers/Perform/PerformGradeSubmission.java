@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controllers;
+package Controllers.Perform;
 
 import Models.Gradedcomponent;
 import Models.Submission;
-import Util.Quick;
+import Util.Errors;
 import Util.Server;
 import Util.Servlet;
 import java.io.IOException;
@@ -22,16 +22,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 /**
  *
  * @author mast3
  */
-@WebServlet(name = "GradeSubmission", urlPatterns = {"/GradeSubmission"})
-public class GradeSubmission extends HttpServlet {
+@WebServlet(name = "PerformGradeSubmission", urlPatterns = {"/PerformGradeSubmission"})
+public class PerformGradeSubmission extends HttpServlet {
 
     @PersistenceContext
     EntityManager em;
@@ -46,18 +43,31 @@ public class GradeSubmission extends HttpServlet {
         // Utility objects
         Servlet servlet = new Servlet(request, response);
         Util.DB db = new Util.DB(em, utx);
+        Models.Users user = Server.getUser(request, response);
 
-        // Get class code and assignment id
+        // Get field data
         String classId = servlet.getQueryStr("code");
         String id = servlet.getQueryStr("id");
         String submissionId = servlet.getQueryStr("submission");
-        Models.Users user = Server.getUser(request, response);
+        String marksStr = servlet.getQueryStr("marks");
+        String remarks = servlet.getQueryStr("remarks"); // Optional
+        double marks = 0;
 
         // Objects
         Models.Class classroom = new Models.Class();
         Models.Classparticipant cpa = new Models.Classparticipant();
         Models.Gradedcomponent assignment = new Models.Gradedcomponent();
         Submission submission = new Submission();
+
+        // Marks cannot be null
+        try {
+            marks = Double.parseDouble(marksStr);
+        } catch (NumberFormatException ex) {
+            System.out.println("Invalid marks");
+            Errors.respondSimple(request.getSession(), "Marks must be specified correctly.");
+            servlet.toServlet("GradeSubmission?id=" + id + "&code="+ classId + "&submission="+ submissionId);
+            return;
+        }
 
         try {
             // Get class participant
@@ -82,30 +92,18 @@ public class GradeSubmission extends HttpServlet {
             servlet.toServlet("AssignmentDetails?id=" + id + "&code=" + classId);
             return;
         }
+
+        // Update the marks
+        submission.setMarks(marks);
         
-         // Get time submitted
-        DateTimeFormatter dateFmt = DateTimeFormat.forPattern("d MMM YYYY");
-        DateTimeFormatter timeFmt = DateTimeFormat.forPattern("h'.'mma");
-        String dateSubmitted = new DateTime(submission.getDatesubmitted()).toString(dateFmt);
-        String timeSubmitted = new DateTime(submission.getDatesubmitted()).toString(timeFmt);
+        // Update the remarks
+        // submission.setRemarks(remarks);
         
-        // Put in JSP
-        servlet.putInJsp("id", assignment.getComponentid()); // Component id
-        servlet.putInJsp("code", classroom.getClassid()); // Class code
-        servlet.putInJsp("submissionId", submission.getSubmissionid()); // Submission ID
-        servlet.putInJsp("submission", submission);
-        servlet.putInJsp("alreadyGraded", submission.getMarks() != null);
-        servlet.putInJsp("assignment", assignment);
-        servlet.putInJsp("dateSubmitted", dateSubmitted);
-        servlet.putInJsp("timeSubmitted", timeSubmitted);
-        servlet.putInJsp("student", submission.getClassparticipantid().getParticipantid().getUserid());
-        servlet.putInJsp("studentIcon", Quick.getIcon(submission.getClassparticipantid().getParticipantid().getUserid().getImageurl()));
-        servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
-        servlet.putInJsp("icon", Quick.getIcon(classroom.getIconurl()));
+        // Update in db
+        db.update(submission);
         
         // Redirect
-        servlet.servletToJsp("gradeSubmission.jsp");
-
+        servlet.toServlet("GradeSubmission?id=" + id + "&code="+ classId + "&submission="+ submissionId);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
