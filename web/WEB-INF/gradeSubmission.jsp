@@ -80,9 +80,6 @@
                 </div>
 
             </div>
-            <div id='buttons'>
-              <input id='confirm-button' class='button' type='submit' value='Confirm!'>
-            </div>
 
           </div>
 
