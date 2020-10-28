@@ -54,8 +54,16 @@
 
           </div>
 
-          <a class='label' style='margin-left: -450px;'>Deadline</a>
-          <input class='date' type='date' name='deadline'>
+          <div class='row'>
+            <div class='left'>
+              <a class='label'>Deadline date</a>
+              <input class='date' type='date' name='deadlineDate'>
+            </div>
+            <div class='right'>
+              <a class='label'>Deadline time</a>
+              <input class='time' type='time' name='deadlineTime'>
+            </div>
+          </div>
 
           <div class='row'>
             <div class='left'>
