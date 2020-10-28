@@ -110,6 +110,9 @@ public class MemberList extends HttpServlet {
             System.out.println("No data found");
             servlet.toServlet("Dashboard");
             return;
+        } catch(Exception ex){
+            servlet.toServlet("Dashboard");
+            return;
         }
 
         // Generate tutor list

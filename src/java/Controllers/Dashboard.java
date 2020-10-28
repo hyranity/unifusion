@@ -53,17 +53,27 @@ public class Dashboard extends HttpServlet {
         // Output string
         String output = "";
 
-        // Get all institutions
-        Query institutionQ = em.createNativeQuery("select distinct i.* from Institution i, Users u, Institutionparticipant ipa, Participant p where ipa.institutioncode = i.institutioncode and u.userid = p.userid and p.participantid = ipa.participantid  and u.userid = ?", Models.Institution.class).setParameter(1, user.getUserid());
+        Query courseQ = null;
+        Query classQ = null;
+        Query programmeQ = null;
+        Query institutionQ = null;
 
-        // Get all programmes WITHOUT institution
-        Query programmeQ = em.createNativeQuery("select distinct pg.* from Programme pg, Users u, Programmeparticipant ppa, Participant p where ppa.programmecode = pg.programmecode and u.userid = p.userid and p.participantid = ppa.participantid  and u.userid = ? and pg.institutioncode is null", Models.Programme.class).setParameter(1, user.getUserid());
+        try {
+            // Get all institutions
+            institutionQ = em.createNativeQuery("select distinct i.* from Institution i, Users u, Institutionparticipant ipa, Participant p where ipa.institutioncode = i.institutioncode and u.userid = p.userid and p.participantid = ipa.participantid  and u.userid = ?", Models.Institution.class).setParameter(1, user.getUserid());
 
-        // Get all courses WITHOUT programmes
-        Query courseQ = em.createNativeQuery("select distinct c.* from Course c, Users u, Courseparticipant cpa, Participant p where cpa.coursecode = c.coursecode and u.userid = p.userid and p.participantid = cpa.participantid  and u.userid = ? and c.programmecode is null", Models.Course.class).setParameter(1, user.getUserid());
+            // Get all programmes WITHOUT institution
+            programmeQ = em.createNativeQuery("select distinct pg.* from Programme pg, Users u, Programmeparticipant ppa, Participant p where ppa.programmecode = pg.programmecode and u.userid = p.userid and p.participantid = ppa.participantid  and u.userid = ? and pg.institutioncode is null", Models.Programme.class).setParameter(1, user.getUserid());
 
-        // Get all INDIVIDUAL classes
-        Query classQ = em.createNativeQuery("select distinct c.* from Class c, Users u, Classparticipant cpa, Participant p where cpa.classid = c.classid and u.userid = p.userid and p.participantid = cpa.participantid and u.userid = ?  and  c.coursecode is null", Models.Class.class).setParameter(1, user.getUserid());
+            // Get all courses WITHOUT programmes
+            courseQ = em.createNativeQuery("select distinct c.* from Course c, Users u, Courseparticipant cpa, Participant p where cpa.coursecode = c.coursecode and u.userid = p.userid and p.participantid = cpa.participantid  and u.userid = ? and c.programmecode is null", Models.Course.class).setParameter(1, user.getUserid());
+
+            // Get all INDIVIDUAL classes
+            classQ = em.createNativeQuery("select distinct c.* from Class c, Users u, Classparticipant cpa, Participant p where cpa.classid = c.classid and u.userid = p.userid and p.participantid = cpa.participantid and u.userid = ?  and  c.coursecode is null", Models.Class.class).setParameter(1, user.getUserid());
+        } catch (Exception e) {
+            servlet.toServlet("Login");
+            return;
+        }
 
         // Execute all queries
         List<Course> courseList = courseQ.getResultList();
