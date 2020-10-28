@@ -34,6 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Submission.findBySubmissionid", query = "SELECT s FROM Submission s WHERE s.submissionid = :submissionid")
     , @NamedQuery(name = "Submission.findByMarks", query = "SELECT s FROM Submission s WHERE s.marks = :marks")
     , @NamedQuery(name = "Submission.findByComment", query = "SELECT s FROM Submission s WHERE s.comment = :comment")
+    , @NamedQuery(name = "Submission.findByRemarks", query = "SELECT s FROM Submission s WHERE s.remarks = :remarks")
     , @NamedQuery(name = "Submission.findByDatesubmitted", query = "SELECT s FROM Submission s WHERE s.datesubmitted = :datesubmitted")
     , @NamedQuery(name = "Submission.findByFileurl", query = "SELECT s FROM Submission s WHERE s.fileurl = :fileurl")})
 public class Submission implements Serializable {
@@ -51,6 +52,9 @@ public class Submission implements Serializable {
     @Size(max = 500)
     @Column(name = "COMMENT")
     private String comment;
+    @Size(max = 500)
+    @Column(name = "REMARKS")
+    private String remarks;
     @Basic(optional = false)
     @NotNull
     @Column(name = "DATESUBMITTED")
@@ -100,6 +104,14 @@ public class Submission implements Serializable {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
 
     public Date getDatesubmitted() {
