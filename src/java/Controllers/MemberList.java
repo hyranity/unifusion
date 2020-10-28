@@ -110,7 +110,7 @@ public class MemberList extends HttpServlet {
             System.out.println("No data found");
             servlet.toServlet("Dashboard");
             return;
-        } catch(Exception ex){
+        } catch (Exception ex) {
             servlet.toServlet("Dashboard");
             return;
         }
@@ -119,13 +119,26 @@ public class MemberList extends HttpServlet {
         int counter = 0;
 
         for (Participant participant : tutors) {
+            String memberDetails = !type.equalsIgnoreCase("institution") ? "onclick=\"location.href='MemberDetails?id=" + id + "&type=" + type + "&memberId=" + participant.getParticipantid() + "'\"" : "";
+
             counter++;
-            tutorStr += "   <div class='member' id='tutor' onclick=\"location.href='#';\">\n"
-                    + "            <a class='info'>TUTOR</a>\n"
-                    + "            <img class='icon' src='" + Quick.getIcon(participant.getUserid().getImageurl()) + "'>\n"
-                    + "            <a class='id'>" + counter + "</a>\n"
-                    + "            <a class='name'>" + participant.getUserid().getName() + "</a>\n"
-                    + "          </div>";
+            
+            
+            tutorStr += "<div class='member' id='tutor' " + memberDetails + ">\n"
+                    + "              <a class='info'>TUTOR</a>\n"
+                    + "              <div class='left'>\n"
+                    + "                <a href='#' class='button promote-button'>Promote</a>\n"
+                    + "                <a href='#' class='button demote-button'>Demote</a>\n"
+                    + "              </div>\n"
+                    + "              <img class='icon' src='" + Quick.getIcon(participant.getUserid().getImageurl()) + "'>\n"
+                    + "              <div class='middle'>\n"
+                    + "                <div class='top'>\n"
+                    + "                  <a class='id'>" + counter + "</a>\n"
+                    + "                  <a class='name'>" + participant.getUserid().getName() + "</a>\n"
+                    + "                </div>\n"
+                    + "              </div>\n"
+                    + "            </div>";
+
         }
 
         // Generate student list
@@ -134,12 +147,18 @@ public class MemberList extends HttpServlet {
             String memberDetails = !type.equalsIgnoreCase("institution") ? "onclick=\"location.href='MemberDetails?id=" + id + "&type=" + type + "&memberId=" + participant.getParticipantid() + "'\"" : "";
 
             counter++;
-            studentStr += "  <div class='member' " + memberDetails + ">\n"
-                    + "            <a class='info'>MEMBER</a>\n"
-                    + "            <img class='icon' src='" + Quick.getIcon(participant.getUserid().getImageurl()) + "'>\n"
-                    + "            <a class='id'>" + counter + "</a>\n"
-                    + "            <a class='name'>" + participant.getUserid().getName() + "</a>\n"
-                    + "          </div>";
+            studentStr += "<div class='member' " + memberDetails + ">\n"
+                    + "              <a class='info'>MEMBER</a>\n"
+                    + "              <img class='icon' src='" + Quick.getIcon(participant.getUserid().getImageurl()) + "'>\n"
+                    + "              <div class='middle'>\n"
+                    + "                <div class='top'>\n"
+                    + "                  <a class='id'>" + counter + "</a>\n"
+                    + "                  <a class='name'>" + participant.getUserid().getName() + "</a>\n"
+                    + "                </div>\n"
+                    + "                <div class='bottom'>\n"
+                    + "                </div>\n"
+                    + "              </div>\n"
+                    + "            </div>";
 
         }
 

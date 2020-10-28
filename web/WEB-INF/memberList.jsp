@@ -43,43 +43,9 @@
             ${tutors}
             ${students}
 
-            <div class='member' id='tutor' onclick="location.href='#';">
-              <a class='info'>TUTOR</a>
-              <div class='left'>
-                <a href='#' class='button promote-button'>Promote</a>
-                <a href='#' class='button demote-button'>Demote</a>
-              </div>
-              <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-              <div class='middle'>
-                <div class='top'>
-                  <a class='id'>001</a>
-                  <a class='name'>Naganohara Mio</a>
-                </div>
-                <div class='bottom'>
-                  <a class='cgpa'><span>CGPA</span> 4.0000</a>
-                  <a class='grade'><span>GRADE</span> A</a>
-                </div>
-              </div>
-            </div>
+            
 
-            <div class='member' onclick="location.href='#';">
-              <a class='info'>MEMBER</a>
-              <div class='left'>
-                <a href='#' class='button promote-button'>Promote</a>
-                <a href='#' class='button demote-button'>Demote</a>
-              </div>
-              <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
-              <div class='middle'>
-                <div class='top'>
-                  <a class='id'>003</a>
-                  <a class='name'>Minakami Mai</a>
-                </div>
-                <div class='bottom'>
-                  <a class='cgpa'><span>CGPA</span> 4.0000</a>
-                  <a class='grade'><span>GRADE</span> A</a>
-                </div>
-              </div>
-            </div>
+            
 
         </div>
 
