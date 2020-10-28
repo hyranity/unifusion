@@ -426,13 +426,13 @@ a {
 #container #form .checkboxLabel:hover {
   opacity: 1;
 }
-#container #form #isActive:checked + #isActiveLabel {
+#container #form #isForMarksOnly:checked + #isForMarksOnlyLabel {
   background-color: #fae2b8;
 }
-#container #form #isActive:checked + #isActiveLabel > .slider {
+#container #form #isForMarksOnly:checked + #isForMarksOnlyLabel > .slider {
   margin-left: 45px;
 }
-#container #form #post-button {
+#container #form #create-button {
   margin-top: 70px;
   text-decoration: none;
   margin-right: 20px;
@@ -450,10 +450,10 @@ a {
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
-#container #form #post-button:hover {
+#container #form #create-button:hover {
   background-color: rgba(250, 226, 184, 0.75);
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
 }
-#container #form #post-button:focus {
+#container #form #create-button:focus {
   outline: none;
 }
