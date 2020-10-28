@@ -188,15 +188,15 @@
     <script>
 
     function searchList() {
-            var query = document.getElementById("searchTextbox").value;
-      var attribute = document.getElementById("searchAttribute").value;
+      var query = document.getElementById("searchTextbox").value;
+      var searchAttribute = document.getElementById("searchAttribute").value;
       var statusAttribute = document.getElementById("statusAttribute").value;
 
       var members = document.getElementsByClassName('member');
 
       for (var i = 0; i < members.length; i++) {
 
-            var id = members[i].children[3].children[0].children[0].textContent;
+        var id = members[i].children[3].children[0].children[0].textContent;
         var name = members[i].children[3].children[0].children[1].textContent;
         var status = members[i].children[3].children[1].children[0].textContent;
         var data = "";

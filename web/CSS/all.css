@@ -71,3 +71,6 @@
 input {
     transition: all 0.5s;
 }
+a {
+    text-decoration: none;
+}
