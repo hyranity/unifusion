@@ -83,7 +83,7 @@ public class PerformJoinCourse extends HttpServlet {
                 coursePart.setRole("student");
                 coursePart.setStatus("active");
                 coursePart.setCoursecode(course);
-                coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "Classparticipantid"));
+                coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "classparticipantid"));
                 coursePart.setParticipantid(participant); // Reuse existing participant
 
                 //Insert into db

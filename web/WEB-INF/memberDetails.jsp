@@ -1,3 +1,4 @@
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,9 +22,9 @@
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
-            <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='icon' src='${icon}'>
             <div id='text'>
-              <a id='subheading'>C001 - Class Name (Class)</a>
+              <a id='subheading'>${subheading}</a>
               <a id='heading'>Member Details</a>
             </div>
           </div>
@@ -32,38 +33,34 @@
         <div id='content' action=''>
 
           <div id='header'>
-            <img id='memberIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <img id='memberIcon' src='${userIcon}'>
             <div id='memberDetails'>
-              <a id='memberId'>M001</a>
-              <a id='memberName'>John Doe</a>
+              <a id='memberId'>${member.getParticipantid().getParticipantid()}</a>
+              <a id='memberName'>${member.getParticipantid().getUserid().getName()}</a>
             </div>
-          </div>
+          </div
+          
+           <a id='error' style='margin-bottom: 50px;'><%out.print(Errors.requestSimple(session));%></a>
 
           <div id='details'>
 
-            <div class='detail' onclick='location.href="#"'>
-              <a class='label'>Submissions</a>
-              <a class='value'>5</a>
-            </div>
+            ${submissions}
 
-            <div class='detail'>
-              <a class='label'>CGPA</a>
-              <a class='value'>4.0000</a>
-            </div>
+            ${cgpa}
 
-            <div class='detail'>
-              <a class='label'>Grade</a>
-              <a class='value'>A</a>
-            </div>
+            ${grade}
 
           </div>
 
-          <form id='form' action=''>
+          <form id='form' action='PerformUpdateScores' display:none;>
             <a id='form-desc'>Make changes to this member's<br>CGPA/Grade using the form below:</a>
-            <a class='label' style='margin-left: -180px;'>CGPA</a>
-            <input class='textbox' type='text' name='cgpa' placeholder='eg. 4.0000'>
-            <a class='label' style='margin-left: -180px;'>Grade</a>
-            <input class='textbox' type='text' name='grade' placeholder='eg. A'>
+            <!-- Hidden fields -->
+            <input type="hidden" name="id" value="${id}"/>
+            <input type="hidden" name="type" value="${type}"/>
+            <input type="hidden" name="memberId" value="${memberId}"/>
+            
+            ${cgpaForm}
+            ${gradeForm}
             <input id='save-button' class='button' type='submit' value='Save!'>
           </form>
 

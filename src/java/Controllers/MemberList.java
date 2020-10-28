@@ -60,7 +60,6 @@ public class MemberList extends HttpServlet {
         // Get query strings
         String type = servlet.getQueryStr("type");
         String id = servlet.getQueryStr("id");
-        
 
         Query query;
 
@@ -82,7 +81,7 @@ public class MemberList extends HttpServlet {
                 students = (List<Participant>) em.createNativeQuery("select p.* from course c, courseparticipant cpa, participant p  where c.coursecode = ? and cpa.participantid = p.participantid and cpa.coursecode = c.coursecode and cpa.role = 'student'", Models.Participant.class).setParameter(1, id).getResultList();
 
                 // Put into JSP
-                servlet.putInJsp("subheading", course.getCoursecode() + " - " + course.getTitle()+ " (Course)");
+                servlet.putInJsp("subheading", course.getCoursecode() + " - " + course.getTitle() + " (Course)");
                 servlet.putInJsp("icon", Quick.getIcon(course.getIconurl()));
             } else if ("programme".equalsIgnoreCase(type)) {
                 // Get the course
@@ -91,7 +90,7 @@ public class MemberList extends HttpServlet {
                 students = (List<Participant>) em.createNativeQuery("select p.* from programme pg, programmeparticipant ppa, participant p  where pg.programmecode = ? and ppa.programmecode = pg.programmecode and p.participantid = ppa.participantid and ppa.role = 'student'", Models.Participant.class).setParameter(1, id).getResultList();
 
                 // Put into JSP
-                servlet.putInJsp("subheading", programme.getProgrammecode() + " - " + programme.getTitle()+ " (Programme)");
+                servlet.putInJsp("subheading", programme.getProgrammecode() + " - " + programme.getTitle() + " (Programme)");
                 servlet.putInJsp("icon", Quick.getIcon(programme.getIconurl()));
             } else if ("institution".equalsIgnoreCase(type)) {
                 // Get the course
@@ -100,7 +99,7 @@ public class MemberList extends HttpServlet {
                 students = (List<Participant>) em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p  where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and ipa.role = 'student'", Models.Participant.class).setParameter(1, id).getResultList();
 
                 // Put into JSP
-                servlet.putInJsp("subheading", institution.getInstitutioncode() + " - " + institution.getName()+ " (Institution)");
+                servlet.putInJsp("subheading", institution.getInstitutioncode() + " - " + institution.getName() + " (Institution)");
                 servlet.putInJsp("icon", Quick.getIcon(institution.getIconurl()));
             } else {
                 // Incorrect type
@@ -109,12 +108,13 @@ public class MemberList extends HttpServlet {
             }
         } catch (NoResultException e) {
             System.out.println("No data found");
+            servlet.toServlet("Dashboard");
             return;
         }
 
         // Generate tutor list
         int counter = 0;
-        
+
         for (Participant participant : tutors) {
             counter++;
             tutorStr += "   <div class='member' id='tutor' onclick=\"location.href='#';\">\n"
@@ -127,14 +127,17 @@ public class MemberList extends HttpServlet {
 
         // Generate student list
         for (Participant participant : students) {
+
+            String memberDetails = !type.equalsIgnoreCase("institution") ? "onclick=\"location.href='MemberDetails?id=" + id + "&type=" + type + "&memberId=" + participant.getParticipantid() + "'\"" : "";
+
             counter++;
-            studentStr += "  <div class='member' onclick=\"location.href='#';\">\n"
+            studentStr += "  <div class='member' " + memberDetails + ">\n"
                     + "            <a class='info'>MEMBER</a>\n"
                     + "            <img class='icon' src='" + Quick.getIcon(participant.getUserid().getImageurl()) + "'>\n"
                     + "            <a class='id'>" + counter + "</a>\n"
                     + "            <a class='name'>" + participant.getUserid().getName() + "</a>\n"
                     + "          </div>";
-            
+
         }
 
         // Put into JSP

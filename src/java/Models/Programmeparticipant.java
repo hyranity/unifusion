@@ -6,7 +6,6 @@
 package Models;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +45,7 @@ public class Programmeparticipant implements Serializable {
     private String programmeparticipantid;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "CGPA")
-    private BigDecimal cgpa;
+    private Double cgpa;
     @Basic(optional = false)
     @NotNull
     @Column(name = "ISCREATOR")
@@ -93,11 +92,11 @@ public class Programmeparticipant implements Serializable {
         this.programmeparticipantid = programmeparticipantid;
     }
 
-    public BigDecimal getCgpa() {
+    public Double getCgpa() {
         return cgpa;
     }
 
-    public void setCgpa(BigDecimal cgpa) {
+    public void setCgpa(Double cgpa) {
         this.cgpa = cgpa;
     }
 
