@@ -308,5 +308,15 @@ public class Quick {
         
         return combineStrArr(fileList);
     }
+    
+    public static String getGrade(double marks){
+        if(marks < 50){
+            return "F";
+        } else if(marks >= 50 && marks < 60){
+            return "C";
+        } else{
+            return "A";
+        }
+    }
 
 }

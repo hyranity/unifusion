@@ -56,17 +56,24 @@ public class PerformEditAssignment extends HttpServlet {
         // Get data from field
         String title = servlet.getQueryStr("title");
         String details = servlet.getQueryStr("details");
-        String date = servlet.getQueryStr("deadline");
+        String deadlineDate = servlet.getQueryStr("deadlineDate");
+       String deadlineTime = servlet.getQueryStr("deadlineTime");
         boolean isToShowMarksOnly = servlet.getQueryStr("isForMarksOnly") != null;
         double totalMarks = 0;
 
         // Validate null fields
-        if ((title == null || details == null || date == null) || (title.trim().isEmpty() || details.trim().isEmpty() || date.trim().isEmpty())) {
+        if ((title == null || details == null || deadlineDate == null) || deadlineTime == null || deadlineTime.trim().isEmpty() || (title.trim().isEmpty() || details.trim().isEmpty() || deadlineDate.trim().isEmpty())) {
             System.out.println("Edit Assignment has null fields");
             Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
             servlet.toServlet("EditAssignment?id=" + id + "&code=" + classId);
             return;
         }
+        
+        // Getting deadlineTime
+            int hour = Integer.parseInt(deadlineTime.split(":")[0]);
+            int min = Integer.parseInt(deadlineTime.split(":")[1]);
+            DateTime deadline = DateTime.parse(deadlineDate);
+            deadline = deadline.withHourOfDay(hour).withMinuteOfHour(min);
         
         try {
             totalMarks = Double.parseDouble(servlet.getQueryStr("marks"));
@@ -92,7 +99,7 @@ public class PerformEditAssignment extends HttpServlet {
 
         // Update the assignment
         assignment.setTitle(title);
-        assignment.setDeadline(new DateTime(date).toDate());
+        assignment.setDeadline(deadline.toDate());
         assignment.setTotalmarks(totalMarks);
         assignment.setIstoshowmarksonly(isToShowMarksOnly);
         assignment.setDetails(details);
