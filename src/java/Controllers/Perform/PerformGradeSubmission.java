@@ -97,7 +97,7 @@ public class PerformGradeSubmission extends HttpServlet {
         submission.setMarks(marks);
         
         // Update the remarks
-        // submission.setRemarks(remarks);
+         submission.setRemarks(remarks);
         
         // Update in db
         db.update(submission);
