@@ -121,13 +121,13 @@
     <script>
 
     function search() {
-            var query = document.getElementById("searchTextbox").value;
+      var query = document.getElementById("searchTextbox").value;
       var attribute = document.getElementById("searchAttribute").value;
 
       var members = document.getElementsByClassName('member');
 
       for (var i = 0; i < members.length; i++) {
-            var id = members[i].children[2].textContent;
+        var id = members[i].children[2].textContent;
         var name = members[i].children[3].textContent;
         var data = "";
 
