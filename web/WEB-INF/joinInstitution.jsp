@@ -33,9 +33,20 @@
             <a id='title'>Join an Institution</a>
             <a id='instruction'>Enter in the code of an existing institution below.</a>
             <form id='form' action="PerformJoinInstitution">
-               <div class='input' id='right'>
-                <a class='label'>Institution code</a>
-                <input class='textbox' type='text' name='institutionCode' placeholder='eg. 177013'>
+               <div id='right'>
+                <div class='input'>
+                    <a class='label'>Institution code</a>
+                    <input class='textbox' type='text' name='institutionCode' placeholder='eg. 177013'>
+                </div>
+                <div class='input' style='margin-left: 30px;'>
+                    <a class='label' id='name'>Are you a staff member?</a>
+                    <input type='checkbox' class='checkbox' id='isStaff' name='isStaff' onclick='isStaffClicked()'>
+                    <label class='checkboxLabel' for='isStaff' id='isStaffLabel'>
+                        <div class='slider'></div>
+                    </label>
+                    <a class='label' id='authorisationCodeLabel' style='margin-top: -10px;'>Authorisation code</a>
+                    <input id='authorisationCodeTextbox' class='textbox' type='text' name='authorisationCode' placeholder='eg. LOL1337'>
+                </div>
               </div>
               <input type='submit' id='proceed-button' value='Join!'>
             </form>

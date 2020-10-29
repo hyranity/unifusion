@@ -39,13 +39,78 @@
         </div>
 
         <div id='list'>
-          
+            
+            
+        <div class='member' id='tutor' onclick="location.href='#';">
+            <a class='info'>TUTOR</a>
+            <div class='left'>
+              <select class='dropdown' onchange='editRole("001")'>
+                <option value='institutionAdmin'>Insitution Admin</option>
+                <option value='programmeLeader'>Programme Leader</option>
+                <option value='courseLeader'>Course Leader</option>
+                <option value='classTeacher' selected>Class Teacher</option>
+              </select>
+              <a class='dropdownLabel'>v</a>
+              <a class='button save-button' id='save-button_001' href='#'>></a>
+              <a class='button remove-button' href='RemoveMember?memberId=001&type=class&classId=C001'>x</a>
+            </div>
+            <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <div class='middle'>
+              <div class='top'>
+                <a class='id'>001</a>
+                <a class='name'>Naganohara Mio</a>
+              </div>
+              <div class='bottom'>
+              </div>
+            </div>
+          </div>
+
+          <div class='member' onclick="location.href='#';">
+            <a class='info'>TUTOR</a>
+            <div class='left'>
+              <select class='dropdown' onchange='editRole("003")'>
+                <option value='institutionAdmin'>Insitution Admin</option>
+                <option value='programmeLeader'>Programme Leader</option>
+                <option value='courseLeader'>Course Leader</option>
+                <option value='classTeacher' selected>Class Teacher</option>
+              </select>
+              <a class='dropdownLabel'>v</a>
+              <a class='button save-button' id='save-button_003' href='#'>></a>
+              <a class='button remove-button' href='RemoveMember?memberId=003&type=class&classId=C001'>x</a>
+            </div>
+            <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <div class='middle'>
+              <div class='top'>
+                <a class='id'>003</a>
+                <a class='name'>Minakami Mai</a>
+              </div>
+              <div class='bottom'>
+              </div>
+            </div>
+          </div>
+
+          <div class='member' onclick="location.href='#';">
+            <a class='info'>MEMBER</a>
+            <div class='left'>
+              <a class='button remove-button' href='RemoveMember?memberId=003&type=class&classId=C001'>x</a>
+            </div>
+            <img class='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
+            <div class='middle'>
+              <div class='top'>
+                <a class='id'>007</a>
+                <a class='name'>Aioi Yuuko</a>
+              </div>
+              <div class='bottom'>
+                <!--<a class='cgpa'><span>CGPA</span> 4.0000</a>
+                <a class='grade'><span>GRADE</span> A</a>-->
+              </div>
+            </div>
+          </div>
+            
+            
             ${tutors}
             ${students}
 
-            
-
-            
 
         </div>
 
@@ -82,6 +147,11 @@
 
       }
     }
+    
+      function editRole(id) {
+        document.getElementById("save-button_" + id).href = "EditRole?id=" + id + "&role=" + event.target.value;
+        //alert(document.getElementById("save-button_" + id).href);
+      }
 
     </script>
 </html>

@@ -70,11 +70,25 @@ a {
   font-family: 'Poppins';
   line-height: 60px;
 }
+#container #top #info #text #authorisationCode {
+  font-size: 0px;
+  color: #DFE0F2;
+  opacity: 0;
+  transition: all 0.5s;
+}
+#container #top #info #text #authorisationCode span {
+  color: #FAE2B8;
+}
 #container #top:hover {
   opacity: 1;
 }
 #container #top:hover #info #text #subheading {
   opacity: 1;
+}
+#container #top:hover #info #text #authorisationCode {
+  opacity: 0.8;
+  font-size: 15px;
+  margin-top: 5px;
 }
 #container #search {
   display: flex;
