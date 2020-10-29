@@ -85,13 +85,14 @@ public class PerformAddInstitution extends HttpServlet {
         institution.setDescription(description);
         institution.setAddress(address);
         institution.setIspublic(isPublic);
+        institution.setAuthcode(Quick.generateID(em, utx, Institution.class, "authcode"));
         db.insert(institution);
 
         // Create new participant, since this is the highest level
         participant.setDateadded(Calendar.getInstance().getTime());
         participant.setEducatorrole("institutionAdmin");
         participant.setStatus("active");
-        participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "Participantid"));
+        participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "participantid"));
         participant.setUserid(user);
         db.insert(participant);
         
@@ -101,7 +102,7 @@ public class PerformAddInstitution extends HttpServlet {
         ipa.setRole("teacher");
         ipa.setStatus("active");
         ipa.setInstitutioncode(institution);
-        ipa.setInstitutionparticipantid(Quick.generateID(em, utx, Institutionparticipant.class, "Institutionparticipantid"));
+        ipa.setInstitutionparticipantid(Quick.generateID(em, utx, Institutionparticipant.class, "institutionparticipantid"));
         db.insert(ipa);
         
         System.out.println("Successfully added an institution!");

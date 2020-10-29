@@ -45,7 +45,7 @@
                         <div class='slider'></div>
                     </label>
                     <a class='label' id='authorisationCodeLabel' style='margin-top: -10px;'>Authorisation code</a>
-                    <input id='authorisationCodeTextbox' class='textbox' type='text' name='authorisationCode' placeholder='eg. LOL1337'>
+                    <input id='authorisationCodeTextbox' class='textbox' type='text' name='authCode' placeholder='eg. LOL1337'>
                 </div>
               </div>
               <input type='submit' id='proceed-button' value='Join!'>
