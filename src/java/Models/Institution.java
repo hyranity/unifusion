@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Institution.findAll", query = "SELECT i FROM Institution i")
     , @NamedQuery(name = "Institution.findByInstitutioncode", query = "SELECT i FROM Institution i WHERE i.institutioncode = :institutioncode")
+    , @NamedQuery(name = "Institution.findByAuthcode", query = "SELECT i FROM Institution i WHERE i.authcode = :authcode")
     , @NamedQuery(name = "Institution.findByName", query = "SELECT i FROM Institution i WHERE i.name = :name")
     , @NamedQuery(name = "Institution.findByDescription", query = "SELECT i FROM Institution i WHERE i.description = :description")
     , @NamedQuery(name = "Institution.findByAddress", query = "SELECT i FROM Institution i WHERE i.address = :address")
@@ -46,6 +47,11 @@ public class Institution implements Serializable {
     @Size(min = 1, max = 30)
     @Column(name = "INSTITUTIONCODE")
     private String institutioncode;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 40)
+    @Column(name = "AUTHCODE")
+    private String authcode;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 50)
@@ -90,8 +96,9 @@ public class Institution implements Serializable {
         this.institutioncode = institutioncode;
     }
 
-    public Institution(String institutioncode, String name, String description, String address, Boolean ispublic) {
+    public Institution(String institutioncode, String authcode, String name, String description, String address, Boolean ispublic) {
         this.institutioncode = institutioncode;
+        this.authcode = authcode;
         this.name = name;
         this.description = description;
         this.address = address;
@@ -104,6 +111,14 @@ public class Institution implements Serializable {
 
     public void setInstitutioncode(String institutioncode) {
         this.institutioncode = institutioncode;
+    }
+
+    public String getAuthcode() {
+        return authcode;
+    }
+
+    public void setAuthcode(String authcode) {
+        this.authcode = authcode;
     }
 
     public String getName() {

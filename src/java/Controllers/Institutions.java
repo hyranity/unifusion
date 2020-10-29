@@ -6,6 +6,7 @@
 package Controllers;
 
 import Models.Institution;
+import Models.Participant;
 import Models.Programme;
 import Models.Users;
 import Util.DB;
@@ -16,6 +17,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.servlet.ServletException;
@@ -42,24 +44,26 @@ public class Institutions extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         // Redirect
-        Util.Servlet servlet = new Util.Servlet(request ,response);
+        Util.Servlet servlet = new Util.Servlet(request, response);
         DB db = new DB(em, utx);
-        
-          // Get currentUser
+
+        // Get currentUser
         Users currentUser = Server.getUser(request, response);
+        Participant self = new Participant();
 
         // Get course data
         String institutionCode = servlet.getQueryStr("id");
-        Query query = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Institution.class).setParameter(1, institutionCode).setParameter(2, currentUser.getUserid());
+        Institution institution = null;
+        
+        try {
+            institution = (Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Institution.class).setParameter(1, institutionCode).setParameter(2, currentUser.getUserid()).getSingleResult();
+            self = (Participant) em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Participant.class).setParameter(1, institutionCode).setParameter(2, currentUser.getUserid()).getSingleResult();
 
-          // If no results
-        if(query.getResultList().isEmpty()){
+        } catch (NoResultException ex) {
             servlet.toServlet("Dashboard");
             return;
         }
-        
-        Institution institution = (Institution) query.getSingleResult();
-        
+
         if (institution == null) {
             // Programme not found
             System.out.println("INSTITUTION NOT FOUND");
@@ -76,7 +80,10 @@ public class Institutions extends HttpServlet {
             // Get creator
             Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from institutionparticipant ipa, institution i, users u, participant p where i.institutioncode = ? and ipa.role = 'teacher' and u.userid = p.userid and p.participantid = ipa.participantid and ipa.iscreator = true and i.institutioncode = ipa.institutioncode", Models.Users.class).setParameter(1, institutionCode)).get(0);
 
-            
+            if(self.getEducatorrole().equalsIgnoreCase("institutionAdmin")){
+                String authCode = "<a id='authorisationCode'><span>Staff authorisation code: </span>" + institution.getAuthcode() + "</a>";
+                servlet.putInJsp("authCode", authCode);
+            }
 
             // Displaying Members box
             String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
@@ -99,8 +106,8 @@ public class Institutions extends HttpServlet {
             if (moreCount > 0) {
                 moreStr = "<a id='noOfMembers'>and " + moreCount + " more...</a>";
             }
-            
-               // Get announcements
+
+            // Get announcements
             String announcementUI = "";
             int counter = 0;
             for (Models.Announcement announcement : institution.getAnnouncementCollection()) {
@@ -111,15 +118,15 @@ public class Institutions extends HttpServlet {
 
                 // Build UI
                 announcementUI += "<div class='announcement' onclick='window.location.href=\"AnnouncementDetails?type=institution&id=" + institution.getInstitutioncode() + "&code=" + announcement.getAnnouncementid() + "\"'>\n"
-                        + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) +"</a>\n"
-                        + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl() )+ "'>\n"
+                        + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
+                        + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl()) + "'>\n"
                         + "                  <div class='text'>\n"
-                        + "                    <a class='message'><span>" +  announcement.getTitle() +"</span></a>\n"
-                        + "                    <a class='item'>"+ announcement.getPosterid().getUserid().getName() +"</a>\n"
+                        + "                    <a class='message'><span>" + announcement.getTitle() + "</span></a>\n"
+                        + "                    <a class='item'>" + announcement.getPosterid().getUserid().getName() + "</a>\n"
                         + "                  </div>\n"
                         + "                </div>";
             }
-            
+
             // Get  announcement count
             Query weeklyQuery = em.createNativeQuery("select count(*) from announcement where institutioncode = ? and current_date = date(dateannounced)").setParameter(1, institution.getInstitutioncode());
             servlet.putInJsp("todayAnnounced", weeklyQuery.getSingleResult());
@@ -133,9 +140,9 @@ public class Institutions extends HttpServlet {
             servlet.putInJsp("moreStr", moreStr);
             servlet.putInJsp("creator", creator);
             servlet.putInJsp("editBt", editBt);
-             servlet.putInJsp("announcementUI", announcementUI);
+            servlet.putInJsp("announcementUI", announcementUI);
         }
-        
+
         servlet.servletToJsp("institution.jsp");
     }
 

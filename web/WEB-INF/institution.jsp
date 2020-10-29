@@ -27,7 +27,7 @@
             <div id='text'>
               <a id='subheading'>Institution</a>
               <a id='heading'>${institution.getName()}</a>
-              <a id='authorisationCode'><span>Staff authorisation code:</span> ABC123</a>
+              ${authCode}
             </div>
           </div>
         </div>

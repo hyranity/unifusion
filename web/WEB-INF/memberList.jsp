@@ -41,7 +41,7 @@
         <div id='list'>
             
             
-        <div class='member' id='tutor' onclick="location.href='#';">
+<!--        <div class='member' id='tutor' onclick="location.href='#';">
             <a class='info'>TUTOR</a>
             <div class='left'>
               <select class='dropdown' onchange='editRole("001")'>
@@ -63,9 +63,9 @@
               <div class='bottom'>
               </div>
             </div>
-          </div>
+          </div>-->
 
-          <div class='member' onclick="location.href='#';">
+<!--          <div class='member' onclick="location.href='#';">
             <a class='info'>TUTOR</a>
             <div class='left'>
               <select class='dropdown' onchange='editRole("003")'>
@@ -101,11 +101,11 @@
                 <a class='name'>Aioi Yuuko</a>
               </div>
               <div class='bottom'>
-                <!--<a class='cgpa'><span>CGPA</span> 4.0000</a>
-                <a class='grade'><span>GRADE</span> A</a>-->
+                <a class='cgpa'><span>CGPA</span> 4.0000</a>
+                <a class='grade'><span>GRADE</span> A</a>
               </div>
             </div>
-          </div>
+          </div>-->
             
             
             ${tutors}
@@ -148,8 +148,8 @@
       }
     }
     
-      function editRole(id) {
-        document.getElementById("save-button_" + id).href = "EditRole?id=" + id + "&role=" + event.target.value;
+      function editRole(id, institution) {
+        document.getElementById("save-button_" + id).href = "PerformEditRole?id=" + id + "&role=" + event.target.value+ "&institution=" + institution;
         //alert(document.getElementById("save-button_" + id).href);
       }
 

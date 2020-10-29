@@ -10,6 +10,7 @@ import Models.Participant;
 import Models.Programmeparticipant;
 import Models.Users;
 import Util.DB;
+import Util.Errors;
 import Util.Quick;
 import Util.Server;
 import Util.Servlet;
@@ -18,7 +19,9 @@ import java.io.PrintWriter;
 import java.util.Calendar;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -42,8 +45,8 @@ public class PerformJoinInstitution extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-          // Utility objects
+
+        // Utility objects
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
 
@@ -52,23 +55,73 @@ public class PerformJoinInstitution extends HttpServlet {
 
         // Obtain form data
         String institutionCode = servlet.getQueryStr("institutionCode");
+        String authCode = servlet.getQueryStr("authCode");
+        boolean isStaff = servlet.getQueryStr("isStaff") != null;
 
         // Fetch from db
-        Models.Institution institution= db.getSingleResult("institutioncode", institutionCode, Models.Institution.class);
-        
-          // If no institution is found
+        Models.Institution institution = db.getSingleResult("institutioncode", institutionCode, Models.Institution.class);
+
+        // If no institution is found
         if (institution == null) {
             System.out.println("No Institution is found");
             servlet.toServlet("JoinInstitution");
             return;
         }
         
-         // Since not associated with a programme, create new participant object
+          // If this person already joined
+        Query joinQuery = em.createNativeQuery("select p.* from participant p, institutionparticipant ipa where p.userid = ? and p.participantid = ipa.participantid and ipa.institutioncode = ?").setParameter(1, user.getUserid()).setParameter(2, institution.getInstitutioncode());
+        if (joinQuery.getResultList().size() > 0) {
+            System.out.println("Already joined this institution");
+            servlet.toServlet("JoinInstitution");
+            return;
+        }
+
+        // If is staff
+        if (isStaff) {
+            // If auth code is null
+            if (authCode == null) {
+                System.out.println("No auth code provided");
+                Errors.respondSimple(request.getSession(), "Ensure all fields have been filled in.");
+                servlet.toServlet("JoinInstitution");
+                return;
+            }
+
+            // Compare auth code
+            if (!authCode.equals(institution.getAuthcode())) {
+                System.out.println("Incorrect auth code");
+                Errors.respondSimple(request.getSession(), "Authorisation code is incorrect.");
+                servlet.toServlet("JoinInstitution");
+                return;
+            } else {
+                Participant participant = new Participant();
+                participant.setDateadded(Calendar.getInstance().getTime());
+                participant.setEducatorrole("classTeacher");
+                participant.setStatus("active");
+                participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "participantid"));
+                participant.setUserid(user);
+
+                db.insert(participant);
+
+                // Create new programme participant
+                Institutionparticipant institutionPart = new Institutionparticipant();
+                institutionPart.setIscreator(true);
+                institutionPart.setRole("teacher");
+                institutionPart.setStatus("active");
+                institutionPart.setInstitutioncode(institution);
+                institutionPart.setInstitutionparticipantid(Quick.generateID(em, utx, Institutionparticipant.class, "institutionparticipantid"));
+                institutionPart.setParticipantid(participant); // Use the newly created participant
+                db.insert(institutionPart);
+
+                System.out.println("Institution successfully joined");
+                servlet.toServlet("Institution?id=" + institution.getInstitutioncode());
+            }
+        } else {
+
             Participant participant = new Participant();
             participant.setDateadded(Calendar.getInstance().getTime());
             participant.setEducatorrole("student");
             participant.setStatus("active");
-            participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "Participantid"));
+            participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "participantid"));
             participant.setUserid(user);
 
             db.insert(participant);
@@ -79,12 +132,13 @@ public class PerformJoinInstitution extends HttpServlet {
             institutionPart.setRole("student");
             institutionPart.setStatus("active");
             institutionPart.setInstitutioncode(institution);
-            institutionPart.setInstitutionparticipantid(Quick.generateID(em, utx, Institutionparticipant.class, "Institutionparticipantid"));
+            institutionPart.setInstitutionparticipantid(Quick.generateID(em, utx, Institutionparticipant.class, "institutionparticipantid"));
             institutionPart.setParticipantid(participant); // Use the newly created participant
             db.insert(institutionPart);
-            
+
             System.out.println("Institution successfully joined");
             servlet.toServlet("Institution?id=" + institution.getInstitutioncode());
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

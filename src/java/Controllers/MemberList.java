@@ -52,10 +52,12 @@ public class MemberList extends HttpServlet {
         // Objects
         List<Participant> tutors;
         List<Participant> students;
+        Participant self = new Participant();
 
         // Output string
         String tutorStr = "";
         String studentStr = "";
+        String institutionCode = "";
 
         // Get query strings
         String type = servlet.getQueryStr("type");
@@ -67,6 +69,7 @@ public class MemberList extends HttpServlet {
             if ("class".equalsIgnoreCase(type)) {
                 // Get the class
                 Models.Class classroom = (Models.Class) em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                self = (Participant) em.createNativeQuery("select p.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Participant.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
                 tutors = (List<Participant>) em.createNativeQuery("select p.* from class c, classparticipant cpa,  participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and cpa.role = 'teacher'", Models.Participant.class).setParameter(1, id).getResultList();
                 students = (List<Participant>) em.createNativeQuery("select p.* from class c, classparticipant cpa,  participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid  and cpa.role = 'student'", Models.Participant.class).setParameter(1, id).getResultList();
 
@@ -77,6 +80,7 @@ public class MemberList extends HttpServlet {
             } else if ("course".equalsIgnoreCase(type)) {
                 // Get the course
                 Models.Course course = (Models.Course) em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.coursecode = c.coursecode and cpa.participantid = p.participantid and p.userid = ?", Course.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                self = (Participant) em.createNativeQuery("select p.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.coursecode = c.coursecode and cpa.participantid = p.participantid and p.userid = ?", Participant.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
                 tutors = (List<Participant>) em.createNativeQuery("select p.* from course c, courseparticipant cpa, participant p where c.coursecode = ? and cpa.participantid = p.participantid  and cpa.coursecode = c.coursecode and cpa.role = 'teacher'", Models.Participant.class).setParameter(1, id).getResultList();
                 students = (List<Participant>) em.createNativeQuery("select p.* from course c, courseparticipant cpa, participant p  where c.coursecode = ? and cpa.participantid = p.participantid and cpa.coursecode = c.coursecode and cpa.role = 'student'", Models.Participant.class).setParameter(1, id).getResultList();
 
@@ -86,6 +90,7 @@ public class MemberList extends HttpServlet {
             } else if ("programme".equalsIgnoreCase(type)) {
                 // Get the course
                 Models.Programme programme = (Models.Programme) em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ?", Programme.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                self = (Participant) em.createNativeQuery("select p.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ? and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ?", Participant.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
                 tutors = (List<Participant>) em.createNativeQuery("select p.* from programme pg, programmeparticipant ppa, participant p  where pg.programmecode = ? and ppa.programmecode = pg.programmecode and p.participantid = ppa.participantid and ppa.role = 'teacher'", Models.Participant.class).setParameter(1, id).getResultList();
                 students = (List<Participant>) em.createNativeQuery("select p.* from programme pg, programmeparticipant ppa, participant p  where pg.programmecode = ? and ppa.programmecode = pg.programmecode and p.participantid = ppa.participantid and ppa.role = 'student'", Models.Participant.class).setParameter(1, id).getResultList();
 
@@ -93,10 +98,13 @@ public class MemberList extends HttpServlet {
                 servlet.putInJsp("subheading", programme.getProgrammecode() + " - " + programme.getTitle() + " (Programme)");
                 servlet.putInJsp("icon", Quick.getIcon(programme.getIconurl()));
             } else if ("institution".equalsIgnoreCase(type)) {
-                // Get the course
+                // Get the institution
                 Models.Institution institution = (Models.Institution) em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Institution.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
+                self = (Participant) em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Participant.class).setParameter(1, id).setParameter(2, user.getUserid()).getSingleResult();
                 tutors = (List<Participant>) em.createNativeQuery("select p.* from institution i, institutionparticipant  ipa, participant p where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and ipa.role = 'teacher'", Models.Participant.class).setParameter(1, id).getResultList();
                 students = (List<Participant>) em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p  where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and ipa.role = 'student'", Models.Participant.class).setParameter(1, id).getResultList();
+
+                institutionCode = institution.getInstitutioncode();
 
                 // Put into JSP
                 servlet.putInJsp("subheading", institution.getInstitutioncode() + " - " + institution.getName() + " (Institution)");
@@ -122,13 +130,25 @@ public class MemberList extends HttpServlet {
             String memberDetails = !type.equalsIgnoreCase("institution") ? "onclick=\"location.href='MemberDetails?id=" + id + "&type=" + type + "&memberId=" + participant.getParticipantid() + "'\"" : "";
 
             counter++;
-            
-            
+
+            String role = "";
+
+            if (self.getEducatorrole().equalsIgnoreCase("institutionAdmin") && !self.getParticipantid().equals(participant.getParticipantid())) {
+
+                role = "<select class='dropdown' onchange='editRole(\"" + participant.getParticipantid() + "\",\"" + institutionCode + "\")'>\n"
+                        + "                <option value='institutionAdmin' " + (participant.getEducatorrole().equalsIgnoreCase("institutionAdmin") ? "selected" : "") + ">Institution Admin</option>\n"
+                        + "                <option value='programmeLeader'  " + (participant.getEducatorrole().equalsIgnoreCase("programmeLeader") ? "selected" : "") + ">Programme Leader</option>\n"
+                        + "                <option value='courseLeader' " + (participant.getEducatorrole().equalsIgnoreCase("courseLeader") ? "selected" : "") + ">Course Leader</option>\n"
+                        + "                <option value='classTeacher' " + (participant.getEducatorrole().equalsIgnoreCase("classTeacher") ? "selected" : "") + ">Class Teacher</option>\n"
+                        + "              </select>\n"
+                        + "              <a class='dropdownLabel'>v</a>\n"
+                        + "              <a class='button save-button' id='save-button_" + participant.getParticipantid() + "' href=\"PerformEditRole?id=" + participant.getParticipantid() + "&role=" + participant.getEducatorrole() + "&institution=" + institutionCode + "\">></a>";
+            }
+
             tutorStr += "<div class='member' id='tutor' " + memberDetails + ">\n"
                     + "              <a class='info'>TUTOR</a>\n"
                     + "              <div class='left'>\n"
-                    + "                <a href='#' class='button promote-button'>Promote</a>\n"
-                    + "                <a href='#' class='button demote-button'>Demote</a>\n"
+                    + role
                     + "              </div>\n"
                     + "              <img class='icon' src='" + Quick.getIcon(participant.getUserid().getImageurl()) + "'>\n"
                     + "              <div class='middle'>\n"
