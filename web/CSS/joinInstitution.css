@@ -35,7 +35,7 @@ a {
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
-  margin-right: 15px;
+  margin-right: 25px;
   transition: all 0.5s;
 }
 #container #top .image img {
@@ -66,20 +66,28 @@ a {
 }
 #container #top .text #form {
   display: flex;
-  flex-direction: row;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   justify-content: flex-start;
   height: 0px;
+  margin-top: 25px;
+  margin-bottom: 25px;
   opacity: 0;
   transition: all 0.5s;
 }
-#container #top .text #form .input {
+#container #top .text #form #right {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 }
-#container #top .text #form .input .textbox {
+#container #top .text #form #right .input {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+#container #top .text #form #right .textbox {
   font-family: 'Poppins';
   opacity: 0.8;
   padding-left: 20px;
@@ -94,33 +102,75 @@ a {
   box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
   border-radius: 5px;
   text-align: left;
-  transition: opacity 0.3s;
+  transition: all 0.5s;
 }
-#container #top .text #form .input .textbox::placeholder {
+#container #top .text #form #right .textbox::placeholder {
   color: rgba(223, 224, 242, 0.5);
   transition: color 0.3s;
 }
-#container #top .text #form .input .textbox:hover {
+#container #top .text #form #right .textbox:hover {
   opacity: 1;
 }
-#container #top .text #form .input .textbox:focus {
+#container #top .text #form #right .textbox:focus {
   outline: none;
   opacity: 1;
 }
-#container #top .text #form .input .textbox:focus::placeholder {
+#container #top .text #form #right .textbox:focus::placeholder {
   color: rgba(250, 226, 184, 0.5);
 }
-#container #top .text #form .input .label {
+#container #top .text #form #right .checkbox {
+  display: none;
+}
+#container #top .text #form #right .checkboxLabel {
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(39, 41, 100, 0.5);
+  width: 80px;
+  height: 40px;
+  border-radius: 5px;
+  opacity: 0.8;
+  transition: opacity 0.3s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  transition: opacity 0.3s, background-color 0.3s;
+}
+#container #top .text #form #right .checkboxLabel .slider {
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border-radius: 5px;
+  background-color: white;
+  transition: margin-left 0.3s;
+}
+#container #top .text #form #right .checkboxLabel:hover {
+  opacity: 1;
+}
+#container #top .text #form #right #isStaff:checked + #isStaffLabel {
+  background-color: #FAE2B8;
+}
+#container #top .text #form #right #isStaff:checked + #isStaffLabel > .slider {
+  margin-left: 45px;
+}
+#container #top .text #form #right #isStaff:not(:checked) ~ #authorisationCodeLabel {
+  opacity: 0;
+  height: 0px;
+}
+#container #top .text #form #right #isStaff:not(:checked) ~ #authorisationCodeTextbox {
+  opacity: 0;
+  height: 0px;
+}
+#container #top .text #form #right .label {
   font-family: 'Poppins';
   color: #DFE0F2;
   margin-left: 10px;
   opacity: 0.5;
   font-weight: 500;
-  transition: opacity 0.3s;
+  transition: all 0.5s;
 }
 #container #top .text #form #proceed-button {
   text-decoration: none;
-  margin-left: 20px;
   color: #DFE0F2;
   font-size: 20px;
   background-color: rgba(250, 226, 184, 0.5);
@@ -132,7 +182,8 @@ a {
   border: none;
   font-family: 'Poppins';
   font-weight: 600;
-  margin-top: 20px;
+  position: absolute;
+  margin-top: 120px;
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.25);
   transition: background-color 0.3s, box-shadow 0.3s;
 }
@@ -151,5 +202,5 @@ a {
 }
 #container #top:hover .text #form {
   opacity: 1;
-  height: 160px;
+  height: 150px;
 }
