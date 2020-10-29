@@ -297,7 +297,7 @@ a {
   width: 190px;
   height: 35px;
   margin-right: 10px;
-  background-color: rgba(39, 41, 100, 0.5);
+  background-color: rgba(250, 226, 184, 0.25);
   border: none;
   box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
   border-radius: 5px;
@@ -324,7 +324,7 @@ a {
   font-family: "Poppins";
   color: #fae2b8;
   position: absolute;
-  margin-left: 100px;
+  margin-left: 50px;
   opacity: 0;
   font-weight: 500;
   transition: opacity 0.3s;
@@ -332,13 +332,13 @@ a {
 #container #list .member .left .dropdown:hover ~ .dropdownLabel {
   opacity: 0.5;
 }
-#container #list .member .left .save-button {
+#container #list .member .left .button {
   text-decoration: none;
   color: #dfe0f2;
   font-size: 15px;
   font-family: "Poppins";
   font-weight: 600;
-  background-color: rgba(39, 41, 100, 0.5);
+  background-color: rgba(250, 226, 184, 0.5);
   padding-left: 15px;
   padding-right: 15px;
   padding-top: 5px;
@@ -348,27 +348,40 @@ a {
   box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
   transition: all 0.3s;
 }
-#container #list .member .left .save-button:hover {
-  background-color: rgba(250, 226, 184, 0.5);
+#container #list .member .left .button:hover {
+  background-color: rgba(250, 226, 184, 0.75);
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.75);
 }
-#container #list .member .left .save-button:focus {
+#container #list .member .left .button:focus {
   outline: none;
+}
+#container #list .member .left .save-button {
+  margin-right: 10px;
+}
+#container #list .member .left .remove-button {
+  background-color: rgba(66, 70, 148, 0.75);
+  box-shadow: 0px 0px 50px rgba(66, 70, 148, 0.5);
+}
+#container #list .member .left .remove-button:hover {
+  background-color: #424694;
+  box-shadow: 0px 0px 50px rgba(66, 70, 148, 0.75);
 }
 #container #list #tutor {
   background-color: rgba(250, 226, 184, 0.75);
 }
-#container #list #tutor .left .promote-button {
-  background-color: rgba(39, 41, 100, 0.75);
-  color: #dfe0f2;
+#container #list #tutor .left .dropdown {
+  background-color: rgba(66, 70, 148, 0.75);
 }
-#container #list #tutor .left .promote-button:hover {
-  background-color: rgba(39, 41, 100, 0.75);
+#container #list #tutor .left .save-button {
+  background-color: rgba(66, 70, 148, 0.75);
 }
-#container #list #tutor .left .demote-button {
+#container #list #tutor .left .save-button:hover {
+  background-color: #424694;
+}
+#container #list #tutor .left .remove-button {
   background-color: rgba(39, 41, 100, 0.25);
 }
-#container #list #tutor .left .demote-button:hover {
+#container #list #tutor .left .remove-button:hover {
   background-color: rgba(39, 41, 100, 0.5);
 }
 #container #list #tutor .middle .top .id {
