@@ -35,6 +35,11 @@ public class AddInstitution extends HttpServlet {
        
         // Redirect
         Util.Servlet servlet = new Util.Servlet(request ,response);
+        
+         // Get possible queryStr
+        servlet.putInJsp("id", servlet.getQueryStr("id"));
+        servlet.putInJsp("title", servlet.getQueryStr("title"));
+        
         servlet.servletToJsp("addInstitution.jsp");
         
     }

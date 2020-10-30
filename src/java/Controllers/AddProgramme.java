@@ -34,6 +34,11 @@ public class AddProgramme extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         
         Util.Servlet servlet = new Util.Servlet(request, response);
+        
+        // Get possible queryStr
+        servlet.putInJsp("id", servlet.getQueryStr("id"));
+        servlet.putInJsp("title", servlet.getQueryStr("title"));
+        
         servlet.servletToJsp("addProgramme.jsp");
         
     }

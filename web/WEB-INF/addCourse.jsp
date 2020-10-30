@@ -41,9 +41,9 @@
                     </div>
                     <div class='text' id='right'>
                         <a class='label'>Course code</a>
-                        <input class='textbox' type='text' name='courseCode' placeholder='eg. GG420' required>
+                        <input class='textbox' type='text' name='courseCode' placeholder='eg. GG420' required value="${id}">
                         <a class='label'>Course name</a>
-                        <input class='textbox' type='text' name='courseName' placeholder='eg. Computer Science' required>
+                        <input class='textbox' type='text' name='courseName' placeholder='eg. Computer Science' required value="${title}">
                     </div>
                 </div>
 

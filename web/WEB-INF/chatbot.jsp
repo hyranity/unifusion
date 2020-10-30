@@ -10,7 +10,7 @@
     </head>
 
     <body>
-        <div id='container'>
+        <form id='container'>
 
             <div id='navbar'>
                 <a href='#' id='back'>&lt; <span>Back</span></a>
@@ -45,8 +45,8 @@
                               </div>
                             </div>  
                           </div>-->
-
             </div>
+        </form>
     </body>
 
 </html>

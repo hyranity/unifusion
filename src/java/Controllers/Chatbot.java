@@ -25,10 +25,10 @@ import java.util.Date;
  */
 @WebServlet(name = "Chatbot", urlPatterns = {"/Chatbot"})
 public class Chatbot extends HttpServlet {
-    
+
     @PersistenceContext
     EntityManager em;
-    
+
     @Resource
     private UserTransaction utx;
 
@@ -42,56 +42,67 @@ public class Chatbot extends HttpServlet {
     // Util objects
     Util.Servlet servlet;
     Util.DB db = new Util.DB(em, utx);
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+
         servlet = new Util.Servlet(request, response);
 
         // Read input
-        String input = servlet.getQueryStr("input");
-        
-        if (input == null) {
-            // Redirect if no query
+        String input = servlet.getQueryStr("query");
+
+        if (input != null && !input.trim().isEmpty()) {
+            // Process query
+            input(input);
             servlet.servletToJsp("chatbot.jsp");
             return;
         }
 
-        // Process query
-        input(input);
-
         // Redirect
         servlet.servletToJsp("chatbot.jsp");
-        
+
     }
-    
-    public void addCreateEducationComponent(String type, String itemFirstData, String itemSecondData) {
-        
-        String output = "  <div class='action'>\n"
+
+    public void addCreateEducationComponent(String type, String id, String name, String addServletName) {
+        String idHref = id == null ? "" : id.trim().isEmpty() ? "" : id;
+        String titleHref = name == null ? "" : name.trim().isEmpty() ? "" : name;
+
+        String output = "  <div class='action' onclick='window.location.href=\"" + addServletName + "?id=" + idHref + "&title=" + titleHref + "\"'>\n"
                 + "            <div class='top'>\n"
                 + "              <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/3324/3324859.svg'>\n"
                 + "              <div class='text'>\n"
                 + "                <a class='type'>ACTION</a>\n"
                 + "                <a class='desc'>Create a <span>" + type + "</span></a>\n"
                 + "              </div>\n"
-                + "            </div>\n"
-                + "            <div class='bottom'>\n"
-                + "              <a class='desc'>With the following details:</a>\n"
-                + "              <div class='item'>\n"
-                + "                <a class='label'>ID</a>\n"
-                + "                <a class='value'>" + itemFirstData + "</a>\n"
-                + "              </div>\n"
-                + "              <div class='item'>\n"
-                + "                <a class='label'>Name</a>\n"
-                + "                <a class='value'>" + itemSecondData + "<</a>\n"
-                + "              </div>\n"
-                + "            </div>  \n"
-                + "          </div>";
-        
+                + "            </div>\n";
+
+        if (id != null || name != null) {
+            output += "     <div class='bottom'>\n"
+                    + "              <a class='desc'>With the following details:</a>\n";
+
+            if (id != null) {
+                output += "      <div class='item'>\n"
+                        + "                <a class='label'>ID</a>\n"
+                        + "                <a class='value'>" + id + "</a>\n"
+                        + "              </div>\n";
+            }
+
+            if (name != null) {
+                output += "      <div class='item'>\n"
+                        + "                <a class='label'>NAME</a>\n"
+                        + "                <a class='value'>" + name + "</a>\n"
+                        + "              </div>\n";
+            }
+
+            output += "          </div>";
+        }
+
+        output += "            </div>  \n";
+
         servlet.putInJsp("result", output);
     }
-    
+
     public void input(String input) {
         // Lowercase the first letter
         // Thanks to Rekin @
@@ -126,7 +137,7 @@ public class Chatbot extends HttpServlet {
                 System.out.println("Sorry, I don't understand");
                 return;
             }
-            
+
             if (input.matches(".*(announcement).*")) {
                 System.out.println("Create an announcement for " + target);
             } else if (input.matches(".*(session).*")) {
@@ -137,7 +148,7 @@ public class Chatbot extends HttpServlet {
                 System.out.println("Sorry, I don't understand");
             }
         }
-        
+
     }
 
     // Create class/course/prog/institution
@@ -146,82 +157,82 @@ public class Chatbot extends HttpServlet {
 
             // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
 
                 // And name as well
                 if (name != null && !name.trim().isEmpty()) {
-                    System.out.println("Create a class with ID " + id + " titled " + name);
+                    addCreateEducationComponent("class", id, name, "AddClass");
                 } else {
-                    System.out.println("Create a class with ID " + id);
+                    addCreateEducationComponent("class", id, null, "AddClass");
                 }
             } // If name only
             else if (name != null && !name.trim().isEmpty()) {
-                System.out.println("Create a class titled " + name);
+                addCreateEducationComponent("class", null, name, "AddClass");
             } else {
-                System.out.println("Click here to create class");
+                addCreateEducationComponent("class", null, null, "AddClass");
             }
         } else if (input.matches(".* (course).*")) {
-            // Detect indeed
+           // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
 
                 // And name as well
                 if (name != null && !name.trim().isEmpty()) {
-                    System.out.println("Create a course with ID " + id + " titled " + name);
+                    addCreateEducationComponent("course", id, name, "AddCourse");
                 } else {
-                    System.out.println("Create a course with ID " + id);
+                    addCreateEducationComponent("course", id, null, "AddCourse");
                 }
             } // If name only
             else if (name != null && !name.trim().isEmpty()) {
-                System.out.println("Create a course titled " + name);
+                addCreateEducationComponent("course", null, name, "AddCourse");
             } else {
-                System.out.println("Click here to create course");
+                addCreateEducationComponent("course", null, null, "AddCourse");
             }
         } else if (input.matches(".* (programme).*")) {
-            // Detect indeed
+           // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
 
                 // And name as well
                 if (name != null && !name.trim().isEmpty()) {
-                    System.out.println("Create a programme with ID " + id + " titled " + name);
+                    addCreateEducationComponent("programme", id, name, "AddProgramme");
                 } else {
-                    System.out.println("Create a programme with ID " + id);
+                    addCreateEducationComponent("programme", id, null, "AddProgramme");
                 }
             } // If name only
             else if (name != null && !name.trim().isEmpty()) {
-                System.out.println("Create a programme titled " + name);
+                addCreateEducationComponent("programme", null, name, "AddProgramme");
             } else {
-                System.out.println("Click here to create programme");
+                addCreateEducationComponent("programme", null, null, "AddProgramme");
             }
         } else if (input.matches(".* (institution).*")) {
-            // Detect indeed
+            // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
 
                 // And name as well
                 if (name != null && !name.trim().isEmpty()) {
-                    System.out.println("Create a institution with ID " + id + " titled " + name);
+                    addCreateEducationComponent("institution", id, name, "AddInstitution");
                 } else {
-                    System.out.println("Create a institution with ID " + id);
+                    addCreateEducationComponent("institution", id, null, "AddInstitution");
                 }
             } // If name only
             else if (name != null && !name.trim().isEmpty()) {
-                System.out.println("Create a institution titled " + name);
+                addCreateEducationComponent("institution", null, name, "AddInstitution");
             } else {
-                System.out.println("Click here to create institution");
+                addCreateEducationComponent("institution", null, null, "AddInstitution");
             }
         } else {
             System.out.println("Unknown command");
@@ -271,12 +282,12 @@ public class Chatbot extends HttpServlet {
 
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-                    
+
                     System.out.println("Getting all classes from " + from);
                 }
-                
+
                 System.out.println("Getting all classes");
-                
+
             } // if courses
             else if (input.matches(".*(courses).*")) {
                 // If a "from" is provided
@@ -284,12 +295,12 @@ public class Chatbot extends HttpServlet {
 
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-                    
+
                     System.out.println("Getting all courses from " + from);
                 }
-                
+
                 System.out.println("Getting all classes");
-                
+
             } // if programmes
             else if (input.matches(".*(programmes).*")) {
                 // If a "from" is provided
@@ -297,12 +308,12 @@ public class Chatbot extends HttpServlet {
 
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-                    
+
                     System.out.println("Getting all programmes from " + from);
                 }
-                
+
                 System.out.println("Getting all classes");
-                
+
             } // if institutions
             else if (input.matches(".*(institutions).*")) {
                 System.out.println("Showing all institutions");
@@ -328,13 +339,13 @@ public class Chatbot extends HttpServlet {
 
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-                    
+
                     System.out.println("Getting class " + target + " from " + from);
                 } else {
                     // Get all
                     System.out.println("Getting class " + target);
                 }
-                
+
             } // if course
             else if (input.matches(".*(course).*")) {
                 // If a "from" is provided
@@ -342,13 +353,13 @@ public class Chatbot extends HttpServlet {
 
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-                    
+
                     System.out.println("Getting course " + target + " from " + from);
                 } else {
                     // Get all
                     System.out.println("Getting course " + target);
                 }
-                
+
             } // if programme
             else if (input.matches(".*(programme).*")) {
                 // If a "from" is provided
@@ -356,7 +367,7 @@ public class Chatbot extends HttpServlet {
 
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-                    
+
                     System.out.println("Getting programme " + target + " from " + from);
                 } else {
                     // Get programme
@@ -373,7 +384,7 @@ public class Chatbot extends HttpServlet {
             System.out.println("error");
         }
     }
-    
+
     public String substr(String input, String pattern) {
         Matcher m = Pattern.compile(pattern).matcher(input);
         if (m.find()) {
@@ -382,7 +393,7 @@ public class Chatbot extends HttpServlet {
             return "";
         }
     }
-    
+
     public String substr2(String input, String pattern) {
         Matcher m = Pattern.compile(pattern).matcher(input);
         if (m.find()) {

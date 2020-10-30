@@ -6,6 +6,7 @@
 package Controllers;
 
 import Util.Server;
+import Util.Servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,8 +34,12 @@ public class AddCourse extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         if(!Server.isLoggedIn(request.getSession(false), response))
-            return;
+         
+        Servlet servlet = new Servlet(request, response);
+         
+         // Get possible queryStr
+        servlet.putInJsp("id", servlet.getQueryStr("id"));
+        servlet.putInJsp("title", servlet.getQueryStr("title"));
         
         request.getRequestDispatcher("WEB-INF/addCourse.jsp").forward(request, response);
     }
