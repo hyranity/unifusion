@@ -83,9 +83,9 @@ public class Chatbot extends HttpServlet {
         // Replaces apostrophe
         titleHref = titleHref.replaceAll("\'", "%27");
 
-        String output = "  <div class='action' onclick='window.location.href=\"" + addServletName + "?id=" + idHref + "&title=" + titleHref + "\"'>\n"
+        String output = "  <div class='result action' onclick='window.location.href=\"" + addServletName + "?id=" + idHref + "&title=" + titleHref + "\"'>\n"
                 + "            <div class='top'>\n"
-                + "              <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/3324/3324859.svg'>\n"
+                + "              <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/867/867855.svg'>\n"
                 + "              <div class='text'>\n"
                 + "                <a class='type'>ACTION</a>\n"
                 + "                <a class='desc'>Create a <span>" + type + "</span></a>\n"

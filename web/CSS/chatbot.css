@@ -23,6 +23,7 @@ a {
   align-items: center;
   justify-content: flex-start;
   padding-top: 150px;
+  padding-bottom: 150px;
 }
 #container #navbar {
   position: absolute;
@@ -128,7 +129,7 @@ a {
   justify-content: flex-start;
   margin-top: 50px;
 }
-#container #results .action {
+#container #results .result {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -140,6 +141,9 @@ a {
   opacity: 0.8;
   margin: 10px;
   transition: all 0.5s;
+}
+#container #results .result:hover {
+  opacity: 1;
 }
 #container #results .action .top {
   display: flex;
@@ -206,6 +210,51 @@ a {
   color: #dfe0f2;
   font-size: 16px;
 }
-#container #results .action:hover {
-  opacity: 1;
+#container #results .display .top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+#container #results .display .top .icon {
+  width: 50px;
+  height: 50px;
+}
+#container #results .display .top .text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  margin-left: 20px;
+}
+#container #results .display .top .text .type {
+  color: #dfe0f2;
+  font-size: 18px;
+  margin-bottom: -5px;
+}
+#container #results .display .top .text .name {
+  color: #fae2b8;
+  font-size: 30px;
+  line-height: 40px;
+}
+#container #results .display .top .text .subname {
+  color: #dfe0f2;
+  opacity: 0.8;
+  font-size: 15px;
+  margin-top: -5px;
+}
+#container #results .chat {
+  flex-direction: row;
+  align-items: center;
+}
+#container #results .chat .icon {
+  width: 50px;
+  height: 50px;
+}
+#container #results .chat .text {
+  color: #dfe0f2;
+  font-size: 18px;
+  line-height: 25px;
+  margin-left: 20px;
+  max-width: 420px;
 }
