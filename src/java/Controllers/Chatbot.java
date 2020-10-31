@@ -65,8 +65,9 @@ public class Chatbot extends HttpServlet {
 
         if (input != null && !input.trim().isEmpty()) {
             // Process query
-            input(input);
+            
             input = input.replaceAll("\"", "\'");
+            input(input);
             servlet.putInJsp("query", input);
             servlet.servletToJsp("chatbot.jsp");
             return;
@@ -167,6 +168,8 @@ public class Chatbot extends HttpServlet {
     }
 
     public void addCreateEducationComponent(String type, String id, String name, String addServletName) {
+        id = id.replaceAll("\"", "");
+        id = id.replaceAll("\'", "");
         String idHref = id == null ? "" : id.trim().isEmpty() ? "" : id;
         String titleHref = name == null ? "" : name.trim().isEmpty() ? "" : name;
 
@@ -219,8 +222,9 @@ public class Chatbot extends HttpServlet {
         for (Models.Class classroom : classList) {
             String titleHref = title == null ? "" : title.trim().isEmpty() ? "" : title;
             String descHref = description == null ? "" : description.trim().isEmpty() ? "" : description;
+            
 
-            output = "  <div class='action' onclick='window.location.href=\"AddAssignment?title=" + titleHref + "&desc=" + descHref + "&id=" + classId + "\"'>\n"
+            output = "  <div class='result action' onclick='window.location.href=\"AddAssignment?title=" + titleHref + "&desc=" + descHref + "&id=" + classId + "\"'>\n"
                     + "            <div class='top'>\n"
                     + "              <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/3324/3324859.svg'>\n"
                     + "              <div class='text'>\n"
@@ -272,7 +276,7 @@ public class Chatbot extends HttpServlet {
             DateTimeFormatter dateFmt = DateTimeFormat.forPattern("dd MMM YYYY");
             String dateDisplay = new DateTime(date).toString(dateFmt);
 
-            output = "  <div class='action' onclick='window.location.href=\"AddSession?id=" + classId + "&date=" + dateHref + "\"'>\n"
+            output = "  <div class='result action' onclick='window.location.href=\"AddSession?id=" + classId + "&date=" + dateHref + "\"'>\n"
                     + "            <div class='top'>\n"
                     + "              <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/3324/3324859.svg'>\n"
                     + "              <div class='text'>\n"
@@ -377,9 +381,11 @@ public class Chatbot extends HttpServlet {
             } else if (input.matches(".*(assignment).*")) {
 
                 // Detect ID and name
-                String title = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
-                String description = substr2(input, ".*(message|description) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(message|description) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(message|description) [\"\'](.*)[\"\']") : substr2(input, ".*(message|description) (\\S*)\\s?");
+                String title = substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+                String description = substr2(input, ".*(message|description) [\"\']([^\']*)[\"\']") != null && !substr2(input, ".*(message|description) [\"\']([^\']*)[\"\']").trim().isEmpty() ? substr2(input, ".*(message|description) [\"\']([^\']*)[\"\']") : substr2(input, ".*(message|description) (\\S*)\\s?");
 
+                System.out.println(title);
+                
                 System.out.println(title.trim().isEmpty());
                 // If ID provided
                 if (title != null && !title.trim().isEmpty()) {
@@ -409,7 +415,7 @@ public class Chatbot extends HttpServlet {
 
             // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
@@ -429,7 +435,7 @@ public class Chatbot extends HttpServlet {
         } else if (input.matches(".* (course).*")) {
             // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
@@ -449,7 +455,7 @@ public class Chatbot extends HttpServlet {
         } else if (input.matches(".* (programme).*")) {
             // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
@@ -469,7 +475,7 @@ public class Chatbot extends HttpServlet {
         } else if (input.matches(".* (institution).*")) {
             // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\']([^\']*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
