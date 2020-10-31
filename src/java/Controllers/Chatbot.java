@@ -273,6 +273,120 @@ public class Chatbot extends HttpServlet {
         servlet.putInJsp("result", output);
     }
 
+    // Getting single data
+    public void getSingleClass(String id) {
+        // Get from all levels
+        List<Models.Class> results = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and c.classid = ?", Models.Class.class).setParameter(1, user.getUserid()).setParameter(2, id).getResultList();
+
+        // Display the output
+        String output = "";
+
+        if (results.size() > 0) {
+            output = addChat("Here's your class");
+        } else {
+            output = addChat("Hmm... I couldn't find your class.");
+        }
+
+        for (Models.Class classroom : results) {
+            output += "<div class='result display' onclick=\"window.location.href='Class?id=" + classroom.getClassid() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>CLASS</a>\n"
+                    + "                      <a class='name'>" + classroom.getClasstitle() + "</a>\n"
+                    + "                      <a class='subname'>" + classroom.getClassid() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    public void getSingleCourse(String id) {
+        List<Models.Course> results = em.createNativeQuery("select cr.* from course cr, courseparticipant cpa, participant p where cr.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ? and cr.coursecode = ?", Models.Course.class).setParameter(1, user.getUserid()).setParameter(2, id).getResultList();
+
+        // Display the output
+        String output = "";
+
+        if (results.size() > 0) {
+            output = addChat("Here's your course");
+        } else {
+            output = addChat("Hmm... I couldn't find your course.");
+        }
+
+        for (Models.Course course : results) {
+            output += "<div class='result display' onclick=\"window.location.href='Class?id=" + course.getCoursecode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>COURSE</a>\n"
+                    + "                      <a class='name'>" + course.getTitle() + "</a>\n"
+                    + "                      <a class='subname'>" + course.getCoursecode() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    public void getSingleProgramme(String id) {
+        List<Models.Programme> results = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and p.userid = ? and pg.programmecode = ?", Models.Programme.class).setParameter(1, user.getUserid()).setParameter(2, id).getResultList();
+
+        // Display the output
+        String output = "";
+
+        if (results.size() > 0) {
+            output = addChat("Here's your programme");
+        } else {
+            output = addChat("Hmm... I couldn't find your programme.");
+        }
+
+        for (Models.Programme programme : results) {
+            output += "<div class='result display' onclick=\"window.location.href='Programme?id=" + programme.getProgrammecode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>PROGRAMME</a>\n"
+                    + "                      <a class='name'>" + programme.getTitle() + "</a>\n"
+                    + "                      <a class='subname'>" + programme.getProgrammecode() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    public void getSingleInstitution(String id) {
+        List<Models.Institution> results = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.userid = ? and i.institutioncode = ?", Models.Institution.class).setParameter(1, user.getUserid()).setParameter(2, id).getResultList();
+
+        // Display the output
+        String output = "";
+
+        if (results.size() > 0) {
+            output = addChat("Here's your institution");
+        } else {
+            output = addChat("Hmm... I couldn't find your institution.");
+        }
+
+        for (Models.Institution institution : results) {
+            output += "<div class='result display' onclick=\"window.location.href='Institution?id=" + institution.getInstitutioncode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>INSTITUTION</a>\n"
+                    + "                      <a class='name'>" + institution.getName() + "</a>\n"
+                    + "                      <a class='subname'>" + institution.getInstitutioncode() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
     public String addChat(String text) {
         String output = " <div class='result chat'>\n"
                 + "                  <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/1041/1041916.svg'>\n"
@@ -341,9 +455,9 @@ public class Chatbot extends HttpServlet {
 
         // To hold output
         String output = "";
-        
+
         // If empty
-        if(classList.size() == 0){
+        if (classList.size() == 0) {
             replyChat("Seems like this class doesn't exist");
             return;
         }
@@ -395,9 +509,9 @@ public class Chatbot extends HttpServlet {
 
         // To hold output
         String output = "";
-        
+
         // If empty
-        if(classList.size() == 0){
+        if (classList.size() == 0) {
             replyChat("Seems like this class doesn't exist");
             return;
         }
@@ -703,7 +817,6 @@ public class Chatbot extends HttpServlet {
 
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-
                     showProgrammes(from);
                 } else {
                     showProgrammes();
@@ -718,62 +831,31 @@ public class Chatbot extends HttpServlet {
         } // If retrieve singular
         else if (input.matches("(show me|give me|display|show|get).*")) {
             // Get singular target
-            String target = substr2(input, "(class|course|programme|institution) (\\w*)");
+            String target = substr2(input, "(class|course|programme|institution) (\\S*)");
+            
+            // If empty, swap position (eg. class LL222 > LL222 class)
+            target = substr(input, "(\\S*) (class|course|programme|institution)");
 
             // target cannot be null
             if (target == "") {
-                System.out.println("Unknown commannd");
+                replyChat("Sorry, I don't understand");
                 return;
             }
 
             // if class
             if (input.matches(".*(class).*")) {
-
-                // If a "from" is provided
-                if (input.matches(".*(from|in).*")) {
-
-                    // Check for both FROM xx and IN xx
-                    String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-
-                    System.out.println("Getting class " + target + " from " + from);
-                } else {
-                    // Get all
-                    System.out.println("Getting class " + target);
-                }
-
+                getSingleClass(target);
             } // if course
             else if (input.matches(".*(course).*")) {
-                // If a "from" is provided
-                if (input.matches(".*(from|in).*")) {
-
-                    // Check for both FROM xx and IN xx
-                    String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-
-                    System.out.println("Getting course " + target + " from " + from);
-                } else {
-                    // Get all
-                    System.out.println("Getting course " + target);
-                }
-
+                getSingleCourse(target);
             } // if programme
             else if (input.matches(".*(programme).*")) {
-                // If a "from" is provided
-                if (input.matches(".*(from|in).*")) {
-
-                    // Check for both FROM xx and IN xx
-                    String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
-
-                    System.out.println("Getting programme " + target + " from " + from);
-                } else {
-                    // Get programme
-                    System.out.println("Getting programme " + target);
-                }
+               getSingleProgramme(target);
             } // if institution
             else if (input.matches(".*(institution).*")) {
-                System.out.println("Getting institution " + target);
+                getSingleInstitution(target);
             } else {
-                // Try to find this target
-                System.out.println("Getting " + target);
+                replyChat("Sorry, please specify what you want to find");
             }
         } else {
             System.out.println("error");
