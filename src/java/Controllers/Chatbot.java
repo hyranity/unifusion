@@ -140,7 +140,7 @@ public class Chatbot extends HttpServlet {
         servlet.putInJsp("result", output);
     }
 
-    // Get all classes with FROM
+    // Get all courses with FROM
     public void showCourses(String from) {
         // Get from all levels
         List<Models.Course> fromInstitution = em.createNativeQuery("select cr.* from course cr, programme pg, institution i, institutionparticipant ipa, participant p where cr.programmecode = pg.programmecode and pg.institutioncode = i.institutioncode and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and i.institutioncode = ?", Models.Course.class).setParameter(1, user.getUserid()).setParameter(2, from).getResultList();
@@ -172,7 +172,7 @@ public class Chatbot extends HttpServlet {
         servlet.putInJsp("result", output);
     }
 
-    // Get all classes without FROM
+    // Get all courses without FROM
     public void showCourses() {
         List<Models.Course> results = em.createNativeQuery("select cr.* from course cr, courseparticipant cpa, participant p where cr.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ?", Models.Course.class).setParameter(1, user.getUserid()).getResultList();
 
@@ -189,6 +189,82 @@ public class Chatbot extends HttpServlet {
                     + "                      <a class='type'>COURSE</a>\n"
                     + "                      <a class='name'>" + course.getTitle() + "</a>\n"
                     + "                      <a class='subname'>" + course.getCoursecode() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    // Get all programmes with FROM
+    public void showProgrammes(String from) {
+        // Get from all levels
+        List<Models.Programme> results = em.createNativeQuery("select pg.* from programme pg, institution i, institutionparticipant ipa, participant p where pg.institutioncode = i.institutioncode and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and i.institutioncode = ?", Models.Programme.class).setParameter(1, user.getUserid()).setParameter(2, from).getResultList();
+
+        // Display the output
+        String output = "";
+
+        output = addChat(results.size() + " programmes were found.");
+
+        for (Models.Programme programme : results) {
+            output += "<div class='result display'  onclick=\"window.location.href='Programme?id=" + programme.getProgrammecode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>PROGRAMME</a>\n"
+                    + "                      <a class='name'>" + programme.getTitle() + "</a>\n"
+                    + "                      <a class='subname'>" + programme.getProgrammecode() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    // Get all programmes  without FROM
+    public void showProgrammes() {
+        List<Models.Programme> results = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and p.userid = ?", Models.Programme.class).setParameter(1, user.getUserid()).getResultList();
+
+        // Display the output
+        String output = "";
+
+        output = addChat(results.size() + " programmes were found.");
+
+        for (Models.Programme programme : results) {
+            output += "<div class='result display' onclick=\"window.location.href='Programme?id=" + programme.getProgrammecode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>PROGRAMME</a>\n"
+                    + "                      <a class='name'>" + programme.getTitle() + "</a>\n"
+                    + "                      <a class='subname'>" + programme.getProgrammecode() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    // Get all institutions
+    public void showInstitutions() {
+        List<Models.Institution> results = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Models.Institution.class).setParameter(1, user.getUserid()).getResultList();
+
+        // Display the output
+        String output = "";
+
+        output = addChat(results.size() + " institutions were found.");
+
+        for (Models.Institution institution : results) {
+            output += "<div class='result display' onclick=\"window.location.href='Institution?id=" + institution.getInstitutioncode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>INSTITUTION</a>\n"
+                    + "                      <a class='name'>" + institution.getName() + "</a>\n"
+                    + "                      <a class='subname'>" + institution.getInstitutioncode() + "</a>\n"
                     + "                    </div>\n"
                     + "                  </div>\n"
                     + "                </div>";
@@ -265,6 +341,12 @@ public class Chatbot extends HttpServlet {
 
         // To hold output
         String output = "";
+        
+        // If empty
+        if(classList.size() == 0){
+            replyChat("Seems like this class doesn't exist");
+            return;
+        }
 
         // A result for each
         for (Models.Class classroom : classList) {
@@ -313,6 +395,12 @@ public class Chatbot extends HttpServlet {
 
         // To hold output
         String output = "";
+        
+        // If empty
+        if(classList.size() == 0){
+            replyChat("Seems like this class doesn't exist");
+            return;
+        }
 
         // A result for each
         for (Models.Class classroom : classList) {
@@ -359,7 +447,7 @@ public class Chatbot extends HttpServlet {
         servlet.putInJsp("result", output);
     }
 
-    // ---- QUERY  PARSING BELOW
+    // ---- QUERY  PARSING BELOW ----
     public void input(String input) {
         // Lowercase the first letter
         // Thanks to Rekin @
@@ -392,6 +480,7 @@ public class Chatbot extends HttpServlet {
             // If no target is found
             if (target == null || target == "") {
                 System.out.println("No class found");
+                replyChat("This class does not exist.");
                 return;
             }
 
@@ -451,6 +540,7 @@ public class Chatbot extends HttpServlet {
                 }
             } else {
                 System.out.println("Sorry, I don't understand");
+                replyChat("This class does not exist.");
             }
         }
 
@@ -588,10 +678,8 @@ public class Chatbot extends HttpServlet {
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
 
-                    System.out.println("Getting all classes from " + from);
                     showClasses(from);
                 } else {
-                    System.out.println("Getting all classes");
                     showClasses();
                 }
 
@@ -616,14 +704,14 @@ public class Chatbot extends HttpServlet {
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
 
-                    System.out.println("Getting all programmes from " + from);
+                    showProgrammes(from);
                 } else {
-                    System.out.println("Getting all programmes");
+                    showProgrammes();
                 }
 
             } // if institutions
             else if (input.matches(".*(institutions).*")) {
-                System.out.println("Showing all institutions");
+                showInstitutions();
             } else {
                 System.out.println("error");
             }
