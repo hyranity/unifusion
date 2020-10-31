@@ -48,6 +48,9 @@ public class AddSession extends HttpServlet {
 
         // Get class code
         String classid = servlet.getQueryStr("id");
+        
+         // Get possible queryStr
+        servlet.putInJsp("date", servlet.getQueryStr("date"));
 
         // Fetch from db
         try {

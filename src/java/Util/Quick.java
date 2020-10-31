@@ -28,6 +28,9 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.io.FileExistsException;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
@@ -188,7 +191,7 @@ public class Quick {
 
         return formatter.print(period);
     }
-    
+
     public static String daysTo(Date date) {
         Period period = new Period(DateTime.now(), new DateTime(date));
 
@@ -202,7 +205,7 @@ public class Quick {
             builder.appendWeeks().appendSuffix(" wks left");
         } else if (period.getDays() > 0) {
             builder.appendDays().appendSuffix(" days left");
-        
+
         } else {
             return "today";
         }
@@ -291,32 +294,54 @@ public class Quick {
 
         return outputStr;
     }
-    
-    public static String uploadFile(String filePath, List<FileItem> multiparts, HttpServletRequest request, Util.Servlet servlet){
+
+    public static String uploadFile(String filePath, List<FileItem> multiparts, HttpServletRequest request, Util.Servlet servlet) {
         ArrayList<String> fileList = performUpload(filePath, multiparts, request, servlet);
 
         // Return "error" if an error occured
-        if(fileList == null){
+        if (fileList == null) {
             return "error";
         }
-        
+
         // Return null if no files uploaded
-        if(fileList.size() == 0l){
+        if (fileList.size() == 0l) {
             System.out.println("No files uploaded");
             return null;
         }
-        
+
         return combineStrArr(fileList);
     }
-    
-    public static String getGrade(double marks){
-        if(marks < 50){
+
+    public static String getGrade(double marks) {
+        if (marks < 50) {
             return "F";
-        } else if(marks >= 50 && marks < 60){
+        } else if (marks >= 50 && marks < 60) {
             return "C";
-        } else{
+        } else {
             return "A";
         }
+    }
+
+    public static Date getDate(String date) {
+        // Detect date (D/M/Y)
+        DateTimeParser[] parsers = {
+            DateTimeFormat.forPattern("dd/MM/yyyy").getParser(),
+            DateTimeFormat.forPattern("dd MMM yyyy").getParser(),
+            DateTimeFormat.forPattern("dd MMMM yyyy").getParser(),
+            DateTimeFormat.forPattern("MMM dd yyyy").getParser(),
+            DateTimeFormat.forPattern("MMMM dd yyyy").getParser(),
+            DateTimeFormat.forPattern("dd-MM-yy").getParser(),
+            DateTimeFormat.forPattern("dd/MM/yy").getParser(),
+            DateTimeFormat.forPattern("dd MMM yy").getParser(),
+            DateTimeFormat.forPattern("dd MMMM yy").getParser(),
+            DateTimeFormat.forPattern("MMM dd yy").getParser(),
+            DateTimeFormat.forPattern("MMMM dd yy").getParser(),
+            DateTimeFormat.forPattern("dd-MM-yy").getParser()
+        };
+
+        DateTimeFormatter formatter = new DateTimeFormatterBuilder().append(null, parsers).toFormatter();
+        
+        return formatter.parseDateTime( date ).toDate();
     }
 
 }

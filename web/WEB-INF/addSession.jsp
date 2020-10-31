@@ -36,7 +36,7 @@
             
             <input type="hidden" value="${id}" name="id"/>
             <a class='label' style='margin-left: -470px;'>Date</a>
-            <input class='date' type='date' name='date'>
+            <input class='date' type='date' name='date' value="${date}">
 
             <div id='times'>
               <div class='timeBox'>

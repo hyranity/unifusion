@@ -19,7 +19,7 @@
                 <a href='#' class='link'>Account</a>
             </div>
 
-            <input class='textbox' type='text' name='query' placeholder='Ask me anything!'>
+            <input class='textbox' type='text' name='query' placeholder='Ask me anything!' value="${query}">
 
             <div id='results'>
 

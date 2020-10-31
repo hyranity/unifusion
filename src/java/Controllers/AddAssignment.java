@@ -54,6 +54,10 @@ public class AddAssignment extends HttpServlet {
             servlet.toServlet("Dashboard");
             return;
         }
+        
+         // Get possible queryStr
+        servlet.putInJsp("desc", servlet.getQueryStr("desc"));
+        servlet.putInJsp("title", servlet.getQueryStr("title"));
 
         servlet.putInJsp("subheading", classroom.getClassid() + " - " + classroom.getClasstitle() + " (Class)");
         servlet.putInJsp("id", classroom.getClassid());

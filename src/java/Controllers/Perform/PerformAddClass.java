@@ -156,7 +156,7 @@ public class PerformAddClass extends HttpServlet {
             participant.setDateadded(Calendar.getInstance().getTime());
             participant.setEducatorrole("classTeacher");
             participant.setStatus("active");
-            participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "Participantid"));
+            participant.setParticipantid(Quick.generateID(em, utx, Participant.class, "participantid"));
             participant.setUserid(user);
             db.insert(participant);
 
@@ -171,7 +171,7 @@ public class PerformAddClass extends HttpServlet {
         classPart.setRole("teacher");
         classPart.setStatus("active");
         classPart.setClassid(classroom);
-        classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "Classparticipantid"));
+        classPart.setClassparticipantid(Quick.generateID(em, utx, Classparticipant.class, "classparticipantid"));
         db.insert(classPart);
 
         // Successful

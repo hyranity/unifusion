@@ -5,6 +5,8 @@
  */
 package Controllers;
 
+import Util.Quick;
+import Util.Server;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.annotation.Resource;
@@ -18,6 +20,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.transaction.UserTransaction;
 import java.util.regex.*;
 import java.util.Date;
+import java.util.List;
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
+import org.joda.time.format.DateTimeParser;
 
 /**
  *
@@ -42,12 +50,14 @@ public class Chatbot extends HttpServlet {
     // Util objects
     Util.Servlet servlet;
     Util.DB db = new Util.DB(em, utx);
+    Models.Users user;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
 
         servlet = new Util.Servlet(request, response);
+        user = Server.getUser(request, response);
 
         // Read input
         String input = servlet.getQueryStr("query");
@@ -55,6 +65,8 @@ public class Chatbot extends HttpServlet {
         if (input != null && !input.trim().isEmpty()) {
             // Process query
             input(input);
+            input = input.replaceAll("\"", "\'");
+            servlet.putInJsp("query", input);
             servlet.servletToJsp("chatbot.jsp");
             return;
         }
@@ -67,6 +79,9 @@ public class Chatbot extends HttpServlet {
     public void addCreateEducationComponent(String type, String id, String name, String addServletName) {
         String idHref = id == null ? "" : id.trim().isEmpty() ? "" : id;
         String titleHref = name == null ? "" : name.trim().isEmpty() ? "" : name;
+
+        // Replaces apostrophe
+        titleHref = titleHref.replaceAll("\'", "%27");
 
         String output = "  <div class='action' onclick='window.location.href=\"" + addServletName + "?id=" + idHref + "&title=" + titleHref + "\"'>\n"
                 + "            <div class='top'>\n"
@@ -103,6 +118,106 @@ public class Chatbot extends HttpServlet {
         servlet.putInJsp("result", output);
     }
 
+    public void addCreateAssignment(String classId, String title, String description) {
+        // Get class results
+        List<Models.Class> classList = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role='teacher'", Models.Class.class).setParameter(1, classId).setParameter(2, user.getUserid()).getResultList();
+
+        // To hold output
+        String output = "";
+
+        // A result for each
+        for (Models.Class classroom : classList) {
+            String titleHref = title == null ? "" : title.trim().isEmpty() ? "" : title;
+            String descHref = description == null ? "" : description.trim().isEmpty() ? "" : description;
+
+            output = "  <div class='action' onclick='window.location.href=\"AddAssignment?title=" + titleHref + "&desc=" + descHref + "&id=" + classId + "\"'>\n"
+                    + "            <div class='top'>\n"
+                    + "              <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/3324/3324859.svg'>\n"
+                    + "              <div class='text'>\n"
+                    + "                <a class='type'>ACTION</a>\n"
+                    + "                <a class='desc'>Create an assignment for <span>" + classId + "</span></a>\n"
+                    + "              </div>\n"
+                    + "            </div>\n";
+
+            if (title != null || description != null) {
+                output += "     <div class='bottom'>\n"
+                        + "              <a class='desc'>With the following details:</a>\n";
+
+                if (title != null) {
+                    output += "      <div class='item'>\n"
+                            + "                <a class='label'>TITLE</a>\n"
+                            + "                <a class='value'>" + title + "</a>\n"
+                            + "              </div>\n";
+                }
+
+                if (description != null) {
+                    output += "      <div class='item'>\n"
+                            + "                <a class='label'>DESCRIPTION</a>\n"
+                            + "                <a class='value'>" + description + "</a>\n"
+                            + "              </div>\n";
+                }
+
+                output += "          </div>";
+            }
+
+            output += "            </div>  \n";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    public void addCreateSession(String classId, String date, String time) {
+        // Get class results
+        List<Models.Class> classList = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? and cpa.role='teacher'", Models.Class.class).setParameter(1, classId).setParameter(2, user.getUserid()).getResultList();
+
+        // To hold output
+        String output = "";
+
+        // A result for each
+        for (Models.Class classroom : classList) {
+            String dateHref = date == null ? "" : date.trim().isEmpty() ? "" : date;
+            String timeHref = time == null ? "" : time.trim().isEmpty() ? "" : time;
+            
+            // For displaying
+            DateTimeFormatter dateFmt = DateTimeFormat.forPattern("dd MMM YYYY");
+            String dateDisplay = new DateTime(date).toString(dateFmt);
+
+            output = "  <div class='action' onclick='window.location.href=\"AddSession?id=" + classId + "&date=" + dateHref + "\"'>\n"
+                    + "            <div class='top'>\n"
+                    + "              <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/3324/3324859.svg'>\n"
+                    + "              <div class='text'>\n"
+                    + "                <a class='type'>ACTION</a>\n"
+                    + "                <a class='desc'>Create a session for <span>" + classId + "</span></a>\n"
+                    + "              </div>\n"
+                    + "            </div>\n";
+
+            if (date != null || time != null) {
+                output += "     <div class='bottom'>\n"
+                        + "              <a class='desc'>With the following details:</a>\n";
+
+                if (date != null) {
+                    output += "      <div class='item'>\n"
+                            + "                <a class='label'>DATE</a>\n"
+                            + "                <a class='value'>" + dateDisplay + "</a>\n"
+                            + "              </div>\n";
+                }
+
+                if (time != null) {
+                    output += "      <div class='item'>\n"
+                            + "                <a class='label'>DESCRIPTION</a>\n"
+                            + "                <a class='value'>" + time + "</a>\n"
+                            + "              </div>\n";
+                }
+
+                output += "          </div>";
+            }
+
+            output += "            </div>  \n";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
     public void input(String input) {
         // Lowercase the first letter
         // Thanks to Rekin @
@@ -129,21 +244,67 @@ public class Chatbot extends HttpServlet {
     public void createClassObjects(String input) {
         // Find target
         if (input.matches(".* (announcement|session|assignment) for.*")) {
-            String target = substr(input, "for (.*)\\s");
+            String target = substr(input, "for (\\S*)\\s?");
 
             // Obtain the class here
             // If no target is found
             if (target == null || target == "") {
-                System.out.println("Sorry, I don't understand");
+                System.out.println("No class found");
                 return;
             }
 
             if (input.matches(".*(announcement).*")) {
                 System.out.println("Create an announcement for " + target);
             } else if (input.matches(".*(session).*")) {
-                System.out.println("Create an assignment for " + target);
+                System.out.println("Create a session for " + target);
+
+                // Get optional date
+                input = input.trim();
+                String dateInput = substr(input, ".*on (.*)");
+                dateInput = dateInput != null ? dateInput.trim() : "";
+                String date =  "";
+                boolean processDate = true;
+                System.out.println(dateInput + "LOL");
+                try {
+                    // Convert date to a string that can be read by <input> tags
+                    DateTimeFormatter dateFmt = DateTimeFormat.forPattern("YYYY-MM-dd");
+                    date = new DateTime(Quick.getDate(dateInput)).toString(dateFmt);
+                } catch (Exception e) {
+                    System.out.println("Invalid date");
+                    processDate = false;
+                }
+                
+                if(processDate){
+                    addCreateSession(target, date, null);
+                } else{
+                    // No date
+                    addCreateSession(target, null, null);
+                }
+                
+                // Get optional time (must be a range)
+               // if(input.matches(".*(between|from) (.*) (and|to|until) (.*)"))
             } else if (input.matches(".*(assignment).*")) {
-                System.out.println("Create an session for " + target);
+
+                // Detect ID and name
+                String title = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+                String description = substr2(input, ".*(message|description) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(message|description) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(message|description) [\"\'](.*)[\"\']") : substr2(input, ".*(message|description) (\\S*)\\s?");
+
+                System.out.println(title.trim().isEmpty());
+                // If ID provided
+                if (title != null && !title.trim().isEmpty()) {
+
+                    // And name as well
+                    if (description != null && !description.trim().isEmpty()) {
+                        addCreateAssignment(target, title, description);
+                    } else {
+                        addCreateAssignment(target, title, null);
+                    }
+                } // If name only
+                else if (description != null && !description.trim().isEmpty()) {
+                    addCreateAssignment(target, null, description);
+                } else {
+                    addCreateAssignment(target, null, null);
+                }
             } else {
                 System.out.println("Sorry, I don't understand");
             }
@@ -157,7 +318,7 @@ public class Chatbot extends HttpServlet {
 
             // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
@@ -175,9 +336,9 @@ public class Chatbot extends HttpServlet {
                 addCreateEducationComponent("class", null, null, "AddClass");
             }
         } else if (input.matches(".* (course).*")) {
-           // Detect ID and name
+            // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
@@ -195,9 +356,9 @@ public class Chatbot extends HttpServlet {
                 addCreateEducationComponent("course", null, null, "AddCourse");
             }
         } else if (input.matches(".* (programme).*")) {
-           // Detect ID and name
+            // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {
@@ -217,7 +378,7 @@ public class Chatbot extends HttpServlet {
         } else if (input.matches(".* (institution).*")) {
             // Detect ID and name
             String id = substr2(input, ".*(id|ID) (\\S*)\\s?");
-            String name = substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
+            String name = substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") != null && !substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']").trim().isEmpty() ? substr2(input, ".*(named|titled|name|title) [\"\'](.*)[\"\']") : substr2(input, ".*(named|titled|name|title) (\\S*)\\s?");
 
             // If ID provided
             if (id != null && !id.trim().isEmpty()) {

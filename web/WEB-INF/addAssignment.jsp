@@ -38,13 +38,13 @@
             <input type="hidden" value="${id}" name="id"/>
 
           <a class='label' style='margin-left: -485px;'>Title</a>
-          <input class='textbox' type='text' name='title' placeholder='eg. Semester Assignment'>
+          <input class='textbox' type='text' name='title' placeholder='eg. Semester Assignment' value="${title}">
 
           <div class='row'>
 
             <div class='left'>
               <a class='label'>Details</a>
-              <textarea class="textarea" name='details' placeholder='What is this assignment about?'></textarea>
+              <textarea class="textarea" name='details' placeholder='What is this assignment about?'>${desc}</textarea>
             </div>
 
             <div class='right'>
