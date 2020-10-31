@@ -59,6 +59,12 @@ public class Chatbot extends HttpServlet {
 
         servlet = new Util.Servlet(request, response);
         user = Server.getUser(request, response);
+        
+        // Redirect guests
+        if(user == null){
+            servlet.toServlet("Login");
+            return;
+        }
 
         // Read input
         String input = servlet.getQueryStr("query");
@@ -406,8 +412,10 @@ public class Chatbot extends HttpServlet {
     }
 
     public void addCreateEducationComponent(String type, String id, String name, String addServletName) {
-        id = id.replaceAll("\"", "");
-        id = id.replaceAll("\'", "");
+        if (id != null) {
+            id = id.replaceAll("\"", "");
+            id = id.replaceAll("\'", "");
+        }
         String idHref = id == null ? "" : id.trim().isEmpty() ? "" : id;
         String titleHref = name == null ? "" : name.trim().isEmpty() ? "" : name;
 
@@ -832,7 +840,7 @@ public class Chatbot extends HttpServlet {
         else if (input.matches("(show me|give me|display|show|get).*")) {
             // Get singular target
             String target = substr2(input, "(class|course|programme|institution) (\\S*)");
-            
+
             // If empty, swap position (eg. class LL222 > LL222 class)
             target = substr(input, "(\\S*) (class|course|programme|institution)");
 
@@ -850,7 +858,7 @@ public class Chatbot extends HttpServlet {
                 getSingleCourse(target);
             } // if programme
             else if (input.matches(".*(programme).*")) {
-               getSingleProgramme(target);
+                getSingleProgramme(target);
             } // if institution
             else if (input.matches(".*(institution).*")) {
                 getSingleInstitution(target);
