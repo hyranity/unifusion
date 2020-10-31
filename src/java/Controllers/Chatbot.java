@@ -70,10 +70,38 @@ public class Chatbot extends HttpServlet {
             servlet.servletToJsp("chatbot.jsp");
             return;
         }
+        
+        replyChat("Hey there! I'm your virtual secretary.");
 
         // Redirect
         servlet.servletToJsp("chatbot.jsp");
 
+    }
+
+    public void showClasses() {
+        String output = "";
+
+        output += "<div class='result display'>\n"
+                + "                  <div class='top'>\n"
+                + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                + "                    <div class='text'>\n"
+                + "                      <a class='type'>CLASS</a>\n"
+                + "                      <a class='name'>Class Name</a>\n"
+                + "                      <a class='subname'>TARUCKL</a>\n"
+                + "                    </div>\n"
+                + "                  </div>\n"
+                + "                </div>";
+        
+         servlet.putInJsp("result", output);
+    }
+
+    public void replyChat(String text) {
+        String output = " <div class='result chat'>\n"
+                + "                  <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/1041/1041916.svg'>\n"
+                + "                  <a class='text'>" + text + "</a>\n"
+                + "                </div>";
+
+        servlet.putInJsp("result", output);
     }
 
     public void addCreateEducationComponent(String type, String id, String name, String addServletName) {
@@ -177,7 +205,7 @@ public class Chatbot extends HttpServlet {
         for (Models.Class classroom : classList) {
             String dateHref = date == null ? "" : date.trim().isEmpty() ? "" : date;
             String timeHref = time == null ? "" : time.trim().isEmpty() ? "" : time;
-            
+
             // For displaying
             DateTimeFormatter dateFmt = DateTimeFormat.forPattern("dd MMM YYYY");
             String dateDisplay = new DateTime(date).toString(dateFmt);
@@ -236,7 +264,7 @@ public class Chatbot extends HttpServlet {
         } else if (input.matches(createClassObjects)) {
             createClassObjects(input);
         } else {
-            System.out.println("Sorry, I don't understand.");
+            replyChat("Sorry, I don't understand.");
         }
     }
 
@@ -262,7 +290,7 @@ public class Chatbot extends HttpServlet {
                 input = input.trim();
                 String dateInput = substr(input, ".*on (.*)");
                 dateInput = dateInput != null ? dateInput.trim() : "";
-                String date =  "";
+                String date = "";
                 boolean processDate = true;
                 System.out.println(dateInput + "LOL");
                 try {
@@ -273,16 +301,16 @@ public class Chatbot extends HttpServlet {
                     System.out.println("Invalid date");
                     processDate = false;
                 }
-                
-                if(processDate){
+
+                if (processDate) {
                     addCreateSession(target, date, null);
-                } else{
+                } else {
                     // No date
                     addCreateSession(target, null, null);
                 }
-                
+
                 // Get optional time (must be a range)
-               // if(input.matches(".*(between|from) (.*) (and|to|until) (.*)"))
+                // if(input.matches(".*(between|from) (.*) (and|to|until) (.*)"))
             } else if (input.matches(".*(assignment).*")) {
 
                 // Detect ID and name

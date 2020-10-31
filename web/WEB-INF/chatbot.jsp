@@ -48,7 +48,7 @@
                 </div>-->
                       
                 <!-- show me classes under taruckl -->      
-                <div class='result display'>
+<!--                <div class='result display'>
                   <div class='top'>
                     <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>
                     <div class='text'>
@@ -57,13 +57,13 @@
                       <a class='subname'>TARUCKL</a>
                     </div>
                   </div>
-                </div>
+                </div>-->
 
                 <!-- chat -->
-                <div class='result chat'>
+<!--                <div class='result chat'>
                   <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/1041/1041916.svg'>
                   <a class='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</a>
-                </div>
+                </div>-->
                 
             </div>
         </form>
