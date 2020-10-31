@@ -65,7 +65,7 @@ public class Chatbot extends HttpServlet {
 
         if (input != null && !input.trim().isEmpty()) {
             // Process query
-            
+
             input = input.replaceAll("\"", "\'");
             input(input);
             servlet.putInJsp("query", input);
@@ -117,16 +117,7 @@ public class Chatbot extends HttpServlet {
     // Get all classes without FROM
     public void showClasses() {
         // Get from all levels
-        List<Models.Class> fromInstitution = em.createNativeQuery("select c.* from class c, course cr, programme pg, institution i, institutionparticipant ipa, participant p where c.coursecode = cr.coursecode and cr.programmecode = pg.programmecode and pg.institutioncode = i.institutioncode and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, user.getUserid()).getResultList();
-        List<Models.Class> fromProgramme = em.createNativeQuery("select c.* from class c, course cr, programme pg,programmeparticipant ppa, participant p where c.coursecode = cr.coursecode and cr.programmecode = pg.programmecode and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, user.getUserid()).getResultList();
-        List<Models.Class> fromCourse = em.createNativeQuery("select c.* from class c, course cr, courseparticipant cpa, participant p where c.coursecode = cr.coursecode and cpa.coursecode = cr.coursecode and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, user.getUserid()).getResultList();
-
-        // Combine the results
-        List<Models.Class> results = new ArrayList<Models.Class>();
-
-        results.addAll(fromInstitution);
-        results.addAll(fromProgramme);
-        results.addAll(fromCourse);
+        List<Models.Class> results = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, user.getUserid()).getResultList();
 
         // Display the output
         String output = "";
@@ -141,6 +132,63 @@ public class Chatbot extends HttpServlet {
                     + "                      <a class='type'>CLASS</a>\n"
                     + "                      <a class='name'>" + classroom.getClasstitle() + "</a>\n"
                     + "                      <a class='subname'>" + classroom.getClassid() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    // Get all classes with FROM
+    public void showCourses(String from) {
+        // Get from all levels
+        List<Models.Course> fromInstitution = em.createNativeQuery("select cr.* from course cr, programme pg, institution i, institutionparticipant ipa, participant p where cr.programmecode = pg.programmecode and pg.institutioncode = i.institutioncode and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and i.institutioncode = ?", Models.Course.class).setParameter(1, user.getUserid()).setParameter(2, from).getResultList();
+        List<Models.Course> fromProgramme = em.createNativeQuery("select cr.* from  course cr, programme pg,programmeparticipant ppa, participant p where cr.programmecode = pg.programmecode and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ? and pg.programmecode = ?", Models.Course.class).setParameter(1, user.getUserid()).setParameter(2, from).getResultList();
+
+        // Combine the results
+        List<Models.Course> results = new ArrayList<Models.Course>();
+        results.addAll(fromInstitution);
+        results.addAll(fromProgramme);
+
+        // Display the output
+        String output = "";
+
+        output = addChat(results.size() + " courses were found.");
+
+        for (Models.Course course : results) {
+            output += "<div class='result display'  onclick=\"window.location.href='Course?id=" + course.getCoursecode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>COURSE</a>\n"
+                    + "                      <a class='name'>" + course.getTitle() + "</a>\n"
+                    + "                      <a class='subname'>" + course.getCoursecode() + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
+    }
+
+    // Get all classes without FROM
+    public void showCourses() {
+        List<Models.Course> results = em.createNativeQuery("select cr.* from course cr, courseparticipant cpa, participant p where cr.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ?", Models.Course.class).setParameter(1, user.getUserid()).getResultList();
+
+        // Display the output
+        String output = "";
+
+        output = addChat(results.size() + " courses were found.");
+
+        for (Models.Course course : results) {
+            output += "<div class='result display' onclick=\"window.location.href='Class?id=" + course.getCoursecode() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>COURSE</a>\n"
+                    + "                      <a class='name'>" + course.getTitle() + "</a>\n"
+                    + "                      <a class='subname'>" + course.getCoursecode() + "</a>\n"
                     + "                    </div>\n"
                     + "                  </div>\n"
                     + "                </div>";
@@ -222,7 +270,6 @@ public class Chatbot extends HttpServlet {
         for (Models.Class classroom : classList) {
             String titleHref = title == null ? "" : title.trim().isEmpty() ? "" : title;
             String descHref = description == null ? "" : description.trim().isEmpty() ? "" : description;
-            
 
             output = "  <div class='result action' onclick='window.location.href=\"AddAssignment?title=" + titleHref + "&desc=" + descHref + "&id=" + classId + "\"'>\n"
                     + "            <div class='top'>\n"
@@ -385,7 +432,7 @@ public class Chatbot extends HttpServlet {
                 String description = substr2(input, ".*(message|description) [\"\']([^\']*)[\"\']") != null && !substr2(input, ".*(message|description) [\"\']([^\']*)[\"\']").trim().isEmpty() ? substr2(input, ".*(message|description) [\"\']([^\']*)[\"\']") : substr2(input, ".*(message|description) (\\S*)\\s?");
 
                 System.out.println(title);
-                
+
                 System.out.println(title.trim().isEmpty());
                 // If ID provided
                 if (title != null && !title.trim().isEmpty()) {
@@ -556,9 +603,9 @@ public class Chatbot extends HttpServlet {
                     // Check for both FROM xx and IN xx
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
 
-                    System.out.println("Getting all courses from " + from);
+                    showCourses(from);
                 } else {
-                    System.out.println("Getting all courses");
+                    showCourses();
                 }
 
             } // if programmes
@@ -645,6 +692,7 @@ public class Chatbot extends HttpServlet {
         }
     }
 
+    // ----- UTIL METHODS BELOW -----
     public String substr(String input, String pattern) {
         Matcher m = Pattern.compile(pattern).matcher(input);
         if (m.find()) {
