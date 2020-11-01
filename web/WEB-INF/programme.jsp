@@ -185,13 +185,13 @@
 
             <!-- START: courses -->
 
-            <div class='panel' id='courses' onclick='location.href="#"'>
+            <div class='panel' id='courses'>
 
               <div class='top'>
                 <a class='heading'>Courses</a>
               </div>
 
-              <a class='more'>Click to view more ></a>
+              <a class='more' href='EducationList?type=programme&id=${programme.getProgrammecode()}'>Click to view more ></a>
 
             </div>
 

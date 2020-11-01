@@ -159,7 +159,7 @@
                 <a class='heading'>Programmes</a>
               </div>
 
-              <a class='more'>Click to view more ></a>
+              <a class='more' href='EducationList?type=institution&id=${institution.getInstitutioncode()}'>Click to view more ></a>
 
             </div>
 
