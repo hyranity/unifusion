@@ -3,8 +3,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Programmes</title>
-        <link rel="stylesheet" href="CSS/programmes.css">
+        <title>UniFusion :: Courses</title>
+        <link rel="stylesheet" href="CSS/courses.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     
@@ -23,7 +23,7 @@
           <div id='info'>
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
-              <a id='subheading'>C001 - Programme Name (Programme)</a>
+              <a id='subheading'>P001 - Programme Name (Programme)</a>
               <a id='heading'>Courses</a>
             </div>
           </div>
@@ -40,39 +40,37 @@
         </div>
 
         <div id='list'>
+            
+          ${output}
 
-          <!-- sample programme 1 -->
+          <!--
 
-          <div class='programme'>
+          <div class='course'>
             <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='text'>
-              <a class='id'>P001</a>
-              <a class='title'>Programme One</a>
+              <a class='id'>C001</a>
+              <a class='title'>Course One</a>
               <a class='desc'>Lorem ipsum</a>
             </div>
           </div>
 
-          <!-- sample programme 2 -->
-
-          <div class='programme'>
+          <div class='course'>
             <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='text'>
-              <a class='id'>P002</a>
-              <a class='title'>Programme Two</a>
+              <a class='id'>C002</a>
+              <a class='title'>Course Two</a>
               <a class='desc'>Lorem ipsum</a>
             </div>
           </div>
 
-          <!-- sample programme 3 -->
-
-          <div class='programme'>
+          <div class='course'>
             <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='text'>
-              <a class='id'>P003</a>
-              <a class='title'>Programme Three</a>
+              <a class='id'>C003</a>
+              <a class='title'>Course Three</a>
               <a class='desc'>Lorem ipsum</a>
             </div>
-          </div>
+          </div>-->
 
         </div>
 
@@ -86,12 +84,12 @@
       var query = document.getElementById("searchTextbox").value;
       var attribute = document.getElementById("searchAttribute").value;
 
-      var programmes = document.getElementsByClassName('programme');
+      var courses = document.getElementsByClassName('course');
 
-      for (var i = 0; i < programmes.length; i++) {
+      for (var i = 0; i < courses.length; i++) {
 
-        var id = programmes[i].children[1].children[0].textContent;
-        var name = programmes[i].children[1].children[1].textContent;
+        var id = courses[i].children[1].children[0].textContent;
+        var name = courses[i].children[1].children[1].textContent;
         var data = "";
         
         if (attribute === "id") {
@@ -103,9 +101,9 @@
         }
 
         if (data.toLowerCase().includes(query.toLowerCase())) {
-            programmes[i].style.display = "flex";
+            courses[i].style.display = "flex";
         } else {
-            programmes[i].style.display = "none";
+            courses[i].style.display = "none";
         }
 
       }

@@ -3,8 +3,8 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Courses</title>
-        <link rel="stylesheet" href="CSS/courses.css">
+        <title>UniFusion :: Classes</title>
+        <link rel="stylesheet" href="CSS/classes.css">
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     
@@ -23,8 +23,8 @@
           <div id='info'>
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
-              <a id='subheading'>C001 - Programme Name (Programme)</a>
-              <a id='heading'>Courses</a>
+              <a id='subheading'>C001 - Course Name (Course)</a>
+              <a id='heading'>Classes</a>
             </div>
           </div>
         </div>
@@ -40,39 +40,36 @@
         </div>
 
         <div id='list'>
+            
+            ${output}
 
-          <!-- sample course 1 -->
-
-          <div class='course'>
+          <!--<div class='class'>
             <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='text'>
               <a class='id'>C001</a>
-              <a class='title'>Course One</a>
+              <a class='title'>Class One</a>
               <a class='desc'>Lorem ipsum</a>
             </div>
           </div>
 
-          <!-- sample course 2 -->
-
-          <div class='course'>
+          <div class='class'>
             <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='text'>
               <a class='id'>C002</a>
-              <a class='title'>Course Two</a>
+              <a class='title'>Class Two</a>
               <a class='desc'>Lorem ipsum</a>
             </div>
           </div>
 
-          <!-- sample course 3 -->
 
-          <div class='course'>
+          <div class='class'>
             <img class='tutorIcon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div class='text'>
               <a class='id'>C003</a>
-              <a class='title'>Course Three</a>
+              <a class='title'>Class Three</a>
               <a class='desc'>Lorem ipsum</a>
             </div>
-          </div>
+          </div>-->
 
         </div>
 
@@ -86,12 +83,12 @@
       var query = document.getElementById("searchTextbox").value;
       var attribute = document.getElementById("searchAttribute").value;
 
-      var courses = document.getElementsByClassName('course');
+      var classes = document.getElementsByClassName('class');
 
-      for (var i = 0; i < courses.length; i++) {
+      for (var i = 0; i < classes.length; i++) {
 
-        var id = courses[i].children[1].children[0].textContent;
-        var name = courses[i].children[1].children[1].textContent;
+        var id = classes[i].children[1].children[0].textContent;
+        var name = classes[i].children[1].children[1].textContent;
         var data = "";
         
         if (attribute === "id") {
@@ -103,9 +100,9 @@
         }
 
         if (data.toLowerCase().includes(query.toLowerCase())) {
-            courses[i].style.display = "flex";
+            classes[i].style.display = "flex";
         } else {
-            courses[i].style.display = "none";
+            classes[i].style.display = "none";
         }
 
       }

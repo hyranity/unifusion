@@ -41,12 +41,12 @@ public class Courses extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-         // Declare variables
+        // Declare variables
         Servlet servlet = new Servlet(request, response);
         DB db = new DB(em, utx);
         
         // Get currentUser
-            Users currentUser = Server.getUser(request, response);
+        Users currentUser = Server.getUser(request, response);
 
         // Get course data
         String courseCode = servlet.getQueryStr("id");
