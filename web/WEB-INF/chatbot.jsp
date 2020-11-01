@@ -18,12 +18,32 @@
                 <a href='#' class='link'>Dashboard</a>
                 <a href='#' class='link'>Account</a>
             </div>
+            
+            <div id='top'>
+              <img id='bot' src='https://www.flaticon.com/svg/static/icons/svg/3398/3398640.svg'>
+              <div id='text'>
+                <a id='name'>EUGEO</a>
+                <a id='desc'>A somewhat intelligent being..</a>
+              </div>
+            </div>
 
             <input class='textbox' type='text' name='query' placeholder='Ask me anything!' value="${query}">
+            <a id='textboxLabel'>Click ENTER to search!</a>
 
             <div id='results'>
 
                 ${result}
+                
+                <!-- stat -->
+                <div class='result stat'>
+                  <div class='top'>
+                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/423/423786.svg'>
+                    <div class='text'>
+                      <a class='stat'>2 Classes</a>
+                      <a class='desc'>In TARUCKL</a>
+                    </div>
+                  </div>
+                </div>
                 
                 <!-- create a class with id abc123 and name testing -->
                 <!--<div class='result action'>
@@ -68,5 +88,81 @@
             </div>
         </form>
     </body>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+      $("#top").hover(function(){
+
+        $(this).css({
+          "opacity": "1"
+        });
+
+        $("#top #bot").css({
+          "height": "350px"
+        });
+
+        $("#top #name").css({
+          "font-size": "90px"
+        });
+
+        var descs = [
+          "A somewhat intelligent being...",
+          "Critics say he isn't truly intelligent...",
+          "He'll answer anything! Really!",
+          "Operates 24/7. What a hard worker!",
+          "Planning to take over the world..",
+          "That smiles never fades...",
+          "Eugeo loves job. He loves it. He really does-",
+          "'Sword Art Online? What's that?' Eugeo says.",
+          "Aspires to be among the ranks of Siri and Deep Blue.",
+          "Eugeo is currently pursuing a PhD in Chatbology. Hard worker!",
+          "Don't ask about his neck, he's a little touchy about that..."
+        ];
+        var randy = Math.floor(Math.random()*descs.length);
+
+        $("#top #desc").text(descs[randy]);
+
+        $("#top #desc").css({
+          "font-size": "20px",
+          "margin-top": "-25px"
+        });
+
+      },function() {
+
+        $(this).css({
+          "opacity": "0.9"
+        });
+
+        $("#top #bot").css({
+          "height": "400px"
+        });
+
+        $("#top #name").css({
+          "font-size": "0px"
+        });
+
+        var descs = [
+          "A somewhat intelligent being...",
+          "Critics say he isn't truly intelligent...",
+          "He'll answer anything! Really!",
+          "Operates 24/7. What a hard worker!",
+          "Planning to take over the world..",
+          "That smiles never fades...",
+          "Eugeo loves job. He loves it. He really does-",
+          "'Sword Art Online? What's that?' Eugeo says.",
+          "Aspires to be among the ranks of Siri and Deep Blue.",
+          "Eugeo is currently pursuing a PhD in Chatbology. Hard worker!",
+          "Don't ask about his neck, he's a little touchy about that..."
+        ];
+        var randy = Math.floor(Math.random()*descs.length);
+
+        $("#top #desc").css({
+          "font-size": "0px",
+          "margin-top": "0px"
+        });
+
+      });
+    </script>
 
 </html>
