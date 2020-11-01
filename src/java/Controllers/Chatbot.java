@@ -75,7 +75,7 @@ public class Chatbot extends HttpServlet {
             input = input.replaceAll("\"", "\'");
             input(input);
             servlet.putInJsp("query", input);
-            servlet.servletToJsp("chatbot.jsp#results");
+            servlet.servletToJsp("chatbot.jsp?refresh=true");
             return;
         }
 
