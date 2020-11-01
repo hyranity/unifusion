@@ -59,9 +59,9 @@ public class Chatbot extends HttpServlet {
 
         servlet = new Util.Servlet(request, response);
         user = Server.getUser(request, response);
-        
+
         // Redirect guests
-        if(user == null){
+        if (user == null) {
             servlet.toServlet("Login");
             return;
         }
@@ -84,6 +84,41 @@ public class Chatbot extends HttpServlet {
         // Redirect
         servlet.servletToJsp("chatbot.jsp");
 
+    }
+
+    // Showing stats that can be added to other info
+    public String addStats(String heading, String subheading) {
+        String output = "<div class='result stat'>\n"
+                + "                  <div class='top'>\n"
+                + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/423/423786.svg'>\n"
+                + "                    <div class='text'>\n"
+                + "                      <a class='stat'>"+heading+"</a>\n"
+                + "                      <a class='desc'>"+subheading+"</a>\n"
+                + "                    </div>\n"
+                + "                  </div>\n"
+                + "                </div>";
+        
+        return output;
+    }
+    
+    // Showing stats only
+    public void replyStats(String heading, String subheading) {
+        String output = "<div class='result stat'>\n"
+                + "                  <div class='top'>\n"
+                + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/423/423786.svg'>\n"
+                + "                    <div class='text'>\n"
+                + "                      <a class='stat'>"+heading+"</a>\n"
+                + "                      <a class='desc'>"+subheading+"</a>\n"
+                + "                    </div>\n"
+                + "                  </div>\n"
+                + "                </div>";
+        
+        servlet.putInJsp("results",output);
+    }
+    
+    // Get today's classes
+    public void getTodayClasses(){
+        
     }
 
     // Get all classes with FROM
