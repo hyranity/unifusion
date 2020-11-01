@@ -92,33 +92,33 @@ public class Chatbot extends HttpServlet {
                 + "                  <div class='top'>\n"
                 + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/423/423786.svg'>\n"
                 + "                    <div class='text'>\n"
-                + "                      <a class='stat'>"+heading+"</a>\n"
-                + "                      <a class='desc'>"+subheading+"</a>\n"
+                + "                      <a class='stat'>" + heading + "</a>\n"
+                + "                      <a class='desc'>" + subheading + "</a>\n"
                 + "                    </div>\n"
                 + "                  </div>\n"
                 + "                </div>";
-        
+
         return output;
     }
-    
+
     // Showing stats only
     public void replyStats(String heading, String subheading) {
         String output = "<div class='result stat'>\n"
                 + "                  <div class='top'>\n"
                 + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/423/423786.svg'>\n"
                 + "                    <div class='text'>\n"
-                + "                      <a class='stat'>"+heading+"</a>\n"
-                + "                      <a class='desc'>"+subheading+"</a>\n"
+                + "                      <a class='stat'>" + heading + "</a>\n"
+                + "                      <a class='desc'>" + subheading + "</a>\n"
                 + "                    </div>\n"
                 + "                  </div>\n"
                 + "                </div>";
-        
-        servlet.putInJsp("results",output);
+
+        servlet.putInJsp("result", output);
     }
-    
+
     // Get today's classes
-    public void getTodayClasses(){
-        
+    public void getTodayClasses() {
+
     }
 
     // Get all classes with FROM
@@ -814,7 +814,14 @@ public class Chatbot extends HttpServlet {
             }
         } // What time is it
         else if (input.matches("what (time|is the time|time is it)")) {
+            DateTimeFormatter timeFmt = DateTimeFormat.forPattern("'It is currently' h:mm a'");
+            DateTimeFormatter dateFmt = DateTimeFormat.forPattern("MMM d', ' YYYY ");
+            String time = new DateTime().toString(timeFmt);
+            String date = new DateTime().toString(dateFmt);
             System.out.println("It is currently " + new Date());
+            replyStats(time, date);
+            return;
+            
         } else {
             System.out.println("That is indeed a good question");
         }

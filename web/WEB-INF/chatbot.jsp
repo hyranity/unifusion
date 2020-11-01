@@ -35,7 +35,7 @@
                 ${result}
                 
                 <!-- stat -->
-                <div class='result stat'>
+<!--                <div class='result stat'>
                   <div class='top'>
                     <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/423/423786.svg'>
                     <div class='text'>
@@ -43,7 +43,7 @@
                       <a class='desc'>In TARUCKL</a>
                     </div>
                   </div>
-                </div>
+                </div>-->
                 
                 <!-- create a class with id abc123 and name testing -->
                 <!--<div class='result action'>
