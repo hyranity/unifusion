@@ -47,7 +47,7 @@ public class Chatbot extends HttpServlet {
     String create = "(create|make|new|develop)( a| an)? ";
     String createEducation = create + "(class|course|institution|programme).*";
     String createClassObjects = create + "(announcement|session|assignment).*";
-    
+
     // Today
     String today = new DateTime().toString(DateTimeFormat.forPattern("MMM d', ' YYYY "));
 
@@ -88,35 +88,92 @@ public class Chatbot extends HttpServlet {
         servlet.servletToJsp("chatbot.jsp");
 
     }
-    
+
     // Show top 3 announcements
-    public String showAnnouncements(String from){
+    public String showAnnouncements(String from) {
+        String output = "";
+
+        // Get
+        List<Models.Announcement> fromInstitution = em.createNativeQuery("select a.* from announcement a, institution i, institutionparticipant ipa, participant p where a.institutioncode = ? and i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
+        List<Models.Announcement> fromProgramme = em.createNativeQuery("select a.* from announcement a, programme pg, programmeparticipant ppa, participant p where a.programmecode = ? and a.programmecode = pg.programmecode and pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
+        List<Models.Announcement> fromCourse = em.createNativeQuery("select a.* from announcement a, course c, courseparticipant cpa, participant p where a.coursecode = ? and a.coursecode = c.coursecode and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
+        List<Models.Announcement> fromClass = em.createNativeQuery("select a.* from announcement a, class c, classparticipant cpa, participant p where a.classid = ? and a.classid = c.classid and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
+
+      return displayAnnouncements(fromInstitution, fromProgramme, fromCourse, fromClass);
+    }
+    
+    
+    public String displayAnnouncements(List<Models.Announcement> fromInstitution, List<Models.Announcement> fromProgramme, List<Models.Announcement> fromCourse, List<Models.Announcement> fromClass){
         String output = "";
         
-        // Get
-        List<Models.Announcement> fromInstitution = em.createNativeQuery("select * from announcement where institutioncode = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
-        List<Models.Announcement> fromProgramme = em.createNativeQuery("select * from announcement where programmecode = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
-        List<Models.Announcement> fromCourse = em.createNativeQuery("select * from announcement where coursecode = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
-        List<Models.Announcement> fromClass = em.createNativeQuery("select * from announcement where classid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
-        
-        // Display in categories
-        if(fromInstitution.size() > 0){
+         // Display in categories
+        if (fromInstitution.size() > 0) {
             output += addChat("Institution announcements");
-            
-            for(Models.Announcement announcement : fromInstitution){
-                output += "<div class='result display'  onclick=\"window.location.href='AnnouncementDetails?id=" + announcement.getClassid().getClassid() + "&code=" + announcement.getAnnouncementid() + "&type=class'\">\n"
-                    + "                  <div class='top'>\n"
-                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
-                    + "                    <div class='text'>\n"
-                    + "                      <a class='type'>ANNOUNCEMENT</a>\n"
-                    + "                      <a class='name'>" + announcement.getTitle()+ "</a>\n"
-                    + "                      <a class='subname'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
-                    + "                    </div>\n"
-                    + "                  </div>\n"
-                    + "                </div>";
+
+            for (Models.Announcement announcement : fromInstitution) {
+                output += "<div class='result display'  onclick=\"window.location.href='AnnouncementDetails?id=" + announcement.getInstitutioncode().getInstitutioncode() + "&code=" + announcement.getAnnouncementid() + "&type=institution'\">\n"
+                        + "                  <div class='top'>\n"
+                        + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                        + "                    <div class='text'>\n"
+                        + "                      <a class='type'>" + announcement.getInstitutioncode().getName() + "</a>\n"
+                        + "                      <a class='name'>" + announcement.getTitle() + "</a>\n"
+                        + "                      <a class='subname'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
+                        + "                    </div>\n"
+                        + "                  </div>\n"
+                        + "                </div>";
             }
         }
-        
+        if (fromProgramme.size() > 0) {
+            output += addChat("Programme announcements");
+
+            for (Models.Announcement announcement : fromProgramme) {
+                output += "<div class='result display'  onclick=\"window.location.href='AnnouncementDetails?id=" + announcement.getProgrammecode().getProgrammecode() + "&code=" + announcement.getAnnouncementid() + "&type=programme'\">\n"
+                        + "                  <div class='top'>\n"
+                        + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                        + "                    <div class='text'>\n"
+                        + "                      <a class='type'>" + announcement.getProgrammecode().getTitle() + "</a>\n"
+                        + "                      <a class='name'>" + announcement.getTitle() + "</a>\n"
+                        + "                      <a class='subname'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
+                        + "                    </div>\n"
+                        + "                  </div>\n"
+                        + "                </div>";
+            }
+        }
+        if (fromCourse.size() > 0) {
+            output += addChat("Course announcements");
+
+            for (Models.Announcement announcement : fromCourse) {
+                output += "<div class='result display'  onclick=\"window.location.href='AnnouncementDetails?id=" + announcement.getCoursecode().getCoursecode() + "&code=" + announcement.getAnnouncementid() + "&type=course'\">\n"
+                        + "                  <div class='top'>\n"
+                        + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                        + "                    <div class='text'>\n"
+                        + "                      <a class='type'>" + announcement.getCoursecode().getTitle() + "</a>\n"
+                        + "                      <a class='name'>" + announcement.getTitle() + "</a>\n"
+                        + "                      <a class='subname'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
+                        + "                    </div>\n"
+                        + "                  </div>\n"
+                        + "                </div>";
+            }
+        }
+        if (fromClass.size() > 0) {
+            output += addChat("Class announcements");
+
+            for (Models.Announcement announcement : fromClass) {
+                output += "<div class='result display'  onclick=\"window.location.href='AnnouncementDetails?id=" + announcement.getClassid().getClassid() + "&code=" + announcement.getAnnouncementid() + "&type=class'\">\n"
+                        + "                  <div class='top'>\n"
+                        + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                        + "                    <div class='text'>\n"
+                        + "                      <a class='type'>" + announcement.getClassid().getClasstitle() + "</a>\n"
+                        + "                      <a class='name'>" + announcement.getTitle() + "</a>\n"
+                        + "                      <a class='subname'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
+                        + "                    </div>\n"
+                        + "                  </div>\n"
+                        + "                </div>";
+            }
+        }
+
+        servlet.putInJsp("result", output);
+
         return output;
     }
 
@@ -151,7 +208,7 @@ public class Chatbot extends HttpServlet {
     }
 
     // Get today's classes
-    public List<Models.Session>  getTodayClasses() {
+    public List<Models.Session> getTodayClasses() {
         // Get all class sessions
         List<Models.Session> sessions = em.createNativeQuery("select s.* from session s, classparticipant cpa, participant p where s.classid = cpa.classid  and cpa.participantid = p.participantid and p.userid = ? and current_date = date(s.starttime)", Models.Session.class).setParameter(1, user.getUserid()).getResultList();
 
@@ -212,7 +269,7 @@ public class Chatbot extends HttpServlet {
     }
 
     // Get all classes with FROM
-    public List<Models.Class>  showClasses(String from) {
+    public List<Models.Class> showClasses(String from) {
         // Get from all levels
         List<Models.Class> fromInstitution = em.createNativeQuery("select c.* from class c, course cr, programme pg, institution i, institutionparticipant ipa, participant p where c.coursecode = cr.coursecode and cr.programmecode = pg.programmecode and pg.institutioncode = i.institutioncode and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and i.institutioncode = ?", Models.Class.class).setParameter(1, user.getUserid()).setParameter(2, from).getResultList();
         List<Models.Class> fromProgramme = em.createNativeQuery("select c.* from class c, course cr, programme pg,programmeparticipant ppa, participant p where c.coursecode = cr.coursecode and cr.programmecode = pg.programmecode and ppa.programmecode = pg.programmecode and ppa.participantid = p.participantid and p.userid = ? and pg.programmecode = ?", Models.Class.class).setParameter(1, user.getUserid()).setParameter(2, from).getResultList();
@@ -243,12 +300,12 @@ public class Chatbot extends HttpServlet {
         }
 
         servlet.putInJsp("result", output);
-        
+
         return results;
     }
 
     // Get all classes without FROM
-    public List<Models.Class>  showClasses() {
+    public List<Models.Class> showClasses() {
         // Get from all levels
         List<Models.Class> results = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, user.getUserid()).getResultList();
 
@@ -304,12 +361,12 @@ public class Chatbot extends HttpServlet {
         }
 
         servlet.putInJsp("result", output);
-        
+
         return results;
     }
 
     // Get all courses without FROM
-    public List<Models.Course>  showCourses() {
+    public List<Models.Course> showCourses() {
         List<Models.Course> results = em.createNativeQuery("select cr.* from course cr, courseparticipant cpa, participant p where cr.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ?", Models.Course.class).setParameter(1, user.getUserid()).getResultList();
 
         // Display the output
@@ -335,7 +392,7 @@ public class Chatbot extends HttpServlet {
     }
 
     // Get all programmes with FROM
-    public List<Models.Programme>  showProgrammes(String from) {
+    public List<Models.Programme> showProgrammes(String from) {
         // Get from all levels
         List<Models.Programme> results = em.createNativeQuery("select pg.* from programme pg, institution i, institutionparticipant ipa, participant p where pg.institutioncode = i.institutioncode and ipa.institutioncode = i.institutioncode and ipa.participantid = p.participantid and p.userid = ? and i.institutioncode = ?", Models.Programme.class).setParameter(1, user.getUserid()).setParameter(2, from).getResultList();
 
@@ -362,7 +419,7 @@ public class Chatbot extends HttpServlet {
     }
 
     // Get all programmes  without FROM
-    public List<Models.Programme>  showProgrammes() {
+    public List<Models.Programme> showProgrammes() {
         List<Models.Programme> results = em.createNativeQuery("select pg.* from programme pg, programmeparticipant ppa, participant p where pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and p.userid = ?", Models.Programme.class).setParameter(1, user.getUserid()).getResultList();
 
         // Display the output
@@ -388,7 +445,7 @@ public class Chatbot extends HttpServlet {
     }
 
     // Get all institutions
-    public List<Models.Institution>  showInstitutions() {
+    public List<Models.Institution> showInstitutions() {
         List<Models.Institution> results = em.createNativeQuery("select i.* from institution i, institutionparticipant ipa, participant p where i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.userid = ?", Models.Institution.class).setParameter(1, user.getUserid()).getResultList();
 
         // Display the output
@@ -899,19 +956,19 @@ public class Chatbot extends HttpServlet {
             if (input.matches(".*(classes).*")) {
                 if (input.matches(".*today.*")) {
                     List<Models.Session> output = getTodayClasses();
-                    replyStats("<span>" +output.size() + "</span> classes", today);
+                    replyStats("<span>" + output.size() + "</span> classes", today);
                 } else {
                     showClasses();
                 }
             } else if (input.matches(".*(courses).*")) {
                 List<Models.Course> output = showCourses();
-                replyStats("<span>" +output.size() + "</span> courses", "That you are participating");
+                replyStats("<span>" + output.size() + "</span> courses", "That you are participating");
             } else if (input.matches(".*(programmes).*")) {
                 List<Models.Programme> output = showProgrammes();
-                replyStats("<span>" +output.size() + "</span> programmes", "That you are involved in");
+                replyStats("<span>" + output.size() + "</span> programmes", "That you are involved in");
             } else if (input.matches(".*(institutions).*")) {
                 List<Models.Institution> output = showInstitutions();
-                replyStats("<span>" +output.size() + "</span> institutions", "That you are a student of");
+                replyStats("<span>" + output.size() + "</span> institutions", "That you are a student of");
             } else {
                 System.out.println("That is indeed a good question");
             }
@@ -934,14 +991,26 @@ public class Chatbot extends HttpServlet {
     public void retrieve(String input) {
 
         // If retrieve all
-        if (input.matches(retrieveCommand + " (classes|courses|programmes|institutions).*")) {
+        if (input.matches(retrieveCommand + " (classes|courses|programmes|institutions|announcements|announcement).*")) {
+
+            // if classes
+            if (input.matches(".*(announcements|announcement).*")) {
+
+                // If a "from" is provided
+                if (input.matches(".*(from|in).*")) {
+                    String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
+                    showAnnouncements(from);
+                    return;
+                }
+
+            }
 
             // if classes
             if (input.matches(".*(classes).*")) {
                 System.out.println(input);
-                
+
                 // If classes today
-                if (input.matches(".*(today).*")){
+                if (input.matches(".*(today).*")) {
                     getTodayClasses();
                     return;
                 }
