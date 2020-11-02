@@ -124,7 +124,7 @@ public class Class extends HttpServlet {
             // Get  announcement count
             Query todayAnnouncements = em.createNativeQuery("select count(*) from announcement where classid = ? and current_date = date(dateannounced)").setParameter(1, classroom.getClassid());
             
-               // Get  announcement count
+               // Get  session count
             Query todaySessions = em.createNativeQuery("select count(*) from session where classid = ? and current_date = date(starttime)").setParameter(1, classroom.getClassid());
 
             // Put data in JSP

@@ -298,6 +298,12 @@ a {
   margin-left: 20px;
   max-width: 420px;
 }
+
+#container #results .stat span {
+  font-size: 50px;
+  margin: 5px;
+}
+
 #container #results .stat .top {
   display: flex;
   flex-direction: row;
