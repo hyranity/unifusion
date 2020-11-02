@@ -88,6 +88,37 @@ public class Chatbot extends HttpServlet {
         servlet.servletToJsp("chatbot.jsp");
 
     }
+    
+    // Show top 3 announcements
+    public String showAnnouncements(String from){
+        String output = "";
+        
+        // Get
+        List<Models.Announcement> fromInstitution = em.createNativeQuery("select * from announcement where institutioncode = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
+        List<Models.Announcement> fromProgramme = em.createNativeQuery("select * from announcement where programmecode = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
+        List<Models.Announcement> fromCourse = em.createNativeQuery("select * from announcement where coursecode = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
+        List<Models.Announcement> fromClass = em.createNativeQuery("select * from announcement where classid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).getResultList();
+        
+        // Display in categories
+        if(fromInstitution.size() > 0){
+            output += addChat("Institution announcements");
+            
+            for(Models.Announcement announcement : fromInstitution){
+                output += "<div class='result display'  onclick=\"window.location.href='AnnouncementDetails?id=" + announcement.getClassid().getClassid() + "&code=" + announcement.getAnnouncementid() + "&type=class'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>ANNOUNCEMENT</a>\n"
+                    + "                      <a class='name'>" + announcement.getTitle()+ "</a>\n"
+                    + "                      <a class='subname'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+            }
+        }
+        
+        return output;
+    }
 
     // Showing stats that can be added to other info
     public String addStats(String heading, String subheading) {
@@ -987,7 +1018,7 @@ public class Chatbot extends HttpServlet {
                 replyChat("Sorry, please specify what you want to find");
             }
         } else {
-            System.out.println("error");
+            replyChat("Sorry, I don't understand.");
         }
     }
 
