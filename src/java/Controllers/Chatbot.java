@@ -82,11 +82,72 @@ public class Chatbot extends HttpServlet {
             return;
         }
 
-        String output = addChat("Hey there! I'm your virtual secretary.");
+        // If no query
+        if (input == null || input == "") {
+            doBriefing();
+        }
 
         // Redirect
         servlet.servletToJsp("chatbot.jsp");
 
+    }
+    
+    // Daily briefing
+     // Get today's classes
+    public void doBriefing() {
+        // Get all class sessions
+        List<Models.Session> sessions = em.createNativeQuery("select s.* from session s, classparticipant cpa, participant p where s.classid = cpa.classid  and cpa.participantid = p.participantid and p.userid = ? and current_date = date(s.starttime)", Models.Session.class).setParameter(1, user.getUserid()).getResultList();
+
+        // If no data
+        if (sessions.isEmpty()) {
+            replyChat("It seems that you're free today!");
+        }
+
+        // To format dates
+        DateTimeFormatter timeFmt = DateTimeFormat.forPattern("h:mm a'");
+        DateTimeFormatter dateFmt = DateTimeFormat.forPattern("MMM d', ' YYYY");
+        
+        String output = addStats(new DateTime().toString(dateFmt), "Currently " + new DateTime().toString(timeFmt));
+
+         output += addChat("Hey there! You have " + sessions.size() + " classes today");
+
+        // For each session
+        for (Models.Session session : sessions) {
+
+            Models.Class classroom = session.getClassid();
+
+            String startTime = new DateTime(session.getStarttime()).toString(timeFmt);
+            String endTime = new DateTime(session.getEndtime()).toString(timeFmt);
+
+            String status = "";
+            // If already started
+            if (new DateTime().isAfter(new DateTime(session.getStarttime()))) {
+
+                // If already ended
+                if (new DateTime().isAfter(new DateTime(session.getEndtime()))) {
+                    status = "PAST";
+                } // Havent ended
+                else {
+                    status = "ONGOING";
+                }
+            } // Havent started
+            else {
+                status = "UPCOMING";
+            }
+
+            output += "<div class='result display'  onclick=\"window.location.href='SessionDetails?id=" + classroom.getClassid() + "&code=" + session.getSessionid() + "'\">\n"
+                    + "                  <div class='top'>\n"
+                    + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
+                    + "                    <div class='text'>\n"
+                    + "                      <a class='type'>" + status + "</a>\n"
+                    + "                      <a class='name'>" + classroom.getClasstitle() + "</a>\n"
+                    + "                      <a class='subname'>" + startTime + " - " + endTime + "</a>\n"
+                    + "                    </div>\n"
+                    + "                  </div>\n"
+                    + "                </div>";
+        }
+
+        servlet.putInJsp("result", output);
     }
 
     // Show top 3 announcements
@@ -99,10 +160,10 @@ public class Chatbot extends HttpServlet {
         List<Models.Announcement> fromCourse = em.createNativeQuery("select a.* from announcement a, course c, courseparticipant cpa, participant p where a.coursecode = ? and a.coursecode = c.coursecode and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
         List<Models.Announcement> fromClass = em.createNativeQuery("select a.* from announcement a, class c, classparticipant cpa, participant p where a.classid = ? and a.classid = c.classid and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
 
-      return displayAnnouncements(fromInstitution, fromProgramme, fromCourse, fromClass);
+        return displayAnnouncements(fromInstitution, fromProgramme, fromCourse, fromClass);
     }
-    
-     // Show top 3 announcements
+
+    // Show top 3 announcements
     public String showAnnouncements() {
         String output = "";
 
@@ -112,14 +173,13 @@ public class Chatbot extends HttpServlet {
         List<Models.Announcement> fromCourse = em.createNativeQuery("select a.* from announcement a, course c, courseparticipant cpa, participant p where a.coursecode = c.coursecode and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, user.getUserid()).getResultList();
         List<Models.Announcement> fromClass = em.createNativeQuery("select a.* from announcement a, class c, classparticipant cpa, participant p where a.classid = c.classid and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, user.getUserid()).getResultList();
 
-      return displayAnnouncements(fromInstitution, fromProgramme, fromCourse, fromClass);
+        return displayAnnouncements(fromInstitution, fromProgramme, fromCourse, fromClass);
     }
-    
-    
-    public String displayAnnouncements(List<Models.Announcement> fromInstitution, List<Models.Announcement> fromProgramme, List<Models.Announcement> fromCourse, List<Models.Announcement> fromClass){
+
+    public String displayAnnouncements(List<Models.Announcement> fromInstitution, List<Models.Announcement> fromProgramme, List<Models.Announcement> fromCourse, List<Models.Announcement> fromClass) {
         String output = "";
-        
-         // Display in categories
+
+        // Display in categories
         if (fromInstitution.size() > 0) {
             output += addChat("Institution announcements");
 
@@ -183,6 +243,12 @@ public class Chatbot extends HttpServlet {
                         + "                  </div>\n"
                         + "                </div>";
             }
+        }
+
+        // If no results
+        if (output == "") {
+            replyChat("Sorry, no announcements could be found");
+            return "";
         }
 
         servlet.putInJsp("result", output);
@@ -812,7 +878,32 @@ public class Chatbot extends HttpServlet {
 
             if (input.matches(".*(announcement).*")) {
                 System.out.println("Create an announcement for " + target);
-            } else if (input.matches(".*(session).*")) {
+            } else if (input.matches(".*(session).*(today)")) {
+                System.out.println("Create a session for " + target);
+
+                // Get today's date
+                input = input.trim();
+                String date = "";
+                boolean processDate = true;
+                try {
+                    // Convert date to a string that can be read by <input> tags
+                    DateTimeFormatter dateFmt = DateTimeFormat.forPattern("YYYY-MM-dd");
+                    date = new DateTime().toString(dateFmt);
+                } catch (Exception e) {
+                    System.out.println("Invalid date");
+                    processDate = false;
+                }
+
+                if (processDate) {
+                    addCreateSession(target, date, null);
+                } else {
+                    // No date
+                    addCreateSession(target, null, null);
+                }
+
+                // Get optional time (must be a range)
+                // if(input.matches(".*(between|from) (.*) (and|to|until) (.*)"))
+            }  else if (input.matches(".*(session).*")) {
                 System.out.println("Create a session for " + target);
 
                 // Get optional date
@@ -821,7 +912,6 @@ public class Chatbot extends HttpServlet {
                 dateInput = dateInput != null ? dateInput.trim() : "";
                 String date = "";
                 boolean processDate = true;
-                System.out.println(dateInput + "LOL");
                 try {
                     // Convert date to a string that can be read by <input> tags
                     DateTimeFormatter dateFmt = DateTimeFormat.forPattern("YYYY-MM-dd");
@@ -837,9 +927,6 @@ public class Chatbot extends HttpServlet {
                     // No date
                     addCreateSession(target, null, null);
                 }
-
-                // Get optional time (must be a range)
-                // if(input.matches(".*(between|from) (.*) (and|to|until) (.*)"))
             } else if (input.matches(".*(assignment).*")) {
 
                 // Detect ID and name
@@ -1014,8 +1101,8 @@ public class Chatbot extends HttpServlet {
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
                     showAnnouncements(from);
                     return;
-                } else{
-                    
+                } else {
+
                     showAnnouncements();
                 }
 
@@ -1071,7 +1158,8 @@ public class Chatbot extends HttpServlet {
             else if (input.matches(".*(institutions).*")) {
                 showInstitutions();
             } else {
-                System.out.println("error");
+                replyChat("Sorry, I don't understand");
+                return;
             }
         } // If retrieve singular
         else if (input.matches("(show me|give me|display|show|get).*")) {
