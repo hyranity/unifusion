@@ -94,10 +94,23 @@ public class Chatbot extends HttpServlet {
         String output = "";
 
         // Get
-        List<Models.Announcement> fromInstitution = em.createNativeQuery("select a.* from announcement a, institution i, institutionparticipant ipa, participant p where a.institutioncode = ? and i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
+        List<Models.Announcement> fromInstitution = em.createNativeQuery("select a.* from announcement a, institution i, institutionparticipant ipa, participant p where a.institutioncode = ? and a.institutioncode = i.institutioncode and i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
         List<Models.Announcement> fromProgramme = em.createNativeQuery("select a.* from announcement a, programme pg, programmeparticipant ppa, participant p where a.programmecode = ? and a.programmecode = pg.programmecode and pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
         List<Models.Announcement> fromCourse = em.createNativeQuery("select a.* from announcement a, course c, courseparticipant cpa, participant p where a.coursecode = ? and a.coursecode = c.coursecode and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
         List<Models.Announcement> fromClass = em.createNativeQuery("select a.* from announcement a, class c, classparticipant cpa, participant p where a.classid = ? and a.classid = c.classid and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, from).setParameter(2, user.getUserid()).getResultList();
+
+      return displayAnnouncements(fromInstitution, fromProgramme, fromCourse, fromClass);
+    }
+    
+     // Show top 3 announcements
+    public String showAnnouncements() {
+        String output = "";
+
+        // Get
+        List<Models.Announcement> fromInstitution = em.createNativeQuery("select a.* from announcement a, institution i, institutionparticipant ipa, participant p where a.institutioncode = i.institutioncode and  i.institutioncode = ipa.institutioncode and ipa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, user.getUserid()).getResultList();
+        List<Models.Announcement> fromProgramme = em.createNativeQuery("select a.* from announcement a, programme pg, programmeparticipant ppa, participant p where a.programmecode = pg.programmecode and pg.programmecode = ppa.programmecode and ppa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, user.getUserid()).getResultList();
+        List<Models.Announcement> fromCourse = em.createNativeQuery("select a.* from announcement a, course c, courseparticipant cpa, participant p where a.coursecode = c.coursecode and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, user.getUserid()).getResultList();
+        List<Models.Announcement> fromClass = em.createNativeQuery("select a.* from announcement a, class c, classparticipant cpa, participant p where a.classid = c.classid and c.classid = cpa.classid and cpa.participantid = p.participantid and p.userid = ? order by dateannounced desc fetch first 3 rows only", Models.Announcement.class).setParameter(1, user.getUserid()).getResultList();
 
       return displayAnnouncements(fromInstitution, fromProgramme, fromCourse, fromClass);
     }
@@ -1001,6 +1014,9 @@ public class Chatbot extends HttpServlet {
                     String from = substr(input, "from (.*)") == "" ? substr(input, "in (.*)") : substr(input, "from (.*)");
                     showAnnouncements(from);
                     return;
+                } else{
+                    
+                    showAnnouncements();
                 }
 
             }
