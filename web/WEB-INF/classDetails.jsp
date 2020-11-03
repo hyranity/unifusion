@@ -16,10 +16,11 @@
         <div id='container'>
 
             <div id='navbar'>
-                <a href='Dashboard' id='back'>&lt; <span>Back</span></a> <!-- note: should redirect to eg. Class?id=C001 -->
+                <a href='Dashboard' id='back'>&lt; <span>Back</span></a>
                 <a href='Home' id='scaffold'>Scaffold</a>
                 <a href='Dashboard' class='link'>Dashboard</a>
                 <a href='AccountDetails' class='link'>Account</a>
+                <a href='Chatbot' class='link'>Chatbot</a>
             </div>
 
             <div id='top'>
