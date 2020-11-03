@@ -39,7 +39,7 @@
             <div class='text'>
               <a class='id'>C001</a>
               <a class='title'>Institution Name</a>
-              <a class='desc'>Insitution</a>
+              <a class='desc'>Institution</a>
             </div>
           </div>
 

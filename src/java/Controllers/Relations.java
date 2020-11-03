@@ -87,7 +87,7 @@ public class Relations extends HttpServlet {
                     "            <div class='text'>\n" +
                     "              <a class='id'>" + institution.getInstitutioncode() + "</a>\n" +
                     "              <a class='title'>" + institution.getName() + "</a>\n" +
-                    "              <a class='desc'>Insitution</a>\n" +
+                    "              <a class='desc'>Institution</a>\n" +
                     "            </div>\n" +
                     "          </div>";
                     
@@ -168,7 +168,7 @@ public class Relations extends HttpServlet {
                     "            <div class='text'>\n" +
                     "              <a class='id'>" + institution.getInstitutioncode() + "</a>\n" +
                     "              <a class='title'>" + institution.getName() + "</a>\n" +
-                    "              <a class='desc'>Insitution</a>\n" +
+                    "              <a class='desc'>Institution</a>\n" +
                     "            </div>\n" +
                     "          </div>";
                     
@@ -238,7 +238,7 @@ public class Relations extends HttpServlet {
                     "            <div class='text'>\n" +
                     "              <a class='id'>" + institution.getInstitutioncode() + "</a>\n" +
                     "              <a class='title'>" + institution.getName() + "</a>\n" +
-                    "              <a class='desc'>Insitution</a>\n" +
+                    "              <a class='desc'>Institution</a>\n" +
                     "            </div>\n" +
                     "          </div>";
                     
@@ -285,7 +285,7 @@ public class Relations extends HttpServlet {
                     "            <div class='text'>\n" +
                     "              <a class='id'>" + institution.getInstitutioncode() + "</a>\n" +
                     "              <a class='title'>" + institution.getName() + "</a>\n" +
-                    "              <a class='desc'>Insitution</a>\n" +
+                    "              <a class='desc'>Institution</a>\n" +
                     "            </div>\n" +
                     "          </div>";
                     
