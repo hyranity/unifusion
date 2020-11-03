@@ -80,8 +80,20 @@ a {
 }
 #container #classes .details .name {
   color: #fae2b8;
-  font-size: 35px;
-  line-height: 35px;
+  font-size: 38px;
+  line-height: 38px;
+}
+#container #classes .programme .details .name {
+  font-size: 32px;
+  line-height: 32px;
+}
+#container #classes .course .details .name {
+  font-size: 26px;
+  line-height: 26px;
+}
+#container #classes .class .details .name {
+  font-size: 22px;
+  line-height: 22px;
 }
 #container #classes .details .description {
   margin-top: 0px;
@@ -94,10 +106,12 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(39, 41, 100, 0.25);
-  padding: 10px;
+  background-color: #343775;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
+  padding: 30px 50px 30px 50px;
   margin: 10px;
-  opacity: 0.4;
+  border-radius: 5px;
+  opacity: 0.8;
   transition: opacity 0.5s;
 }
 #container #classes .institution .institution-details {
@@ -130,6 +144,7 @@ a {
   padding-left: 20px;
   padding-right: 20px;
   background-color: rgba(250, 226, 184, 0.25);
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
   border-radius: 5px;
   margin-top: -20px;
   margin-bottom: 10px;
@@ -152,10 +167,12 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(39, 41, 100, 0.25);
-  padding: 10px;
+  background-color: #343775;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
+  padding: 30px 50px 30px 50px;
   margin: 10px;
-  opacity: 0.4;
+  border-radius: 5px;
+  opacity: 0.8;
   transition: opacity 0.5s;
 }
 #container #classes .programme .programme-details {
@@ -188,6 +205,7 @@ a {
   padding-left: 20px;
   padding-right: 20px;
   background-color: rgba(250, 226, 184, 0.25);
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
   border-radius: 5px;
   margin-top: -20px;
   margin-bottom: 10px;
@@ -210,10 +228,12 @@ a {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: rgba(39, 41, 100, 0.25);
-  padding: 10px;
+  background-color: #343775;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
+  padding: 30px 50px 30px 50px;
   margin: 10px;
-  opacity: 0.4;
+  border-radius: 5px;
+  opacity: 0.8;
   transition: opacity 0.5s;
 }
 #container #classes .course .course-details {
@@ -246,6 +266,7 @@ a {
   padding-left: 20px;
   padding-right: 20px;
   background-color: rgba(250, 226, 184, 0.25);
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
   border-radius: 5px;
   margin-top: -20px;
   margin-bottom: 10px;
@@ -275,13 +296,12 @@ a {
   align-items: center;
   justify-content: center;
   height: 100px;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding: 20px 30px 20px 30px;
   margin: 10px;
-  background-color: rgba(39, 41, 100, 0.25);
-  opacity: 0.4;
+  background-color: #343775;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.25);
+  border-radius: 5px;
+  opacity: 0.8;
   transition: opacity 0.5s;
 }
 #container #classes .row .class .icon {
@@ -296,4 +316,8 @@ a {
 }
 #container #classes .row #green {
   background-color: rgba(142, 214, 90, 0.25);
+}
+#container #classes .institution .programme,
+#container #classes .institution .programme .course .class {
+  background-color: #424694;
 }
