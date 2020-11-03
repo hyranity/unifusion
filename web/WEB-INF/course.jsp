@@ -116,6 +116,20 @@
               </div>
 
               <!-- END: members -->
+              
+              <!-- START: relations -->
+
+              <div class='panel' onclick='location.href="#"'>
+
+                <div class='top'>
+                 <a class='heading'>Relations</a>
+                </div>
+
+                <a href='Relations?type=course&id=${course.getCoursecode()}' class='more'>Click to view more ></a>
+
+              </div>
+
+              <!-- END: relations -->
 
             </div>
 

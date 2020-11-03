@@ -92,8 +92,8 @@
 
       for (var i = 0; i < announcements.length; i++) {
 
-            var posterName = announcements[i].children[2].children[0].children[0].textContent;
-        var itemName = announcements[i].children[2].children[1].textContent;
+        var itemName = announcements[i].children[2].children[0].children[0].textContent;
+        var posterName = announcements[i].children[2].children[1].textContent;
         var data = "";
 
         if (attribute === "posterName") {

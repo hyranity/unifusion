@@ -142,6 +142,20 @@
                         </div>
 
                         <!-- END: sessions -->
+                        
+                        <!-- START: relations -->
+
+                        <div class='panel' onclick='location.href="#"'>
+
+                          <div class='top'>
+                            <a class='heading'>Relations</a>
+                          </div>
+
+                          <a href='Relations?type=class&id=${classroom.getClassid()}' class='more'>Click to view more ></a>
+
+                        </div>
+
+                        <!-- END: relations -->
 
                     </div>
 

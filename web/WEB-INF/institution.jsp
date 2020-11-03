@@ -110,6 +110,20 @@
               </div>
 
             <!-- END: members -->
+            
+            <!-- START: relations -->
+
+            <div class='panel' onclick='location.href="#"'>
+
+              <div class='top'>
+                <a class='heading'>Relations</a>
+              </div>
+
+              <a href='Relations?type=institution&id=${institution.getInstitutioncode()}' class='more'>Click to view more ></a>
+
+            </div>
+
+            <!-- END: relations -->
 
           </div>
 
@@ -167,7 +181,7 @@
             
             <!-- START: venues -->
 
-            <div class='panel' id='programmes' onclick='location.href="#"'>
+            <div class='panel' onclick='location.href="#"'>
 
               <div class='top'>
                 <a class='heading'>Venues</a>
