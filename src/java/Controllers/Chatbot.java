@@ -1104,6 +1104,7 @@ public class Chatbot extends HttpServlet {
                 } else {
 
                     showAnnouncements();
+                    return;
                 }
 
             }
