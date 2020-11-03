@@ -107,7 +107,8 @@ public class Courses extends HttpServlet {
             int counter = 0;
             for (Models.Announcement announcement : course.getAnnouncementCollection()) {
                 // Get top 3 only
-                if (counter > 2) {
+                counter++;
+                if (counter > 3) {
                     break;
                 }
 

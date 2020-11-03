@@ -454,7 +454,7 @@ public class Chatbot extends HttpServlet {
         output = addChat(results.size() + " courses were found.");
 
         for (Models.Course course : results) {
-            output += "<div class='result display' onclick=\"window.location.href='Class?id=" + course.getCoursecode() + "'\">\n"
+            output += "<div class='result display' onclick=\"window.location.href='Course?id=" + course.getCoursecode() + "'\">\n"
                     + "                  <div class='top'>\n"
                     + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
                     + "                    <div class='text'>\n"

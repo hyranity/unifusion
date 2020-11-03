@@ -104,7 +104,8 @@ public class Programmes extends HttpServlet {
             int counter = 0;
             for (Models.Announcement announcement : programme.getAnnouncementCollection()) {
                 // Get top 3 only
-                if (counter > 2) {
+                counter++;
+                if (counter > 3) {
                     break;
                 }
 
