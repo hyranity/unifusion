@@ -49,6 +49,8 @@ public class AddVenue extends HttpServlet {
         
         // Get query string
         String institutionCode = servlet.getQueryStr("id"); 
+        
+        System.out.println(institutionCode);
 
         Query query;
 

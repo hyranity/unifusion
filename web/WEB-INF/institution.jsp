@@ -173,7 +173,7 @@
                 <a class='heading'>Venues</a>
               </div>
 
-              <a href='#' class='more'>Click to view more ></a>
+              <a href='Venues?id=${institution.getInstitutioncode()}' class='more'>Click to view more ></a>
 
             </div>
 
