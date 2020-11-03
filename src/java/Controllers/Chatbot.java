@@ -454,7 +454,7 @@ public class Chatbot extends HttpServlet {
         output = addChat(results.size() + " courses were found.");
 
         for (Models.Course course : results) {
-            output += "<div class='result display' onclick=\"window.location.href='Class?id=" + course.getCoursecode() + "'\">\n"
+            output += "<div class='result display' onclick=\"window.location.href='Course?id=" + course.getCoursecode() + "'\">\n"
                     + "                  <div class='top'>\n"
                     + "                    <img class='icon' src='https://www.flaticon.com/svg/static/icons/svg/717/717874.svg'>\n"
                     + "                    <div class='text'>\n"
@@ -1104,6 +1104,7 @@ public class Chatbot extends HttpServlet {
                 } else {
 
                     showAnnouncements();
+                    return;
                 }
 
             }
@@ -1165,16 +1166,17 @@ public class Chatbot extends HttpServlet {
         else if (input.matches("(show me|give me|display|show|get).*")) {
             // Get singular target
             String target = substr2(input, "(class|course|programme|institution) (\\S*)");
-
+            
             // If empty, swap position (eg. class LL222 > LL222 class)
-            target = substr(input, "(\\S*) (class|course|programme|institution)");
+            if(target == "")
+                target = substr(input, "(\\S*) (class|course|programme|institution)");
 
             // target cannot be null
             if (target == "") {
                 replyChat("Sorry, I don't understand");
                 return;
             }
-
+            System.out.println(target);
             // if class
             if (input.matches(".*(class).*")) {
                 getSingleClass(target);
