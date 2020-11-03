@@ -1166,16 +1166,17 @@ public class Chatbot extends HttpServlet {
         else if (input.matches("(show me|give me|display|show|get).*")) {
             // Get singular target
             String target = substr2(input, "(class|course|programme|institution) (\\S*)");
-
+            
             // If empty, swap position (eg. class LL222 > LL222 class)
-            target = substr(input, "(\\S*) (class|course|programme|institution)");
+            if(target == "")
+                target = substr(input, "(\\S*) (class|course|programme|institution)");
 
             // target cannot be null
             if (target == "") {
                 replyChat("Sorry, I don't understand");
                 return;
             }
-
+            System.out.println(target);
             // if class
             if (input.matches(".*(class).*")) {
                 getSingleClass(target);
