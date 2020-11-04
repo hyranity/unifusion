@@ -199,7 +199,7 @@
                         
                         <!-- START: classwork -->
 
-                        <div class='panel' id='classwork' onclick='location.href="#"'>
+                        <div class='panel' id='classwork' onclick='location.href="Assignments?id=${classroom.getClassid()}"'>
 
                           <div class='top'>
                             <a class='heading'>Classwork</a>
