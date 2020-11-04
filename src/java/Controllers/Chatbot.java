@@ -1058,7 +1058,8 @@ public class Chatbot extends HttpServlet {
                     List<Models.Session> output = getTodayClasses();
                     replyStats("<span>" + output.size() + "</span> classes", today);
                 } else {
-                    showClasses();
+                   List<Models.Class> output = showClasses();
+                replyStats("<span>" + output.size() + "</span> classes", "That you are in");
                 }
             } else if (input.matches(".*(courses).*")) {
                 List<Models.Course> output = showCourses();
