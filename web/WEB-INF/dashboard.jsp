@@ -35,6 +35,24 @@
                     <a href='DashboardMenu'>Open menu</a> <!-- to change to href='DashboardMenu' -->
                 </div>
             </div>
+            
+            <div id='search'>
+                <select class='dropdown' id='typeAttribute' style='width: 150px;'>
+                    <option value='all'>All</option>
+                    <option value='class'>Class</option>
+                    <option value='course'>Course</option>
+                    <option value='programme'>Programme</option>
+                    <option value='institution'>Institution</option>
+                </select>
+                <select class='dropdown' id='searchAttribute'>
+                    <option value='id'>ID</option>
+                    <option value='name'>Name</option>
+                </select>
+                <a class='dropdownLabel'>Click to view options</a>
+                <input class='textbox' type='text' id='searchTextbox' placeholder='Search...'>
+                <a class='button' id='search-button' onclick='searchList()'>></a>
+                <a class='button' id='refresh-button' href='Dashboard'>Refresh</a>
+            </div>
 
             <!--  To throw away all errors that may have redirected here-->
             <input type="hidden" value="<%out.print(Errors.requestSimple(session));%>"/>
@@ -340,6 +358,8 @@
             </div>
 
         </div>
+                
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
         <script>
             function seeProgrammes(institutionId) {
@@ -378,6 +398,91 @@
                     classes.style.display = "none";
                 }
             }
+
+            function searchList() {
+                $("#search-button").css({
+                   "display": "none" 
+                });
+                
+                $("#refresh-button").css({
+                    "background-color": "rgba(250, 226, 184, 0.5)",
+                    "box-shadow": "0px 0px 50px rgba(250, 226, 184, 0.25)"
+                });
+                
+                var query = document.getElementById("searchTextbox").value.trim();
+                var searchAttribute = document.getElementById("searchAttribute").value;
+                var typeAttribute = document.getElementById("typeAttribute").value;
+                
+                if (query === "" && typeAttribute === "all") {
+                    return;
+                }
+                
+                var classes = document.getElementsByClassName('class');
+                var courses = document.getElementsByClassName('course');
+                var programmes = document.getElementsByClassName('programme');
+                var institutions = document.getElementsByClassName('institution');
+                
+                var panels = [...classes, ...courses, ...programmes, ...institutions];
+                
+                $("#classes").html("");
+
+                for (var i = 0; i < panels.length; i++) {
+                    
+                    var type = panels[i].className;
+                    
+                    var id = "";
+                    var name = "";
+                    var data = "";
+                    
+                    switch(type) {
+                        case "class":
+                            var id = panels[i].children[1].children[0].children[0].textContent;
+                            var name = panels[i].children[1].children[2].textContent;
+                            var data = "";
+                            break;
+                            
+                        case "course":
+                            var id = panels[i].children[0].children[1].children[0].children[0].textContent;
+                            var name = panels[i].children[0].children[1].children[2].textContent;
+                            var data = "";
+                            break;
+                        
+                        case "programme":
+                            var id = panels[i].children[0].children[1].children[0].children[0].textContent;
+                            var name = panels[i].children[0].children[1].children[2].textContent;
+                            var data = "";
+                            break;
+                            
+                        case "institution":
+                            var id = panels[i].children[0].children[1].children[0].children[0].textContent;
+                            var name = panels[i].children[0].children[1].children[2].textContent;
+                            var data = "";
+                            break;
+                    }
+                    
+                    if (typeAttribute === "all" || type.toLowerCase().includes(typeAttribute.toLowerCase())) {
+
+                        if (searchAttribute === "id") {
+                            data = id;
+                        } else if (searchAttribute === "name") {
+                            data = name;
+                        } else {
+                            data = id;
+                        }
+
+                        if (data.toLowerCase().includes(query.toLowerCase())) {
+                            $("#classes").append(panels[i]);
+                        } else {
+                            //panels[i].style.display = "none";
+                        }
+
+                    } else {
+                      //panels[i].style.display = "none";
+                    }
+                }
+
+            }
+            
         </script>
 
     </body>
