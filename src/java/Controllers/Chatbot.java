@@ -96,7 +96,7 @@ public class Chatbot extends HttpServlet {
      // Get today's classes
     public void doBriefing() {
         // Get all class sessions
-        List<Models.Session> sessions = em.createNativeQuery("select s.* from session s, classparticipant cpa, participant p where s.classid = cpa.classid  and cpa.participantid = p.participantid and p.userid = ? and current_date = date(s.starttime)", Models.Session.class).setParameter(1, user.getUserid()).getResultList();
+        List<Models.Session> sessions = em.createNativeQuery("select s.* from session s, classparticipant cpa, participant p where s.classid = cpa.classid  and cpa.participantid = p.participantid and p.userid = ? and current_date = date(s.starttime) order by s.starttime asc", Models.Session.class).setParameter(1, user.getUserid()).getResultList();
 
         // If no data
         if (sessions.isEmpty()) {
@@ -289,7 +289,7 @@ public class Chatbot extends HttpServlet {
     // Get today's classes
     public List<Models.Session> getTodayClasses() {
         // Get all class sessions
-        List<Models.Session> sessions = em.createNativeQuery("select s.* from session s, classparticipant cpa, participant p where s.classid = cpa.classid  and cpa.participantid = p.participantid and p.userid = ? and current_date = date(s.starttime)", Models.Session.class).setParameter(1, user.getUserid()).getResultList();
+        List<Models.Session> sessions = em.createNativeQuery("select s.* from session s, classparticipant cpa, participant p where s.classid = cpa.classid  and cpa.participantid = p.participantid and p.userid = ? and current_date = date(s.starttime) order by s.starttime asc", Models.Session.class).setParameter(1, user.getUserid()).getResultList();
 
         // If no data
         if (sessions.isEmpty()) {
