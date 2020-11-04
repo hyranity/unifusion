@@ -6,6 +6,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Login</title>
         <link rel="stylesheet" href="CSS/login.css">
+        <link rel="stylesheet" href="CSS/all.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="JS/validator.js"></script>
     </head>

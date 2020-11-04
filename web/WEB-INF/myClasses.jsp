@@ -6,8 +6,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: My Classes</title>
         <link rel="stylesheet" href="CSS/myClasses.css">
+        <link rel="stylesheet" href="CSS/all.css">
     </head>
     <body>
+        <div id='bot' onclick='location.href="Chatbot"'>
+            <img id='eugeo' src='https://www.flaticon.com/svg/static/icons/svg/3398/3398640.svg'>
+            <a id='desc'>Need help?<br><span>Eugeo's here!</span></a>
+        </div>
+        
         <div id='container'>
 
             <div id='navbar'>

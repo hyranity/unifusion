@@ -10,6 +10,11 @@
     </head>
 
     <body>
+        <div id='bot' onclick='location.href="Chatbot"'>
+            <img id='eugeo' src='https://www.flaticon.com/svg/static/icons/svg/3398/3398640.svg'>
+            <a id='desc'>Need help?<br><span>Eugeo's here!</span></a>
+        </div>
+        
         <form id='container'>
 
             <div id='navbar'>
@@ -21,7 +26,7 @@
             </div>
             
             <div id='top'>
-              <img id='bot' src='https://www.flaticon.com/svg/static/icons/svg/3398/3398640.svg'>
+              <img id='botImg' src='https://www.flaticon.com/svg/static/icons/svg/3398/3398640.svg'>
               <div id='text'>
                 <a id='name'>EUGEO</a>
                 <a id='desc'>A somewhat intelligent being..</a>

@@ -19,6 +19,11 @@
         <link rel="stylesheet" href="CSS/all.css">
     </head>
     <body>
+        <div id='bot' onclick='location.href="Chatbot"'>
+            <img id='eugeo' src='https://www.flaticon.com/svg/static/icons/svg/3398/3398640.svg'>
+            <a id='desc'>Need help?<br><span>Eugeo's here!</span></a>
+        </div>
+        
         <div id='container'>
 
             <div id='navbar'>
@@ -407,6 +412,10 @@
                 $("#refresh-button").css({
                     "background-color": "rgba(250, 226, 184, 0.5)",
                     "box-shadow": "0px 0px 50px rgba(250, 226, 184, 0.25)"
+                });
+                
+                $(".dropdownLabel").css({
+                    "margin-left": "-390px"
                 });
                 
                 var query = document.getElementById("searchTextbox").value.trim();

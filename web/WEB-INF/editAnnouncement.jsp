@@ -10,6 +10,11 @@
     </head>
     
     <body>
+        <div id='bot' onclick='location.href="Chatbot"'>
+            <img id='eugeo' src='https://www.flaticon.com/svg/static/icons/svg/3398/3398640.svg'>
+            <a id='desc'>Need help?<br><span>Eugeo's here!</span></a>
+        </div>
+        
       <div id='container'>
 
         <div id='navbar'>
