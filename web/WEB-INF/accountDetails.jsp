@@ -42,7 +42,7 @@
 
       <div id='left'>
       <a class='label' id='name'>Name</a>
-        <input class='textbox' id='name-textbox' type='text' name='name' placeholder='Name' value=${name}>
+        <input class='textbox' id='name-textbox' type='text' name='name' placeholder='Name' value="${name}">
         <a class='label' id='age'>Date of Birth</a>
         <input class='date' id='date-textbox' type='date' name='dateOfBirth' value="${dateOfBirth}">
         <a class='label' id='address'>Address</a>
