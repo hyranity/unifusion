@@ -199,7 +199,7 @@
                 
                 <div class='stats'>
                   <div class='stat'>
-                    <a class='value' id='courseCount'>1</a>
+                    <a class='value' id='courseCount'>${programme.getCourseCollection().size()}</a>
                     <a class='desc'>total</a>
                   </div>
                 </div>

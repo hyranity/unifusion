@@ -188,7 +188,7 @@
                 
                 <div class='stats'>
                   <div class='stat'>
-                    <a class='value' id='programmeCount'>1</a>
+                    <a class='value' id='programmeCount'>${institution.getProgrammeCollection().size()}</a>
                     <a class='desc'>total</a>
                   </div>
                 </div>

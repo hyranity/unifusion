@@ -172,7 +172,7 @@
                 
                   <div class='stats'>
                     <div class='stat'>
-                      <a class='value' id='classCount'>1</a>
+                      <a class='value' id='classCount'>${course.getClassCollection().size()}</a>
                      <a class='desc'>total</a>
                     </div>
                   </div>
