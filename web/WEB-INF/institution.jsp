@@ -51,7 +51,7 @@
 
             <!-- START: details -->
 
-            <div class='panel' id='details' onclick='location.href="#"'>
+            <div class='panel' id='details'>
 
               <a class='heading'>Details</a>
 
@@ -71,6 +71,7 @@
               </div>
 
               ${editBt}
+              <a class='link' href='Relations?type=institution&id=${institution.getInstitutioncode()}'>View relations ></a>
 
             </div>
 
@@ -78,7 +79,7 @@
 
             <!-- START: members -->
 
-            <div class='panel' id='members' onclick='location.href="#"'>
+            <div class='panel' id='members'>
 
               <a class='heading'>Members</a>
 
@@ -111,25 +112,32 @@
 
                             </div>
 
-                <a class='more'  href='MemberList?type=institution&id=${institution.getInstitutioncode()}'>Click to view more ></a>
+                <a class='more'  href='MemberList?type=institution&id=${institution.getInstitutioncode()}'>View more ></a>
 
               </div>
 
             <!-- END: members -->
             
-            <!-- START: relations -->
+            <!-- START: venues -->
 
-            <div class='panel' onclick='location.href="#"'>
+            <div class='panel'>
 
               <div class='top'>
-                <a class='heading'>Relations</a>
+                <a class='heading'>Venues</a>
+                
+                <div class='stats'>
+                  <div class='stat'>
+                    <a class='value' id='venueCount'>1</a>
+                    <a class='desc'>total</a>
+                  </div>
+                </div>
               </div>
 
-              <a href='Relations?type=institution&id=${institution.getInstitutioncode()}' class='more'>Click to view more ></a>
+              <a href='Venues?id=${institution.getInstitutioncode()}' class='more'>View more ></a>
 
             </div>
 
-            <!-- END: relations -->
+            <!-- END: venues -->
 
           </div>
 
@@ -165,7 +173,7 @@
 
               </div>
 
-              <a class='more' href="Announcement?type=institution&id=${institution.getInstitutioncode()}">Click to view more ></a>
+              <a class='more' href="Announcement?type=institution&id=${institution.getInstitutioncode()}">View more ></a>
 
             </div>
 
@@ -173,32 +181,25 @@
 
             <!-- START: courses -->
 
-            <div class='panel' id='programmes' onclick='location.href="#"'>
+            <div class='panel'>
 
               <div class='top'>
                 <a class='heading'>Programmes</a>
+                
+                <div class='stats'>
+                  <div class='stat'>
+                    <a class='value' id='programmeCount'>1</a>
+                    <a class='desc'>total</a>
+                  </div>
+                </div>
               </div>
 
-              <a class='more' href='EducationList?type=institution&id=${institution.getInstitutioncode()}'>Click to view more ></a>
+              <a class='more' href='EducationList?type=institution&id=${institution.getInstitutioncode()}'>View more ></a>
 
             </div>
 
             <!-- END: courses -->
             
-            <!-- START: venues -->
-
-            <div class='panel' onclick='location.href="#"'>
-
-              <div class='top'>
-                <a class='heading'>Venues</a>
-              </div>
-
-              <a href='Venues?id=${institution.getInstitutioncode()}' class='more'>Click to view more ></a>
-
-            </div>
-
-            <!-- END: venues -->
-
           </div>
 
         </div>

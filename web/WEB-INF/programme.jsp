@@ -70,6 +70,7 @@
               </div>
 
               ${editBt}
+              <a class='link' href='Relations?type=programme&id=${programme.getProgrammecode()}'>View relations ></a>
 
             </div>
 
@@ -110,25 +111,11 @@
 
                             </div>
 
-                <a class='more' href='MemberList?type=programme&id=${programme.getProgrammecode()}'>Click to view more ></a>
+                <a class='more' href='MemberList?type=programme&id=${programme.getProgrammecode()}'>View more ></a>
 
               </div>
 
             <!-- END: members -->
-            
-            <!-- START: relations -->
-
-            <div class='panel' onclick='location.href="#"'>
-
-              <div class='top'>
-                <a class='heading'>Relations</a>
-              </div>
-
-              <a href='Relations?type=programme&id=${programme.getProgrammecode()}' class='more'>Click to view more ></a>
-
-            </div>
-
-            <!-- END: relations -->
 
           </div>
 
@@ -197,7 +184,7 @@
 
               </div>
 
-              <a class='more' href="Announcement?type=programme&id=${programme.getProgrammecode()}">Click to view more ></a>
+              <a class='more' href="Announcement?type=programme&id=${programme.getProgrammecode()}">View more ></a>
 
             </div>
 
@@ -205,13 +192,20 @@
 
             <!-- START: courses -->
 
-            <div class='panel' id='courses'>
+            <div class='panel'>
 
               <div class='top'>
                 <a class='heading'>Courses</a>
+                
+                <div class='stats'>
+                  <div class='stat'>
+                    <a class='value' id='courseCount'>1</a>
+                    <a class='desc'>total</a>
+                  </div>
+                </div>
               </div>
 
-              <a class='more' href='EducationList?type=programme&id=${programme.getProgrammecode()}'>Click to view more ></a>
+              <a class='more' href='EducationList?type=programme&id=${programme.getProgrammecode()}'>View more ></a>
 
             </div>
 

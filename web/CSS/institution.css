@@ -247,12 +247,18 @@ a {
   opacity: 1;
 }
 #container #details .boxes #desc .label {
-  margin-top: -85px;
+  margin-top: -65px;
 }
 #container #details .boxes #desc .text {
   font-size: 13px;
 }
 #container #details .more {
+  font-size: 0px;
+  color: #FAE2B8;
+  margin-top: 0px;
+  transition: all 0.5s;
+}
+#container #details .link {
   font-size: 0px;
   color: #FAE2B8;
   margin-top: 0px;
@@ -278,6 +284,17 @@ a {
   font-size: 15px;
   opacity: 0.8;
   margin-top: 15px;
+}
+#container #details:hover .link {
+  font-size: 15px;
+  opacity: 0.7;
+  margin-top: 5px;
+}
+#container #details:hover .more:hover {
+  opacity: 1;
+}
+#container #details:hover .link:hover {
+  opacity: 1;
 }
 #container #members {
   margin: 5px;
@@ -407,6 +424,9 @@ a {
   font-size: 15px;
   opacity: 0.8;
   margin-top: 15px;
+}
+#container #members:hover .more:hover {
+  opacity: 1;
 }
 #container #announcements {
   margin: 5px;
@@ -558,6 +578,9 @@ a {
   opacity: 0.8;
   margin-top: 15px;
 }
+#container #announcements:hover .more:hover {
+  opacity: 1;
+}
 #container #programmes {
   margin: 5px;
   display: flex;
@@ -637,6 +660,9 @@ a {
   opacity: 0.8;
   margin-top: 15px;
 }
+#container #programmes:hover .more:hover {
+  opacity: 1;
+}
 
 
 
@@ -682,4 +708,46 @@ a {
   font-size: 15px;
   opacity: 0.8;
   margin-top: 15px;
+}
+#container .panel .top .stats {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 0px;
+  opacity: 0;
+  margin-top: -10px;
+  transition: all 0.5s;
+}
+#container .panel .top .stats .stat {
+  background-color: rgba(39, 41, 100, 0.5);
+  padding: 5px 15px 15px 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+  border-radius: 5px;
+  opacity: 0.7;
+  transition: all 0.5s;
+}
+#container .panel .top .stats .stat .value {
+  font-size: 50px;
+  color: #FAE2B8;
+}
+#container .panel .top .stats .stat .desc {
+  font-size: 13px;
+  color: #DFE0F2;
+  margin-top: -15px;
+}
+#container .panel:hover .top .stats {
+  opacity: 1;
+  height: 100px;
+  margin-top: 10px;
+}
+#container .panel:hover .more:hover {
+  opacity: 1;
+}
+#container .panel:hover .link:hover {
+  opacity: 1;
 }

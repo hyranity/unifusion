@@ -74,8 +74,8 @@
 
                         </div>
 
-                        
                         ${editBt}
+                        <a class='link' href='Relations?type=class&id=${classroom.getClassid()}'>View relations ></a>
 
                     </div>
 
@@ -116,7 +116,7 @@
 
                             </div>
 
-                            <a class='more' href='MemberList?type=class&id=${classroom.getClassid()}'>Click to view more ></a>
+                            <a class='more' href='MemberList?type=class&id=${classroom.getClassid()}'>View more ></a>
 
                         </div>
 
@@ -141,27 +141,13 @@
                               </div>
                             </div>
 
-                            <a class='more' href="Sessions?id=${classroom.getClassid()}">Click to view more ></a>
+                            <a class='more' href="Sessions?id=${classroom.getClassid()}">View more ></a>
 
                           </div>
 
                         </div>
 
                         <!-- END: sessions -->
-                        
-                        <!-- START: relations -->
-
-                        <div class='panel' onclick='location.href="#"'>
-
-                          <div class='top'>
-                            <a class='heading'>Relations</a>
-                          </div>
-
-                          <a href='Relations?type=class&id=${classroom.getClassid()}' class='more'>Click to view more ></a>
-
-                        </div>
-
-                        <!-- END: relations -->
 
                     </div>
 
@@ -196,7 +182,7 @@
 
                             </div>
 
-                            <a class='more' href="Announcement?type=class&id=${classroom.getClassid()}">Click to view more ></a>
+                            <a class='more' href="Announcement?type=class&id=${classroom.getClassid()}">View more ></a>
 
                         </div>
 
@@ -250,7 +236,7 @@
 
                           </div>
 
-                          <a class='more'>Click to view more ></a>
+                          <a class='more'>View more ></a>
 
                         </div>
 

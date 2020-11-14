@@ -75,8 +75,8 @@
 
                 </div>
 
-                  
                    ${editBt}
+                   <a class='link' href='Relations?type=course&id=${course.getCoursecode()}'>View relations ></a>
 
               </div>
 
@@ -117,25 +117,11 @@
 
                             </div>
 
-                <a class='more' href='MemberList?type=course&id=${course.getCoursecode()}'>Click to view more ></a>
+                <a class='more' href='MemberList?type=course&id=${course.getCoursecode()}'>View more ></a>
 
               </div>
 
               <!-- END: members -->
-              
-              <!-- START: relations -->
-
-              <div class='panel' onclick='location.href="#"'>
-
-                <div class='top'>
-                 <a class='heading'>Relations</a>
-                </div>
-
-                <a href='Relations?type=course&id=${course.getCoursecode()}' class='more'>Click to view more ></a>
-
-              </div>
-
-              <!-- END: relations -->
 
             </div>
 
@@ -171,7 +157,7 @@
 
                 </div>
 
-                <a class='more' href="Announcement?type=course&id=${course.getCoursecode()}">Click to view more ></a>
+                <a class='more' href="Announcement?type=course&id=${course.getCoursecode()}">View more ></a>
 
               </div>
 
@@ -179,13 +165,20 @@
 
               <!-- START: classes -->
 
-              <div class='panel' id='classes'>
+              <div class='panel'>
 
                 <div class='top'>
                   <a class='heading'>Classes</a>
+                
+                  <div class='stats'>
+                    <div class='stat'>
+                      <a class='value' id='classCount'>1</a>
+                     <a class='desc'>total</a>
+                    </div>
+                  </div>
                 </div>
 
-                <a class='more' href='EducationList?type=course&id=${course.getCoursecode()}'>Click to view more ></a>
+                <a class='more' href='EducationList?type=course&id=${course.getCoursecode()}'>View more ></a>
 
               </div>
 
