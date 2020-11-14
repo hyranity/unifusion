@@ -7,6 +7,7 @@
         <title>UniFusion :: Post Announcement</title>
         <link rel="stylesheet" href="CSS/postAnnouncement.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -46,13 +47,13 @@
              <!-- End of Hidden fields -->
 
           <a class='label' style='margin-left: -485px;'>Title</a>
-          <input class='textbox' type='text' name='title' placeholder='eg. New announcement!'>
+          <input class='textbox' id='title-input' type='text' name='title' placeholder='eg. New announcement!'>
 
           <div id='input'>
 
             <div id='left'>
               <a class='label'>Message</a>
-              <textarea class="textarea" name='message' placeholder='What do you want to tell everyone about?'></textarea>
+              <textarea class="textarea" id='message-input' name='message' placeholder='What do you want to tell everyone about?'></textarea>
             </div>
 
             <div id='right'>
@@ -70,5 +71,8 @@
       </div>
 
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/postAnnouncement.js"></script>
     
 </html>

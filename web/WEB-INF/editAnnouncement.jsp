@@ -7,6 +7,7 @@
         <title>UniFusion :: Announcement Details</title>
         <link rel="stylesheet" href="CSS/editAnnouncement.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -52,13 +53,13 @@
           <a id='error' style='margin-bottom: 20px;'><%out.print(Errors.requestSimple(session));%></a>
 
           <a class='label' style='margin-left: -485px;'>Title</a>
-          <input class='textbox' type='text' name='title' placeholder='eg. New announcement!' value="${announcement.getTitle()}">
+          <input class='textbox' id='title-input' type='text' name='title' placeholder='eg. New announcement!' value="${announcement.getTitle()}">
 
           <div id='input' >
 
             <div id='left'>
               <a class='label'>Message</a>
-              <textarea class="textarea" name='message' placeholder='What do you want to tell everyone about?' >${announcement.getMessage()}</textarea>
+              <textarea class="textarea" id='message-input' name='message' placeholder='What do you want to tell everyone about?' >${announcement.getMessage()}</textarea>
             </div>
 
             <!-- Uneditable -->
@@ -78,5 +79,8 @@
       </div>
 
     </body>
+  
+<script src="JS/validator.js"></script>
+<script src="JS/editAnnouncement.js"></script>
     
 </html>

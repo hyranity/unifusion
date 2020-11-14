@@ -6,9 +6,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>UniFusion :: Create a Session</title>
+        <title>UniFusion :: Edit a Venue</title>
         <link rel="stylesheet" href="CSS/editVenue.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -54,15 +55,15 @@
           <div id='input'>
 
             <a class='label'>Name</a>
-            <input class='textbox' type='text' name='name' placeholder='eg. Class C-15' value="${venue.getTitle()}">
+            <input class='textbox' id='name-input' type='text' name='name' placeholder='eg. Class C-15' value="${venue.getTitle()}">
 
             <a class='label'>Location</a>
-            <textarea class="textarea" name='location' placeholder='eg. Alien Insitute Main Campus, Area 51, Nevada'>${venue.getLocation()}</textarea>
+            <textarea class="textarea" id='location-input' name='location' placeholder='eg. Alien Insitute Main Campus, Area 51, Nevada'>${venue.getLocation()}</textarea>
 
             <div id='bottom'>
               <div id='left'>
                 <a class='label'>Capacity</a>
-                <input class='number' type='number' name='capacity' placeholder='eg. 150' value="${venue.getCapacity()}">
+                <input class='number' id='capacity-input' type='number' name='capacity' placeholder='eg. 150' value="${venue.getCapacity()}">
               </div>
               <div id='right'>
                 <a class='label' id='name'>Is this venue currently active?</a>
@@ -83,5 +84,7 @@
 
     </body>
 
+<script src="JS/validator.js"></script>
+<script src="JS/editVenue.js"></script>  
 
 </html>
