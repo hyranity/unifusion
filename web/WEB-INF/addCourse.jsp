@@ -6,6 +6,8 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>UniFusion :: Create a Course</title>
         <link rel="stylesheet" href="CSS/addCourse.css">
+        <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -47,9 +49,9 @@
                     </div>
                     <div class='text' id='right'>
                         <a class='label'>Course code</a>
-                        <input class='textbox' type='text' name='courseCode' placeholder='eg. GG420' required value="${id}">
+                        <input class='textbox' id='courseCode-input' type='text' name='courseCode' placeholder='eg. GG420' value="${id}">
                         <a class='label'>Course name</a>
-                        <input class='textbox' type='text' name='courseName' placeholder='eg. Computer Science' required value="${title}">
+                        <input class='textbox' id='courseName-input' type='text' name='courseName' placeholder='eg. Computer Science' value="${title}">
                     </div>
                 </div>
 
@@ -78,7 +80,7 @@
                     </div>
                     <div class='text' id='right'>
                         <a class='label'>Description</a>
-                        <input class='textbox' type='text' name='description' placeholder='eg. This is a CS class.' required>
+                        <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is a CS class.'>
                         
                         <a class='label' id='name'>Is this course public?</a>
                         <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
@@ -95,6 +97,9 @@
         </div>
     </body>
 
+<script src="JS/validator.js"></script>
+<script src="JS/addCourse.js"></script>
+    
     <script>
         function hasProgrammeClicked() {
             var hasProgramme = document.getElementById("hasProgramme");

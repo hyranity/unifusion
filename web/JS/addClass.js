@@ -5,7 +5,10 @@ $("form").submit(function(e) {
 function validateForm(e) {
     resetErrorLabel($("#error"));
 
-    validateInput($("#title-input"), "basic-title", $("#error"));
+    validateInput($("#classCode-input"), "basic-class code", $("#error"));
+    validateInput($("#className-input"), "basic-class name", $("#error"));
+    validateCourse($("#courseCodeTextbox"), document.getElementById("hasCourse"), $("#error"));
+    validateInput($("#description-input"), "basic-description", $("#error"));
 
     if (errorsExist()) {
         e.preventDefault();
@@ -14,8 +17,10 @@ function validateForm(e) {
 }
 
 function errorsExist() {
-    if (isValid($("#title-input"), "basic") &
-        isValid($("#details-input"), "basic"))
+    if (isValid($("#classCode-input"), "basic") &
+        isValid($("#className-input"), "basic") &
+        isValidCourse($("#courseCodeTextbox"), document.getElementById("hasCourse")) &
+        isValid($("#description-input"), "basic"))
     {
         return false;
     }

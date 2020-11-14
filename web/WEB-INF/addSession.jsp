@@ -7,6 +7,7 @@
         <title>UniFusion :: Create a Session</title>
         <link rel="stylesheet" href="CSS/addSession.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -42,16 +43,16 @@
             
             <input type="hidden" value="${id}" name="id"/>
             <a class='label' style='margin-left: -470px;'>Date</a>
-            <input class='date' type='date' name='date' value="${date}">
+            <input class='date' id='date-input' type='date' name='date' value="${date}">
 
             <div id='times'>
               <div class='timeBox'>
                 <a class='label'>Start time</a>
-                <input class='time' type='time' name='startTime'>
+                <input class='time' id='startTime-input' type='time' name='startTime'>
               </div>
               <div class='timeBox'>
                 <a class='label'>End time</a>
-                <input class='time' type='time' name='endTime'>
+                <input class='time' id='endTime-input' type='time' name='endTime'>
               </div>
             </div>
 
@@ -70,7 +71,7 @@
                 <div id='search-button' class='button' value='>' onclick='searchVenue()'>></div>
               </div>
 
-              <div id='list' >
+              <div id='list'>
                   
                   ${venueUI}
 
@@ -110,7 +111,7 @@
               <div class='slider'></div>
             </label>
 
-            <a class='label' style='margin-left: -200px;' id='tempVenueLabel'>${tempVenueStr}</a>
+            <a class='label' id='tempVenueLabel'>${tempVenueStr}</a>
             <input class='textbox' type='text' name='tempVenue' id='tempVenueTextbox' placeholder='eg. meet.google.com/abcdef' style='height: 45px; font-size: 17px; width: 400px;'>
             <input type='hidden' id='tempVenueEnabled' name='tempVenueEnabled' value='false'>
             
@@ -121,6 +122,9 @@
         </div>
 
       </body>
+      
+<script src="JS/validator.js"></script>
+<script src="JS/addSession.js"></script>
 
 
       <script>

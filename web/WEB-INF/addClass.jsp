@@ -49,9 +49,9 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Class code</a>
-              <input class='textbox' id='classCode-input' type='text' name='classCode' placeholder='eg. GG420' required value="${id}">
+              <input class='textbox' id='classCode-input' type='text' name='classCode' placeholder='eg. GG420' value="${id}">
               <a class='label'>Class name</a>
-              <input class='textbox' id='className-input' type='text' name='className' placeholder='eg. Computer Science' required value="${name}">
+              <input class='textbox' id='className-input' type='text' name='className' placeholder='eg. Computer Science' value="${name}">
             </div>
           </div>
 
@@ -77,7 +77,7 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Description</a>
-              <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is a CS class.' required>
+              <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is a CS class.'>
               
               <a class='label' id='name'>Is this class public?</a>
               <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>

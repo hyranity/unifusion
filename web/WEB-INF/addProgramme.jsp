@@ -7,6 +7,7 @@
         <title>UniFusion :: Create a Programme</title>
         <link rel="stylesheet" href="CSS/addProgramme.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -48,9 +49,9 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Programme  code</a>
-              <input class='textbox' type='text' name='programmeCode' placeholder='eg. GG420' required value="${id}">
+              <input class='textbox' id='programmeCode-input' type='text' name='programmeCode' placeholder='eg. GG420' value="${id}">
               <a class='label'>Programme name</a>
-              <input class='textbox' type='text' name='programmeTitle' placeholder='eg. Computer Science' required value="${title}">
+              <input class='textbox' id='programmeName-input' type='text' name='programmeTitle' placeholder='eg. Computer Science' value="${title}">
             </div>
           </div>
 
@@ -76,7 +77,7 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Description</a>
-              <input class='textbox' type='text' name='description' placeholder='eg. This is a CS programme.' required>
+              <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is a CS programme.'>
               <a class='label' id='name'>Is this programme public?</a>
               <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
               <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
@@ -92,6 +93,9 @@
       </div>
     </body>
     
+<script src="JS/validator.js"></script>
+<script src="JS/addProgramme.js"></script>
+
     <script>
         function hasProgrammeClicked() {
             var hasInstitution = document.getElementById("hasInstitution");

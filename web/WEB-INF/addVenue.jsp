@@ -7,6 +7,7 @@
         <title>UniFusion :: Create a Venue</title>
         <link rel="stylesheet" href="CSS/addVenue.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
 
     <body>
@@ -36,7 +37,7 @@
                 </div>
             </div>
 
-            <a id='error'><%out.print(Errors.requestSimple(session));%></a>
+            <a id='error' style='z-index: 1;'><%out.print(Errors.requestSimple(session));%></a>
 
             <form id='form' action='PerformAddVenue'>
 
@@ -46,15 +47,15 @@
                 <div id='input'>
 
                     <a class='label'>Name</a>
-                    <input class='textbox' type='text' name='name' placeholder='eg. DK ABA'>
+                    <input class='textbox' id='name-input' type='text' name='name' placeholder='eg. DK ABA'>
 
                     <a class='label'>Location</a>
-                    <textarea class="textarea" name='location' placeholder='eg. Alien Insitute Main Campus, Area 51, Nevada'></textarea>
+                    <textarea class="textarea" id='location-input' name='location' placeholder='eg. Alien Insitute Main Campus, Area 51, Nevada'></textarea>
 
                     <div id='bottom'>
                       <div id='left'>
                         <a class='label'>Capacity</a>
-                        <input class='number' type='number' name='capacity' placeholder='eg. 150'>
+                        <input class='number' id='capacity-input' type='number' name='capacity' placeholder='eg. 150'>
                       </div>
                       <div id='right'>
                         <a class='label' id='name'>Is this venue currently active?</a>
@@ -75,5 +76,7 @@
 
     </body>
 
-
+<script src="JS/validator.js"></script>
+<script src="JS/addVenue.js"></script>
+    
 </html>

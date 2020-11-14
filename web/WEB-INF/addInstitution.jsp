@@ -7,6 +7,7 @@
         <title>UniFusion :: Create an Insititution</title>
         <link rel="stylesheet" href="CSS/addInstitution.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -49,18 +50,18 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Institution code</a>
-              <input class='textbox' type='text' name='institutionCode' placeholder='eg. GG420' required value="${id}">
+              <input class='textbox' id='institutionCode-input' type='text' name='institutionCode' placeholder='eg. GG420' value="${id}">
               <a class='label'>Institution name</a>
-              <input class='textbox' type='text' name='institutionName' placeholder='eg. ABC College' required value="${title}">
+              <input class='textbox' id='institutionName-input' type='text' name='institutionName' placeholder='eg. ABC College' value="${title}">
             </div>
           </div>
             
           <div class='section'>
             <div class='text' id='left'>
               <a class='label'>Description</a>
-              <input class='textbox' type='text' name='description' placeholder='eg. This is quality institution.' required>
+              <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is quality institution.'>
               <a class='label'>Address</a>
-              <input class='textbox' type='text' name='address' placeholder='eg. No 69, John Doe Street' required>
+              <input class='textbox' id='address-input' type='text' name='address' placeholder='eg. No 69, John Doe Street'>
               <a class='label' id='name'>Is this institution public?</a>
               <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
               <label class='checkboxLabel' for='isPublic' id='isPublicLabel'>
@@ -78,6 +79,9 @@
 
       </div>
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/addInstitution.js"></script>
     
     <script>
         function hasInstitutionClicked() {

@@ -25,6 +25,10 @@ function validateInput(textbox, type, errorLabel) {
         case "marks":
             validateMarks(textbox, errorLabel);
             break;
+            
+        case "capacity":
+            validateCapacity(textbox, errorLabel);
+            break;
         
         default:
             //alert(type + " isn't recognised as a unique input type by the Validator. Resorting to default input validator.");
@@ -56,6 +60,10 @@ function isValid(textbox, type) {
           
         case "marks":
             return isValidMarks(textbox);
+            break;
+            
+        case "capacity":
+            return isValidCapacity(textbox);
             break;
             
         case "basic":
@@ -291,6 +299,54 @@ function validateMarks(textbox, errorLabel) {
     }
 }
 
+function isValidMarks(textbox) {
+    var marks = parseInt(textbox.val());
+    
+    if (!marks) {
+        return false;
+    } else {
+        if (marks < 0) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function validateCapacity(textbox, errorLabel) {
+    var capacity = parseInt(textbox.val());
+    var errorsFound = new Array();
+    
+    if (!capacity) {
+        errorsFound.push("Capacity is required.");
+    } else {
+        if (capacity < 0) {
+            errorsFound.push("Capacity should be a positive value.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidCapacity(textbox) {
+    var capacity = parseInt(textbox.val());
+    
+    if (!capacity) {
+        return false;
+    } else {
+        if (capacity < 0) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
 function validatePassword(textbox, confirmTextbox, errorLabel) {
     var password = textbox.val().trim();
     var confirmPassword = confirmTextbox.val().trim();
@@ -324,6 +380,126 @@ function isValidPassword(textbox, confirmTextbox) {
     
     if (password !== confirmPassword) {
         return false;
+    }
+    
+    return true;
+}
+
+function validateCourse(textbox, checkbox, errorLabel) {
+    var courseCode = textbox.val();
+    var errorsFound = new Array();
+    
+    if (checkbox.checked) {
+        if (!courseCode) {
+            errorsFound.push("Course code is required.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidCourse(textbox, checkbox) {
+    var courseCode = textbox.val();
+    
+    if (checkbox.checked) {
+        if (!courseCode) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function validateProgramme(textbox, checkbox, errorLabel) {
+    var programmeCode = textbox.val();
+    var errorsFound = new Array();
+    
+    if (checkbox.checked) {
+        if (!programmeCode) {
+            errorsFound.push("Programme code is required.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidProgramme(textbox, checkbox) {
+    var programmeCode = textbox.val();
+    
+    if (checkbox.checked) {
+        if (!programmeCode) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function validateInstitution(textbox, checkbox, errorLabel) {
+    var institutionCode = textbox.val();
+    var errorsFound = new Array();
+    
+    if (checkbox.checked) {
+        if (!institutionCode) {
+            errorsFound.push("Institution code is required.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidInstitution(textbox, checkbox) {
+    var institutionCode = textbox.val();
+    
+    if (checkbox.checked) {
+        if (!institutionCode) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function validateTempVenue(textbox, checkbox, errorLabel) {
+    var tempVenue = textbox.val();
+    var errorsFound = new Array();
+    
+    if (checkbox.checked) {
+        if (!tempVenue) {
+            errorsFound.push("Temporary venue is required.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidTempVenue(textbox, checkbox) {
+    var tempVenue = textbox.val();
+    
+    if (checkbox.checked) {
+        if (!tempVenue) {
+            return false;
+        }
     }
     
     return true;
