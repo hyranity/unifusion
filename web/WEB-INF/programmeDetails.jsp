@@ -8,6 +8,7 @@
         <title>UniFusion :: Programme Details</title>
         <link rel="stylesheet" href="CSS/programmeDetails.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -45,12 +46,12 @@
 
             <div id='left'>
             <a class='label' id='name'>Programme code</a>
-              <input class='textbox' type='text' name='programmeCode' placeholder='eg. GG420' value="${programme.getProgrammecode()}" readonly>
+              <input class='textbox' id='programmeCode-input' style='background-color: rgba(223, 224, 242, 0.5); color: white;' type='text' name='programmeCode' placeholder='eg. GG420' value="${programme.getProgrammecode()}" readonly>
             </div>
 
             <div id='right'>
               <a class='label' id='email'>Programme title</a>
-              <input class='textbox' type='text' name='programmeTitle' placeholder='eg. Software Systems Development' value="${programme.getTitle()}">
+              <input class='textbox' id='programmeName-input' type='text' name='programmeTitle' placeholder='eg. Software Systems Development' value="${programme.getTitle()}">
             </div>
 
           </div>
@@ -90,7 +91,7 @@
 
             <div id='left'>
             <a class='label' id='name'>Description</a>
-              <input class='textbox' type='text' name='description' placeholder='eg. This is a CS course.' value="${programme.getDescription()}">
+              <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is a CS course.' value="${programme.getDescription()}">
             </div>
 
             <div id='right'>
@@ -142,6 +143,8 @@
       </div>
     </body>
 
+<script src="JS/validator.js"></script>
+<script src="JS/programmeDetails.js"></script>
 
     <script>
         function hasInstitutionClicked() {

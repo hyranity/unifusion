@@ -12,6 +12,7 @@
         <title>UniFusion :: Class Details</title>
         <link rel="stylesheet" href="CSS/classDetails.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -34,7 +35,7 @@
                 <a id='subheading'>Group name</a>
             </div>
             
-            <a id='error'style='margin-top: 40px;'><%out.print(Errors.requestSimple(session));%></a>
+            <a id='error' style='margin-top: 40px;'><%out.print(Errors.requestSimple(session));%></a>
 
             <form action="PerformEditClass">
 
@@ -49,12 +50,12 @@
 
                         <div id='left'>
                             <a class='label' id='name'>Class code</a>
-                            <input class='textbox' type='text' name='classCode' placeholder='eg. GG420' value="${class.getClassid()}" readonly>
+                            <input class='textbox' id='classCode-input' style='background-color: rgba(223, 224, 242, 0.5); color: white;' type='text' name='classCode' placeholder='eg. GG420' value="${class.getClassid()}" readonly>
                         </div>
 
                         <div id='right'>
                             <a class='label' id='email'>Title</a>
-                            <input class='textbox' type='text' name='classTitle' placeholder='Title' value="${class.getClasstitle()}">
+                            <input class='textbox' id='className-input' type='text' name='classTitle' placeholder='Title' value="${class.getClasstitle()}">
                         </div>
 
                     </div>
@@ -95,7 +96,7 @@
 
                         <div id='left'>
                             <a class='label' id='name'>Description</a>
-                            <input class='textbox' type='text' name='description' placeholder='eg. GG420' value="${class.getDescription()}">
+                            <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. GG420' value="${class.getDescription()}">
                         </div>
 
                         <div id='right'>
@@ -216,5 +217,9 @@
         </script>
 
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/classDetails.js"></script>
+    
 </html>
 

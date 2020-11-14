@@ -12,6 +12,7 @@
         <title>UniFusion :: Course Details</title>
         <link rel="stylesheet" href="CSS/courseDetails.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -38,7 +39,7 @@
 
             <a id='error' style='margin-top: 40px;'><%out.print(Errors.requestSimple(session));%></a>
 
-            <form action="PerformEditCourse">
+            <form action='PerformEditCourse'>
 
                 <!-- section 1: identity -->
 
@@ -51,12 +52,12 @@
 
                         <div id='left'>
                             <a class='label' id='name'>Course code</a>
-                            <input class='textbox' type='text' name='courseCode' placeholder='eg. GG420' readonly value="${course.getCoursecode()}" disabled>
+                            <input class='textbox' id='courseCode-input' style='background-color: rgba(223, 224, 242, 0.5); color: white;' type='text' name='courseCode' placeholder='eg. GG420' readonly value="${course.getCoursecode()}" disabled>
                         </div>
 
                         <div id='right'>
                             <a class='label' id='email'>Course title</a>
-                            <input class='textbox' type='text' name='courseTitle' placeholder='Title' value="${course.getTitle()}" disabled>
+                            <input class='textbox' id='courseName-input' type='text' name='courseTitle' placeholder='Title' value="${course.getTitle()}">
                         </div>
 
                     </div>
@@ -69,23 +70,18 @@
                         <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
                     </div>
 
-                    <div class='textboxes'>
+                    <div class='textboxes' id='programmeTextboxes'>
 
                         <div id='left'>
+                            <a id='programmeTextboxesMsg'>The programme settings of a course cannot be edited.</a>
                             <a class='label' id='name'>Is this course part of a programme?</a>
-                            <input type='checkbox' class='checkbox' id='hasProgramme' name='hasProgramme'>
+                            <input type='checkbox' class='checkbox' id='hasProgramme' name='hasProgramme' disabled>
                             <label class='checkboxLabel' for='hasProgramme' id='hasProgrammeLabel'>
                                 <div class='slider'></div>
                             </label>
                             <a class='label' id='programmeCodeLabel'>Programme code</a>
                             <input id='programmeCodeTextbox' class='textbox' type='text' name='programmeCode' placeholder='eg. LOL1337'>
-                            <input type='hidden' id='programmeCodeEnabled' name='programmeCodeEnabled' value='false'>
-                            <a class='label' id='semesterCodeLabel'>Semester code</a>
-                            <input id='semesterCodeTextbox' class='textbox' type='text' name='semesterCode' placeholder='eg. LOL1337'>
-                            <input type='hidden' id='semesterCodeEnabled' name='semesterCodeEnabled' value='false'>
-                        </div>
-
-                        <div id='right'>
+                            <input type='hidden' id='programmeCodeEnabled' name='programmeCodeEnabled' value='false' disabled>
                         </div>
 
                     </div>
@@ -102,7 +98,7 @@
 
                         <div id='left'>
                             <a class='label' id='name'>Description</a>
-                            <input class='textbox' type='text' name='description' placeholder='eg. GG420' value="${course.getDescription()}">
+                            <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. GG420' value="${course.getDescription()}">
                         </div>
 
                         <div id='right'>
@@ -175,5 +171,9 @@
         </script>
 
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/courseDetails.js"></script>
+    
 </html>
 

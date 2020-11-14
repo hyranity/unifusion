@@ -8,6 +8,7 @@
         <title>UniFusion :: Institution Details</title>
         <link rel="stylesheet" href="CSS/institutionDetails.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -46,12 +47,12 @@
 
             <div id='left'>
             <a class='label' id='name'>Institution code</a>
-              <input class='textbox' type='text' name='institutionCode' placeholder='eg. GG420' readonly value="${institution.getInstitutioncode()}">
+              <input class='textbox' style='background-color: rgba(223, 224, 242, 0.5); color: white;' type='text' name='institutionCode' placeholder='eg. GG420' readonly value="${institution.getInstitutioncode()}">
             </div>
 
             <div id='right'>
               <a class='label' id='email'>Institution name</a>
-              <input class='textbox' type='text' name='institutionName' placeholder='eg. ABC College' value="${institution.getName()}">
+              <input class='textbox' id='institutionName-input' type='text' name='institutionName' placeholder='eg. ABC College' value="${institution.getName()}">
             </div>
 
           </div>
@@ -68,9 +69,9 @@
 
             <div id='left'>
               <a class='label' id='name'>Description</a>
-              <input class='textbox' type='text' name='description' placeholder='eg. This is a quality institution' value="${institution.getDescription()}">
+              <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is a quality institution' value="${institution.getDescription()}">
               <a class='label' id='name'>Address</a>
-              <input class='textbox' type='text' name='address' placeholder='eg. No 69, John Doe Street'  value="${institution.getAddress()}">
+              <input class='textbox' id='address-input' type='text' name='address' placeholder='eg. No 69, John Doe Street'  value="${institution.getAddress()}">
             </div>
 
             <div id='right'>
@@ -123,4 +124,8 @@
 
       </div>
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/institutionDetails.js"></script>
+
 </html>
