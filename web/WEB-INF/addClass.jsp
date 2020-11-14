@@ -7,6 +7,7 @@
         <title>UniFusion :: Create a Class</title>
         <link rel="stylesheet" href="CSS/addClass.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -48,9 +49,9 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Class code</a>
-              <input class='textbox' type='text' name='classCode' placeholder='eg. GG420' required value="${id}">
+              <input class='textbox' id='classCode-input' type='text' name='classCode' placeholder='eg. GG420' required value="${id}">
               <a class='label'>Class name</a>
-              <input class='textbox' type='text' name='className' placeholder='eg. Computer Science' required value="${name}">
+              <input class='textbox' id='className-input' type='text' name='className' placeholder='eg. Computer Science' required value="${name}">
             </div>
           </div>
 
@@ -76,7 +77,7 @@
             </div>
             <div class='text' id='right'>
               <a class='label'>Description</a>
-              <input class='textbox' type='text' name='description' placeholder='eg. This is a CS class.' required>
+              <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is a CS class.' required>
               
               <a class='label' id='name'>Is this class public?</a>
               <input type='checkbox' class='checkbox' id='isPublic' name='isPublic'>
@@ -101,6 +102,9 @@
 
       </div>
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/addClass.js"></script>
     
     <script>
         function hasCourseClicked() {

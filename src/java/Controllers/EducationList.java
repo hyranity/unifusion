@@ -70,6 +70,11 @@ public class EducationList extends HttpServlet {
                     "          </div>";
                 }
                 
+                Course currentCourse = (Course) em.createNativeQuery("select c.* from course c "
+                        + "where c.coursecode = ?", Models.Course.class).setParameter(1, id).getSingleResult();
+                
+                servlet.putInJsp("id", id);
+                servlet.putInJsp("name", currentCourse.getTitle());
                 servlet.putInJsp("output", output);
                 servlet.servletToJsp("classes.jsp");
                 
@@ -95,6 +100,11 @@ public class EducationList extends HttpServlet {
                     "          </div>";
                 }
                 
+                Programme currentProgramme = (Programme) em.createNativeQuery("select p.* from programme p "
+                        + "where p.programmecode = ?", Models.Programme.class).setParameter(1, id).getSingleResult();
+                
+                servlet.putInJsp("id", id);
+                servlet.putInJsp("name", currentProgramme.getTitle());
                 servlet.putInJsp("output", output);
                 servlet.servletToJsp("courses.jsp");
                 
@@ -120,6 +130,11 @@ public class EducationList extends HttpServlet {
                     "          </div>";
                 }
                 
+                Institution currentInstitution = (Institution) em.createNativeQuery("select i.* from institution i "
+                        + "where i.institutioncode = ?", Models.Institution.class).setParameter(1, id).getSingleResult();
+                
+                servlet.putInJsp("id", id);
+                servlet.putInJsp("name", currentInstitution.getName());
                 servlet.putInJsp("output", output);
                 servlet.servletToJsp("programmes.jsp");
                 

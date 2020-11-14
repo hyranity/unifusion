@@ -17,6 +17,14 @@ function validateInput(textbox, type, errorLabel) {
         case "address":
             validateAddress(textbox, errorLabel);
             break;
+          
+        case "time":
+            validateTime(textbox, errorLabel);
+            break;
+            
+        case "marks":
+            validateMarks(textbox, errorLabel);
+            break;
         
         default:
             //alert(type + " isn't recognised as a unique input type by the Validator. Resorting to default input validator.");
@@ -40,6 +48,14 @@ function isValid(textbox, type) {
         
         case "address":
             return isValidAddress(textbox);
+            break;
+            
+        case "time":
+            return isValidTime(textbox);
+            break;
+          
+        case "marks":
+            return isValidMarks(textbox);
             break;
             
         case "basic":
@@ -90,10 +106,10 @@ function validateBasic(textbox, inputName, errorLabel) {
     var errorsFound = new Array();
     if (inputName.startsWith("basic-")) {
         inputName = inputName.slice(6);
-        inputName = inputName.charAt(0).toUpperCase() + inputName.slice(1);
     }
+    inputName = inputName.charAt(0).toUpperCase() + inputName.slice(1);
 
-    if (input.length <= 0) {
+    if (!input) {
         errorsFound.push(inputName + " is required.");
     }
     
@@ -106,9 +122,9 @@ function validateBasic(textbox, inputName, errorLabel) {
 }
 
 function isValidBasic(textbox) {
-    var name = textbox.val().trim();
+    var input = textbox.val().trim();
 
-    if (name.length <= 0) {
+    if (!input) {
         return false;
     }
     
@@ -204,10 +220,10 @@ function isValidAddress(textbox) {
 }
 
 function validateDate(textbox, errorLabel) {
-    var date = new Date(textbox.val());
+    var date = textbox.val();
     var errorsFound = new Array();
 
-    if (date === null) {
+    if (!date) {
         errorsFound.push("Date is required.");
     }
     
@@ -220,13 +236,59 @@ function validateDate(textbox, errorLabel) {
 }
 
 function isValidDate(textbox) {
-    var date = new Date(textbox.val());
+    var date = textbox.val();
 
-    if (date === null) {
+    if (!date) {
         return false;
     }
     
     return true;
+}
+
+function validateTime(textbox, errorLabel) {
+    var time = textbox.val();
+    var errorsFound = new Array();
+    
+    if (!time) {
+        errorsFound.push("Time is required.");
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidTime(textbox) {
+    var time = textbox.val();
+
+    if (!time) {
+        return false;
+    }
+    
+    return true;
+}
+
+function validateMarks(textbox, errorLabel) {
+    var marks = parseInt(textbox.val());
+    var errorsFound = new Array();
+    
+    if (!marks) {
+        errorsFound.push("Marks is required.");
+    } else {
+        if (marks < 0) {
+            errorsFound.push("Marks should be a positive value.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
 }
 
 function validatePassword(textbox, confirmTextbox, errorLabel) {

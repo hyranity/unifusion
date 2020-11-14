@@ -7,6 +7,7 @@
         <title>UniFusion :: Create an Assignment</title>
         <link rel="stylesheet" href="CSS/addAssignment.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     
     <body>
@@ -45,18 +46,18 @@
             <input type="hidden" value="${id}" name="id"/>
 
           <a class='label' style='margin-left: -485px;'>Title</a>
-          <input class='textbox' type='text' name='title' placeholder='eg. Semester Assignment' value="${title}">
+          <input class='textbox' id='title-input' type='text' name='title' placeholder='eg. Semester Assignment' value="${title}">
 
           <div class='row'>
 
             <div class='left'>
               <a class='label'>Details</a>
-              <textarea class="textarea" name='details' placeholder='What is this assignment about?'>${desc}</textarea>
+              <textarea class="textarea" id='details-input' name='details' placeholder='What is this assignment about?'>${desc}</textarea>
             </div>
 
             <div class='right'>
               <a class='label'>Attachments</a>
-              <input id='uploader' type='file' name="files" size='50' multiple />
+              <input id='uploader' id='attachments-input' type='file' name="files" size='50' multiple />
             </div>
 
           </div>
@@ -64,18 +65,18 @@
           <div class='row'>
             <div class='left'>
               <a class='label'>Deadline date</a>
-              <input class='date' type='date' name='deadlineDate'>
+              <input class='date' id='date-input' type='date' name='deadlineDate'>
             </div>
             <div class='right'>
               <a class='label'>Deadline time</a>
-              <input class='time' type='time' name='deadlineTime'>
+              <input class='time' id='time-input' type='time' name='deadlineTime'>
             </div>
           </div>
 
           <div class='row'>
             <div class='left'>
               <a class='label'>Total Marks</a>
-              <input class='number' type='number' name='marks' placeholder='eg. 100'>
+              <input class='number' id='marks-input' type='number' name='marks' placeholder='eg. 100'>
             </div>
             <div class='right' style='margin-left: 50px; flex-direction: row; align-items: center;'>
               <a class='label' id='name'>Is this assignment only<br> used to show marks?</a>
@@ -93,5 +94,8 @@
       </div>
 
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/addAssignment.js"></script>
 
 </html>

@@ -1,3 +1,5 @@
+<%@page import="Util.Quick"%>
+<%@page import="Models.Programme"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -29,7 +31,7 @@
           <div id='info'>
             <img id='icon' src='https://cdn.donmai.us/original/6f/90/__buratei_marii_joshiraku_drawn_by_taka_takahirokun__6f90a4d95e72eb6d5d0659af3a6efb9d.jpg'>
             <div id='text'>
-              <a id='subheading'>P001 - Programme Name (Programme)</a>
+              <a id='subheading'>${id} - ${name} (Programme)</a>
               <a id='heading'>Courses</a>
             </div>
           </div>
