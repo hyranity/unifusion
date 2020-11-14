@@ -6,6 +6,7 @@
 package Controllers;
 
 import Models.Classparticipant;
+import Models.Gradedcomponent;
 import Models.Users;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import Util.*;
 import java.util.ArrayList;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -52,14 +54,11 @@ public class Class extends HttpServlet {
         // Get class
         Query query = em.createNativeQuery("select c.* from class c, classparticipant cpa, participant p where c.classid = ? and cpa.classid = c.classid and cpa.participantid = p.participantid and p.userid = ?", Models.Class.class).setParameter(1, classId).setParameter(2, currentUser.getUserid());
 
-       
-        
         // If no results
         if (query.getResultList().isEmpty()) {
             servlet.toServlet("Dashboard");
             return;
         }
-        
 
         Models.Class classroom = (Models.Class) query.getSingleResult();
 
@@ -100,8 +99,8 @@ public class Class extends HttpServlet {
             if (moreCount > 0) {
                 moreStr = "<a id='noOfMembers'>and " + moreCount + " more...</a>";
             }
-            
-               // Get announcements
+
+            // Get announcements
             String announcementUI = "";
             int counter = 0;
             for (Models.Announcement announcement : classroom.getAnnouncementCollection()) {
@@ -113,22 +112,42 @@ public class Class extends HttpServlet {
 
                 // Build UI
                 announcementUI += "<div class='announcement' onclick='window.location.href=\"AnnouncementDetails?type=class&id=" + classroom.getClassid() + "&code=" + announcement.getAnnouncementid() + "\"'>\n"
-                        + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) +"</a>\n"
-                        + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl() )+ "'>\n"
+                        + "                  <a class='time'>" + Quick.timeSince(announcement.getDateannounced()) + "</a>\n"
+                        + "                  <img class='icon' src='" + Quick.getIcon(announcement.getPosterid().getUserid().getImageurl()) + "'>\n"
                         + "                  <div class='text'>\n"
-                        + "                    <a class='message'><span>" +  announcement.getTitle() +"</span></a>\n"
-                        + "                    <a class='item'>"+ announcement.getPosterid().getUserid().getName() +"</a>\n"
+                        + "                    <a class='message'><span>" + announcement.getTitle() + "</span></a>\n"
+                        + "                    <a class='item'>" + announcement.getPosterid().getUserid().getName() + "</a>\n"
                         + "                  </div>\n"
                         + "                </div>";
             }
             
-            // Get  announcement count
+            // Get classwork
+            String classworkUI = "";
+            List<Gradedcomponent> classworkList =  em.createNativeQuery("select * from gradedcomponent where classid = ?  order by deadline asc fetch first 3 rows only", Gradedcomponent.class).setParameter(1, classroom.getClassid()).getResultList();
+            for (Models.Gradedcomponent classwork : classworkList) {
+                
+                String href = "AssignmentDetails?id=" + classwork.getComponentid() +"&code=" + classroom.getClassid() +"";
+
+                // Build UI
+                classworkUI += "<div class='assignment' onclick=\"window.location.href='" + href +"'\">\n" +
+"                              <a class='due'>1d</a>\n" +
+"                              <a class='message'>" + classwork.getTitle() +"</a>\n" +
+"                              <a class='slug'></a>\n" +
+"                            </div>";
+            }
+
+            // Get today announcement count
             Query todayAnnouncements = em.createNativeQuery("select count(*) from announcement where classid = ? and current_date = date(dateannounced)").setParameter(1, classroom.getClassid());
-            
-               // Get  session count
+
+            // Get today classwork
+            Query todayClasswork = em.createNativeQuery("select count(*) from gradedcomponent where classid = ? and current_date = date(deadline)").setParameter(1, classroom.getClassid());
+
+            // Get  session count
             Query todaySessions = em.createNativeQuery("select count(*) from session where classid = ? and current_date = date(starttime)").setParameter(1, classroom.getClassid());
 
             // Put data in JSP
+            servlet.putInJsp("todayClasswork", todayClasswork.getSingleResult());
+            servlet.putInJsp("classworkUI", classworkUI);
             servlet.putInJsp("todaySessions", todaySessions.getSingleResult());
             servlet.putInJsp("totalSessions", classroom.getSessionCollection().size());
             servlet.putInJsp("todayAnnounced", todayAnnouncements.getSingleResult());

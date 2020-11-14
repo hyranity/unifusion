@@ -190,27 +190,29 @@
                         
                         <!-- START: classwork -->
 
-                        <div class='panel' id='classwork' onclick='location.href="Assignments?id=${classroom.getClassid()}"'>
+                        <div class='panel' id='classwork' >
 
                           <div class='top'>
                             <a class='heading'>Classwork</a>
 
                             <div class='stats'>
                               <div class='stat'>
-                                <a class='value' id='classworkWeek'>2</a>
-                                <a class='desc'>due this<br>week</a>
+                                <a class='value' id='classworkWeek'>${todayClasswork}</a>
+                                <a class='desc'>due today</a>
                               </div>
 
                               <div class='stat'>
-                                <a class='value' id='classworkTotal'>5</a>
-                                <a class='desc'>due in<br>total</a>
+                                <a class='value' id='classworkTotal'>${classroom.getGradedcomponentCollection().size()}</a>
+                                <a class='desc'>total</a>
                               </div>
                             </div>
                           </div>
 
                           <div class='bottom'>
+                              
+                              ${classworkUI}
 
-                            <!-- sample assignment 1 -->
+<!--                             sample assignment 1 
 
                             <div class='assignment'>
                               <a class='due'>1d</a>
@@ -218,7 +220,7 @@
                               <a class='slug'></a>
                             </div>
 
-                            <!-- sample assignment 2 -->
+                             sample assignment 2 
 
                             <div class='assignment'>
                               <a class='due'>5d</a>
@@ -226,17 +228,17 @@
                               <a class='slug'></a>
                             </div>
 
-                            <!-- sample assignment 3 -->
+                             sample assignment 3 
 
                             <div class='assignment'>
                               <a class='due'>16d</a>
                               <a class='message'>Assignment</a>
                               <a class='slug'>50% coursework</a>
-                            </div>
+                            </div>-->
 
                           </div>
 
-                          <a class='more'>View more ></a>
+                          <a class='more' onclick='location.href="Assignments?id=${classroom.getClassid()}"'>View more ></a>
 
                         </div>
 

@@ -69,7 +69,7 @@ public class EducationList extends HttpServlet {
                     "            </div>\n" +
                     "          </div>";
                 }
-                
+               
                 Course currentCourse = (Course) em.createNativeQuery("select c.* from course c "
                         + "where c.coursecode = ?", Models.Course.class).setParameter(1, id).getSingleResult();
                 

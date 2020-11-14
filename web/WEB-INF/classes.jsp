@@ -25,7 +25,7 @@
             <a href='AccountDetails' class='link'>Account</a>
             <a href='Chatbot' class='link'>Chatbot</a>
         </div>
-
+     
         <div id='top'>
           <div id='topOverlay'></div>
           <div id='info'>
