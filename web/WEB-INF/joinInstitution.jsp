@@ -4,6 +4,7 @@
 <%@page import="Models.Classparticipant"%>
 <%@page import="Models.Users"%>
 <%@page import="Util.Quick"%>
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
@@ -14,6 +15,7 @@
         <title>UniFusion :: Join Institution</title>
         <link rel="stylesheet" href="CSS/joinInstitution.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -38,11 +40,12 @@
           <div class='text'>
             <a id='title'>Join an Institution</a>
             <a id='instruction'>Enter in the code of an existing institution below.</a>
+            <a id='error'><%out.print(Errors.requestSimple(session));%></a>
             <form id='form' action="PerformJoinInstitution">
                <div id='right'>
                 <div class='input'>
                     <a class='label'>Institution code</a>
-                    <input class='textbox' type='text' name='institutionCode' placeholder='eg. 177013'>
+                    <input class='textbox' id='institutionCode-input' type='text' name='institutionCode' placeholder='eg. 177013'>
                 </div>
                 <div class='input' style='margin-left: 30px;'>
                     <a class='label' id='name'>Are you a staff member?</a>
@@ -61,4 +64,8 @@
 
       </div>
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/joinInstitution.js"></script>
+    
 </html>

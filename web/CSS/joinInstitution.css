@@ -191,6 +191,9 @@ a {
   background-color: rgba(250, 226, 184, 0.75);
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
 }
+#container #top .text #form #proceed-button:focus {
+  outline: none;
+}
 #container #top:hover {
   opacity: 1;
 }
@@ -203,4 +206,10 @@ a {
 #container #top:hover .text #form {
   opacity: 1;
   height: 150px;
+}
+#container #top .text #error {
+  opacity: 0;
+}
+#container #top:hover .text #error {
+  opacity: 1;
 }

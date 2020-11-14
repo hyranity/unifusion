@@ -504,3 +504,33 @@ function isValidTempVenue(textbox, checkbox) {
     
     return true;
 }
+
+function validateAuthorisationCode(textbox, checkbox, errorLabel) {
+    var authorisationCode = textbox.val();
+    var errorsFound = new Array();
+    
+    if (checkbox.checked) {
+        if (!authorisationCode) {
+            errorsFound.push("Authorisation code is required.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidAuthorisationCode(textbox, checkbox) {
+    var authorisationCode = textbox.val();
+    
+    if (checkbox.checked) {
+        if (!authorisationCode) {
+            return false;
+        }
+    }
+    
+    return true;
+}

@@ -4,6 +4,7 @@
 <%@page import="Models.Classparticipant"%>
 <%@page import="Models.Users"%>
 <%@page import="Util.Quick"%>
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
@@ -14,6 +15,7 @@
         <title>UniFusion :: Join Class</title>
         <link rel="stylesheet" href="CSS/joinClass.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -38,10 +40,11 @@
           <div class='text'>
             <a id='title'>Join a Class</a>
             <a id='instruction'>Enter in the code of an existing class below.</a>
+            <a id='error'><%out.print(Errors.requestSimple(session));%></a>
             <form id='form' action="PerformJoinClass">
                <div class='input' id='right'>
                 <a class='label'>Class code</a>
-                <input class='textbox' type='text' name='classCode' placeholder='eg. 177013' required>
+                <input class='textbox' id='classCode-input' type='text' name='classCode' placeholder='eg. 177013'>
               </div>
               <input type='submit' id='proceed-button' value='Join!'>
             </form>
@@ -50,4 +53,8 @@
 
       </div>
     </body>
+ 
+<script src="JS/validator.js"></script>
+<script src="JS/joinClass.js"></script>
+ 
 </html>

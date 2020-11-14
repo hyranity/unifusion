@@ -4,6 +4,7 @@
 <%@page import="Models.Classparticipant"%>
 <%@page import="Models.Users"%>
 <%@page import="Util.Quick"%>
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
@@ -14,6 +15,7 @@
         <title>UniFusion :: Join Programme</title>
         <link rel="stylesheet" href="CSS/joinProgramme.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
         <div id='bot' onclick='location.href="Chatbot"'>
@@ -38,10 +40,11 @@
           <div class='text'>
             <a id='title'>Join a Programme</a>
             <a id='instruction'>Enter in the code of an existing programme below.</a>
+            <a id='error'><%out.print(Errors.requestSimple(session));%></a>
             <form id='form' action="PerformJoinProgramme">
                <div class='input' id='right'>
                 <a class='label'>Programme code</a>
-                <input class='textbox' type='text' name='programmeCode' placeholder='eg. 177013'>
+                <input class='textbox' id='programmeCode-input' type='text' name='programmeCode' placeholder='eg. 177013'>
               </div>
               <input type='submit' id='proceed-button' value='Join!'>
             </form>
@@ -50,4 +53,8 @@
 
       </div>
     </body>
+    
+<script src="JS/validator.js"></script>
+<script src="JS/joinProgramme.js"></script>
+    
 </html>
