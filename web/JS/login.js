@@ -5,8 +5,8 @@ $("form").submit(function(e) {
 function validateForm(e) {
     resetErrorLabel($("#error"));
 
-    validateInput($("#email-textbox"), "basicEmail", $("#error"));
-    validateInput($("#password-textbox"), "basicPassword", $("#error"));
+    validateInput($("#email-textbox"), "basic-email", $("#error"));
+    validateInput($("#password-textbox"), "basic-password", $("#error"));
 
     if (errorsExist()) {
         e.preventDefault();

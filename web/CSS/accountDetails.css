@@ -118,9 +118,10 @@ a {
   font-family: 'Poppins';
   opacity: 0.8;
   padding-left: 20px;
+  padding-right: 20px;
   font-size: 25px;
   color: #FAE2B8;
-  width: 450px;
+  width: 430px;
   height: 65px;
   margin-top: 5px;
   margin-bottom: 25px;
@@ -142,6 +143,42 @@ a {
   opacity: 1;
 }
 #container #bottom div .textbox:focus::placeholder {
+  color: rgba(250, 226, 184, 0.5);
+}
+#container #bottom div .date {
+  font-family: 'Poppins';
+  opacity: 0.8;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 25px;
+  font-weight: 600;
+  color: #FAE2B8;
+  width: 430px;
+  height: 65px;
+  margin-top: 5px;
+  margin-bottom: 25px;
+  background-color: rgba(39, 41, 100, 0.5);
+  border: none;
+  box-shadow: 0px 0px 50px rgba(39, 41, 100, 0.5);
+  border-radius: 5px;
+  text-align: left;
+  transition: opacity 0.3s;
+}
+#container #bottom div .date::placeholder {
+  color: rgba(223, 224, 242, 0.5);
+  transition: color 0.3s;
+}
+#container #bottom div .date::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+#container #bottom div .date:hover {
+  opacity: 1;
+}
+#container #bottom div .date:focus {
+  outline: none;
+  opacity: 1;
+}
+#container #bottom div .date:focus::placeholder {
   color: rgba(250, 226, 184, 0.5);
 }
 #container #bottom div .label {

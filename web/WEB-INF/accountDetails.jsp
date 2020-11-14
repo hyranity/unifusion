@@ -2,6 +2,7 @@
 <%@page import="Models.Users"%>
 <%@page import="Models.Users"%>
 <%@page import="Util.Server"%>
+<%@page import="Util.Errors"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 
@@ -12,6 +13,7 @@
         <title>UniFusion :: Account Details</title>
         <link rel="stylesheet" href="CSS/accountDetails.css">
         <link rel="stylesheet" href="CSS/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     </head>
     <body>
   <div id='bot' onclick='location.href="Chatbot"'>
@@ -33,32 +35,37 @@
     <div id='top'>
       <a id='heading'>Account details</a>
     </div>
+      
+      <a id='error' style='margin-bottom: 15px;'><%out.print(Errors.requestSimple(session));%></a>
 
     <form id='bottom' action="PerformAccountUpdate">
 
       <div id='left'>
       <a class='label' id='name'>Name</a>
-        <input class='textbox' type='text' name='name' placeholder='Name' value=${name}>
+        <input class='textbox' id='name-textbox' type='text' name='name' placeholder='Name' value=${name}>
         <a class='label' id='age'>Date of Birth</a>
-        <input class='textbox' type='text' name='dateOfBirth' placeholder='Date of Birth' value=${dateOfBirth}>
+        <input class='date' id='date-textbox' type='date' name='dateOfBirth' value="${dateOfBirth}">
         <a class='label' id='address'>Address</a>
-        <input class='textbox' type='text' name='address' placeholder='Address' value=${address}>
+        <input class='textbox' id='address-textbox' type='text' name='address' placeholder='Address' value=${address}>
         <input id='button' type='submit' value='Save'>
         
       </div>
 
       <div id='right'>
         <a class='label' id='email'>Email</a>
-        <input class='textbox' type='text' name='email' placeholder='Email' value=${email}>
+        <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email' value=${email}>
         <a class='label' id='email'>Password</a>
-        <input class='textbox' type='password' name='password' placeholder='Password'>
+        <input class='textbox' id='password-textbox' type='password' name='password' placeholder='Password'>
         <a class='label' id='email'>Confirm password</a>
-        <input class='textbox' type='password' name='confirmPassword' placeholder='Confirm password'>
+        <input class='textbox' id='confirmPassword-textbox' type='password' name='confirmPassword' placeholder='Confirm password'>
       </div>
 
     </form>
 
   </div>
 </body>
+
+<script src="JS/validator.js"></script>
+<script src="JS/accountDetails.js"></script>
 
 </html>

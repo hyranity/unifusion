@@ -9,6 +9,14 @@ function validateInput(textbox, type, errorLabel) {
         case "email":
             validateEmail(textbox, errorLabel);
             break;
+          
+        case "date":
+            validateDate(textbox,  errorLabel);
+            break;
+        
+        case "address":
+            validateAddress(textbox, errorLabel);
+            break;
         
         default:
             //alert(type + " isn't recognised as a unique input type by the Validator. Resorting to default input validator.");
@@ -24,6 +32,14 @@ function isValid(textbox, type) {
   
         case "email":
             return isValidEmail(textbox);
+            break;
+            
+        case "date":
+            return isValidDate(textbox);
+            break;
+        
+        case "address":
+            return isValidAddress(textbox);
             break;
             
         case "basic":
@@ -72,7 +88,10 @@ function fillErrorLabel(errorsFound, errorLabel) {
 function validateBasic(textbox, inputName, errorLabel) {
     var input = textbox.val().trim();
     var errorsFound = new Array();
-    inputName = inputName.slice(5);
+    if (inputName.startsWith("basic-")) {
+        inputName = inputName.slice(6);
+        inputName = inputName.charAt(0).toUpperCase() + inputName.slice(1);
+    }
 
     if (input.length <= 0) {
         errorsFound.push(inputName + " is required.");
@@ -156,6 +175,58 @@ function isValidEmail(textbox) {
 function emailValidatedWithRegex(email) {
     const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return regex.test(String(email).toLowerCase());
+}
+
+function validateAddress(textbox, errorLabel) {
+    var address = textbox.val().trim();
+    var errorsFound = new Array();
+
+    if (address.length <= 0) {
+        errorsFound.push("Address is required.");
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidAddress(textbox) {
+    var address = textbox.val().trim();
+
+    if (address.length <= 0) {
+        return false;
+    }
+    
+    return true;
+}
+
+function validateDate(textbox, errorLabel) {
+    var date = new Date(textbox.val());
+    var errorsFound = new Array();
+
+    if (date === null) {
+        errorsFound.push("Date is required.");
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidDate(textbox) {
+    var date = new Date(textbox.val());
+
+    if (date === null) {
+        return false;
+    }
+    
+    return true;
 }
 
 function validatePassword(textbox, confirmTextbox, errorLabel) {
