@@ -7,7 +7,6 @@
         <link rel="stylesheet" href="CSS/register.css">
         <link rel="stylesheet" href="CSS/all.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="JS/validator.js"></script>
     </head>
 <body>
   <div id='container'>
@@ -32,44 +31,14 @@
         <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email'>
         <input class='textbox' id='password-textbox' type='password' name='password' placeholder='Password'>
         <input class='textbox' id='confirmPassword-textbox' type='password' name='password' placeholder='Confirm password'>
-        <input id='button' type='submit' value='>'>
+        <input id='button' type='submit' value='>' onclick='test()'>
       </form>
     </div>
     
   </div>
 </body>
 
-<script>
-    
-    $("form").submit(function(e) {
-        validateForm(e);
-    });
-    
-    function validateForm(e) {
-        resetErrorLabel($("#error"));
-        
-        validateInput($("#name-textbox"), "name", $("#error"));
-        validateInput($("#email-textbox"), "email", $("#error"));
-        validatePassword($("#password-textbox"), $("#confirmPassword-textbox"), $("#error"));
-        
-        if (errorsExist()) {
-            e.preventDefault();
-            displayErrorLabel($("#error"));
-        } else {
-            
-        }
-    }
-    
-    function errorsExist() {
-        if (isValid($("#name-textbox"), "name") &
-            isValid($("#email-textbox"), "email") &
-            isValidPassword($("#password-textbox"), $("#confirmPassword-textbox")))
-        {
-            return false;
-        }
-        return true;
-    }
-    
-</script>
+<script src="JS/validator.js"></script>
+<script src="JS/register.js"></script>
 
 </html>

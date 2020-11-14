@@ -9,9 +9,10 @@ function validateInput(textbox, type, errorLabel) {
         case "email":
             validateEmail(textbox, errorLabel);
             break;
-  
+        
         default:
-            alert(type + " isn't recognised as a unique input type by the Validator. Resorting to default input validator.");
+            //alert(type + " isn't recognised as a unique input type by the Validator. Resorting to default input validator.");
+            validateBasic(textbox, type, errorLabel);
     }
 }
 
@@ -24,9 +25,11 @@ function isValid(textbox, type) {
         case "email":
             return isValidEmail(textbox);
             break;
-  
+            
+        case "basic":
         default:
-            alert(type + " isn't recognised as a unique input type by the Validator. Resorting to default input validator.");
+            //alert(type + " isn't recognised as a unique input type by the Validator. Resorting to default input validator.");
+            return isValidBasic(textbox);
     }
 }
 
@@ -64,6 +67,33 @@ function fillErrorLabel(errorsFound, errorLabel) {
     for (var i = 0; i < errorsFound.length; i++) {
         errorLabel.append("- " + errorsFound[i] + "<br>");
     }
+}
+
+function validateBasic(textbox, inputName, errorLabel) {
+    var input = textbox.val().trim();
+    var errorsFound = new Array();
+    inputName = inputName.slice(5);
+
+    if (input.length <= 0) {
+        errorsFound.push(inputName + " is required.");
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidBasic(textbox) {
+    var name = textbox.val().trim();
+
+    if (name.length <= 0) {
+        return false;
+    }
+    
+    return true;
 }
 
 function validateName(textbox, errorLabel) {

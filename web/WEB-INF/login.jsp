@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="CSS/login.css">
         <link rel="stylesheet" href="CSS/all.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="JS/validator.js"></script>
     </head>
 <body>
   <div id='container'>
@@ -27,17 +26,18 @@
 
     <div id='right'>
       <a id='title'>Login</a>
-      <a id='error'><%
-          out.print(Errors.requestSimple(session));
-          %></a>
+      <a id='error'><%out.print(Errors.requestSimple(session));%></a>
       <form action="PerformLogin">
-        <input class='textbox' type='text' name='email' placeholder='Email'>
-        <input class='textbox' type='password' name='password' placeholder='Password'>
+        <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email'>
+        <input class='textbox' id='password-textbox' type='password' name='password' placeholder='Password'>
         <input id='button' type='submit' value='>'>
       </form>
     </div>
     
   </div>
 </body>
+
+<script src="JS/validator.js"></script>
+<script src="JS/login.js"></script>
 
 </html>
