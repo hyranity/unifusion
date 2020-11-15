@@ -63,6 +63,7 @@ public class PerformJoinInstitution extends HttpServlet {
 
         // If no institution is found
         if (institution == null) {
+            Errors.respondSimple(request.getSession(), "That institution does not exist");
             System.out.println("No Institution is found");
             servlet.toServlet("JoinInstitution");
             return;
@@ -72,6 +73,7 @@ public class PerformJoinInstitution extends HttpServlet {
         Query joinQuery = em.createNativeQuery("select p.* from participant p, institutionparticipant ipa where p.userid = ? and p.participantid = ipa.participantid and ipa.institutioncode = ?").setParameter(1, user.getUserid()).setParameter(2, institution.getInstitutioncode());
         if (joinQuery.getResultList().size() > 0) {
             System.out.println("Already joined this institution");
+            Errors.respondSimple(request.getSession(), "You've already joined!");
             servlet.toServlet("JoinInstitution");
             return;
         }
@@ -89,7 +91,7 @@ public class PerformJoinInstitution extends HttpServlet {
             // Compare auth code
             if (!authCode.equals(institution.getAuthcode())) {
                 System.out.println("Incorrect auth code");
-                Errors.respondSimple(request.getSession(), "Authorisation code is incorrect.");
+                Errors.respondSimple(request.getSession(), "That institution does not exist");
                 servlet.toServlet("JoinInstitution");
                 return;
             } else {

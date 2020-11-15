@@ -71,6 +71,8 @@ public class PerformUpdateScores extends HttpServlet {
         String memberId = servlet.getQueryStr("memberId");
         String cgpa = servlet.getQueryStr("cgpa") == null ? "" : servlet.getQueryStr("cgpa");
         String grade = servlet.getQueryStr("grade") == null ? "" : servlet.getQueryStr("grade");
+        
+        grade = grade.trim().isEmpty() ? "NULL" : grade;
 
         Query query;
         
@@ -83,7 +85,7 @@ public class PerformUpdateScores extends HttpServlet {
         
         // Grade should only contain up to 2 letters
         if(!grade.trim().isEmpty() && grade.length()>2){
-             Errors.respondSimple(request.getSession(), "Grade should only contain 2 characters.");
+             Errors.respondSimple(request.getSession(), "Grade should only contain 2 characters and cannot be empty.");
             servlet.toServlet("MemberDetails?id=" + id + "&type=" + type + "&memberId=" + memberId);
             return;
         }

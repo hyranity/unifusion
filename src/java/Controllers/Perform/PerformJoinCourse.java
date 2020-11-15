@@ -53,6 +53,7 @@ public class PerformJoinCourse extends HttpServlet {
 
         // If no class is found
         if (course == null) {
+            Errors.respondSimple(request.getSession(), "That course does not exist");
             System.out.println("No course is found");
             servlet.toServlet("JoinCourse");
             return;
@@ -62,6 +63,7 @@ public class PerformJoinCourse extends HttpServlet {
         Query joinQuery = em.createNativeQuery("select p.* from participant p, courseparticipant cpa where p.userid = ? and p.participantid = cpa.participantid and cpa.coursecode = ?", Models.Participant.class).setParameter(1, user.getUserid()).setParameter(2, course.getCoursecode());
         if (joinQuery.getResultList().size() > 0) {
             System.out.println("Already joined this course");
+            Errors.respondSimple(request.getSession(), "You've already joined!");
             servlet.toServlet("JoinCourse");
             return;
         }
@@ -83,15 +85,19 @@ public class PerformJoinCourse extends HttpServlet {
                 coursePart.setRole("student");
                 coursePart.setStatus("active");
                 coursePart.setCoursecode(course);
-                coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "classparticipantid"));
+                coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "courseparticipantid"));
                 coursePart.setParticipantid(participant); // Reuse existing participant
 
                 //Insert into db
                 db.insert(coursePart);
 
+                System.out.println("Course successfully joined");
+                servlet.toServlet("Course?id=" + course.getCoursecode());
+
             } // If no
             else {
                 // Reject
+                Errors.respondSimple(request.getSession(), "That course does not exist");
                 System.out.println("Not participating in the programme");
                 servlet.toServlet("JoinCourse");
                 return;

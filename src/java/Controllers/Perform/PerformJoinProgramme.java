@@ -10,6 +10,7 @@ import Models.Participant;
 import Models.Programmeparticipant;
 import Models.Users;
 import Util.DB;
+import Util.Errors;
 import Util.Quick;
 import Util.Server;
 import Util.Servlet;
@@ -59,6 +60,7 @@ public class PerformJoinProgramme extends HttpServlet {
 
         // If no class is found
         if (programme == null) {
+            Errors.respondSimple(request.getSession(), "That programme does not exist");
             System.out.println("No Programme is found");
             servlet.toServlet("JoinProgramme");
             return;
@@ -68,6 +70,7 @@ public class PerformJoinProgramme extends HttpServlet {
         Query joinQuery = em.createNativeQuery("select p.* from participant p, programmeparticipant ppa where p.userid = ? and p.participantid = ppa.participantid and ppa.programmecode = ?").setParameter(1, user.getUserid()).setParameter(2, programme.getProgrammecode());
         if (joinQuery.getResultList().size() > 0) {
             System.out.println("Already joined this programme");
+            Errors.respondSimple(request.getSession(), "You've already joined!");
             servlet.toServlet("JoinProgramme");
             return;
         }
@@ -100,6 +103,7 @@ public class PerformJoinProgramme extends HttpServlet {
             } // If no
             else {
                 // Reject
+                Errors.respondSimple(request.getSession(), "That programme does not exist");
                 System.out.println("Not participating in the institution");
                 servlet.toServlet("JoinProgramme");
                 return;
