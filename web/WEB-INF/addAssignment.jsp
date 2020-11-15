@@ -45,7 +45,7 @@
             <!-- To store ID -->
             <input type="hidden" value="${id}" name="id"/>
 
-          <a class='label' style='margin-left: -485px;'>Title</a>
+          <a class='label' id='titleLabel' style='margin-left: -485px;'>Title</a>
           <input class='textbox' id='title-input' type='text' name='title' placeholder='eg. Semester Assignment' value="${title}">
 
           <div class='row'>

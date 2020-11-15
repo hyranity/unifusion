@@ -55,7 +55,7 @@
             </div>
           </div>
 
-          <div class='section'>
+          <div class='section right'>
             <div class='text' id='left'>
               <a class='label' id='name'>Is this programme part of an institution?</a>
               <input type='checkbox' class='checkbox' id='hasInstitution' name='hasInstitution' onclick='hasInstitutionClicked()'>

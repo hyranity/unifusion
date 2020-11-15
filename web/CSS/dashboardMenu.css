@@ -171,3 +171,33 @@ a {
 #container #rows .row:hover .box {
   margin: 20px;
 }
+
+@media only screen and (max-width: 1366px) {
+    
+}
+
+@media only screen and (max-width: 1280px) {
+    
+}
+
+@media only screen and (max-width: 1024px) {
+    #container #rows .row .box {
+        padding: 10px;
+        height: 40px;
+        width: 150px;
+    }
+    
+    #container #rows .row .box .text {
+        font-size: 25px;
+    }
+    
+    #container #rows .row .option .text {
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    #container #header {
+        margin-top: 80px;
+    }
+}

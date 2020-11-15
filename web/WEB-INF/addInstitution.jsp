@@ -56,7 +56,7 @@
             </div>
           </div>
             
-          <div class='section'>
+          <div class='section right'>
             <div class='text' id='left'>
               <a class='label'>Description</a>
               <input class='textbox' id='description-input' type='text' name='description' placeholder='eg. This is quality institution.'>

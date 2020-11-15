@@ -508,3 +508,53 @@ a {
 #container #form #post-button:focus {
   outline: none;
 }
+
+@media only screen and (max-width: 1366px) {
+    
+}
+
+@media only screen and (max-width: 1280px) {
+    
+}
+
+@media only screen and (max-width: 1024px) {
+    #container #top #info #icon {
+        height: 70px;
+        width: 70px;
+    }
+    
+    #container #top #info #text #heading {
+        font-size: 40px;
+        line-height: 40px;
+    }
+    
+    #container #top #info #text #subheading {
+        font-size: 15px;
+    }
+    
+    #container #form .date {
+        width: 350px;
+    }
+    
+    #container #form #times .timeBox .time {
+        width: 125px;
+    }
+    
+    #container #form #venues #list .venue .id {
+        font-size: 12px;
+    }
+    
+    #container #form #venues #list .venue .name {
+        font-size: 15px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    #container #top {
+        margin-top: -150px;
+    }
+    
+    #container #top #info {
+        margin-top: 150px;
+    }
+}

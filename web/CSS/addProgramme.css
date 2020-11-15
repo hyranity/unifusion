@@ -338,3 +338,60 @@ a {
 #container #form:hover {
   opacity: 1;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #top .image img {
+        height: 150px;
+    }
+    
+    #container #top .text #title {
+        margin-top: 50px;
+        font-size: 40px;
+        line-height: 40px;
+    }
+    
+    #container #top .text #desc {
+        font-size: 15px;
+        margin-top: 10px;
+    }
+    
+    #container #top .text #buttons {
+        flex-direction: column;
+    }
+    
+    #container #top .text #learn-button {
+        margin-top: 10px;
+    }
+    
+    #container #form {
+        margin-top: -50px;
+    }
+    
+    #container #form .section {
+        flex-direction: column;
+    }
+    
+    #container #form .section .image img {
+        height: 250px;
+    }
+    
+    #container #form .right {
+        height: 450px;
+    }
+    
+    #container #form .right #left {
+        position: absolute;
+        margin-top: 250px;
+    }
+    
+    #container #form .right #right {
+        position: absolute;
+        margin-top: -200px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    #container #top {
+        margin-top: 50px;
+    }
+}

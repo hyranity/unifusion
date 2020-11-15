@@ -55,7 +55,7 @@
                     </div>
                 </div>
 
-                <div class='section'>
+                <div class='section right'>
                     <div class='text' id='left'>
                         <a class='label' id='name'>Is this course part of a programme?</a>
                         <input type='checkbox' class='checkbox' id='hasProgramme' name='hasProgramme' onclick='hasProgrammeClicked()'>
