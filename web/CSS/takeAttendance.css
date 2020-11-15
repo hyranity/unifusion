@@ -20,20 +20,6 @@ a {
   align-items: center;
   justify-content: center;
 }
-#container #back {
-  font-family: 'Poppins';
-  position: absolute;
-  font-size: 25px;
-  color: rgba(250, 226, 184, 0.75);
-  text-decoration: none;
-  text-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
-  transition: color 0.3s, text-shadow 0.3s;
-  left: 100px;
-  top: 50px;
-}
-#container #back:hover {
-  color: #FAE2B8;
-}
 #container #top {
   display: flex;
   flex-direction: row;
@@ -167,4 +153,10 @@ a {
 }
 #container #top:hover .text #form {
   opacity: 1;
+}
+
+@media only screen and (max-width: 1024px) {
+    #container #top {
+        flex-direction: column;
+    }
 }

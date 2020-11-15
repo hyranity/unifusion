@@ -457,3 +457,47 @@ a {
 #container #form #save-button:focus {
   outline: none;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #form .textbox {
+        width: 350px;
+    }
+    
+    #container #form .textarea {
+        width: 230px;
+    }
+    
+    #container #form #uploader {
+        width: 100px;
+        font-size: 12px;
+    }
+    
+    #container #form #uploader::-webkit-file-upload-button {
+        visibility: hidden;
+        margin-left: -155px;
+    }
+    
+    #container #form .date {
+        width: 200px;
+    }
+    
+    #container #form .time {
+        width: 120px;
+    }
+
+    #container #form .number {
+        width: 100px;
+        margin-right: -30px;
+    }
+    
+    #container #form #header #assignmentId {
+        font-size: 15px;
+    }
+    
+    #container #form #header #assignmentTitle {
+        font-size: 30px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+}

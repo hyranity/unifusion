@@ -256,3 +256,17 @@ a {
 #container #form #post-button:focus {
   outline: none;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #form .textbox {
+        width: 400px;
+    }
+    
+    #container #form #input #left .textarea {
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    
+}

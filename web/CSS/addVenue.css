@@ -334,3 +334,22 @@ a {
 #container #form #create-button:focus {
   outline: none;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #form #input {
+        align-items: center;
+    }
+    
+    #container #form #input .textbox {
+        width: 350px;
+    }
+    
+    #container #form #input .textarea {
+        width: 350px;
+    }
+    
+    #container #form #input .number {
+        width: 120px;
+        margin-right: -20px;
+    }
+}

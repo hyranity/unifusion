@@ -296,3 +296,27 @@ a {
 #container #form #post-button:focus {
   outline: none;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #form .textbox {
+        width: 400px;
+    }
+    
+    #container #form #input #left .textarea {
+        width: 230px;
+    }
+    
+    #container #form #input #right #uploader {
+        width: 100px;
+        font-size: 12px;
+    }
+    
+    #container #form #input #right #uploader::-webkit-file-upload-button {
+        visibility: hidden;
+        margin-left: -155px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    
+}

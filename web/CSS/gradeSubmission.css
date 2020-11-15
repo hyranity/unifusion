@@ -351,3 +351,33 @@ a {
   background-color: rgba(250, 226, 184, 0.75);
   box-shadow: 0px 0px 50px rgba(250, 226, 184, 0.5);
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #top #info #icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    #container #top #info #text #heading {
+        font-size: 40px;
+        line-height: 40px;
+    }
+    
+    #container #top #info #text #subheading {
+        font-size: 15px;
+    }
+    
+    #container #content .textarea {
+        width: 300px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    #container #top {
+        margin-top: -150px;
+    }
+    
+    #container #top #info {
+        margin-top: 150px;
+    }
+}

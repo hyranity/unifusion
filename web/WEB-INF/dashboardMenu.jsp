@@ -72,11 +72,11 @@
           <div class='row'>
             <div class='box option' onclick='location.href="AddInstitution"'>
               <a class='label'>01</a>
-              <a class='text'>Create a Institution</a>
+              <a class='text'>Create an Institution</a>
             </div>
             <div class='box option' onclick='location.href="JoinInstitution"'>
               <a class='label'>02</a>
-              <a class='text'>Join a Institution</a>
+              <a class='text'>Join an Institution</a>
             </div>
             <div class='box'>
               <a class='text'>Institution</a>

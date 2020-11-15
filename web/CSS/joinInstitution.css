@@ -213,3 +213,21 @@ a {
 #container #top:hover .text #error {
   opacity: 1;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #top {
+        flex-direction: column;
+    }
+    
+    #container #top .text #form #right {
+        flex-direction: column;
+    }
+    
+    #container #top .text #form #right .input {
+        margin-bottom: 15px;
+    }
+    
+    #container #top .text #form #proceed-button {
+        margin-top: 200px;
+    }
+}

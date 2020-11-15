@@ -162,3 +162,9 @@ a {
 #container #top:hover .text #error {
   opacity: 1;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #top {
+        flex-direction: column;
+    }
+}

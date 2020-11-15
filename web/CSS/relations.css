@@ -181,6 +181,7 @@ a {
 #container #relations .panel .text .title {
   margin-top: -4px;
   font-size: 22px;
+  line-height: 25px;
   color: #dfe0f2;
   font-weight: 600;
 }
