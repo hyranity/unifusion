@@ -25,8 +25,8 @@
           <div id='top'>
             <div id='overlay'>
               <div id='text'>
-                <a id='title'>UniFusion</a>
-                <a id='description'>The ultimate e-learning platform, remastered.</a>
+                <a id='title'>Scaffold</a>
+                <a id='description'>Now anyone can teach and learn.</a>
                 <div id='buttons'>
                   ${login}
                   <a id='learn-button' href='#'>Learn more</a>
@@ -41,14 +41,14 @@
                 <img src='https://i.imgur.com/eS3FqbD.png'>
               </div>
               <div class='details'>
-                <a class='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras ornare arcu dui vivamus arcu.</a>
+                <a class='text'>Scaffold makes it easy for teachers to handle classes. You can start small from a simple class, or scale up to a complicated institution that spans multiple programmes. No more headaches!</a>
                 <a class='button' href='#'>Learn more</a>
               </div>
             </div>
 
             <div class='item'>
               <div class='details' id='right'>
-                <a class='text'>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras ornare arcu dui vivamus arcu.</a>
+                <a class='text'>Students can easily participate in classes, courses, programmes and institutions, all by using a simple code.</a>
                 <a class='button' href='#'>Learn more</a>
               </div>
               <div class='image'>
