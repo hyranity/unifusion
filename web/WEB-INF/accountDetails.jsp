@@ -54,10 +54,10 @@
       <div id='right'>
         <a class='label' id='email'>Email</a>
         <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email' value=${email}>
-        <a class='label' id='email'>Password</a>
+        <!--<a class='label' id='email'>Password</a>
         <input class='textbox' id='password-textbox' type='password' name='password' placeholder='Password'>
         <a class='label' id='email'>Confirm password</a>
-        <input class='textbox' id='confirmPassword-textbox' type='password' name='confirmPassword' placeholder='Confirm password'>
+        <input class='textbox' id='confirmPassword-textbox' type='password' name='confirmPassword' placeholder='Confirm password'>-->
       </div>
 
     </form>

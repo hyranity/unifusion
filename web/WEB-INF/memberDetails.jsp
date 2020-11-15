@@ -44,7 +44,7 @@
               <a id='memberId'>${member.getParticipantid().getParticipantid()}</a>
               <a id='memberName'>${member.getParticipantid().getUserid().getName()}</a>
             </div>
-          </div
+          </div>
           
            <a id='error' style='margin-bottom: 50px;'><%out.print(Errors.requestSimple(session));%></a>
 
