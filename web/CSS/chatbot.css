@@ -331,3 +331,29 @@ a {
   font-size: 18px;
   margin-top: -5px;
 }
+
+@media only screen and (max-width: 1366px) {
+    
+}
+
+@media only screen and (max-width: 1280px) {
+    
+}
+
+@media only screen and (max-width: 1024px) {
+    #container .textbox {
+        font-size: 20px;
+        padding: 10px 20px 10px 20px;
+        width: 400px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    #container #top {
+        margin-top: 100px;
+    }
+    
+    #container #top #botImg {
+        height: 200px;
+    }
+}

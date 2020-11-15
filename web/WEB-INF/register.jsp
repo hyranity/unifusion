@@ -25,7 +25,7 @@
 
     <div id='right'>
       <a id='title'>Register</a>
-      <a id='error'></a>
+      <a id='error'><%out.print(Errors.requestSimple(session));%></a>
       <form id='form' action="PerformRegister">
         <input class='textbox' id='name-textbox' type='text' name='name' placeholder='Full name'>
         <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email'>

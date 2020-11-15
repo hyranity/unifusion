@@ -659,3 +659,46 @@ a {
 #container .panel:hover .link:hover {
   opacity: 1;
 }
+
+@media only screen and (max-width: 1366px) {
+    
+}
+
+@media only screen and (max-width: 1280px) {
+    
+}
+
+@media only screen and (max-width: 1024px) {
+    #container #top #info #icon {
+        height: 70px;
+        width: 70px;
+    }
+    
+    #container #top #info #text #heading {
+        font-size: 40px;
+        line-height: 40px;
+    }
+    
+    #container #content {
+        flex-direction: column;
+    }
+    
+    #container #content #leftColumn,
+    #container #content #rightColumn {
+        align-items: center;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    #container #top {
+        margin-top: -150px;
+    }
+    
+    #container #top #info {
+        margin-top: 150px;
+    }
+    
+    #container #search {
+        margin-top: -20px;
+    }
+}

@@ -99,19 +99,10 @@
 
     <script>
       $("#top").hover(function(){
-
-        $(this).css({
-          "opacity": "1"
-        });
-
-        $("#top #bot").css({
-          "height": "350px"
-        });
-
-        $("#top #name").css({
-          "font-size": "90px"
-        });
-
+          
+        var width = $(window).width();
+        var maxWidth = 640;
+        
         var descs = [
           "A somewhat intelligent being...",
           "Critics say he isn't truly intelligent...",
@@ -128,21 +119,61 @@
         var randy = Math.floor(Math.random()*descs.length);
 
         $("#top #desc").text(descs[randy]);
+        
+        $(this).css({
+            "opacity": "1"
+          });
+        
+        if (width <= maxWidth) {
+            
+          $("#top #bot").css({
+            "height": "150px"
+          });
 
-        $("#top #desc").css({
-          "font-size": "20px",
-          "margin-top": "-25px"
-        });
+          $("#top #name").css({
+            "font-size": "60px"
+          }); 
+          
+          $("#top #desc").css({
+            "font-size": "15px",
+            "margin-top": "-20px"
+          });
 
+        } else {
+            
+          $("#top #bot").css({
+            "height": "350px"
+          });
+
+          $("#top #name").css({
+            "font-size": "90px"
+          });
+          
+          $("#top #desc").css({
+            "font-size": "20px",
+            "margin-top": "-25px"
+          });
+
+        }
+        
       },function() {
+          
+          var width = $(window).width();
+        var maxWidth = 640;
 
         $(this).css({
           "opacity": "0.9"
         });
-
-        $("#top #bot").css({
-          "height": "400px"
-        });
+        
+        if (width <= maxWidth) {
+          $("#top #bot").css({
+            "height": "200px"
+          });
+        } else {
+          $("#top #bot").css({
+            "height": "400px"
+          });
+        }
 
         $("#top #name").css({
           "font-size": "0px"
