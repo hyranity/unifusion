@@ -340,6 +340,10 @@ a {
 }
 
 @media only screen and (max-width: 1024px) {
+    #container #top {
+        margin-bottom: 50px;
+    }
+    
     #container #top .image img {
         height: 150px;
     }
@@ -396,6 +400,6 @@ a {
 
 @media only screen and (max-width: 640px) {
     #container #top {
-        margin-top: 50px;
+        padding-top: 200px;
     }
 }

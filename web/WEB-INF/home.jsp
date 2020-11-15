@@ -29,7 +29,7 @@
                 <a id='description'>Now anyone can teach and learn.</a>
                 <div id='buttons'>
                   ${login}
-                  <a id='learn-button' href='#'>Learn more</a>
+                  <!--<a id='learn-button' href='#'>Learn more</a>-->
                 </div>
               </div>
             </div>

@@ -34,7 +34,7 @@
                     <a id='desc'>You're now creating a course, let's get it!</a>
                     <div id='buttons'>
                         <a id='proceed-button' href='#form'>Proceed!</a>
-                        <a id='learn-button' href='#'>Learn more</a>
+                        <!--<a id='learn-button' href='#'>Learn more</a>-->
                     </div>
                 </div>
             </div>

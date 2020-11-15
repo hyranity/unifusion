@@ -35,7 +35,7 @@
             <a id='desc'>You're now creating an institution, let's begin!</a>
             <div id='buttons'>
               <a id='proceed-button' href='#form'>Proceed!</a>
-              <a id='learn-button' href='#'>Learn more</a>
+              <!--<a id='learn-button' href='#'>Learn more</a>-->
             </div>
           </div>
         </div>

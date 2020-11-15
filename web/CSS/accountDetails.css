@@ -255,5 +255,7 @@ a {
 }
 
 @media only screen and (max-width: 640px) {
-    
+    #container #top {
+        padding-top: 250px;
+    }
 }

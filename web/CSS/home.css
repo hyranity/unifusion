@@ -240,3 +240,29 @@ a {
 #container #more .item:hover #right .button {
   margin-right: 0px;
 }
+
+@media only screen and (max-width: 1024px) {
+    #container #top #overlay #text #title {
+        font-size: 60px; 
+    }
+    
+    #container #top #overlay #text #description {
+        font-size: 20px;
+        margin-top: -15px;
+    }
+    #container #more .item {
+        margin-bottom: 50px;
+    }
+    #container #more .item .image img {
+        width: 200px;
+    }
+    #container #more .item .details .text {
+        font-size: 15px;
+        line-height: 20px;
+        width: 250px;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    
+}

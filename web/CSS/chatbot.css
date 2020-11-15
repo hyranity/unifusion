@@ -350,7 +350,7 @@ a {
 
 @media only screen and (max-width: 640px) {
     #container #top {
-        margin-top: 100px;
+        padding-top: 250px;
     }
     
     #container #top #botImg {
