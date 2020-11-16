@@ -78,7 +78,7 @@ public class Programmes extends HttpServlet {
             Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from programmeparticipant ppa, programme pg, users u, participant p where pg.programmecode = ? and ppa.role = 'teacher' and u.userid = p.userid and p.participantid = ppa.participantid and ppa.iscreator = true and pg.programmecode = ppa.programmecode", Models.Users.class).setParameter(1, programmeCode)).get(0);
 
             // Displaying Members box
-            String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
+            String youBox = "", moreStr = "", editBt = "";
             int moreCount = tutorList.size() + studentList.size();
 
             // if current user == creator

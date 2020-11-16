@@ -86,7 +86,7 @@ public class Institutions extends HttpServlet {
             }
 
             // Displaying Members box
-            String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
+            String youBox = "", moreStr = "", editBt = "";
             int moreCount = tutorList.size() + studentList.size();
 
             // if current user == creator

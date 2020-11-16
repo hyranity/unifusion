@@ -103,7 +103,7 @@ public class PerformAddProgramme extends HttpServlet {
                 programme.setInstitutioncode(results.get(0));
 
                 // Get the existing participant from institution
-                Query participantQuery = em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin'", Models.Participant.class);
+                Query participantQuery = em.createNativeQuery("select p.* from institution i, institutionparticipant ipa, participant p, users u where i.institutioncode = ? and ipa.institutioncode = i.institutioncode and ipa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and (p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin')", Models.Participant.class);
                 participantQuery.setParameter(1, institutionCode);
                 participantQuery.setParameter(2, user.getUserid());
 

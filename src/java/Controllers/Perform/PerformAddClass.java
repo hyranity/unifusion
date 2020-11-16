@@ -128,7 +128,7 @@ public class PerformAddClass extends HttpServlet {
 
                 // Get the existing participant by:
                 // Getting the participant of the course in which this person is a teacher
-                Query participantQuery = em.createNativeQuery("select p.* from course c, courseparticipant cpa, participant p, users u where c.COURSECODE = ? and cpa.COURSECODE = c.COURSECODE and cpa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and cpa.\"ROLE\" = 'teacher'", Models.Participant.class);
+                Query participantQuery = em.createNativeQuery("select p.* from course c, courseparticipant cpa, participant p, users u where c.COURSECODE = ? and cpa.COURSECODE = c.COURSECODE and cpa.PARTICIPANTID = p.PARTICIPANTID and p.USERID = ? and (p.educatorrole = 'classTeacher'  or p.educatorrole = 'courseLeader'  or p.educatorrole = 'programmeLeader' or p.educatorrole = 'institutionAdmin')", Models.Participant.class);
                 participantQuery.setParameter(1, servlet.getQueryStr("courseCode"));
                 participantQuery.setParameter(2, user.getUserid());
 

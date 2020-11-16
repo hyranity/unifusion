@@ -79,7 +79,7 @@ public class Class extends HttpServlet {
             Users creator = db.getList(Users.class, em.createNativeQuery("select u.* from classparticipant cpa, class c, users u, participant p where c.classid = ? and cpa.role = 'teacher' and u.userid = p.userid and p.participantid = cpa.participantid and cpa.iscreator = true  and c.classid = cpa.classid", Models.Users.class).setParameter(1, classId)).get(0);
 
             // Displaying Members box
-            String youBox = "", moreStr = "", editBt = "<a class='more' href='#'>Click to view more ></a>";
+            String youBox = "", moreStr = "", editBt = "";
             int moreCount = tutorList.size() + studentList.size();
 
             // if current user != creator

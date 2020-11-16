@@ -48,6 +48,7 @@ public class PerformRegister extends HttpServlet {
         if(new DB(em, utx).getSingleResult("email", request.getParameter("email"), Users.class) != null ){
             Quick.print("Duplicate email found");
             Errors.respondSimple(request.getSession(), "This email already has an account");
+            response.sendRedirect("Login");
             return;
         }
         
