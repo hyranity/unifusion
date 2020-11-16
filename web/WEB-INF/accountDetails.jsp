@@ -54,6 +54,8 @@
       <div id='right'>
         <a class='label' id='email'>Email</a>
         <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email' value=${email}>
+        <a class='label' id='imageUrl'>Image URL</a>
+        <input class='textbox' id='imageUrl-textbox' type='text' name='imageUrl' placeholder='Image URL' value=${imageUrl}>
         <!--<a class='label' id='email'>Password</a>
         <input class='textbox' id='password-textbox' type='password' name='password' placeholder='Password'>
         <a class='label' id='email'>Confirm password</a>
