@@ -89,7 +89,7 @@ public class PerformJoinProgramme extends HttpServlet {
                 // Create new programme participant
                 Programmeparticipant programmePart = new Programmeparticipant();
                 programmePart.setIscreator(true);
-                programmePart.setRole("student");
+                programmePart.setRole(!participant.getEducatorrole().equalsIgnoreCase("student") ? "teacher" : "student");
                 programmePart.setStatus("active");
                 programmePart.setProgrammecode(programme);
                 programmePart.setProgrammeparticipantid(Quick.generateID(em, utx, Programmeparticipant.class, "programmeparticipantid"));

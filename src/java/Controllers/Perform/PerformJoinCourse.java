@@ -82,7 +82,7 @@ public class PerformJoinCourse extends HttpServlet {
                 // Create new course participant
                 Courseparticipant coursePart = new Courseparticipant();
                 coursePart.setIscreator(true);
-                coursePart.setRole("student");
+                coursePart.setRole(!participant.getEducatorrole().equalsIgnoreCase("student") ? "teacher" : "student");
                 coursePart.setStatus("active");
                 coursePart.setCoursecode(course);
                 coursePart.setCourseparticipantid(Quick.generateID(em, utx, Courseparticipant.class, "courseparticipantid"));
