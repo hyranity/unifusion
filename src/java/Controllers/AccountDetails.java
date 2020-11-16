@@ -65,6 +65,7 @@ public class AccountDetails extends HttpServlet {
 
         Quick.putInJsp(request, "name", user.getName());
         Quick.putInJsp(request, "email", user.getEmail());
+        Quick.putInJsp(request, "imageUrl", user.getImageurl());
         Quick.putInJsp(request, "address", user.getAddress());
 
         if (user.getDateofbirth() != null) {

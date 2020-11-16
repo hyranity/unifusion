@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
+import javax.validation.ConstraintViolationException;
+import org.joda.time.DateTime;
 
 /**
  *
@@ -61,9 +63,11 @@ public class PerformAccountUpdate extends HttpServlet {
             //Update user
             user.setName(request.getParameter("name"));
             user.setAddress(request.getParameter("address"));
+            user.setImageurl(request.getParameter("imageUrl"));
             
             //If user exists
-            if(db.getSingleResult("email", request.getParameter("email"), Users.class) != null){
+            Users checkUser = db.getSingleResult("email", request.getParameter("email"), Users.class);
+            if(checkUser != null && !checkUser.getUserid().equals(user.getUserid())){
                 Errors.respondSimple(request.getSession(), "This email already exists on another account");
                 response.sendRedirect("AccountDetails");
                 return;
@@ -73,7 +77,7 @@ public class PerformAccountUpdate extends HttpServlet {
             
             
             if(request.getParameter("dateOfBirth").length() > 0)
-                user.setDateofbirth(new SimpleDateFormat("YYYY-MM-dd").parse(request.getParameter("dateOfBirth")));
+                user.setDateofbirth(new DateTime(request.getParameter("dateOfBirth")).toDate());
             
             user.setName(request.getParameter("name"));
             
@@ -84,11 +88,9 @@ public class PerformAccountUpdate extends HttpServlet {
             //Redirect back to same page
             response.sendRedirect("AccountDetails");
             return;
-            
-        } catch (ParseException ex) {
-            Errors.respondSimple(request.getSession(), "Invalid date");
-            Logger.getLogger(PerformAccountUpdate.class.getName()).log(Level.SEVERE, null, ex);
-        } catch(Exception ex){
+        } catch(ConstraintViolationException ex){
+            System.out.println(ex.getConstraintViolations());
+        }catch(Exception ex){
             Errors.respondSimple(request.getSession(), "Something went wrong");
             ex.printStackTrace();
         }
