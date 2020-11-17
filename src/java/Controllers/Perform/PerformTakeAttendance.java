@@ -122,6 +122,15 @@ public class PerformTakeAttendance extends HttpServlet {
 
                     // Put in db
                     db.update(attendance);
+
+                    // Redirect to the attendance area
+                    if (cpa != null && cpa.getClassid() != null) {
+                        servlet.toServlet("SessionDetails?id=" + cpa.getClassid().getClassid() + "&code=" + code);
+                        return;
+                    } else {
+                        servlet.servletToJsp("takeAttendance.jsp");
+                        return;
+                    }
                 } else {
                     // Make a new attendance
                     Attendance attendance = new Attendance();
@@ -133,19 +142,33 @@ public class PerformTakeAttendance extends HttpServlet {
                     attendance.setStatus("present");
 
                     attendance.setDateattended(new Date());
-                    
+
                     // Put in db
                     db.update(attendance);
                 }
 
                 System.out.println("Successfully marked attendance");
-                servlet.servletToJsp("takeAttendance.jsp");
-                return;
+                // Redirect to the attendance area
+                if (cpa != null && cpa.getClassid() != null) {
+                    servlet.toServlet("SessionDetails?id=" + cpa.getClassid().getClassid() + "&code=" + code);
+                    return;
+                } else {
+                    servlet.servletToJsp("takeAttendance.jsp");
+                    return;
+                }
             } else {
 
             }
 
-            servlet.servletToJsp("takeAttendance.jsp");
+            // Redirect to the attendance area
+            if (cpa != null && cpa.getClassid() != null) {
+                servlet.toServlet("SessionDetails?id=" + cpa.getClassid().getClassid() + "&code=" + code);
+                return;
+            } else {
+                servlet.servletToJsp("takeAttendance.jsp");
+                return;
+            }
+
         }
 
     }
