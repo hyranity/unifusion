@@ -72,7 +72,7 @@ public class AccountDetails extends HttpServlet {
             Calendar cal = Calendar.getInstance();
             cal.setTime(user.getDateofbirth());
             int day = cal.get(Calendar.DAY_OF_MONTH);
-            Quick.putInJsp(request, "dateOfBirth", cal.get(Calendar.YEAR) + "-" + (cal.get(Calendar.MONTH) + 1) + "-" + cal.get(Calendar.DAY_OF_MONTH));
+            Quick.putInJsp(request, "dateOfBirth", String.format("%04d", cal.get(Calendar.YEAR)) + "-" + String.format("%02d", (cal.get(Calendar.MONTH) + 1)) + "-" + String.format("%02d", cal.get(Calendar.DAY_OF_MONTH)));
         }
 
         request.getRequestDispatcher("WEB-INF/accountDetails.jsp").forward(request, response);
