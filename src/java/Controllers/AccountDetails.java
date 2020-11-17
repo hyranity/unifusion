@@ -62,20 +62,27 @@ public class AccountDetails extends HttpServlet {
         System.out.println(user.getEmail());*/
         // Get user data
         Users user = Server.getUser(request, response);
+        
+        if (user != null) {
+            
+            Quick.putInJsp(request, "name", user.getName());
+            Quick.putInJsp(request, "email", user.getEmail());
+            Quick.putInJsp(request, "imageUrl", user.getImageurl());
+            Quick.putInJsp(request, "address", user.getAddress());
 
-        Quick.putInJsp(request, "name", user.getName());
-        Quick.putInJsp(request, "email", user.getEmail());
-        Quick.putInJsp(request, "imageUrl", user.getImageurl());
-        Quick.putInJsp(request, "address", user.getAddress());
-
-        if (user.getDateofbirth() != null) {
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(user.getDateofbirth());
-            int day = cal.get(Calendar.DAY_OF_MONTH);
-            Quick.putInJsp(request, "dateOfBirth", String.format("%04d", cal.get(Calendar.YEAR)) + "-" + String.format("%02d", (cal.get(Calendar.MONTH) + 1)) + "-" + String.format("%02d", cal.get(Calendar.DAY_OF_MONTH)));
+            if (user.getDateofbirth() != null) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(user.getDateofbirth());
+                int day = cal.get(Calendar.DAY_OF_MONTH);
+                Quick.putInJsp(request, "dateOfBirth", String.format("%04d", cal.get(Calendar.YEAR)) + "-" + String.format("%02d", (cal.get(Calendar.MONTH) + 1)) + "-" + String.format("%02d", cal.get(Calendar.DAY_OF_MONTH)));
+            }
+        
+            request.getRequestDispatcher("WEB-INF/accountDetails.jsp").forward(request, response);
+        } else {
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         }
 
-        request.getRequestDispatcher("WEB-INF/accountDetails.jsp").forward(request, response);
+        
 
     }
 
