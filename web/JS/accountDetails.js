@@ -9,7 +9,7 @@ function validateForm(e) {
     validateInput($("#date-textbox"), "date", $("#error"));
     validateInput($("#address-textbox"), "address", $("#error"));
     validateInput($("#email-textbox"), "email", $("#error"));
-    validatePassword($("#password-textbox"), $("#confirmPassword-textbox"), $("#error"));
+    //validatePassword($("#password-textbox"), $("#confirmPassword-textbox"), $("#error"));
 
     if (errorsExist()) {
         e.preventDefault();
@@ -21,8 +21,8 @@ function errorsExist() {
     if (isValid($("#name-textbox"), "name") &
         isValid($("#date-textbox"), "date") &
         isValid($("#address-textbox"), "address") &
-        isValid($("#email-textbox"), "email") &
-        isValidPassword($("#password-textbox"), $("#confirmPassword-textbox")))
+        isValid($("#email-textbox"), "email")
+        /*isValidPassword($("#password-textbox"), $("#confirmPassword-textbox"))*/)
     {
         return false;
     }

@@ -42,6 +42,7 @@ public class Servlet {
     // Must be inside WEB-INF to work
     public void servletToJsp(String jspName){
         try {
+            System.out.println("jspName: " + jspName);
             request.getRequestDispatcher("WEB-INF/" + jspName).forward(request, response);
         } catch (ServletException ex) {
             Logger.getLogger(Servlet.class.getName()).log(Level.SEVERE, null, ex);
