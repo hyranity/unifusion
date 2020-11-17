@@ -82,7 +82,9 @@ public class Institutions extends HttpServlet {
 
             if(self.getEducatorrole().equalsIgnoreCase("institutionAdmin")){
                 String authCode = "<a id='authorisationCode'><span>Staff authorisation code: </span>" + institution.getAuthcode() + "</a>";
+                String viewMore = " <a href='Venues?id="+institution.getInstitutioncode() + "' class='more'>View more ></a>";
                 servlet.putInJsp("authCode", authCode);
+                 servlet.putInJsp("viewMore", viewMore);
             }
 
             // Displaying Members box

@@ -127,13 +127,13 @@
                 
                 <div class='stats'>
                   <div class='stat'>
-                    <a class='value' id='venueCount'>1</a>
+                    <a class='value' id='venueCount'>${institution.getVenueCollection().size()}</a>
                     <a class='desc'>total</a>
                   </div>
                 </div>
               </div>
 
-              <a href='Venues?id=${institution.getInstitutioncode()}' class='more'>View more ></a>
+             ${viewMore}
 
             </div>
 
