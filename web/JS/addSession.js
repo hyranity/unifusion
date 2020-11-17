@@ -3,12 +3,12 @@ $("form").submit(function(e) {
 });
 
 function validateForm(e) {
-    resetErrorLabel($("#error"));
+    resetErrorLabel($("#error")); 
 
     validateInput($("#date-input"), "date", $("#error"));
     validateInput($("#startTime-input"), "time", $("#error"));
     validateInput($("#endTime-input"), "time", $("#error"));
-    validateInput($("#venueId"), "basic-venue ID", $("#error"));
+    validateVenueId($("#venueId"), document.getElementById("hasTempVenue"), $("#error"));
     validateTempVenue($("#tempVenueTextbox"), document.getElementById("hasTempVenue"), $("#error"));
 
     if (errorsExist()) {
@@ -21,7 +21,7 @@ function errorsExist() {
     if (isValid($("#date-input"), "date") &
         isValid($("#startTime-input"), "time") &
         isValid($("#endTime-input"), "time") &
-        isValid($("#venueId"), "basic") &
+        isValidVenueId($("#venueId"), document.getElementById("hasTempVenue"), $("#error")) &
         isValidTempVenue($("#tempVenueTextbox"), document.getElementById("hasTempVenue")))
     {
         return false;

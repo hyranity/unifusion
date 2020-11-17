@@ -233,6 +233,11 @@ function validateDate(textbox, errorLabel) {
 
     if (!date) {
         errorsFound.push("Date is required.");
+    } else {
+        var year = date.split('-')[0];
+        if (year.length > 4) {
+            errorsFound.push("Year of date must be 4 characters long.");
+        }
     }
     
     if (errorsFound.length > 0) {
@@ -248,6 +253,11 @@ function isValidDate(textbox) {
 
     if (!date) {
         return false;
+    } else {
+        var year = date.split('-')[0];
+        if (year.length > 4) {
+            return false;
+        }
     }
     
     return true;
@@ -498,6 +508,36 @@ function isValidTempVenue(textbox, checkbox) {
     
     if (checkbox.checked) {
         if (!tempVenue) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+function validateVenueId(textbox, checkbox, errorLabel) {
+    var venueId = textbox.val();
+    var errorsFound = new Array();
+    
+    if (!checkbox.checked) {
+        if (!venueId) {
+            errorsFound.push("Venue ID is required.");
+        }
+    }
+    
+    if (errorsFound.length > 0) {
+        fillErrorLabel(errorsFound, errorLabel);
+        highlightTextbox(textbox);
+    } else {
+        unhighlightTextbox(textbox);
+    }
+}
+
+function isValidVenueId(textbox, checkbox) {
+    var venueId = textbox.val();
+    
+    if (!checkbox.checked) {
+        if (!venueId) {
             return false;
         }
     }
