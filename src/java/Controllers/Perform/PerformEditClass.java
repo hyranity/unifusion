@@ -91,16 +91,17 @@ public class PerformEditClass extends HttpServlet {
             classroom.setIspublic(isPublic);
             classroom.setColourtheme(colourTheme);
 
-            if (hasCourse) {
-                // If has a course
-
-                // Get course from db
-                Models.Course course = db.getSingleResult("courseid", courseCode, Models.Course.class);
-                classroom.setCoursecode(course);
-            } else {
-                // Remove any course
-                classroom.setCoursecode(null);
-            }
+            // Dont edit the course part
+//            if (hasCourse) {
+//                // If has a course
+//
+//                // Get course from db
+//                Models.Course course = db.getSingleResult("courseid", courseCode, Models.Course.class);
+//                classroom.setCoursecode(course);
+//            } else {
+//                // Remove any course
+//                classroom.setCoursecode(null);
+//            }
 
             // Update in DB
             db.update(classroom);
