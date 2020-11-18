@@ -117,27 +117,6 @@
               </div>
 
             <!-- END: members -->
-            
-            <!-- START: venues -->
-
-            <div class='panel'>
-
-              <div class='top'>
-                <a class='heading'>Venues</a>
-                
-                <div class='stats'>
-                  <div class='stat'>
-                    <a class='value' id='venueCount'>${institution.getVenueCollection().size()}</a>
-                    <a class='desc'>total</a>
-                  </div>
-                </div>
-              </div>
-
-             ${viewMore}
-
-            </div>
-
-            <!-- END: venues -->
 
           </div>
 
@@ -179,9 +158,9 @@
 
             <!-- END: announcements -->
 
-            <!-- START: courses -->
+            <!-- START: programmes -->
 
-            <div class='panel'>
+            <div class='panel' id='programmes'>
 
               <div class='top'>
                 <a class='heading'>Programmes</a>
@@ -199,6 +178,27 @@
             </div>
 
             <!-- END: courses -->
+            
+            <!-- START: venues -->
+
+            <div class='panel' id='venues'>
+
+              <div class='top'>
+                <a class='heading'>Venues</a>
+                
+                <div class='stats'>
+                  <div class='stat'>
+                    <a class='value' id='venueCount'>${institution.getVenueCollection().size()}</a>
+                    <a class='desc'>total</a>
+                  </div>
+                </div>
+              </div>
+
+             ${viewMore}
+
+            </div>
+
+            <!-- END: venues -->
             
           </div>
 

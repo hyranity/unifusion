@@ -165,7 +165,7 @@
 
               <!-- START: classes -->
 
-              <div class='panel'>
+              <div class='panel' id='classes'>
 
                 <div class='top'>
                   <a class='heading'>Classes</a>

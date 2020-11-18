@@ -40,7 +40,7 @@
 
         <div class='section'>
           <div class='header'>
-            <img src='https://i.postimg.cc/kgFkP6cK/unifusion-create-class-graphic-1.png'>
+            <img src='https://i.postimg.cc/PrYP2szz/unifusion-create-institution-graphic-1.png'>
           </div>
 
           <div class='textboxes'>
@@ -58,11 +58,11 @@
           </div>
         </div>
 
-        <!-- section 3: details -->
+        <!-- section 2: details -->
 
         <div class='section'>
           <div class='header'>
-            <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+            <img src='https://i.postimg.cc/L8VhFtWJ/unifusion-create-institution-graphic-2.png'>
           </div>
 
           <div class='textboxes'>
@@ -85,11 +85,11 @@
           </div>
         </div>
 
-        <!-- section 4: design (HEADER TBC) -->
+        <!-- section 3: design -->
 
         <div class='section'>
           <div class='header'>
-            <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+            <img src='https://i.postimg.cc/L8VhFtWJ/unifusion-create-institution-graphic-2.png'>
           </div>
 
           <div class='textboxes'>
@@ -97,18 +97,18 @@
             <div id='left'>
               <a class='label' id='name'>Icon URL</a>
               <input class='textbox' type='text' name='iconURL' placeholder='eg. example.com' value="${institution.getIconurl()}">
-              <a class='label' id='name'>Banner URL</a>
-              <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com' value="${institution.getBannerurl()}">
+              <!--<a class='label' id='name'>Banner URL</a>
+              <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com' value="${institution.getBannerurl()}">-->
             </div>
 
             <div id='right'>
-              <a class='label'>Colour theme</a>
+              <!--<a class='label'>Colour theme</a>
               <select class='dropdown' name='colourTheme'>
                 <option value='lecture'>Default</option>
                 <option value='tutorial'>Light</option>
                 <option value='practical'>Dark</option>
               </select>
-              <a class='dropdownLabel'>Click to view options</a>
+              <a class='dropdownLabel'>Click to view options</a>-->
             </div>
 
           </div>

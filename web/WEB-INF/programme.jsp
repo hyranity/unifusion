@@ -192,7 +192,7 @@
 
             <!-- START: courses -->
 
-            <div class='panel'>
+            <div class='panel' id='courses'>
 
               <div class='top'>
                 <a class='heading'>Courses</a>

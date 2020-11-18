@@ -39,7 +39,7 @@
 
         <div class='section'>
           <div class='header'>
-            <img src='https://i.postimg.cc/kgFkP6cK/unifusion-create-class-graphic-1.png'>
+            <img src='https://i.postimg.cc/G2K4PkF0/unifusion-create-programme-graphic-1.png'>
           </div>
 
           <div class='textboxes'>
@@ -61,7 +61,7 @@
 
         <div class='section'>
           <div class='header'>
-            <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+            <img src='https://i.postimg.cc/Y0ShdhRv/unifusion-create-programme-graphic-2.png'>
           </div>
 
           <div class='textboxes' id='institutionTextboxes'>
@@ -84,7 +84,7 @@
 
         <div class='section'>
           <div class='header'>
-            <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+            <img src='https://i.postimg.cc/C56dXSrm/unifusion-create-programme-graphic-3.png'>
           </div>
 
           <div class='textboxes'>
@@ -109,26 +109,26 @@
 
         <div class='section'>
           <div class='header'>
-            <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+            <img src='https://i.postimg.cc/C56dXSrm/unifusion-create-programme-graphic-3.png'>
           </div>
 
           <div class='textboxes'>
 
             <div id='left'>
               <a class='label' id='name'>Icon URL</a>
-              <input class='textbox' type='text' name='iconURL' placeholder='eg. example.com'>
-              <a class='label' id='name'>Banner URL</a>
-              <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com'>
+              <input class='textbox' type='text' name='iconURL' placeholder='eg. example.com' value="${programme.getIconurl()}">
+              <!--<a class='label' id='name'>Banner URL</a>
+              <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com'>-->
             </div>
 
             <div id='right'>
-              <a class='label'>Colour theme</a>
+              <!--<a class='label'>Colour theme</a>
               <select class='dropdown' name='colourTheme'>
                 <option value='lecture'>Default</option>
                 <option value='tutorial'>Light</option>
                 <option value='practical'>Dark</option>
               </select>
-              <a class='dropdownLabel'>Click to view options</a>
+              <a class='dropdownLabel'>Click to view options</a>-->
             </div>
 
           </div>

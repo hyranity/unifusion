@@ -45,7 +45,7 @@
 
                 <div class='section'>
                     <div class='header'>
-                        <img src='https://i.postimg.cc/kgFkP6cK/unifusion-create-class-graphic-1.png'>
+                        <img src='https://i.postimg.cc/hGwyDdzB/unifusion-create-course-graphic-1.png'>
                     </div>
 
                     <div class='textboxes'>
@@ -67,7 +67,7 @@
 
                 <div class='section'>
                     <div class='header'>
-                        <img src='https://i.postimg.cc/wBD3pkrF/unifusion-create-class-graphic-1-2.png'>
+                        <img src='https://i.postimg.cc/8cgZWgmX/unifusion-create-course-graphic-2.png'>
                     </div>
 
                     <div class='textboxes' id='programmeTextboxes'>
@@ -91,7 +91,7 @@
 
                 <div class='section'>
                     <div class='header'>
-                        <img src='https://i.postimg.cc/Rh6Rc5yL/unifusion-create-class-graphic-2.png'>
+                        <img src='https://i.postimg.cc/cHnDrLw8/unifusion-create-course-graphic-3.png'>
                     </div>
 
                     <div class='textboxes'>
@@ -111,7 +111,7 @@
 
                 <div class='section'>
                     <div class='header'>
-                        <img src='https://i.postimg.cc/kgFkP6cK/unifusion-create-class-graphic-1.png'>
+                        <img src='https://i.postimg.cc/cHnDrLw8/unifusion-create-course-graphic-3.png'>
                     </div>
 
                     <div class='textboxes'>
@@ -119,8 +119,8 @@
                         <div id='left'>
                             <a class='label' id='name'>Icon URL</a>
                             <input class='textbox' type='text' name='iconURL' placeholder='eg. example.com'>
-                            <a class='label' id='name'>Banner URL</a>
-                            <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com'>
+                            <!--<a class='label' id='name'>Banner URL</a>
+                            <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com'>-->
                         </div>
 
                         <div id='right'>

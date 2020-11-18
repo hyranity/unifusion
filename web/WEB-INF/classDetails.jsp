@@ -149,16 +149,16 @@
                         <div id='left'>
                             <a class='label' id='name'>Icon URL</a>
                             <input class='textbox' type='text' name='iconURL' placeholder='eg. example.com' value="${class.getIconurl()}">
-                            <a class='label' id='name'>Banner URL</a>
-                            <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com' value="${class.getBannerurl()}">
+                            <!--<a class='label' id='name'>Banner URL</a>
+                            <input class='textbox' type='text' name='bannerURL' placeholder='eg. example.com' value="${class.getBannerurl()}">-->
                         </div>
 
                         <div id='right'>
-                            <a class='label'>Colour theme</a>
+                            <!--<a class='label'>Colour theme</a>
                             <select class='dropdown' name='colourTheme'>
                                 <%
                                     // Display color theme
-                                    String dark = "";
+                                    /*String dark = "";
                                     String light = "";
                                     String def = "";
 
@@ -172,10 +172,10 @@
 
                                     out.print("<option value='practical' " + dark + ">Dark</option>");
                                     out.print("<option value='tutorial' " + light + ">Light</option>");
-                                    out.print("<option value='lecture' " + def + ">Default</option>");
+                                    out.print("<option value='lecture' " + def + ">Default</option>");*/
                                 %>
                             </select>
-                            <a class='dropdownLabel'>Click to view options</a>
+                            <a class='dropdownLabel'>Click to view options</a>-->
 
                             <a class='label' id='name'>Is this class public?</a>
                             <input type='checkbox' class='checkbox' id='isPublic' name='isPublic' ${class.getIspublic() ? "checked" : ""}>
