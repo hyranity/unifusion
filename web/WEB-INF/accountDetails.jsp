@@ -46,16 +46,16 @@
         <a class='label' id='age'>Date of Birth</a>
         <input class='date' id='date-textbox' type='date' name='dateOfBirth' value="${dateOfBirth}">
         <a class='label' id='address'>Address</a>
-        <input class='textbox' id='address-textbox' type='text' name='address' placeholder='Address' value=${address}>
+        <input class='textbox' id='address-textbox' type='text' name='address' placeholder='Address' value="${address}">
         <input id='button' type='submit' value='Save'>
         
       </div>
 
       <div id='right'>
         <a class='label' id='email'>Email</a>
-        <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email' value=${email}>
+        <input class='textbox' id='email-textbox' type='text' name='email' placeholder='Email' value="${email}">
         <a class='label' id='imageUrl'>Image URL</a>
-        <input class='textbox' id='imageUrl-textbox' type='text' name='imageUrl' placeholder='Image URL' value=${imageUrl}>
+        <input class='textbox' id='imageUrl-textbox' type='text' name='imageUrl' placeholder='Image URL' value="${imageUrl}">
         <!--<a class='label' id='email'>Password</a>
         <input class='textbox' id='password-textbox' type='password' name='password' placeholder='Password'>
         <a class='label' id='email'>Confirm password</a>
