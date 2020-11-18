@@ -52,7 +52,7 @@
 
                         <div id='left'>
                             <a class='label' id='name'>Course code</a>
-                            <input class='textbox' id='courseCode-input' style='background-color: rgba(223, 224, 242, 0.5); color: white;' type='text' name='courseCode' placeholder='eg. GG420' readonly value="${course.getCoursecode()}" disabled>
+                            <input class='textbox' id='courseCode-input' style='background-color: rgba(223, 224, 242, 0.5); color: white;' type='text' name='courseCode' placeholder='eg. GG420' readonly value="${course.getCoursecode()}" readonly>
                         </div>
 
                         <div id='right'>

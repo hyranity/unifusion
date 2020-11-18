@@ -72,10 +72,10 @@ public class PerformEditCourse extends HttpServlet {
 
         // Get course from db where this person is the creator
         // Only allow creator to edit
-        Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where p.userid = ? and c.coursecode = ? and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and p.educatorrole = 'courseLeader'", Models.Course.class);
+        Query query = em.createNativeQuery("select c.* from course c, courseparticipant cpa, participant p where p.userid = ? and c.coursecode = ? and c.coursecode = cpa.coursecode and cpa.participantid = p.participantid and cpa.role='teacher'", Models.Course.class);
         query.setParameter(1, Server.getUser(request, response).getUserid());
         query.setParameter(2, courseCode);
-
+        
         // If invalid course code
         if (query.getResultList().size() == 0) {
             System.out.println("Invalid course code");
