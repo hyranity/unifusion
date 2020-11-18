@@ -49,8 +49,8 @@ public class PerformEditInstitution extends HttpServlet {
         String institutionName = servlet.getQueryStr("institutionName");
         String address = servlet.getQueryStr("address");
         String description = servlet.getQueryStr("description");
-        String bannerURL = servlet.getQueryStr("bannerURL");
-        String colourTheme = servlet.getQueryStr("colourTheme");
+        //String bannerURL = servlet.getQueryStr("bannerURL");
+        //String colourTheme = servlet.getQueryStr("colourTheme");
         String iconURL = servlet.getQueryStr("iconURL");
         boolean isPublic = servlet.getQueryStr("isPublic") != null;
 
@@ -85,8 +85,8 @@ public class PerformEditInstitution extends HttpServlet {
             institution.setAddress(address);
             institution.setIspublic(isPublic);
             institution.setIconurl(iconURL);
-            institution.setBannerurl(bannerURL);
-            institution.setColourtheme(colourTheme);
+            //institution.setBannerurl(bannerURL);
+            //institution.setColourtheme(colourTheme);
             
             // Update
             db.update(institution);

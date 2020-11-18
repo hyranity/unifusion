@@ -50,8 +50,8 @@ public class PerformEditCourse extends HttpServlet {
         String programmeCode = servlet.getQueryStr("programmeCode");  // WILL NEVER BE EDITED
         String semesterCode = servlet.getQueryStr("semesterCode");  // WILL NEVER BE EDITED
         String description = servlet.getQueryStr("description");
-        String bannerURL = servlet.getQueryStr("bannerURL");
-        String colourTheme = servlet.getQueryStr("colourTheme");
+        //String bannerURL = servlet.getQueryStr("bannerURL");
+        //String colourTheme = servlet.getQueryStr("colourTheme");
         String iconURL = servlet.getQueryStr("iconURL");
         boolean hasProgramme = servlet.getQueryStr("hasProgramme") != null;  // WILL NEVER BE EDITED
         boolean hasSemester = servlet.getQueryStr("hasSemester") != null;  // WILL NEVER BE EDITED
@@ -85,8 +85,8 @@ public class PerformEditCourse extends HttpServlet {
             course.setTitle(courseTitle);
             course.setDescription(description);
             course.setIspublic(isPublic);
-            course.setBannerurl(bannerURL);
-            course.setColourtheme(colourTheme);
+            //course.setBannerurl(bannerURL);
+            //course.setColourtheme(colourTheme);
             course.setIconurl(iconURL);
 
             // Update db

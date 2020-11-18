@@ -49,8 +49,8 @@ public class PerformEditClass extends HttpServlet {
         String classCode = servlet.getQueryStr("classCode");  // WILL NEVER BE EDITED
         String description = servlet.getQueryStr("description");
         String classType = servlet.getQueryStr("classType");
-        String bannerURL = servlet.getQueryStr("bannerURL");
-        String colourTheme = servlet.getQueryStr("colourTheme");
+        //String bannerURL = servlet.getQueryStr("bannerURL");
+        //String colourTheme = servlet.getQueryStr("colourTheme");
         String courseCode = servlet.getQueryStr("courseCode");  // WILL NEVER BE EDITED
         String iconURL = servlet.getQueryStr("iconURL");
         boolean hasCourse = servlet.getQueryStr("hasCourse") != null;  // WILL NEVER BE EDITED
@@ -85,11 +85,11 @@ public class PerformEditClass extends HttpServlet {
             // Update class data
             classroom.setClasstitle(classTitle);
             classroom.setDescription(description);
-            classroom.setBannerurl(bannerURL);
+            //classroom.setBannerurl(bannerURL);
             classroom.setClasstype(classType);
             classroom.setIconurl(iconURL);
             classroom.setIspublic(isPublic);
-            classroom.setColourtheme(colourTheme);
+            //classroom.setColourtheme(colourTheme);
 
             // Dont edit the course part
 //            if (hasCourse) {
